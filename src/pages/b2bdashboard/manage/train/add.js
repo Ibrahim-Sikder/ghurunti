@@ -115,7 +115,7 @@ const Train = () => {
                  <div>
                     <label> Train Name </label>
                     <input
-                      onChange={(e) => setTitle(e.target.value)}
+                      onChange={(e) => setTrainName(e.target.value)}
                       name="name"
                       placeholder="Train Name"
                       type="text"

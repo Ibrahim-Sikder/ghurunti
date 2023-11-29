@@ -11,6 +11,7 @@ import "react-quill/dist/quill.snow.css";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRef } from "react";
+import { useRouter } from "next/router";
 const Update = () => {
   const [editorValue, setEditorValue] = useState("");
   const [quill, setQuill] = useState(null);
@@ -25,10 +26,11 @@ const Update = () => {
   const [getDate, setGetDate] = useState(null);
   const [price, setPrice] = useState();
   const [title, setTitle] = useState(null);
-  const [subTitle, setSubTitle] = useState(null);
+  // const [subTitle, setSubTitle] = useState(null);
   const [loading, setLoading] = useState(false);
   const formRef = useRef();
-
+  const router = useRouter();
+  const { id } = router.query;
   let files;
   const handlePdf = async (e) => {
     setGetFile(e.target.files);
@@ -64,7 +66,7 @@ const Update = () => {
       date: getDate,
       price: price,
       title: title,
-      sub_title: subTitle,
+     
       image: getImage,
       description: value,
     };
@@ -111,7 +113,7 @@ const Update = () => {
                  <div>
                     <label> Train Name </label>
                     <input
-                      onChange={(e) => setTitle(e.target.value)}
+                      onChange={(e) => setTrainName(e.target.value)}
                       name="name"
                       placeholder="Train Name"
                       type="text"

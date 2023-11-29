@@ -7,9 +7,13 @@ import B2BdashboardLayout from "../../../../../components/Layout/B2BdashboardLay
 import React, { useState, useEffect } from "react";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
+import { useRouter } from "next/router";
 const Update = ({ value, onChange }) => {
   const [editorValue, setEditorValue] = useState("");
   const [quill, setQuill] = useState(null);
+  const router = useRouter();
+  const { id } = router.query;
+
   return (
     <B2BdashboardLayout>
       <MoveText />

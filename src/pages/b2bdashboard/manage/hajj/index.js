@@ -138,7 +138,7 @@ const Benefit = ({ data }) => {
                   <td>পবিত্র কোরআনুল কারিমে আল্লাহ তায়ালা বলেন</td>
                   <td>20-05-23</td>
                   <td>
-                    <Link href="/b2bdashboard/manage/hajj/update">
+                    <Link href={`/b2bdashboard/manage/hajj/update?id=${data._id}`}>
                       <FaEdit className={style.editIcon} />
                     </Link>
                   </td>
