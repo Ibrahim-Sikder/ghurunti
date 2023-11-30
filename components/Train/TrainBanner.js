@@ -98,8 +98,8 @@ const BusBanner = () => {
   const dispatch = useDispatch();
   const handleTrainDetailsData = () => {
     const data = {
-      city_from: cityFrom,
-      city_to: cityTo,
+      travel_from: cityFrom,
+      travel_to: cityTo,
       journey_date: journeyDate,
       seat_type: seatType,
     };
