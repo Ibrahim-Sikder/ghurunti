@@ -30,6 +30,7 @@ const VisaRequest = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
+      setLoading(true)
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -39,6 +40,7 @@ const VisaRequest = () => {
       if (data.message === "success") {
         setGetPdfLinks(data.imageLinks);
         // console.log(data.imageLinks);
+        setLoading(false)
       }
     } catch (error) {
       console.error("Error uploading file:", error);

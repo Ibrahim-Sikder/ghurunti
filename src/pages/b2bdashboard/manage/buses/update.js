@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 const Update = () => {
   const [editorValue, setEditorValue] = useState("");
   const [quill, setQuill] = useState(null);
-
+  const [specificPackage, setSpecificPackage] = useState({});
   const [getFile, setGetFile] = useState({});
   const [getImage, setGetImage] = useState([]);
   const [value, setValue] = useState("");
@@ -38,6 +38,21 @@ const Update = () => {
 
   const router = useRouter();
   const { id } = router.query;
+
+  useEffect(() => {
+    // Make sure id is defined before making the fetch request
+    if (id) {
+      fetch(`http://localhost:5000/api/v1/bus/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setSpecificPackage(data.getPackage);
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [id]);
 
   const childIncrement = () => {
     setChild(child + 1);
@@ -68,6 +83,7 @@ const Update = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
+      setLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -76,7 +92,7 @@ const Update = () => {
       const data = await response.json();
       if (data.message === "success") {
         setGetImage(data.imageLinks);
-        // console.log(data.imageLinks);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -86,23 +102,22 @@ const Update = () => {
   const handleBusData = (e) => {
     e.preventDefault();
     const data = {
-      bus_name: busName,
-      starting_point: travelFrom,
-      end_point: travelTo,
-      starting_time: startingTime,
-      end_time: endTime,
-      price: price,
-      journey_date: journeyDate,
-      child: child,
-      adult: adult,
-      seat_type: seat,
-      operators: operators,
-      type_of_bus: typeOfBus,
-      boarding_point: boardingPoint,
-      facilities: facilities,
-
-      image: getImage,
-      description: value,
+      bus_name: busName || specificPackage.bus_name,
+      starting_point: travelFrom || specificPackage.starting_point,
+      end_point: travelTo || specificPackage.end_point,
+      starting_time: startingTime || specificPackage.starting_time,
+      end_time: endTime || specificPackage.end_point,
+      price: price || specificPackage.price,
+      journey_date: journeyDate || specificPackage.journey_date,
+      child: child || specificPackage.child,
+      adult: adult || specificPackage.adult,
+      seat_type: seat || specificPackage.seat_type,
+      operators: operators || specificPackage.operators,
+      type_of_bus: typeOfBus || specificPackage.type_of_bus,
+      boarding_point: boardingPoint || specificPackage.boarding_point,
+      facilities: facilities || specificPackage.facilities,
+      image: getImage || specificPackage.image[0],
+      description: value || specificPackage.description,
     };
     setLoading(true);
     axios
@@ -112,7 +127,7 @@ const Update = () => {
         if (response.data.message === "Package update successful") {
           toast.success("Update successful.");
           formRef.current.reset();
-
+          router.push("/b2bdashboard/manage/buses");
           setGetImage([]);
           setValue("");
         }
@@ -124,6 +139,9 @@ const Update = () => {
         setLoading(false);
       });
   };
+
+
+   
   return (
     <B2BdashboardLayout>
       <MoveText />
@@ -133,6 +151,28 @@ const Update = () => {
             <h2 className="text-3xl font-bold text-center">Bus Data Update</h2>
             <div className="w-full mx-auto">
               <form ref={formRef} onSubmit={handleBusData}>
+                {/* <div className={styles.formControl}>
+                  <div>
+                    <label>Travel From City</label>
+                    <input
+                      onChange={(e) => setOperators(e.target.value)}
+                      name="travelFromCity"
+                      placeholder="Travel From City"
+                      type="text"
+                      className={styles.inputField}
+                    />
+                  </div>
+                  <div>
+                    <label> Travel To City</label>
+                    <input
+                      onChange={(e) => setTypeOfBus(e.target.value)}
+                      name="travelToCity"
+                      placeholder="Travel To City"
+                      type="text"
+                      className={styles.inputField}
+                    />
+                  </div>
+                </div> */}
                 <div className={styles.formControl}>
                   <div>
                     <label>Bus Name </label>
@@ -142,6 +182,7 @@ const Update = () => {
                       placeholder="Bus Name"
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.bus_name}
                     />
                   </div>
                   <div>
@@ -152,6 +193,7 @@ const Update = () => {
                       placeholder="Starting Point"
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.starting_point}
                     />
                   </div>
                 </div>
@@ -164,6 +206,7 @@ const Update = () => {
                       placeholder="End Point"
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.end_point}
                     />
                   </div>
                   <div>
@@ -174,6 +217,7 @@ const Update = () => {
                       placeholder="Starting Time"
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.starting_time}
                     />
                   </div>
                 </div>
@@ -186,6 +230,7 @@ const Update = () => {
                       placeholder="End Time"
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.end_time}
                     />
                   </div>
                   <div>
@@ -196,6 +241,7 @@ const Update = () => {
                       placeholder="Price"
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.price}
                     />
                   </div>
                 </div>
@@ -208,6 +254,7 @@ const Update = () => {
                       placeholder="Joury Date"
                       type="date"
                       className={styles.inputField}
+                      defaultValue={specificPackage.journey_date}
                     />
                   </div>
                   <div>
@@ -281,6 +328,7 @@ const Update = () => {
                       placeholder="Operators"
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.operators}
                     />
                   </div>
                   <div>
@@ -291,6 +339,7 @@ const Update = () => {
                       placeholder="Type of Bus "
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.type_of_bus}
                     />
                   </div>
                 </div>
@@ -303,6 +352,7 @@ const Update = () => {
                       placeholder="Boarding Point "
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.boarding_point}
                     />
                   </div>
                   <div>
@@ -313,25 +363,17 @@ const Update = () => {
                       placeholder="Facilities "
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.facilities}
                     />
                   </div>
                 </div>
-                {/* <div className={styles.formControl}>
-                  <div>
-                    <label> Date </label>
-                    <input
-                      onChange={(e) => setGetDate(e.target.value)}
-                      name="Date"
-                      placeholder="Date "
-                      type="date"
-                      className={styles.inputField}
-                    />
-                  </div>
-                </div> */}
+
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
-                    {getFile[0]?.name ? (
-                      <label for="files">{getFile[0]?.name}</label>
+                    {getFile[0]?.name || specificPackage?.image?.length > 0 ? (
+                      <label for="files">
+                        {getFile[0]?.name || specificPackage.image[0]}
+                      </label>
                     ) : (
                       <label for="files">
                         {" "}
@@ -349,13 +391,18 @@ const Update = () => {
                       id="files"
                       class="hidden"
                       multiple
+                      defaultValue={
+                        specificPackage?.image
+                          ? specificPackage.image[0]
+                          : undefined
+                      }
                     />
                   </div>
                 </div>
                 <div className={styles.formControl}>
                   <div>
                     <ReactQuill
-                      value={value}
+                      value={value || specificPackage.description}
                       onChange={setValue}
                       modules={{
                         toolbar: [

@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 const Update = () => {
   const [editorValue, setEditorValue] = useState("");
   const [quill, setQuill] = useState(null);
-
+  const [specificPackage, setSpecificPackage] = useState({});
   const [getFile, setGetFile] = useState({});
   const [getImage, setGetImage] = useState([]);
   const [value, setValue] = useState("");
@@ -30,6 +30,21 @@ const Update = () => {
   const router = useRouter();
   const { id } = router.query;
 
+  useEffect(() => {
+    // Make sure id is defined before making the fetch request
+    if (id) {
+      fetch(`http://localhost:5000/api/v1/umrah/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setSpecificPackage(data.getPackage);
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [id]);
+
   let files;
   const handlePdf = async (e) => {
     setGetFile(e.target.files);
@@ -39,6 +54,7 @@ const Update = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
+      setLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -47,6 +63,7 @@ const Update = () => {
       const data = await response.json();
       if (data.message === "success") {
         setGetImage(data.imageLinks);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -56,14 +73,15 @@ const Update = () => {
   const handleUmrahUpdate = (e) => {
     e.preventDefault();
     const data = {
-      title: title,
-      sub_title: subTitle,
-      latest_umrah_package: latestUmrahPackage,
-      day_night: dayNight,
-      date: getDate,
-      price: price,
-      image: getImage,
-      description: value,
+      title: title || specificPackage.title,
+      sub_title: subTitle || specificPackage.sub_title,
+      latest_umrah_package:
+        latestUmrahPackage || specificPackage.latest_umrah_package,
+      day_night: dayNight || specificPackage.day_night,
+      date: getDate || specificPackage.date,
+      price: price || specificPackage.price,
+      image:getImage  || specificPackage?.image[0] ,
+      description: value || specificPackage.description,
     };
     setLoading(true);
     axios
@@ -73,6 +91,7 @@ const Update = () => {
         if (response.data.message === "Package update successful") {
           toast.success("Package update successful");
           formRef.current.reset();
+          router.push("/b2bdashboard/manage/umrah-package");
         }
       })
       .catch((error) => {
@@ -103,6 +122,7 @@ const Update = () => {
                       placeholder="Title"
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.title}
                     />
                   </div>
                   <div>
@@ -113,6 +133,7 @@ const Update = () => {
                       placeholder="Sub Title"
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.sub_title}
                     />
                   </div>
                 </div>
@@ -125,6 +146,7 @@ const Update = () => {
                       placeholder="Latest Umrah Package"
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.latest_umrah_package}
                     />
                   </div>
                   <div>
@@ -135,6 +157,7 @@ const Update = () => {
                       placeholder=" Day/Night "
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.day_night}
                     />
                   </div>
                 </div>
@@ -147,6 +170,7 @@ const Update = () => {
                       placeholder="Date "
                       type="date"
                       className={styles.inputField}
+                      defaultValue={specificPackage.date}
                     />
                   </div>
                   <div>
@@ -157,13 +181,16 @@ const Update = () => {
                       placeholder="Price"
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.price}
                     />
                   </div>
                 </div>
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
-                    {getFile[0]?.name ? (
-                      <label for="files">{getFile[0]?.name}</label>
+                    {getFile[0]?.name || specificPackage?.image?.length > 0 ? (
+                      <label for="files">
+                        {getFile[0]?.name || specificPackage.image[0]}
+                      </label>
                     ) : (
                       <label for="files">
                         {" "}
@@ -187,7 +214,7 @@ const Update = () => {
                 <div className={styles.formControl}>
                   <div>
                     <ReactQuill
-                      value={value}
+                      value={value || specificPackage.description}
                       onChange={setValue}
                       modules={{
                         toolbar: [

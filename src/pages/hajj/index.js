@@ -9,6 +9,7 @@ const Hajj = () => {
   return (
    <div>
      <HajjLayout>
+      
       <HajjUmrahCard
         img={hajj}
         heading="Premium - Hajj Packages ( Non-Shifting)"

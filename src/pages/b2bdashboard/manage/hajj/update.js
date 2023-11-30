@@ -32,6 +32,22 @@ const Update = () => {
   const [loading, setLoading] = useState(false);
   const formRef = useRef();
 
+  const [specificPackage, setSpecificPackage] = useState({});
+  useEffect(() => {
+    // Make sure id is defined before making the fetch request
+    if (id) {
+      fetch(`http://localhost:5000/api/v1/hajj/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setSpecificPackage(data.getPackage);
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [id]);
+
   let files;
   const handlePdf = async (e) => {
     setGetFile(e.target.files);
@@ -41,6 +57,7 @@ const Update = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
+      setLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -49,7 +66,7 @@ const Update = () => {
       const data = await response.json();
       if (data.message === "success") {
         setGetImage(data.imageLinks);
-        // console.log(data.imageLinks);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -64,16 +81,16 @@ const Update = () => {
   const handleHajjPost = (e) => {
     e.preventDefault();
     const data = {
-      hajj_package: hajjPackage,
-      title: title,
-      sub_title: subTitle,
-      date: getDate,
-      price: price,
-      day_night: dayNight,
-      requirement_list: requirementList,
-      popular_hajj_package: popularHajjPackage,
-      image: getImage,
-      description: value,
+      hajj_package: hajjPackage || specificPackage.hajj_package,
+      title: title || specificPackage.title,
+      sub_title: subTitle || specificPackage.sub_title,
+      date: getDate || specificPackage.date,
+      price: price || specificPackage.price,
+      day_night: dayNight || specificPackage.day_night,
+      requirement_list: requirementList || specificPackage.requirement_list,
+      popular_hajj_package:popularHajjPackage || specificPackage.popular_hajj_package,
+      image: getImage || specificPackage.image[0],
+      description: value || specificPackage.description,
     };
     setLoading(true);
     axios
@@ -83,6 +100,7 @@ const Update = () => {
         if (response.data.message === "Package update successful") {
           toast.success("Package update successful");
           formRef.current.reset();
+          router.push("/b2bdashboard/manage/hajj");
           setHajjPackage(null);
           setTitle(null);
           setSubTitle(null);
@@ -121,6 +139,7 @@ const Update = () => {
                     <select
                       onChange={(e) => setHajjPackage(e.target.value)}
                       className={styles.inputField}
+                      value={specificPackage.hajj_package}
                     >
                       <option value="Select Hajj Package">
                         Select Hajj Package
@@ -144,6 +163,7 @@ const Update = () => {
                       placeholder="Title"
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.title}
                     />
                   </div>
                 </div>
@@ -156,6 +176,7 @@ const Update = () => {
                       placeholder=" Sub Title"
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.sub_title}
                     />
                   </div>
                   <div>
@@ -166,6 +187,7 @@ const Update = () => {
                       placeholder="Date "
                       type="date"
                       className={styles.inputField}
+                      defaultValue={specificPackage.date}
                     />
                   </div>
                 </div>
@@ -178,6 +200,7 @@ const Update = () => {
                       placeholder="Price"
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.price}
                     />
                   </div>
                   <div>
@@ -188,6 +211,7 @@ const Update = () => {
                       placeholder="Day/Night"
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.day_night}
                     />
                   </div>
                 </div>
@@ -200,6 +224,7 @@ const Update = () => {
                       placeholder="Requirement List "
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.requirement_list}
                     />
                   </div>
                   <div>
@@ -210,13 +235,15 @@ const Update = () => {
                       placeholder="Popular Hajj Package"
                       type="text"
                       className={styles.inputField}
+                      defaultValue={specificPackage.popular_hajj_package}
+                      
                     />
                   </div>
                 </div>
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
-                    {getFile[0]?.name ? (
-                      <label for="files">{getFile[0]?.name}</label>
+                    {getFile[0]?.name || specificPackage?.image?.length > 0 ? (
+                      <label for="files">{getFile[0]?.name || specificPackage?.image[0]}</label>
                     ) : (
                       <label for="files">
                         {" "}
@@ -240,7 +267,7 @@ const Update = () => {
                 <div className={styles.formControl}>
                   <div>
                     <ReactQuill
-                      value={value}
+                      value={value || specificPackage.description}
                       onChange={setValue}
                       modules={{
                         toolbar: [
@@ -266,7 +293,11 @@ const Update = () => {
                 </div>
 
                 <div className={styles.formControl}>
-                  <button className={styles.submitBtn} type="submit">
+                  <button
+                    disabled={loading ? true : false}
+                    className={styles.submitBtn}
+                    type="submit"
+                  >
                     Update
                   </button>
                 </div>

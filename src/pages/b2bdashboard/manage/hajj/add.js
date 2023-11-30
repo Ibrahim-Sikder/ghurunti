@@ -10,6 +10,7 @@ import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRef } from "react";
+import { useRouter } from "next/router";
 const HajjUmrah = () => {
   const [editorValue, setEditorValue] = useState("");
   const [quill, setQuill] = useState(null);
@@ -27,7 +28,7 @@ const HajjUmrah = () => {
   // const [description, setDescription] = useState(null);
   const [loading, setLoading] = useState(false);
   const formRef = useRef();
-
+const router = useRouter()
   let files;
   const handlePdf = async (e) => {
     setGetFile(e.target.files);
@@ -37,6 +38,7 @@ const HajjUmrah = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
+      setLoading(true)
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -45,7 +47,7 @@ const HajjUmrah = () => {
       const data = await response.json();
       if (data.message === "success") {
         setGetImage(data.imageLinks);
-        // console.log(data.imageLinks);
+        setLoading(false)
       }
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -79,6 +81,7 @@ const HajjUmrah = () => {
         if (response.data.message === "Post hajj package details.") {
           toast.success("Post successful.");
           formRef.current.reset();
+          router.push("/b2bdashboard/manage/hajj");
           setHajjPackage(null);
           setTitle(null);
           setSubTitle(null);

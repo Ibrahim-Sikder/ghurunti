@@ -11,6 +11,7 @@ import "react-quill/dist/quill.snow.css";
 import { useRef } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 const Hotel = () => {
   const [editorValue, setEditorValue] = useState("");
   const [quill, setQuill] = useState(null);
@@ -38,9 +39,6 @@ const Hotel = () => {
   const [lowestPrice, setLowestPrice] = useState(null);
   const [startPrice, setStartPrice] = useState(null);
   const [discountPrice, setDiscountPrice] = useState(null);
-  // const [productCategory, setProductCategory] = useState(null);
-  // const [priceLowToHigh, setPriceLowToHight] = useState(null);
-  // const [priceHighToLow, setPriceHighToLow] = useState(null);
 
   const [loading, setLoading] = useState(false);
   const formRef = useRef();
@@ -48,6 +46,7 @@ const Hotel = () => {
   const [child, setChild] = useState(0);
   const [adult, setAdult] = useState(0);
   const [room, setRoom] = useState("1 Room");
+  const router = useRouter();
 
   const childIncrement = () => {
     setChild(child + 1);
@@ -79,6 +78,7 @@ const Hotel = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
+      setLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -87,16 +87,13 @@ const Hotel = () => {
       const data = await response.json();
       if (data.message === "success") {
         setGetImage(data.imageLinks);
-        // console.log(data.imageLinks);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error uploading file:", error);
     }
   };
 
-
-
-  
   const handleHotelData = (e) => {
     e.preventDefault();
     const data = {
@@ -131,6 +128,7 @@ const Hotel = () => {
         if (response.data.message === "Successfully hotel details posted.") {
           toast.success("Post successful.");
           formRef.current.reset();
+          router.push("/b2bdashboard/manage/hotel");
         }
         if (
           (response.data =
@@ -148,8 +146,7 @@ const Hotel = () => {
       });
   };
 
-
-  console.log(checkInDate, checkOutDate)
+  console.log(checkInDate, checkOutDate);
   return (
     <B2BdashboardLayout>
       <MoveText />
@@ -512,7 +509,11 @@ const Hotel = () => {
                 </div>
 
                 <div className={styles.formControl}>
-                  <button className={styles.submitBtn} type="submit">
+                  <button
+                    disabled={loading ? true : false}
+                    className={styles.submitBtn}
+                    type="submit"
+                  >
                     Submit
                   </button>
                 </div>

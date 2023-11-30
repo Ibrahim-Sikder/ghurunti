@@ -2,7 +2,7 @@ import styling from "../../profile.module.css";
 import dynamic from "next/dynamic";
 import MoveText from "../../../../../components/UserDashBoard/MoveText/MoveText";
 import styles from "../manage.module.css";
-import { CloudUpload,Checklist } from "@mui/icons-material";
+import { CloudUpload, Checklist } from "@mui/icons-material";
 import B2BdashboardLayout from "../../../../../components/Layout/B2BdashboardLayout/B2BdashboardLayout";
 import React, { useState, useEffect, useRef } from "react";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
@@ -10,6 +10,7 @@ import "react-quill/dist/quill.snow.css";
 import toast from "react-hot-toast";
 import axios from "axios";
 import Image from "next/image";
+import { useRouter } from "next/router";
 const Add = () => {
   const [editorValue, setEditorValue] = useState("");
   const [quill, setQuill] = useState(null);
@@ -23,17 +24,20 @@ const Add = () => {
   const [travelerType, setTravelerType] = useState(null);
   const [entry, setEntry] = useState(null);
   const [duration, setDuration] = useState(null);
+  const [interview, setInterview] = useState(null);
   const [processingTime, setProcessingTime] = useState(null);
   const [embassyFee, setEmbassyFee] = useState(null);
   const [agentFee, setAgentFee] = useState(null);
   const [agencyFee, setAgencyFee] = useState(null);
   const [serviceCharge, setServiceCharge] = useState(null);
   const [stay, setStay] = useState(null);
+  const [maxStay, setMaxStay] = useState(null);
+  const [validityDay, setValidityDay] = useState(null);
   const [getDate, setGetDate] = useState(null);
   const [requirement, setRequirement] = useState(null);
-
   const [loading, setLoading] = useState(false);
   const formRef = useRef();
+  const router = useRouter();
 
   let files;
   const handlePdf = async (e) => {
@@ -44,6 +48,7 @@ const Add = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
+      setLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -52,7 +57,7 @@ const Add = () => {
       const data = await response.json();
       if (data.message === "success") {
         setGetImage(data.imageLinks);
-        // console.log(data.imageLinks);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -74,7 +79,9 @@ const Add = () => {
       agency_fee: agencyFee,
       service_charge: serviceCharge,
       stay: stay,
-
+      max_stay: maxStay,
+      validity_day: validityDay,
+      interview: interview,
       date: getDate,
       requirement: requirement,
 
@@ -88,8 +95,8 @@ const Add = () => {
         console.log(response.data);
         if (response.data.message === "Successfully visa details posted.") {
           toast.success("Post successful.");
-          
           formRef.current.reset();
+          router.push("/b2bdashboard/manage/visa");
         }
         if (
           (response.data =
@@ -106,8 +113,6 @@ const Add = () => {
         setLoading(false);
       });
   };
-
- 
 
   return (
     <B2BdashboardLayout>
@@ -225,7 +230,7 @@ const Add = () => {
                   <div>
                     <label>Maximum Stay </label>
                     <input
-                      onChange={(e) => setEntry(e.target.value)}
+                      onChange={(e) => setMaxStay(e.target.value)}
                       name="Entry"
                       placeholder="Maximum Stay"
                       type="text"
@@ -235,7 +240,7 @@ const Add = () => {
                   <div>
                     <label>Interview </label>
                     <input
-                      onChange={(e) => setDuration(e.target.value)}
+                      onChange={(e) => setInterview(e.target.value)}
                       name="Duration"
                       placeholder="Interview"
                       type="text"
@@ -322,68 +327,76 @@ const Add = () => {
                   </div>
                   <div onClick={() => window.my_modal_3.showModal()}>
                     <label>Requirement List </label>
-                   <div   className={styles.requirementField}>
-                   <input
-                      onChange={(e) => setRequirementList(e.target.value)}
-                      name="requirement"
-                      placeholder="Requirement List "
-                      type="text"
-                     
-                    />
-                    <Checklist className={styles.requirementIcon}/>
-
-
-                   </div>
-                   <div className={styles.modalWrap} >
-                <dialog id="my_modal_3" className={styles.requirementModal}>
-                  <form method="dialog" className="modal-box">
-                    <button className={styles.hotelModalCloseBtn2}>✕</button>
-                   <strong className="block my-3 "> Required Documents for E-Visa (Malaysia)</strong>
-                  <div className={styles.formControl}>
-                  <div>
-                    <ReactQuill
-                      value={value}
-                      onChange={setValue}
-                      modules={{
-                        toolbar: [
-                          [{ font: [] }],
-                          [{ size: ["small", false, "large", "huge"] }],
-                          [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                          [{ color: [] }, { background: [] }],
-                          [{ align: [] }],
-                          [{ list: "ordered" }, { list: "bullet" }],
-                          ["bold", "italic", "underline"],
-                          [{ align: [] }],
-                          ["link", "image"],
-                          ["video"],
-                          ["clean"],
-                          ["blockquote", "code-block"],
-                          ["direction"],
-                          ["formula"],
-                          ["strike"],
-                        ],
-                      }}
-                    />
-                  </div>
-                </div>
-                  </form>
-                </dialog>
-              </div>
+                    <div className={styles.requirementField}>
+                      <input
+                        onChange={(e) => setRequirement(e.target.value)}
+                        name="requirement"
+                        placeholder="Requirement List "
+                        type="text"
+                      />
+                      <Checklist className={styles.requirementIcon} />
+                    </div>
+                    <div className={styles.modalWrap}>
+                      <dialog
+                        id="my_modal_3"
+                        className={styles.requirementModal}
+                      >
+                        <form method="dialog" className="modal-box">
+                          <button className={styles.hotelModalCloseBtn2}>
+                            ✕
+                          </button>
+                          <strong className="block my-3 ">
+                            {" "}
+                            Required Documents for E-Visa (Malaysia)
+                          </strong>
+                          <div className={styles.formControl}>
+                            <div>
+                              <ReactQuill
+                                value={value}
+                                onChange={setValue}
+                                modules={{
+                                  toolbar: [
+                                    [{ font: [] }],
+                                    [
+                                      {
+                                        size: ["small", false, "large", "huge"],
+                                      },
+                                    ],
+                                    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                                    [{ color: [] }, { background: [] }],
+                                    [{ align: [] }],
+                                    [{ list: "ordered" }, { list: "bullet" }],
+                                    ["bold", "italic", "underline"],
+                                    [{ align: [] }],
+                                    ["link", "image"],
+                                    ["video"],
+                                    ["clean"],
+                                    ["blockquote", "code-block"],
+                                    ["direction"],
+                                    ["formula"],
+                                    ["strike"],
+                                  ],
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </form>
+                      </dialog>
+                    </div>
                   </div>
                 </div>
                 <div className={styles.formControl}>
-                 
                   <div>
                     <label>Validity Day</label>
                     <input
-                      onChange={(e) => setRequirement(e.target.value)}
+                      onChange={(e) => setValidityDay(e.target.value)}
                       name="validity"
                       placeholder="Validity Day"
                       type="text"
                       className={styles.inputField}
                     />
                   </div>
-                  <div>
+                  {/* <div>
                     <label>Max Stay</label>
                     <input
                       onChange={(e) => setGetDate(e.target.value)}
@@ -392,7 +405,7 @@ const Add = () => {
                       type="text"
                       className={styles.inputField}
                     />
-                  </div>
+                  </div> */}
                 </div>
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
@@ -447,7 +460,11 @@ const Add = () => {
                 </div>
 
                 <div className={styles.formControl}>
-                  <button disabled={loading ? true : false} className={styles.submitBtn} type="submit">
+                  <button
+                    disabled={loading ? true : false}
+                    className={styles.submitBtn}
+                    type="submit"
+                  >
                     Submit
                   </button>
                 </div>
