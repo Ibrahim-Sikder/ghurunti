@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import { fetchVisaData } from "@/Redux/features/visaSlice";
 import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 
 const visa = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const visa = () => {
   const router = useRouter();
 
   const handleGetVisaData = () => {
+    Cookies.set("v_t", visaType);
     const data = {
       country_name: visaCountry,
       visa_type: visaType,

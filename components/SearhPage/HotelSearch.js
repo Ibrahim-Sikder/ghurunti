@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import style from "./HotelSearch.module.css";
 import Image from "next/image";
 import hotel from "../../public/assets/hotelll.jpeg";
@@ -14,11 +14,24 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHotelData } from "@/Redux/features/hotelSlice";
+import { useEffect } from "react";
+import { Slider } from "@mui/material";
 
+function valuetext(value) {
+  return `${value}`;
+}
+
+const minDistance = 10;
 const HotelSearch = () => {
   const hotelDetailsData = useSelector((state) => state.hotel.hotelDetailsData);
   const isLoading = useSelector((state) => state.hotel.isLoading);
+  const [hotelDataWithFilter, setHotelDataWithFilter] = useState(
+    hotelDetailsData?.getPackage
+  );
+  // const [highestPrice, setHighestPrice] = useState(null);
+  const [reload, setReload] = useState(false);
   // const hotelData = [
   //   {
   //     id: 1,
@@ -83,10 +96,102 @@ const HotelSearch = () => {
   // ];
 
   if (isLoading) {
-    return <div className="h-full flex justify-center items-center py-20">Loading...</div>;
+    return (
+      <div className="h-full flex justify-center items-center py-20">
+        Loading...
+      </div>
+    );
   }
- 
 
+  const highPrice = localStorage.getItem("h_p");
+  const lowPrice = localStorage.getItem("l_p");
+
+  const handleDataWithPrice = () => {
+    if (highPrice) {
+      localStorage.removeItem("h_p");
+      setReload(!reload);
+    } else {
+      localStorage.setItem("h_p", true);
+      localStorage.removeItem("l_p");
+
+      setReload(!reload);
+    }
+  };
+  const handleDataWithLowestPrice = () => {
+    if (lowPrice) {
+      localStorage.removeItem("l_p");
+      setReload(!reload);
+    } else {
+      localStorage.setItem("l_p", true);
+      localStorage.removeItem("h_p");
+      setReload(!reload);
+    }
+  };
+
+  useEffect(() => {
+    if (highPrice && !lowPrice) {
+      const highestPriceData = hotelDataWithFilter
+        .filter((item) => typeof item.highest_price === "number") // Exclude non-numeric prices
+        .sort((a, b) => b.highest_price - a.highest_price);
+      // if (highestPriceData.length > 0) {
+      //   // Set the highest price to the state
+      //   setHighestPrice(highestPriceData[0].highest_price);
+      // }
+      setHotelDataWithFilter(highestPriceData);
+
+      // console.log("After filtering/sorting:", highestPriceData);
+    } else if (lowPrice && !highPrice) {
+      const lowestPriceData = hotelDataWithFilter
+        .filter((item) => typeof item.lowest_price === "number") // Exclude non-numeric prices
+        .sort((a, b) => a.lowest_price - b.lowest_price);
+      setHotelDataWithFilter(lowestPriceData);
+
+      console.log("After filtering/sorting:", lowestPriceData);
+    } else {
+      setHotelDataWithFilter(hotelDetailsData?.getPackage);
+    }
+  }, [highPrice, lowPrice, reload, hotelDetailsData]);
+
+  const [value, setValue] = useState([50, 550]);
+
+  const handleChange = (event, newValue, activeThumb) => {
+    if (!Array.isArray(newValue)) {
+      return;
+    }
+  
+    if (activeThumb === 0) {
+      setValue([Math.min(newValue[0], value[1] - minDistance), value[1]]);
+    } else {
+      setValue([value[0], Math.max(newValue[1], value[0] + minDistance)]);
+    }
+  
+    console.log(activeThumb);
+  
+    if (activeThumb) {
+      const filteredHotelData = hotelDataWithFilter?.filter((item) => {
+        return (
+          (item.lowest_price >= value[0] || value[0] === null) ||
+          (item.highest_price <= value[1] || value[1] === null)
+        );
+      });
+    
+      setHotelDataWithFilter(filteredHotelData);
+    } else {
+      setHotelDataWithFilter(hotelDetailsData?.getPackage);
+    }
+    
+  };
+  
+
+  // console.log(value);
+
+  // const getArrivalLabel = () => {
+
+  //   console.log("filteredHotelData")
+  // };
+
+  console.log(value);
+  console.log(hotelDataWithFilter);
   return (
     <section>
       <div className={style.searchDetailHead}>
@@ -105,21 +210,44 @@ const HotelSearch = () => {
               <h5 className="font-bold">95 Available Hotels </h5>
               <small>Price includes VAT & Tax </small>
             </div>
-            <div className={style.bookBtnGroup}>
-              <button>Highest Price </button>
-              <button>Lowest Price</button>
+            <div
+              // className={style.bookBtnGroup}
+              className="space-x-5"
+            >
+              <button
+                className={
+                  highPrice
+                    ? "bg-[#19ABE3] text-white px-3  rounded-md py-2 btn btn-sm"
+                    : "bg-white text-[#19ABE3] px-3 rounded-md border border-[#19ABE3]  py-2 btn btn-sm"
+                }
+                onClick={handleDataWithPrice}
+              >
+                Highest Price{" "}
+              </button>
+              <button
+                className={
+                  lowPrice
+                    ? "bg-[#4AB449] text-white px-3 rounded-md  py-2"
+                    : "text-[#4AB449] px-3 rounded-md border border-[#4AB449]  py-2"
+                }
+                onClick={handleDataWithLowestPrice}
+              >
+                Lowest Price
+              </button>
             </div>
           </div>
           <div>
-            {hotelDetailsData?.getPackage?.map((hotel) => (
+            {hotelDataWithFilter?.map((hotel) => (
               <div key={hotel.id} className={style.SearchHotel}>
                 <div className={style.detailBoxWrap}>
                   <div className={style.searchLeftSideImg}>
                     <Image
                       loading="lazy"
-                      src={hotel.image}
+                      src={hotel?.image[0]}
                       alt="Picture of the author"
                       className={style.searchLeftImg}
+                      height={100}
+                      width={100}
                     />
                   </div>
                   <div className={style.searchBoxWrap}>
@@ -157,7 +285,9 @@ const HotelSearch = () => {
                           </span>
                         </div>
                         <Link href="/hotel/hotelDetail">
-                          <button className={style.bookBtn}>See Details </button>
+                          <button className={style.bookBtn}>
+                            See Details{" "}
+                          </button>
                         </Link>
                       </div>
                     </div>
@@ -189,8 +319,19 @@ const HotelSearch = () => {
                       gutterBottom
                     >
                       <strong>Your budget (per night) </strong> <br />
-                      <span className="my-5 block">BDT 3400 - BDT 45000</span>
-                      <input className="w-full" type="range" />
+                      <span className="my-5 block">
+                        BDT {value[0]} - BDT {value[1]}
+                      </span>
+                      {/* <input className="w-full" type="range" /> */}
+                      <Slider
+                        className="w-full z-50"
+                        // getAriaLabel={getArrivalLabel}
+                        value={value}
+                        onChange={handleChange}
+                        valueLabelDisplay="auto"
+                        min={0}
+                        max={5000}
+                      />
                     </Typography>
                   </CardContent>
                 </Card>

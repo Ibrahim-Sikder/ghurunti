@@ -11,16 +11,18 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useContext } from "react";
+import { APIContext } from "@/Context/ApiContext";
 const Add = () => {
   const [editorValue, setEditorValue] = useState("");
   const [quill, setQuill] = useState(null);
-
+  const [visaType, setVisaType] = useState("");
+  const [requirementDetails, setRequirementDetails] = useState({});
   const [getFile, setGetFile] = useState({});
   const [getImage, setGetImage] = useState([]);
   const [value, setValue] = useState("");
   const [countryName, setCountryName] = useState(null);
   const [cityName, setCityName] = useState(null);
-  const [visaType, setVisaType] = useState(null);
   const [travelerType, setTravelerType] = useState(null);
   const [entry, setEntry] = useState(null);
   const [duration, setDuration] = useState(null);
@@ -83,8 +85,6 @@ const Add = () => {
       validity_day: validityDay,
       interview: interview,
       date: getDate,
-      requirement: requirement,
-
       image: getImage,
       description: value,
     };
@@ -112,6 +112,43 @@ const Add = () => {
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  const handlePostVisaRequirement = () => {
+    const data = {
+      visa_type: visaType,
+      requirements: requirement,
+    };
+    axios
+      .post("http://localhost:5000/api/v1/requirement", data)
+      .then(function (response) {
+        if (response.data.message === "Successfully visa details posted.") {
+          formRef.current.reset();
+
+          setRequirement(null);
+        }
+      });
+  };
+
+  const handleVisaRequirement = (e) => {
+    if (e) {
+      setVisaType(e);
+
+      const data = {
+        visa_type: e,
+      };
+      axios
+        .post("http://localhost:5000/api/v1/visa/requirement", data)
+        .then(function (response) {
+          console.log(response.data.result);
+          setRequirementDetails(response.data.result);
+          // if (response.data.message === "Successfully visa details posted.") {
+          //   formRef.current.reset();
+
+          //   setRequirement(null);
+          // }
+        });
+    }
   };
 
   return (
@@ -170,7 +207,7 @@ const Add = () => {
                   <div>
                     <label> Visa Type </label>
                     <select
-                      onChange={(e) => setVisaType(e.target.value)}
+                      onChange={(e) => handleVisaRequirement(e.target.value)}
                       className={styles.inputField}
                     >
                       <option value="Select Visa Type ">
@@ -325,14 +362,24 @@ const Add = () => {
                       className={styles.inputField}
                     />
                   </div>
-                  <div onClick={() => window.my_modal_3.showModal()}>
+                  <div
+                    className={
+                      requirementDetails?.requirements
+                        ? "cursor-not-allowed"
+                        : "cursor-pointer"
+                    }
+                    onClick={() => window.my_modal_3.showModal()}
+                  >
                     <label>Requirement List </label>
                     <div className={styles.requirementField}>
                       <input
-                        onChange={(e) => setRequirement(e.target.value)}
                         name="requirement"
                         placeholder="Requirement List "
                         type="text"
+                        defaultValue={requirementDetails?.requirements}
+                        disabled={
+                          requirementDetails?.requirements ? true : false
+                        }
                       />
                       <Checklist className={styles.requirementIcon} />
                     </div>
@@ -341,19 +388,33 @@ const Add = () => {
                         id="my_modal_3"
                         className={styles.requirementModal}
                       >
-                        <form method="dialog" className="modal-box">
+                        <form
+                          ref={formRef}
+                          method="dialog"
+                          className="modal-box"
+                        >
                           <button className={styles.hotelModalCloseBtn2}>
                             ✕
                           </button>
-                          <strong className="block my-3 ">
-                            {" "}
-                            Required Documents for E-Visa (Malaysia)
-                          </strong>
+                          {visaType ? (
+                            <strong className="block my-3 ">
+                              {" "}
+                              Required Documents for {visaType} {countryName}
+                            </strong>
+                          ) : (
+                            <strong className="block my-3 ">
+                              {" "}
+                              Please select visa type.
+                            </strong>
+                          )}
                           <div className={styles.formControl}>
                             <div>
                               <ReactQuill
-                                value={value}
-                                onChange={setValue}
+                                value={
+                                  requirement ||
+                                  requirementDetails?.requirements
+                                }
+                                onChange={setRequirement}
                                 modules={{
                                   toolbar: [
                                     [{ font: [] }],
@@ -379,6 +440,23 @@ const Add = () => {
                                 }}
                               />
                             </div>
+                          </div>
+                          <div className="flex justify-end">
+                            <button
+                              disabled={
+                                visaType && !requirementDetails?.requirements
+                                  ? false
+                                  : true
+                              }
+                              onClick={handlePostVisaRequirement}
+                              className={
+                                visaType && !requirementDetails?.requirements
+                                  ? "bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer"
+                                  : "bg-gray-400 text-white px-4 py-2 rounded-md cursor-not-allowed"
+                              }
+                            >
+                              Add
+                            </button>
                           </div>
                         </form>
                       </dialog>

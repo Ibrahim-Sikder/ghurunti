@@ -11,10 +11,20 @@ const initialState = {
 export const fetchHotelData = createAsyncThunk(
   "hotel/fetchHotelData",
   async (data) => {
+    // console.log(data.event);
     const response = await axios.post(
       "http://localhost:5000/api/v1/hotel/get/packages",
       data
     );
+
+    // // if (data.event === "Highest Price") {
+    // //   const response = await axios.post(
+    // //     "http://localhost:5000/api/v1/hotel/get/packages/sort",
+    // //     data.hotelDetailsData
+    // //   );
+    // //   console.log(response);
+    //   return response.data;
+    // }
 
     return response.data;
   }

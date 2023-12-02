@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react"
-import Logo from "../../public/assets/logo.png"
-import Link from "next/link"
-import style from "./Nav.module.css"
-import Image from "next/image"
-import { useEffect } from "react"
+import React, { useContext, useState } from "react";
+import Logo from "../../public/assets/logo.png";
+import Link from "next/link";
+import style from "./Nav.module.css";
+import Image from "next/image";
+import { useEffect } from "react";
 import {
   Flight,
   Hotel,
@@ -13,27 +13,36 @@ import {
   DirectionsRailway,
   LocalPhone,
   AccountCircle,
-} from "@mui/icons-material"
-import Typewriter from "typewriter-effect"
-import { useRef } from "react"
-import ibrahim from "../../public/assets/ibrahim.jpg"
+} from "@mui/icons-material";
+import Typewriter from "typewriter-effect";
+import { useRef } from "react";
+import ibrahim from "../../public/assets/ibrahim.jpg";
+import { useRouter } from "next/router";
+
 const Nav = () => {
-  const [stickyMenu, setStickyMenu] = useState(false)
-  const [mobileMenu, setMobileMenu] = useState(true)
+  const [stickyMenu, setStickyMenu] = useState(false);
+  const [mobileMenu, setMobileMenu] = useState(true);
   const toggleMobileMenu = () => {
-    setMobileMenu((mobileMenu) => !mobileMenu)
-    navRef.current.classList.toggle("active")
-  }
-  const navRef = useRef()
+    setMobileMenu((mobileMenu) => !mobileMenu);
+    navRef.current.classList.toggle("active");
+  };
+  const navRef = useRef();
   useEffect(() => {
     const handleScroll = () => {
-      setStickyMenu(window.scrollY > 50)
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+      setStickyMenu(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  const user = true
+  const user = true;
+
+  const router = useRouter();
+  const handleHome = () => {
+    router.push("/");
+    localStorage.removeItem("l_p");
+    localStorage.removeItem("h_p");
+  };
 
   return (
     <section className={style.navBarMainWrap}>
@@ -53,14 +62,14 @@ const Nav = () => {
             <div className={style.navigationContent}>
               <div className={style.navigationLeft}>
                 <div className={style.logo}>
-                  <Link href="/">
+                  <div onClick={handleHome} className="cursor-pointer">
                     <Image
                       loading="lazy"
                       className={style.logoImg}
                       src={Logo}
                       alt="Picture of the author"
                     />
-                  </Link>
+                  </div>
                 </div>
               </div>
 
@@ -113,8 +122,12 @@ const Nav = () => {
                       {" "}
                       <hr className="mb-2 mt-1 " />
                     </li>
-                    <li><Link href='/profile/booking'>My Booking</Link></li>
-                    <li><Link href='/profile'>Dashboard</Link></li>
+                    <li>
+                      <Link href="/profile/booking">My Booking</Link>
+                    </li>
+                    <li>
+                      <Link href="/profile">Dashboard</Link>
+                    </li>
                     <li>Log Out </li>
                   </ul>
                 </div>
@@ -204,7 +217,7 @@ const Nav = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Nav
+export default Nav;
