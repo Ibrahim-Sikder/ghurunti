@@ -11,27 +11,32 @@ import "react-quill/dist/quill.snow.css";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRef } from "react";
+import { useRouter } from "next/router";
 const Train = () => {
   const [editorValue, setEditorValue] = useState("");
   const [quill, setQuill] = useState(null);
   const [getFile, setGetFile] = useState({});
   const [getImage, setGetImage] = useState([]);
   const [value, setValue] = useState("");
-  const [trainName, setTrainName] = useState(null)
+  const [travelFrom, setTravelFrom] = useState(null);
+  const [travelTo, setTravelTo] = useState(null);
+  const [trainName, setTrainName] = useState(null);
   const [title, setTitle] = useState(null);
   // const [subTitle, setSubTitle] = useState(null);
   const [countryName, setCountryName] = useState(null);
   const [cityName, setCityName] = useState(null);
-  const [classType, setClassType] = useState(null)
-  const [getDate, setGetDate] = useState(null);
-
-  const [address, setAddress] = useState(null);
-  const [categoryType, setCategoryType] = useState(null);
-  const [productCategory, setProductCategory] = useState(null);
+  const [classType, setClassType] = useState(null);
+  const [journeyDate, setJourneyDate] = useState(null);
+  const [seatType, setSeatType] = useState(null);
+  const [departureTime, setDepartureTime] = useState(null);
+  const [arrivalTime, setArrivalTime] = useState(null);
   const [price, setPrice] = useState();
-  
+  const [startingPoint, setStartingPoint] = useState(null);
+  const [endPoint, setEndPoint] = useState(null);
+
   const [loading, setLoading] = useState(false);
   const formRef = useRef();
+  const router = useRouter()
 
   let files;
   const handlePdf = async (e) => {
@@ -42,6 +47,7 @@ const Train = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
+      setLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -49,7 +55,9 @@ const Train = () => {
 
       const data = await response.json();
       if (data.message === "success") {
+        console.log(data.imageLinks);
         setGetImage(data.imageLinks);
+        setLoading(false);
         // console.log(data.imageLinks);
       }
     } catch (error) {
@@ -60,15 +68,20 @@ const Train = () => {
   const handleTrainData = (e) => {
     e.preventDefault();
     const data = {
+      travel_from: travelFrom,
+      travel_to: travelTo,
+      train_name: trainName,
+      title: title,
       country_name: countryName,
       city_name: cityName,
-      address: address,
-      category_type: categoryType,
-      product_category: productCategory,
-      date: getDate,
+      class_type: classType,
+      journey_date: journeyDate,
+      seat_type: seatType,
+      departure_time: departureTime,
+      arrival_time: arrivalTime,
       price: price,
-      title: title,
-      sub_title: subTitle,
+      starting_point: startingPoint,
+      end_point: endPoint,
       image: getImage,
       description: value,
     };
@@ -80,9 +93,10 @@ const Train = () => {
         if (response.data.message === "Successfully post train details.") {
           toast.success("Post successful.");
           formRef.current.reset();
+          router.push("/b2bdashboard/manage/train");
 
-          setGetImage([]);
-          setValue("");
+          // setGetImage([]);
+          // setValue("");
         }
         if (
           (response.data =
@@ -99,6 +113,9 @@ const Train = () => {
         setLoading(false);
       });
   };
+
+  console.log(travelFrom, travelTo, trainName);
+
   return (
     <B2BdashboardLayout>
       <MoveText />
@@ -111,11 +128,11 @@ const Train = () => {
             </h2>
             <div className="w-full mx-auto">
               <form ref={formRef} onSubmit={handleTrainData}>
-                 <div className={styles.formControl}>
-                 <div>
+                <div className={styles.formControl}>
+                  <div>
                     <label>Travel From City </label>
                     <input
-                      onChange={(e) => setTitle(e.target.value)}
+                      onChange={(e) => setTravelFrom(e.target.value)}
                       name="travelFromCity"
                       placeholder="Travel From City"
                       type="text"
@@ -125,7 +142,7 @@ const Train = () => {
                   <div>
                     <label>Travel To City </label>
                     <input
-                      onChange={(e) => setTitle(e.target.value)}
+                      onChange={(e) => setTravelTo(e.target.value)}
                       name="travelToCity"
                       placeholder="Travel To City"
                       type="text"
@@ -134,10 +151,10 @@ const Train = () => {
                   </div>
                 </div>
                 <div className={styles.formControl}>
-                 <div>
+                  <div>
                     <label> Train Name </label>
                     <input
-                      onChange={(e) => setTitle(e.target.value)}
+                      onChange={(e) => setTrainName(e.target.value)}
                       name="name"
                       placeholder="Train Name"
                       type="text"
@@ -163,8 +180,9 @@ const Train = () => {
                       className={styles.inputField}
                     >
                       <option selected value="Bangladesh">
-                        Bangladesh
+                        Select your country
                       </option>
+                      <option value="Bangladesh">Bangladesh</option>
                       <option value="Thailand">Thailand</option>
                       <option value="Malaysia">Malaysia</option>
                       <option value="Indonesia">Indonesia</option>
@@ -183,6 +201,9 @@ const Train = () => {
                       onChange={(e) => setCityName(e.target.value)}
                       className={styles.inputField}
                     >
+                      <option selected value="Dhaka">
+                        Select your city
+                      </option>
                       <option value="Dhaka">Dhaka</option>
                       <option value="Bangkok">Bangkok</option>
                       <option value="Tokyo">Tokyo</option>
@@ -199,45 +220,46 @@ const Train = () => {
                 </div>
                 <div className={styles.formControl}>
                   <div>
-                  <label htmlFor="">Choos a class</label>
-                      <select   onChange={(e) => setCityName(e.target.value)}
-                      className={styles.inputField}>
+                    <label htmlFor="">Choose a class</label>
+                    <select
+                      onChange={(e) => setClassType(e.target.value)}
+                      className={styles.inputField}
+                    >
                       <option value="AC_B">AC_B</option>
                       <option value="S_CHAIR">S_CHAIR</option>
                       <option value="F_BERTH">F_BERTH</option>
                       <option value="SHULOV">SHULOV</option>
                       <option value="SNIGDHA">SNIGDHA</option>
                       <option value="AC_CHAIR">AC_CHAIR</option>
-                      </select>
+                    </select>
                   </div>
                   <div>
                     <label> Journy Date </label>
                     <input
-                      onChange={(e) => setAddress(e.target.value)}
+                      onChange={(e) => setJourneyDate(e.target.value)}
                       name="jouryDate"
                       placeholder="Journy Date"
-                      type="text"
+                      type="date"
                       className={styles.inputField}
                     />
                   </div>
                 </div>
                 <div className={styles.formControl}>
-                  
                   <div>
                     <label> Seat Type </label>
                     <input
-                      onChange={(e) => setAddress(e.target.value)}
+                      onChange={(e) => setSeatType(e.target.value)}
                       name="address"
                       placeholder=" Seat Type "
                       type="text"
                       className={styles.inputField}
                     />
                   </div>
-                    
+
                   <div>
-                    <label>DEPARTURE TIME </label>
+                    <label>Departure Time </label>
                     <input
-                      onChange={(e) => setAddress(e.target.value)}
+                      onChange={(e) => setDepartureTime(e.target.value)}
                       name="address"
                       placeholder="DEPARTURE TIME "
                       type="text"
@@ -247,9 +269,9 @@ const Train = () => {
                 </div>
                 <div className={styles.formControl}>
                   <div>
-                    <label>ARRIVAL TIME</label>
+                    <label>Arrival Time</label>
                     <input
-                      onChange={(e) => setCategoryType(e.target.value)}
+                      onChange={(e) => setArrivalTime(e.target.value)}
                       name="category"
                       placeholder="ARRIVAL TIME"
                       type="text"
@@ -271,7 +293,7 @@ const Train = () => {
                   <div>
                     <label>Starting Point </label>
                     <input
-                      onChange={(e) => setCategoryType(e.target.value)}
+                      onChange={(e) => setStartingPoint(e.target.value)}
                       name="category"
                       placeholder="Starting Point"
                       type="text"
@@ -282,7 +304,7 @@ const Train = () => {
                   <div>
                     <label>End Point</label>
                     <input
-                      onChange={(e) => setProductCategory(e.target.value)}
+                      onChange={(e) => setEndPoint(e.target.value)}
                       name="productCategory"
                       placeholder="End Point "
                       type="text"
@@ -290,7 +312,7 @@ const Train = () => {
                     />
                   </div>
                 </div>
-                <div className={styles.formControl}>
+                {/* <div className={styles.formControl}>
                   <div>
                     <label>Date</label>
                     <input
@@ -301,9 +323,8 @@ const Train = () => {
                       className={styles.inputField}
                     />
                   </div>
-                 
-                </div>
-               
+                </div> */}
+
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
                     {getFile[0]?.name ? (

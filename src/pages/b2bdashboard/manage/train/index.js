@@ -41,11 +41,7 @@ const Train = ({ data }) => {
         }
         swal("Deleted!", "Package delete successful.", "success");
       } catch (error) {
-        swal(
-          "Error",
-          "An error occurred while deleting the package.",
-          "error"
-        );
+        swal("Error", "An error occurred while deleting the package.", "error");
       }
     }
   };
@@ -138,7 +134,9 @@ const Train = ({ data }) => {
                   <td>পবিত্র কোরআনুল কারিমে আল্লাহ তায়ালা বলেন</td>
                   <td>20-05-23</td>
                   <td>
-                    <Link href="/b2bdashboard/manage/train/update">
+                    <Link
+                      href={`/b2bdashboard/manage/train/update?id=${data._id}`}
+                    >
                       <FaEdit className={style.editIcon} />
                     </Link>
                   </td>

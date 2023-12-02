@@ -35,6 +35,7 @@ const BenefitUmrah = ( ) => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
+      setLoading(true)
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -43,6 +44,7 @@ const BenefitUmrah = ( ) => {
       const data = await response.json();
       if (data.message === "success") {
         setGetImage(data.imageLinks);
+        setLoading(false)
       }
     } catch (error) {
       console.error("Error uploading file:", error);

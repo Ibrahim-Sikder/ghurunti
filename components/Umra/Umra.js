@@ -12,6 +12,7 @@ import {
 } from "@mui/icons-material";
 
 const Umra = () => {
+  const [packageType, setPackageType] = useState("Hajj Package")
   const [activeHajjButton, setActiveHajjButton] = useState();
   const handleActiveButton = () => {
     setActiveHajjButton(!activeHajjButton);
@@ -19,6 +20,7 @@ const Umra = () => {
   return (
     <section>
       {/* banner */}
+      
       <div className={style.bannerWrap}>
         <h2>Welcome to Ghuronti! Find Tours, Flights & Hotels Packages</h2>
         <div className={style.heroBoxMain}>
@@ -297,11 +299,11 @@ const Umra = () => {
 
           <div className={style.hajjUmrapackageWrap}>
             <div className={style.hajjUmraPackage}>
-                <select>
+                <select onChange={(e)=>setPackageType(e.target.value)}>
                   <option value="Hajj Package">Hajj Package</option>
                   <option value="Umrah Package">Umrah Package</option>
                 </select>
-                <Link href='/hajj'>
+                <Link href={`/hajj?type=${packageType}`}>
                 <div className={style.searchBtnWrap}>
                   <button> Search</button>
                   <Search className={style.searchIcon}/> 
@@ -317,7 +319,6 @@ const Umra = () => {
 
         </div>
       </div>
-
       <UmraPackage />
     </section>
   );

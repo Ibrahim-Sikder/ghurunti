@@ -41,11 +41,7 @@ const Benefit = ({ data }) => {
         }
         swal("Deleted!", "Package delete successful.", "success");
       } catch (error) {
-        swal(
-          "Error",
-          "An error occurred while deleting the package.",
-          "error"
-        );
+        swal("Error", "An error occurred while deleting the package.", "error");
       }
     }
   };
@@ -138,7 +134,9 @@ const Benefit = ({ data }) => {
                   <td>পবিত্র কোরআনুল কারিমে আল্লাহ তায়ালা বলেন</td>
                   <td>20-05-23</td>
                   <td>
-                    <Link href="/b2bdashboard/manage/umrah/update">
+                    <Link
+                      href={`/b2bdashboard/manage/umrah-package/update?id=${data._id}`}
+                    >
                       <FaEdit className={style.editIcon} />
                     </Link>
                   </td>
@@ -206,7 +204,7 @@ const Benefit = ({ data }) => {
         <div className="flex items-center justify-between px-8 mb-5">
           <TextField id="outlined-basic" label="Search " variant="outlined" />
           <div className={style.addHotel}>
-            <Link href="/b2bdashboard/manage/umrah/add">
+            <Link href="/b2bdashboard/manage/umrah-package/add">
               <button>
                 <span className="text-xl font-bold">+</span> Add Umrah Package{" "}
               </button>

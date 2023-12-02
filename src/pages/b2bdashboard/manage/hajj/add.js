@@ -2,7 +2,7 @@ import styling from "../../profile.module.css";
 import dynamic from "next/dynamic";
 import MoveText from "../../../../../components/UserDashBoard/MoveText/MoveText";
 import styles from "../manage.module.css";
-import { CloudUpload,Checklist } from "@mui/icons-material";
+import { CloudUpload, Checklist } from "@mui/icons-material";
 import B2BdashboardLayout from "../../../../../components/Layout/B2BdashboardLayout/B2BdashboardLayout";
 import React, { useState, useEffect } from "react";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
@@ -10,11 +10,12 @@ import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRef } from "react";
-const HajjUmrah = ({ onChange }) => {
-  const [getFile, setGetFile] = useState({});
-  const [getImage, setGetImage] = useState([]);
+import { useRouter } from "next/router";
+const HajjUmrah = () => {
   const [editorValue, setEditorValue] = useState("");
   const [quill, setQuill] = useState(null);
+  const [getFile, setGetFile] = useState({});
+  const [getImage, setGetImage] = useState([]);
   const [value, setValue] = useState("");
   const [hajjPackage, setHajjPackage] = useState(null);
   const [title, setTitle] = useState(null);
@@ -27,7 +28,7 @@ const HajjUmrah = ({ onChange }) => {
   // const [description, setDescription] = useState(null);
   const [loading, setLoading] = useState(false);
   const formRef = useRef();
-
+const router = useRouter()
   let files;
   const handlePdf = async (e) => {
     setGetFile(e.target.files);
@@ -37,6 +38,7 @@ const HajjUmrah = ({ onChange }) => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
+      setLoading(true)
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -45,14 +47,13 @@ const HajjUmrah = ({ onChange }) => {
       const data = await response.json();
       if (data.message === "success") {
         setGetImage(data.imageLinks);
-        // console.log(data.imageLinks);
+        setLoading(false)
       }
     } catch (error) {
       console.error("Error uploading file:", error);
     }
   };
 
-  
   // const onChanges = (content, delta, source, editor) => {
   //   setValue(content);
   //   // You can perform any additional logic here if needed
@@ -71,7 +72,6 @@ const HajjUmrah = ({ onChange }) => {
       popular_hajj_package: popularHajjPackage,
       image: getImage,
       description: value,
-      hajj_category:"Hajj Package Data Input"
     };
     setLoading(true);
     axios
@@ -81,6 +81,7 @@ const HajjUmrah = ({ onChange }) => {
         if (response.data.message === "Post hajj package details.") {
           toast.success("Post successful.");
           formRef.current.reset();
+          router.push("/b2bdashboard/manage/hajj");
           setHajjPackage(null);
           setTitle(null);
           setSubTitle(null);
@@ -200,65 +201,69 @@ const HajjUmrah = ({ onChange }) => {
                 <div className={styles.formControl}>
                   <div onClick={() => window.my_modal_3.showModal()}>
                     <label>Requirement List </label>
-                   <div   className={styles.requirementField}>
-                   <input
-                      onChange={(e) => setRequirementList(e.target.value)}
-                      name="requirement"
-                      placeholder="Requirement List "
-                      type="text"
-                     
-                    />
-                    <Checklist className={styles.requirementIcon}/>
-
-
-                   </div>
-                   <div className={styles.modalWrap} >
-                <dialog id="my_modal_3" className={styles.requirementModal}>
-                  <form method="dialog" className="modal-box">
-                    <button className={styles.hotelModalCloseBtn2}>✕</button>
-                    <div className='my-3 '>
-                    <label> Requirement List </label>
-                    <select
-                     className={styles.inputField}
-                    >
-                      <option value="  Hajj Visa Requirement List">
-                       Hajj Visa Requirement List
-                      </option>
-                      <option value="Umrah Visa Requirement List">
-                       Umrah Visa Requirement List
-                      </option>
-                    </select>
-                  </div>
-                  <div className={styles.formControl}>
-                  <div>
-                    <ReactQuill
-                      value={value}
-                      onChange={setValue}
-                      modules={{
-                        toolbar: [
-                          [{ font: [] }],
-                          [{ size: ["small", false, "large", "huge"] }],
-                          [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                          [{ color: [] }, { background: [] }],
-                          [{ align: [] }],
-                          [{ list: "ordered" }, { list: "bullet" }],
-                          ["bold", "italic", "underline"],
-                          [{ align: [] }],
-                          ["link", "image"],
-                          ["video"],
-                          ["clean"],
-                          ["blockquote", "code-block"],
-                          ["direction"],
-                          ["formula"],
-                          ["strike"],
-                        ],
-                      }}
-                    />
-                  </div>
-                </div>
-                  </form>
-                </dialog>
-              </div>
+                    <div className={styles.requirementField}>
+                      <input
+                        onChange={(e) => setRequirementList(e.target.value)}
+                        name="requirement"
+                        placeholder="Requirement List "
+                        type="text"
+                      />
+                      <Checklist className={styles.requirementIcon} />
+                    </div>
+                    <div className={styles.modalWrap}>
+                      <dialog
+                        id="my_modal_3"
+                        className={styles.requirementModal}
+                      >
+                        <form method="dialog" className="modal-box">
+                          <button className={styles.hotelModalCloseBtn2}>
+                            ✕
+                          </button>
+                          <div className="my-3 ">
+                            <label> Requirement List </label>
+                            <select className={styles.inputField}>
+                              <option value="  Hajj Visa Requirement List">
+                                Hajj Visa Requirement List
+                              </option>
+                              <option value="Umrah Visa Requirement List">
+                                Umrah Visa Requirement List
+                              </option>
+                            </select>
+                          </div>
+                          <div className={styles.formControl}>
+                            <div>
+                              <ReactQuill
+                                value={value}
+                                onChange={setValue}
+                                modules={{
+                                  toolbar: [
+                                    [{ font: [] }],
+                                    [
+                                      {
+                                        size: ["small", false, "large", "huge"],
+                                      },
+                                    ],
+                                    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                                    [{ color: [] }, { background: [] }],
+                                    [{ align: [] }],
+                                    [{ list: "ordered" }, { list: "bullet" }],
+                                    ["bold", "italic", "underline"],
+                                    [{ align: [] }],
+                                    ["link", "image"],
+                                    ["video"],
+                                    ["clean"],
+                                    ["blockquote", "code-block"],
+                                    ["direction"],
+                                    ["formula"],
+                                    ["strike"],
+                                  ],
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </form>
+                      </dialog>
+                    </div>
                   </div>
                   <div>
                     <label>Popular Hajj Package </label>
@@ -270,7 +275,6 @@ const HajjUmrah = ({ onChange }) => {
                       className={styles.inputField}
                     />
                   </div>
-                 
                 </div>
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>

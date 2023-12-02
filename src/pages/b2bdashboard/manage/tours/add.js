@@ -10,6 +10,7 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useRouter } from "next/router";
 const Tours = () => {
   const [editorValue, setEditorValue] = useState("");
   const [quill, setQuill] = useState(null);
@@ -17,7 +18,7 @@ const Tours = () => {
   const [getFile, setGetFile] = useState({});
   const [getImage, setGetImage] = useState([]);
   const [value, setValue] = useState("");
-
+  const [travelFrom, setTravelFrom] = useState(null);
   const [title, setTitle] = useState(null);
   const [subTitle, setSubTitle] = useState(null);
   const [getDate, setGetDate] = useState(null);
@@ -34,9 +35,10 @@ const Tours = () => {
   const [time, setTime] = useState(null);
 
   const [loading, setLoading] = useState(false);
-  const formRef = useRef();
   const [child, setChild] = useState(0);
   const [adult, setAdult] = useState(0);
+  const formRef = useRef();
+  const router = useRouter()
 
   const childIncrement = () => {
     setChild(child + 1);
@@ -67,6 +69,7 @@ const Tours = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
+      setLoading(true)
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -75,7 +78,7 @@ const Tours = () => {
       const data = await response.json();
       if (data.message === "success") {
         setGetImage(data.imageLinks);
-        // console.log(data.imageLinks);
+        setLoading(false)
       }
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -90,11 +93,11 @@ const Tours = () => {
       journey_date: getDate,
       price: price,
       country_name: countryName,
-      travel_from: cityName,
+      travel_from: travelFrom,
       child: child,
       adult: adult,
       time: time,
-      // room_number: room,
+      city_name: cityName,
       included: included,
       excluded: excluded,
       itinary: itinary,
@@ -113,6 +116,7 @@ const Tours = () => {
         if (response.data.message === "Successfully tours details posted.") {
           toast.success("Post successful.");
           formRef.current.reset();
+          router.push("/b2bdashboard/manage/tours")
         }
         if (
           (response.data =
@@ -143,7 +147,7 @@ const Tours = () => {
                   <div>
                     <label>Travel From </label>
                     <input
-                      onChange={(e) => setTitle(e.target.value)}
+                      onChange={(e) => setTravelFrom(e.target.value)}
                       name="category"
                       placeholder="Travel From "
                       type="text"
@@ -153,15 +157,9 @@ const Tours = () => {
                   <div>
                     <label>Title </label>
                     <input
-<<<<<<< HEAD
-                    onChange={(e)=>setTitle(e.target.value)}
+                      onChange={(e) => setTitle(e.target.value)}
                       name="category"
                       placeholder="Title "
-=======
-                      onChange={(e) => setSubTitle(e.target.value)}
-                      name="productCategory"
-                      placeholder="Sub Title "
->>>>>>> 573258bd0a5f6bf5d243c20d382867dbd1e449ca
                       type="text"
                       className={styles.inputField}
                     />
@@ -181,15 +179,9 @@ const Tours = () => {
                   <div>
                     <label>Sub Title</label>
                     <input
-<<<<<<< HEAD
-                    onChange={(e)=>setSubTitle(e.target.value)}
+                      onChange={(e) => setSubTitle(e.target.value)}
                       name="productCategory"
                       placeholder="Sub Title "
-=======
-                      onChange={(e) => setPrice(e.target.value)}
-                      name="price"
-                      placeholder="Price"
->>>>>>> 573258bd0a5f6bf5d243c20d382867dbd1e449ca
                       type="text"
                       className={styles.inputField}
                     />
@@ -368,7 +360,7 @@ const Tours = () => {
                   <div>
                     <label>Price </label>
                     <input
-                    onChange={(e)=>setPrice(e.target.value)}
+                      onChange={(e) => setPrice(e.target.value)}
                       name="price"
                       placeholder="Price"
                       type="text"

@@ -11,6 +11,7 @@ import TextEditor from "../../../../../components/TextEditor/TextEditor";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRef } from "react";
+import { useRouter } from "next/router";
 
 const Add = () => {
   const [editorValue, setEditorValue] = useState("");
@@ -28,6 +29,7 @@ const Add = () => {
 
   const [loading, setLoading] = useState(false);
   const formRef = useRef();
+  const router = useRouter();
 
   let files;
   const handlePdf = async (e) => {
@@ -38,6 +40,7 @@ const Add = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
+      setLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -46,6 +49,7 @@ const Add = () => {
       const data = await response.json();
       if (data.message === "success") {
         setGetImage(data.imageLinks);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -63,7 +67,7 @@ const Add = () => {
       price: price,
       image: getImage,
       description: value,
-      category:"Umrah Package"
+      category: "Umrah Package",
     };
     setLoading(true);
     axios
@@ -73,6 +77,7 @@ const Add = () => {
         if (response.data.message === "Successfully post umrah details.") {
           toast.success("Post successful.");
           formRef.current.reset();
+          router.push("/b2bdashboard/manage/umrah-package")
         }
         if (
           (response.data =
