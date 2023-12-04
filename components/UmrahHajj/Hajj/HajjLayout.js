@@ -38,8 +38,8 @@ const HajjLayout = ({ children }) => {
   // Get the type value from the queryString
   const type = getTypeFromQueryString(queryString);
 
-  console.log(type);
-  const handleGetHajjData = (e) => {};
+ 
+  // const handleGetHajjData = (e) => {};
 
   useEffect(() => {
     let data;
@@ -259,9 +259,9 @@ const HajjLayout = ({ children }) => {
                         </AccordionSummary>
                         <AccordionDetails>
                           <Typography
-                            onClick={() =>
-                              handleGetHajjData("Economy Hajj Package")
-                            }
+                            // onClick={() =>
+                            //   handleGetHajjData("Economy Hajj Package")
+                            // }
                             className={style.hajjTypograpy}
                           >
                             <HajjActiveLink href="/hajj/economy">
@@ -270,9 +270,9 @@ const HajjLayout = ({ children }) => {
                           </Typography>
 
                           <Typography
-                            onClick={() =>
-                              handleGetHajjData("Non Shifting Hajj Package")
-                            }
+                            // onClick={() =>
+                            //   handleGetHajjData("Non Shifting Hajj Package")
+                            // }
                             className={style.hajjTypograpy}
                           >
                             <HajjActiveLink href="/hajj/nonshifting">
@@ -281,9 +281,9 @@ const HajjLayout = ({ children }) => {
                           </Typography>
 
                           <Typography
-                            onClick={() =>
-                              handleGetHajjData("Shifting Hajj Package")
-                            }
+                            // onClick={() =>
+                            //   handleGetHajjData("Shifting Hajj Package")
+                            // }
                             className={style.hajjTypograpy}
                           >
                             <HajjActiveLink href="/hajj/shifting">

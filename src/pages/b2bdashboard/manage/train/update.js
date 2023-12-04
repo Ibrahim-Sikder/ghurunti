@@ -102,7 +102,9 @@ const Update = () => {
       price: price || specificPackage.price,
       starting_point: startingPoint || specificPackage.starting_point,
       end_point: endPoint || specificPackage.end_point,
-      image: getImage || specificPackage.image[0],
+      image: getImage.length !== 0
+        ? getImage
+        : specificPackage?.image?.[0],
       description: value || specificPackage.description,
     };
     setLoading(true);

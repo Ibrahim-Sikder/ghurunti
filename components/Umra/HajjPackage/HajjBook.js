@@ -5,6 +5,8 @@ import style from "../../Vissa/VisaRequest/VisaRequest.module.css";
 import styling from "../UmrahBook/UmrahBook.module.css";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 const HajjBook = () => {
   const [getFile, setGetFile] = useState({});
   const [getPdfLinks, setGetPdfLinks] = useState([]);
@@ -19,6 +21,41 @@ const HajjBook = () => {
   const [requirements, setRequirements] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [specificPackage, setSpecificPackage] = useState({});
+  const router = useRouter();
+  const { id, type } = router.query;
+
+  useEffect(() => {
+    // Make sure id is defined before making the fetch request
+    if (id && type === "umrah") {
+      setLoading(true);
+      fetch(`http://localhost:5000/api/v1/umrah/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setSpecificPackage(data.getPackage);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [id]);
+  useEffect(() => {
+    // Make sure id is defined before making the fetch request
+    if (id && type === "hajj") {
+      setLoading(true);
+      fetch(`http://localhost:5000/api/v1/hajj/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setSpecificPackage(data.getPackage);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [id]);
+
   let files;
   const handlePdf = async (e) => {
     setGetFile(e.target.files);
@@ -28,7 +65,7 @@ const HajjBook = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
-      setLoading(true)
+      setLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -37,7 +74,7 @@ const HajjBook = () => {
       const data = await response.json();
       if (data.message === "success") {
         setGetPdfLinks(data.imageLinks);
-        setLoading(false)
+        setLoading(false);
         // console.log(data.imageLinks);
       }
     } catch (error) {
@@ -63,7 +100,7 @@ const HajjBook = () => {
     axios
       .post("http://localhost:5000/api/v1/umrah", data)
       .then(function (response) {
-        console.log(response.data)
+        console.log(response.data);
         if (response.data.message === "Send request for umrah.") {
           toast.success(
             "Confirmation request accepted. Please wait to confirm."
@@ -77,6 +114,8 @@ const HajjBook = () => {
         setLoading(false);
       });
   };
+
+  console.log(specificPackage)
   return (
     <section>
       <div className={style.visaRequestWrap}>

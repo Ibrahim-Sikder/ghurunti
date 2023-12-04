@@ -117,7 +117,9 @@ const ToursUpdate = () => {
       product_category: productCategory || specificPackage.product_category,
       price_low_to_hight: priceLowToHigh || specificPackage.price_low_to_hight,
       price_hight_to_low: priceHighToLow || specificPackage.price_hight_to_low,
-      image:  specificPackage?.image[0] || getImage,
+      image: getImage.length !== 0
+        ? getImage
+        : specificPackage?.image?.[0],
       description: value || specificPackage.description,
     };
     setLoading(true);

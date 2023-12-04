@@ -40,7 +40,7 @@ const Update = () => {
         .then((res) => res.json())
         .then((data) => {
           setSpecificPackage(data.getPackage);
-          console.log(data);
+          // console.log(data);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
@@ -50,6 +50,7 @@ const Update = () => {
 
   let files;
   const handlePdf = async (e) => {
+    console.log(e);
     setGetFile(e.target.files);
     try {
       files = e.target.files;
@@ -88,8 +89,9 @@ const Update = () => {
       price: price || specificPackage.price,
       day_night: dayNight || specificPackage.day_night,
       requirement_list: requirementList || specificPackage.requirement_list,
-      popular_hajj_package:popularHajjPackage || specificPackage.popular_hajj_package,
-      image: getImage || specificPackage.image[0],
+      popular_hajj_package:
+        popularHajjPackage || specificPackage.popular_hajj_package,
+      image: getImage.length !== 0 ? getImage : specificPackage?.image?.[0],
       description: value || specificPackage.description,
     };
     setLoading(true);
@@ -236,14 +238,15 @@ const Update = () => {
                       type="text"
                       className={styles.inputField}
                       defaultValue={specificPackage.popular_hajj_package}
-                      
                     />
                   </div>
                 </div>
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
                     {getFile[0]?.name || specificPackage?.image?.length > 0 ? (
-                      <label for="files">{getFile[0]?.name || specificPackage?.image[0]}</label>
+                      <label for="files">
+                        {getFile[0]?.name || specificPackage?.image[0]}
+                      </label>
                     ) : (
                       <label for="files">
                         {" "}
@@ -255,7 +258,6 @@ const Update = () => {
                     <input
                       onChange={handlePdf}
                       name="image"
-                      // accept=".jpg/.jpeg/.png"
                       className={styles.inputField}
                       type="file"
                       id="files"

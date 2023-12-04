@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import style from "./HotelSearch.module.css";
 import Image from "next/image";
-import hotel from "../../public/assets/hotelll.jpeg";
-import hotel2 from "../../public/assets/hotelll2.jpg";
-import hotel3 from "../../public/assets/hotell3.jpeg";
-import hotel4 from "../../public/assets/hotell4.jpeg";
-import hotel5 from "../../public/assets/hotell5.jpeg";
-import hotel6 from "../../public/assets/hotell6.jpeg";
 import { FaStar, FaMapMarkerAlt } from "react-icons/fa";
 import TextField from "@mui/material/TextField";
 import Card from "@mui/material/Card";
@@ -14,86 +8,23 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchHotelData } from "@/Redux/features/hotelSlice";
+import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { Slider } from "@mui/material";
+import axios from "axios";
 
-function valuetext(value) {
-  return `${value}`;
-}
 
-const minDistance = 10;
+const minDistance = 5;
 const HotelSearch = () => {
   const hotelDetailsData = useSelector((state) => state.hotel.hotelDetailsData);
+
+  const filterData = useSelector((state) => state.hotel.filterData);
   const isLoading = useSelector((state) => state.hotel.isLoading);
   const [hotelDataWithFilter, setHotelDataWithFilter] = useState(
     hotelDetailsData?.getPackage
   );
-  // const [highestPrice, setHighestPrice] = useState(null);
+
   const [reload, setReload] = useState(false);
-  // const hotelData = [
-  //   {
-  //     id: 1,
-  //     title: "Bashati Bay Resort",
-  //     image: hotel,
-  //     address:
-  //       " Plot No.33, Block-A, Kolatoli Road, Sugandha Point Cox'x Bazar",
-  //     price: 4500,
-  //     lastPrice: 4000,
-  //     night: 3,
-  //   },
-  //   {
-  //     id: 1,
-  //     title: "Bashati Bay Resort",
-  //     image: hotel3,
-  //     address:
-  //       " Plot No.33, Block-A, Kolatoli Road, Sugandha Point Cox'x Bazar",
-  //     price: 4500,
-  //     lastPrice: 4000,
-  //     night: 3,
-  //   },
-  //   {
-  //     id: 1,
-  //     title: "Bashati Bay Resort",
-  //     image: hotel2,
-  //     address:
-  //       " Plot No.33, Block-A, Kolatoli Road, Sugandha Point Cox'x Bazar",
-  //     price: 4500,
-  //     lastPrice: 4000,
-  //     night: 3,
-  //   },
-  //   {
-  //     id: 1,
-  //     title: "Bashati Bay Resort",
-  //     image: hotel4,
-  //     address:
-  //       " Plot No.33, Block-A, Kolatoli Road, Sugandha Point Cox'x Bazar",
-  //     price: 4500,
-  //     lastPrice: 4000,
-  //     night: 3,
-  //   },
-  //   {
-  //     id: 1,
-  //     title: "Bashati Bay Resort",
-  //     image: hotel5,
-  //     address:
-  //       " Plot No.33, Block-A, Kolatoli Road, Sugandha Point Cox'x Bazar",
-  //     price: 4500,
-  //     lastPrice: 4000,
-  //     night: 3,
-  //   },
-  //   {
-  //     id: 1,
-  //     title: "Bashati Bay Resort",
-  //     image: hotel6,
-  //     address:
-  //       " Plot No.33, Block-A, Kolatoli Road, Sugandha Point Cox'x Bazar",
-  //     price: 4500,
-  //     lastPrice: 4000,
-  //     night: 3,
-  //   },
-  // ];
 
   if (isLoading) {
     return (
@@ -152,46 +83,40 @@ const HotelSearch = () => {
     }
   }, [highPrice, lowPrice, reload, hotelDetailsData]);
 
-  const [value, setValue] = useState([50, 550]);
+  const [value, setValue] = useState([0, 500]);
 
-  const handleChange = (event, newValue, activeThumb) => {
+  const handleChange = async (event, newValue, activeThumb) => {
     if (!Array.isArray(newValue)) {
       return;
     }
-  
+
     if (activeThumb === 0) {
       setValue([Math.min(newValue[0], value[1] - minDistance), value[1]]);
     } else {
       setValue([value[0], Math.max(newValue[1], value[0] + minDistance)]);
     }
-  
-    console.log(activeThumb);
-  
-    if (activeThumb) {
-      const filteredHotelData = hotelDataWithFilter?.filter((item) => {
-        return (
-          (item.lowest_price >= value[0] || value[0] === null) ||
-          (item.highest_price <= value[1] || value[1] === null)
-        );
-      });
-    
-      setHotelDataWithFilter(filteredHotelData);
-    } else {
-      setHotelDataWithFilter(hotelDetailsData?.getPackage);
+
+    if (value) {
+      const data = {
+        price: newValue,
+        country_name: filterData.country_name,
+        city_name: filterData.city_name,
+        check_in_date: filterData.check_in_date,
+        check_out_date: filterData.check_out_date,
+        child: filterData.child,
+        adult: filterData.adult,
+        room_number: filterData.room_number,
+      };
+
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/hotel/get/packages/filter",
+        data
+      );
+
+      setHotelDataWithFilter(response.data.getPackage);
     }
-    
   };
-  
 
-  // console.log(value);
-
-  // const getArrivalLabel = () => {
-
-  //   console.log("filteredHotelData")
-  // };
-
-  console.log(value);
-  console.log(hotelDataWithFilter);
   return (
     <section>
       <div className={style.searchDetailHead}>
@@ -236,67 +161,73 @@ const HotelSearch = () => {
               </button>
             </div>
           </div>
-          <div>
-            {hotelDataWithFilter?.map((hotel) => (
-              <div key={hotel.id} className={style.SearchHotel}>
-                <div className={style.detailBoxWrap}>
-                  <div className={style.searchLeftSideImg}>
-                    <Image
-                      loading="lazy"
-                      src={hotel?.image[0]}
-                      alt="Picture of the author"
-                      className={style.searchLeftImg}
-                      height={100}
-                      width={100}
-                    />
-                  </div>
-                  <div className={style.searchBoxWrap}>
-                    <div>
-                      <h2 className="text-2xl font-bold ">{hotel.title} </h2>
-                      <div className="flex my-3">
-                        <FaStar className="text-[#4AB449]" />
-                        <FaStar className="text-[#4AB449] mx-[3px]" />
-                        <FaStar className="text-[#4AB449]" />
-                      </div>
-                      <div className="flex items-center justify-center">
-                        <FaMapMarkerAlt className="mr-[5px] text-[#4AB449]" />
-                        <span className="md:w-[350px]">{hotel.address}</span>
-                      </div>
+          {hotelDataWithFilter.length === 0 ? (
+            <div className="flex justify-center py-20">
+              No matching hotel package found.
+            </div>
+          ) : (
+            <div>
+              {hotelDataWithFilter?.map((hotel) => (
+                <div key={hotel.id} className={style.SearchHotel}>
+                  <div className={style.detailBoxWrap}>
+                    <div className={style.searchLeftSideImg}>
+                      <Image
+                        loading="lazy"
+                        src={hotel?.image[0]}
+                        alt="Picture of the author"
+                        className={style.searchLeftImg}
+                        height={100}
+                        width={100}
+                      />
                     </div>
-                    <div className={style.priceBlock}>
+                    <div className={style.searchBoxWrap}>
                       <div>
-                        <span className={style.starFrom}>Starts from</span>
-                        <span>
-                          <del>BDT {hotel.price}</del>
-                          <span className={style.starFrom}>/Night</span>
-                        </span>
+                        <h2 className="text-2xl font-bold ">{hotel.title} </h2>
+                        <div className="flex my-3">
+                          <FaStar className="text-[#4AB449]" />
+                          <FaStar className="text-[#4AB449] mx-[3px]" />
+                          <FaStar className="text-[#4AB449]" />
+                        </div>
+                        <div className="flex items-center justify-center">
+                          <FaMapMarkerAlt className="mr-[5px] text-[#4AB449]" />
+                          <span className="md:w-[350px]">{hotel.address}</span>
+                        </div>
+                      </div>
+                      <div className={style.priceBlock}>
                         <div>
+                          <span className={style.starFrom}>Starts from</span>
                           <span>
-                            <small className="text-[#4AB449] ">44% OFF</small>
-                            <strong>
-                              BDT {hotel.lastPrice}
-                              <span className={style.starFrom}>Night</span>
-                            </strong>
+                            <del>BDT {hotel.price}</del>
+                            <span className={style.starFrom}>/Night</span>
                           </span>
+                          <div>
+                            <span>
+                              <small className="text-[#4AB449] ">44% OFF</small>
+                              <strong>
+                                BDT {hotel.lastPrice}
+                                <span className={style.starFrom}>Night</span>
+                              </strong>
+                            </span>
+                          </div>
+                          <div>
+                            <span className="text-xs">
+                              Price Includes VAT & Tax{" "}
+                            </span>
+                          </div>
+                          <Link href="/hotel/hotelDetail">
+                            <button className={style.bookBtn}>
+                              See Details{" "}
+                            </button>
+                          </Link>
                         </div>
-                        <div>
-                          <span className="text-xs">
-                            Price Includes VAT & Tax{" "}
-                          </span>
-                        </div>
-                        <Link href="/hotel/hotelDetail">
-                          <button className={style.bookBtn}>
-                            See Details{" "}
-                          </button>
-                        </Link>
                       </div>
                     </div>
                   </div>
+                  <div></div>
                 </div>
-                <div></div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
         <div className={style.hotelSearchRightSide}>
           <div className={style.propertyWrap}>
