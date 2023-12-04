@@ -129,7 +129,12 @@ const ToursSearch = () => {
                     <h1 className="ml-10 mr-10">
                       high {tour.price_hight_to_low}
                     </h1>
+                    <Link href={`/tours/book?id=${tour._id}`}>
+                        {" "}
+                        <button>Reserve</button>
+                      </Link>
                   </div>
+                  
                 ))}
                 <div className={style.toursCardRight}>
                   <h6 className="text-xl">
@@ -163,10 +168,7 @@ const ToursSearch = () => {
                     <div className={style.cardPrice}>
                       <p>$989</p>
                       <p>Per adults</p>
-                      <Link href="/tours/book">
-                        {" "}
-                        <button>Reserve</button>
-                      </Link>
+                      
                     </div>
                   </div>
                 </div>

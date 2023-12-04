@@ -26,8 +26,30 @@ import "lightgallery/css/lg-zoom.css";
 import "lightgallery/css/lg-thumbnail.css";
 import lgThumbnail from "lightgallery/plugins/thumbnail";
 import lgZoom from "lightgallery/plugins/zoom";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const ToursReserve = () => {
+
+  const router = useRouter();
+  const { id } = router.query;
+
+  const [specificPackage, setSpecificPackage] = useState({});
+  useEffect(() => {
+    // Make sure id is defined before making the fetch request
+    if (id) {
+      fetch(`http://localhost:5000/api/v1/tours/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setSpecificPackage(data.getPackage);
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [id]);
   return (
     <div className={style.TourReserveWrap}>
       <div className={style.galleryWrap}>

@@ -9,6 +9,7 @@ import SelectedSeats from "../../Train/SearcTrain/Seats/SelectedSeat";
 import Seats from "../../Train/SearcTrain/Seats/Seats";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import useModifyModal from "../../Common/Hooks/useModifyModal";
 const TrainSearch = () => {
   const trainDetailsData = useSelector((state) => state.train.trainDetailsData);
   // const isLoading = useSelector((state) => state.train.isLoading);
@@ -21,16 +22,7 @@ const TrainSearch = () => {
   const handleShowDetails = () => {
     setShowDetails(!showDetails);
   };
-  // const busData = [
-  //   {
-  //     id: 1,
-  //     name: "MAHANAGAR PROVATI",
-  //     price: 900.0,
-  //     departureTime: "10.30AM",
-  //     arrivalTime: "12.20PM",
-  //     seats: 33,
-  //   },
-  // ];
+  const modifyModal = useModifyModal()
 
   const [selectedSeats, setSelectedSeats] = useState([]);
 
@@ -193,9 +185,9 @@ const TrainSearch = () => {
             <FaAngleRight className={style.trainIcon} />
           </div>
         </div>
-        <Link href={"/train"}>
-          <button className={style.modifyBtn}>Modify Search</button>
-        </Link>
+        {/* <Link href={"/train"}> */}
+          <button onClick={()=>modifyModal.onOpen("Train Modify")} className={style.modifyBtn}>Modify Search</button>
+        {/* </Link> */}
       </div>
 
       <div className={style.busWrap}>
@@ -322,7 +314,7 @@ const TrainSearch = () => {
           </div>
           <div className={style.searchBusRightSide}>
             <div>
-              {trainDataWithFilter.map((bus) => (
+              {trainDataWithFilter?.map((bus) => (
                 <div key={bus._id} className={style.allBusCardWrap}>
                   <div className={style.busCard}>
                     <div className={style.busDetail}>
