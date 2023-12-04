@@ -7,15 +7,38 @@ import { LocalPhone } from "@mui/icons-material";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import SingleVisaSearch from "./SingleVisaSearch";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Cookies from "js-cookie";
+import { useContext } from "react";
+import { APIContext } from "@/Context/ApiContext";
+import { fetchVisaRequirementData } from "@/Redux/features/visaRequirementSlice";
 
 const VisaSearch = () => {
+  const visaType = Cookies.get("v_t");
+  const [profession, setProfession] = useState(visaType);
   const [showDetail, setShowDetail] = useState(true);
   const visaDetailsData = useSelector((state) => state.visa.visaDetailsData);
-  const [profession, setProfession] = useState("Business Man");
   const handleShowDetail = () => {
     setShowDetail((showDetail) => !showDetail);
   };
+
+  const dispatch = useDispatch();
+
+  const handleVisaRequirement = (e) => {
+    Cookies.set("v_t", e);
+    setProfession(e);
+    const data = {
+      visa_type: e || visaType,
+    };
+
+    dispatch(fetchVisaRequirementData(data));
+  };
+
+  // console.log(requirementDetails);
+  const visaRequirementData = useSelector(
+    (state) => state["visa-rq"].visaRequirementData
+  );
+  console.log(visaRequirementData);
 
   return (
     <div>
@@ -102,23 +125,41 @@ const VisaSearch = () => {
                   className={style.professionSelect}
                   onChange={(e) => {
                     const classes = e.target.value;
-                    setProfession(classes);
+                    handleVisaRequirement(classes);
                   }}
                 >
-                  <option value="Govt. Job Holder">Govt. Job Holder</option>
+                  {/* <option value="Govt. Job Holder">Govt. Job Holder</option>
                   <option value="Private Job Holder">Private Job Holder</option>
                   <option value="Student">Student</option>
                   <option value="Non Student">Non Student</option>
                   <option value="House Wife">House Wife </option>
                   <option value="Advocate Lawyer">Advocate Lawyer </option>
                   <option value="Doctor">Doctor </option>
-                  <option value="Unemployment">Unemployment </option>
-                  <option value="Business Man">Business Man </option>
+                  <option value="Unemployment">Unemployment </option> */}
+                  <option
+                    selected={visaType === "Tourist Visa" ? true : false}
+                    value="Tourist Visa"
+                  >
+                    Tourist Visa{" "}
+                  </option>
+                  <option
+                    selected={visaType === "Student Visa" ? true : false}
+                    value="Student Visa"
+                  >
+                    Student Visa{" "}
+                  </option>
+                  <option
+                    selected={visaType === "Business Visa" ? true : false}
+                    value="Business Visa"
+                  >
+                    Business Visa{" "}
+                  </option>
                 </select>
               </div>
 
               <h2 className={style.selectedProfession}> {profession}</h2>
-              <div>
+              <div>{visaRequirementData?.requirements}</div>
+              {/* <div>
                 <div className={style.visaRule}>
                   <Beenhere className={style.checkIcon} />
                   <p>
@@ -141,7 +182,7 @@ const VisaSearch = () => {
                     the passport)
                   </p>
                 </div>
-              </div>
+              </div> */}
               <div>
                 <div className={style.visaRule}>
                   <Beenhere className={style.checkIcon} />

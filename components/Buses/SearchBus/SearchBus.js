@@ -8,6 +8,7 @@ import Image from "next/image";
 import Seats from "../Seats/Seats";
 import SelectedSeats from "../Seats/SelectedSeat";
 import { useSelector } from "react-redux";
+import Link from "next/link";
 const SearchBus = () => {
   const busDetailsData = useSelector((state) => state.bus.busDetailsData);
   console.log(busDetailsData.getPackage);
@@ -58,7 +59,9 @@ const SearchBus = () => {
         <div>
           <h6>Total Seats Available: 275</h6>
         </div>
+        <Link href="/bus">
         <button className={style.modifyBtn}>Modify Search</button>
+        </Link>
       </div>
 
       <div className={style.busWrap}>

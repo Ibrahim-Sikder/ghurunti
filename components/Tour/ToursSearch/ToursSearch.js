@@ -7,9 +7,44 @@ import tours3 from "../../../public/assets/destination10.jpeg";
 import { StarOutline, Block, KeyboardBackspace } from "@mui/icons-material";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useState } from "react";
 const ToursSearch = () => {
   const toursDetailsData = useSelector((state) => state.tours.toursDetailsData);
-  console.log(toursDetailsData.getPackage)
+  // console.log(toursDetailsData.getPackage);
+  const [toursDataWithFilter, setToursDataWithFilter] = useState(
+    toursDetailsData?.getPackage
+  );
+  const [reload, setReload] = useState(false);
+  const handleFilterMethod = (e) => {
+    if (e === "Traveler Favorite") {
+      localStorage.removeItem("t_f");
+      setReload(!reload);
+    } else {
+      localStorage.setItem("t_f", e);
+      setReload(!reload);
+    }
+  };
+
+  const getMethod = localStorage.getItem("t_f");
+  useEffect(() => {
+    if (getMethod && getMethod === "Price (Low to high)") {
+      const lowestPriceData = toursDataWithFilter
+        .filter((item) => typeof item.price_low_to_hight === "number") // Exclude non-numeric prices
+        .sort((a, b) => a.price_low_to_hight - b.price_low_to_hight);
+      setToursDataWithFilter(lowestPriceData);
+    } else if (getMethod && getMethod === "Price (High to low)") {
+      const lowestPriceData = toursDataWithFilter
+        .filter((item) => typeof item.price_hight_to_low === "number") // Exclude non-numeric prices
+        .sort((a, b) => b.price_hight_to_low - a.price_hight_to_low);
+      setToursDataWithFilter(lowestPriceData);
+    } else {
+      setToursDataWithFilter(toursDetailsData?.getPackage);
+    }
+  }, [getMethod, reload]);
+
+  console.log(toursDataWithFilter);
+
   return (
     <div>
       <div className={style.toursDetialsWrap}>
@@ -20,15 +55,12 @@ const ToursSearch = () => {
             <input type="date" />
           </div>
           <div className={style.topBarCard}>
-            <select>
-              <option value="Traveller Favourite" selected>
+            <select onChange={(e) => handleFilterMethod(e.target.value)}>
+              <option value="Traveler Favorite" selected>
                 {" "}
-                Traveller Favourite
+                Traveler Favorite
               </option>
-              <option value=" Price (Low to high)">
-                {" "}
-                Price (Low to high){" "}
-              </option>
+              <option value="Price (Low to high)"> Price (Low to high) </option>
               <option value="Price (High to low)"> Price (High to low)</option>
               <option value="Duration "> Duration </option>
             </select>
@@ -80,15 +112,25 @@ const ToursSearch = () => {
                 120 places sorted by traveler favorites
               </h6>
               <div className={style.toursCard}>
-                <div className={style.toursCardLeft}>
+                {/* <div className={style.toursCardLeft}>
                   <Image
-                  loading="lazy"
+                    loading="lazy"
                     alt="tours"
                     src={tours}
                     width={500}
                     className={style.toursImg}
                   />
-                </div>
+                </div> */}
+                {toursDataWithFilter.map((tour) => (
+                  <div className="grid grid-cols-1">
+                    <h1 className="ml-10 mr-10">
+                      low {tour.price_low_to_hight}
+                    </h1>
+                    <h1 className="ml-10 mr-10">
+                      high {tour.price_hight_to_low}
+                    </h1>
+                  </div>
+                ))}
                 <div className={style.toursCardRight}>
                   <h6 className="text-xl">
                     Explore Dhaka City in a Local Way !!
@@ -132,7 +174,7 @@ const ToursSearch = () => {
               <div className={style.toursCard}>
                 <div className={style.toursCardLeft}>
                   <Image
-                  loading="lazy"
+                    loading="lazy"
                     alt="tours"
                     src={tours2}
                     width={500}
@@ -182,7 +224,7 @@ const ToursSearch = () => {
               <div className={style.toursCard}>
                 <div className={style.toursCardLeft}>
                   <Image
-                  loading="lazy"
+                    loading="lazy"
                     alt="tours"
                     src={tours3}
                     width={500}

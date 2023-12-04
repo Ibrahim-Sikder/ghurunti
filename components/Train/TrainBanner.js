@@ -21,6 +21,7 @@ import dynamic from "next/dynamic";
 import { useDispatch } from "react-redux";
 import { fetchTrainData } from "@/Redux/features/trainSlice";
 import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
 const BusBanner = () => {
   const [cityFrom, setCityFrom] = useState(null);
@@ -31,7 +32,7 @@ const BusBanner = () => {
   const [child, setChild] = useState(0);
   const [adult, setAdult] = useState(0);
   const [seat, setSeat] = useState("1 Class");
-
+const router = useRouter()
   const childIncrement = () => {
     setChild(child + 1);
   };
@@ -87,13 +88,13 @@ const BusBanner = () => {
     }
   };
 
-  const handleJourneyDate = (ranges) => {
-    // Assuming the DateRange component always provides a single range
-    const selectedRange = ranges.selection;
+  // const handleJourneyDate = (ranges) => {
+  //   // Assuming the DateRange component always provides a single range
+  //   const selectedRange = ranges.selection;
 
-    setRange([selectedRange]); // Update the state with the selected date range
-    setJourneyDate(`${format(selectedRange.startDate, "MM/dd/yyyy")}`);
-  };
+  //   setRange([selectedRange]); // Update the state with the selected date range
+  //   setJourneyDate(`${format(selectedRange.startDate, "MM/dd/yyyy")}`);
+  // };
 
   const dispatch = useDispatch();
   const handleTrainDetailsData = () => {
@@ -101,7 +102,7 @@ const BusBanner = () => {
       travel_from: cityFrom,
       travel_to: cityTo,
       journey_date: journeyDate,
-      seat_type: seatType,
+      class_type: seatType,
     };
 
     dispatch(fetchTrainData(data)).then((result) => {
@@ -432,13 +433,15 @@ const BusBanner = () => {
                   <h4>Journey Date </h4>
                   <div className="flex items-center justify-between ">
                     <input
-                      value={`${format(range[0].startDate, "MM/dd/yyyy")}`}
-                      readOnly
+                      // value={`${format(range[0].startDate, "MM/dd/yyyy")}`}
+
+                      type="date"
+                      onChange={(e)=>setJourneyDate(e.target.value)}
                     />
-                    <CalendarMonth className={style.calendarIcon} />
+                    {/* <CalendarMonth className={style.calendarIcon} /> */}
                   </div>
                 </div>
-                <div className={style.calendarTow} ref={refOne}>
+                {/* <div className={style.calendarTow} ref={refOne}>
                   {open && (
                     <DateRange
                       onChange={handleJourneyDate}
@@ -450,7 +453,7 @@ const BusBanner = () => {
                       className="calendarElement"
                     />
                   )}
-                </div>
+                </div> */}
               </div>
               <div className={style.formControl}>
                 <div className={style.package4}>

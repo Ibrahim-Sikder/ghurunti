@@ -23,6 +23,7 @@ import toursSlice from "../features/toursSlice";
 import busSlice from "../features/busSlice";
 import trainSlice from "../features/trainSlice";
 import migrations from "./migrates";
+import visaRequirementSlice from "../features/visaRequirementSlice";
 
 const middlewares = [];
 
@@ -42,13 +43,23 @@ const rootReducer = combineReducers({
   tours: toursSlice,
   bus: busSlice,
   train: trainSlice,
+  ["visa-rq"]: visaRequirementSlice,
 });
 
 const persistConfig = {
   key: "root",
   storage: storageSession,
   transforms: [encryptTransform],
-  whitelist: ["visa", "hajj", "umrah", "hotel", "tours", "bus", "train"],
+  whitelist: [
+    "visa",
+    "hajj",
+    "umrah",
+    "hotel",
+    "tours",
+    "bus",
+    "train",
+    "visa-rq",
+  ],
   version: 2, // Update this to the latest version
   migrate: createMigrate(migrations, { debug: true }),
 };
@@ -62,4 +73,3 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
- 
