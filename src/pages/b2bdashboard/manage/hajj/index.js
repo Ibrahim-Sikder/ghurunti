@@ -107,7 +107,7 @@ const Benefit = ({ data }) => {
     return (
       <>
         {packages?.map((data) => (
-          <div className="overflow-x-auto ">
+          <div key={data._id} className="overflow-x-auto ">
             <table className="table ">
               <thead className={style.tableWrap}>
                 <tr>

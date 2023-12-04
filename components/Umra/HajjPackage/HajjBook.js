@@ -39,7 +39,7 @@ const HajjBook = () => {
           console.error("Error fetching data:", error);
         });
     }
-  }, [id]);
+  }, [id, type]);
   useEffect(() => {
     // Make sure id is defined before making the fetch request
     if (id && type === "hajj") {
@@ -54,7 +54,7 @@ const HajjBook = () => {
           console.error("Error fetching data:", error);
         });
     }
-  }, [id]);
+  }, [id, type]);
 
   let files;
   const handlePdf = async (e) => {
@@ -115,7 +115,7 @@ const HajjBook = () => {
       });
   };
 
-  console.log(specificPackage)
+ 
   return (
     <section>
       <div className={style.visaRequestWrap}>

@@ -41,7 +41,7 @@ const ToursSearch = () => {
     } else {
       setToursDataWithFilter(toursDetailsData?.getPackage);
     }
-  }, [getMethod, reload]);
+  }, [getMethod, reload, toursDataWithFilter, toursDetailsData?.getPackage]);
 
   console.log(toursDataWithFilter);
 
@@ -122,7 +122,7 @@ const ToursSearch = () => {
                   />
                 </div> */}
                 {toursDataWithFilter.map((tour) => (
-                  <div className="grid grid-cols-1">
+                  <div key={tour._id} className="grid grid-cols-1">
                     <h1 className="ml-10 mr-10">
                       low {tour.price_low_to_hight}
                     </h1>

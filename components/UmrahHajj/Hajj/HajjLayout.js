@@ -78,7 +78,7 @@ const HajjLayout = ({ children }) => {
       //   toast.error("Please select a country and visa type.");
       // }
     });
-  }, []);
+  }, [dispatch, refreshParams]);
   // console.log(refreshParams);
   useEffect(() => {
     let data;
@@ -122,7 +122,7 @@ const HajjLayout = ({ children }) => {
       //   toast.error("Please select a country and visa type.");
       // }
     });
-  }, []);
+  }, [dispatch, refreshParams]);
   // const umrahDetailsData = useSelector((state) => state.umrah.umrahDetailsData);
   // console.log(umrahDetailsData)
 

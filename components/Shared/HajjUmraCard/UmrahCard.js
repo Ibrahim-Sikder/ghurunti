@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Beenhere } from "@mui/icons-material";
 import Image from "next/image";
@@ -79,7 +80,7 @@ const UmrahCard = ({ title, img }) => {
     return (
       <>
         {umrahDetailsData.map((data) => (
-          <div key={data.id} className={style.umrahPackageCardWrap}>
+          <div key={data._id} className={style.umrahPackageCardWrap}>
             <div className={style.packageCardWrap}>
               <div className={style.packageCard}>
                 <div className={style.cardLeft}>

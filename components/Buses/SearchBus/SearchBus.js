@@ -177,7 +177,7 @@ const SearchBus = () => {
           <div className={style.searchBusRightSide}>
             <div>
               {busDetailsData.getPackage.map((bus) => (
-                <div key={bus.id} className={style.allBusCardWrap}>
+                <div key={bus._id} className={style.allBusCardWrap}>
                   <div className={style.busCard}>
                     <div className={style.busDetail}>
                       <strong className="capitalize">{bus.bus_name}</strong>

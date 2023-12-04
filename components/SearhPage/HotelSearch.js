@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from "react";
 import style from "./HotelSearch.module.css";
 import Image from "next/image";
@@ -81,7 +82,7 @@ const HotelSearch = () => {
     } else {
       setHotelDataWithFilter(hotelDetailsData?.getPackage);
     }
-  }, [highPrice, lowPrice, reload, hotelDetailsData]);
+  }, [highPrice, lowPrice, reload, hotelDetailsData, hotelDataWithFilter]);
 
   const [value, setValue] = useState([0, 500]);
 
@@ -168,7 +169,7 @@ const HotelSearch = () => {
           ) : (
             <div>
               {hotelDataWithFilter?.map((hotel) => (
-                <div key={hotel.id} className={style.SearchHotel}>
+                <div key={hotel._id} className={style.SearchHotel}>
                   <div className={style.detailBoxWrap}>
                     <div className={style.searchLeftSideImg}>
                       <Image
