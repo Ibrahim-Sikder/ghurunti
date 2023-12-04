@@ -13,8 +13,6 @@ import { useRef } from "react";
 import { useRouter } from "next/router";
 
 const Update = () => {
-  const [editorValue, setEditorValue] = useState("");
-  const [quill, setQuill] = useState(null);
   const [specificPackage, setSpecificPackage] = useState({});
   const [getFile, setGetFile] = useState({});
   const [getImage, setGetImage] = useState([]);
@@ -31,13 +29,14 @@ const Update = () => {
   const { id } = router.query;
 
   useEffect(() => {
-    // Make sure id is defined before making the fetch request
     if (id) {
+      setLoading(true);
       fetch(`http://localhost:5000/api/v1/umrah/${id}`)
         .then((res) => res.json())
         .then((data) => {
           setSpecificPackage(data.getPackage);
-          console.log(data);
+
+          setLoading(false);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
@@ -80,7 +79,7 @@ const Update = () => {
       day_night: dayNight || specificPackage.day_night,
       date: getDate || specificPackage.date,
       price: price || specificPackage.price,
-      image:getImage  || specificPackage?.image[0] ,
+      image: getImage.length !== 0 ? getImage : specificPackage?.image?.[0],
       description: value || specificPackage.description,
     };
     setLoading(true);

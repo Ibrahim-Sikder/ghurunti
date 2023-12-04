@@ -96,11 +96,11 @@ const Update = () => {
       service_charge: serviceCharge || specificPackage.service_charge,
       stay: stay || specificPackage.stay,
       max_stay: maxStay || specificPackage.max_stay,
-      validity_day : validityDay || specificPackage.validity_day,
+      validity_day: validityDay || specificPackage.validity_day,
       date: getDate || specificPackage.date,
       requirement: requirement || specificPackage.requirement,
       interview: interview || specificPackage.interview,
-      image: getImage || specificPackage.image[0],
+      image: getImage.length !== 0 ? getImage : specificPackage?.image?.[0],
       description: value || specificPackage.description,
     };
     setLoading(true);
@@ -437,7 +437,9 @@ const Update = () => {
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
                     {getFile[0]?.name || specificPackage?.image?.length > 0 ? (
-                      <label for="files">{getFile[0]?.name || specificPackage.image[0]}</label>
+                      <label for="files">
+                        {getFile[0]?.name || specificPackage.image[0]}
+                      </label>
                     ) : (
                       <label for="files">
                         {" "}
@@ -455,7 +457,7 @@ const Update = () => {
                       id="files"
                       class="hidden"
                       multiple
-                      defaultValue={specificPackage.image ? specificPackage.image[0] : undefined}
+ 
                     />
                   </div>
                 </div>

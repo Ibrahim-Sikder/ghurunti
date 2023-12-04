@@ -1,12 +1,23 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Beenhere } from "@mui/icons-material";
 import Image from "next/image";
 import Link from "next/link";
 import style from "./HajjUmrah.module.css";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import { useRouter } from "next/router";
 const UmrahCard = ({ title, img }) => {
   const umrahDetailsData = useSelector((state) => state.umrah.umrahDetailsData);
 
+  const [umrahRamadan, setUmrahRamadan] = useState([]);
+  const [umrahPremium, setUmrahPremium] = useState([]);
+  const [umrahPlatinum, setUmrahPlatinum] = useState([]);
+  const [umrahFamily, setUmrahFamily] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const params = router.asPath;
+  const refreshParams = params.split("/");
   const [limit, setLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(
     Number(sessionStorage.getItem("umrah")) || 1
@@ -69,7 +80,7 @@ const UmrahCard = ({ title, img }) => {
     return (
       <>
         {umrahDetailsData.map((data) => (
-          <div key={data.id} className={style.umrahPackageCardWrap}>
+          <div key={data._id} className={style.umrahPackageCardWrap}>
             <div className={style.packageCardWrap}>
               <div className={style.packageCard}>
                 <div className={style.cardLeft}>
@@ -112,7 +123,7 @@ const UmrahCard = ({ title, img }) => {
                       </div>
                       {/* <div className={style.cardIconText}>
                         <Beenhere className={style.checkIcon} />
-                        <p className="ml-2">{data.popular_hajj_package}</p>
+                        <p className="ml-2">{data.popular_latest_umrah_package}</p>
                       </div>
                       <div className={style.cardIconText}>
                         <Beenhere className={style.checkIcon} />
@@ -130,7 +141,7 @@ const UmrahCard = ({ title, img }) => {
                   </div>
                   <div className={style.cardPrice}>
                     <p>{data.price}</p>
-                    <Link href="/hajj/hajjbook">
+                    <Link href={`/hajj/hajjbook?id=${data._id}&type=umrah`}>
                       <button>Details</button>
                     </Link>
                   </div>
@@ -188,6 +199,163 @@ const UmrahCard = ({ title, img }) => {
     );
   }
 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (refreshParams.includes("umrah-in-ramadan")) {
+        try {
+          const premiumData = {
+            latest_umrah_package: "Premium Umrah Packages",
+          };
+          setLoading(true);
+          const premiumResponse = await axios.post(
+            `http://localhost:5000/api/v1/umrah/details/filter/getOne`,
+            premiumData
+          );
+
+          setUmrahPremium(premiumResponse.data.premium);
+          setLoading(false);
+          // setNonShiftingHajj(nonShiftingResponse.data.nonShifting);
+
+          const platinumData = {
+            latest_umrah_package: "Platinum Umrah Packages",
+          };
+          setLoading(true);
+          const platinumResponse = await axios.post(
+            `http://localhost:5000/api/v1/umrah/details/filter/getOne`,
+            platinumData
+          );
+          setUmrahPlatinum(platinumResponse.data.platinum);
+          setLoading(false);
+          const familyData = {
+            latest_umrah_package: "Family Umrah Packages",
+          };
+          setLoading(true);
+          const familyResponse = await axios.post(
+            `http://localhost:5000/api/v1/umrah/details/filter/getOne`,
+            familyData
+          );
+          setUmrahFamily(familyResponse.data.family);
+          setLoading(false);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+      if (refreshParams.includes("premium")) {
+        try {
+          const umrahInRamadan = {
+            latest_umrah_package: "Umrah In Ramadan",
+          };
+          setLoading(true);
+          const umrahInRamadanResponse = await axios.post(
+            `http://localhost:5000/api/v1/umrah/details/filter/getOne`,
+            umrahInRamadan
+          );
+          setUmrahRamadan(umrahInRamadanResponse.data.umrahInRamadan);
+          setLoading(false);
+          const platinumData = {
+            latest_umrah_package: "Platinum Umrah Packages",
+          };
+          setLoading(true);
+          const platinumResponse = await axios.post(
+            `http://localhost:5000/api/v1/umrah/details/filter/getOne`,
+            platinumData
+          );
+          setUmrahPlatinum(platinumResponse.data.platinum);
+          setLoading(false);
+          const familyData = {
+            latest_umrah_package: "Family Umrah Packages",
+          };
+          setLoading(true);
+          const familyResponse = await axios.post(
+            `http://localhost:5000/api/v1/umrah/details/filter/getOne`,
+            familyData
+          );
+          setUmrahFamily(familyResponse.data.family);
+          setLoading(false);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+      if (refreshParams.includes("platinum")) {
+        try {
+          const umrahInRamadan = {
+            latest_umrah_package: "Umrah In Ramadan",
+          };
+          setLoading(true);
+          const umrahInRamadanResponse = await axios.post(
+            `http://localhost:5000/api/v1/umrah/details/filter/getOne`,
+            umrahInRamadan
+          );
+          setUmrahRamadan(umrahInRamadanResponse.data.umrahInRamadan);
+          setLoading(false);
+          const premiumData = {
+            latest_umrah_package: "Premium Umrah Packages",
+          };
+          setLoading(true);
+          const premiumResponse = await axios.post(
+            `http://localhost:5000/api/v1/umrah/details/filter/getOne`,
+            premiumData
+          );
+          setUmrahPremium(premiumResponse.data.premium);
+          setLoading(false);
+
+          const familyData = {
+            latest_umrah_package: "Family Umrah Packages",
+          };
+          setLoading(true);
+          const familyResponse = await axios.post(
+            `http://localhost:5000/api/v1/umrah/details/filter/getOne`,
+            familyData
+          );
+          setUmrahFamily(familyResponse.data.family);
+          setLoading(false);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+      if (refreshParams.includes("family")) {
+        try {
+          const umrahInRamadan = {
+            latest_umrah_package: "Umrah In Ramadan",
+          };
+          setLoading(true);
+          const umrahInRamadanResponse = await axios.post(
+            `http://localhost:5000/api/v1/umrah/details/filter/getOne`,
+            umrahInRamadan
+          );
+          setUmrahRamadan(umrahInRamadanResponse.data.umrahInRamadan);
+          setLoading(false);
+
+          const premiumData = {
+            latest_umrah_package: "Premium Umrah Packages",
+          };
+          setLoading(true);
+          const premiumResponse = await axios.post(
+            `http://localhost:5000/api/v1/umrah/details/filter/getOne`,
+            premiumData
+          );
+          setUmrahPremium(premiumResponse.data.premium);
+          setLoading(false);
+
+          const platinumData = {
+            latest_umrah_package: "Platinum Umrah Packages",
+          };
+          setLoading(true);
+          const platinumResponse = await axios.post(
+            `http://localhost:5000/api/v1/umrah/details/filter/getOne`,
+            platinumData
+          );
+          setUmrahPlatinum(platinumResponse.data.platinum);
+          setLoading(false);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <section>
       <div>
@@ -201,8 +369,177 @@ const UmrahCard = ({ title, img }) => {
         </div> */}
         <h3 className="text-3xl font-bold my-8">{title}</h3>
         {umrahDetailsData.length === 0 ? (
-          <div className="text-xl text-center flex justify-center items-center h-full">
-            No matching packages found.
+          <div>
+            <div className="text-xl text-center flex justify-center items-center h-full">
+              No matching packages found.
+            </div>
+            {loading ? (
+              <div>Loading</div>
+            ) : (
+              <div>
+                <div className="my-10">Another umrah packages.</div>
+                {refreshParams.includes("umrah-in-ramadan") && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                    {umrahPremium.length > 0 && (
+                      <div>
+                        <h2>{umrahPremium[0]?.latest_umrah_package}</h2>
+                        <Image
+                          src={umrahPremium[0]?.image[0]}
+                          alt=""
+                          width={100}
+                          height={100}
+                          className="w-40 h-40"
+                        ></Image>
+                      </div>
+                    )}
+                    {umrahPlatinum.length > 0 && (
+                      <div>
+                        <h2>{umrahPlatinum[0]?.latest_umrah_package}</h2>
+                        <Image
+                          src={umrahPlatinum[0]?.image[0]}
+                          alt=""
+                          width={100}
+                          height={100}
+                          className="w-40 h-40"
+                        ></Image>
+                      </div>
+                    )}
+                    {umrahFamily.length > 0 && (
+                      <div>
+                        <h2>{umrahFamily[0]?.latest_umrah_package}</h2>
+                        <Image
+                          src={umrahFamily[0]?.image[0]}
+                          alt=""
+                          width={100}
+                          height={100}
+                          className="w-40 h-40"
+                        ></Image>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {refreshParams.includes("premium") && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                    {umrahRamadan.length > 0 && (
+                      <div>
+                        <h2>{umrahRamadan[0]?.latest_umrah_package}</h2>
+                        <Image
+                          src={umrahRamadan[0]?.image[0]}
+                          alt=""
+                          width={100}
+                          height={100}
+                          className="w-40 h-40"
+                        ></Image>
+                      </div>
+                    )}
+                    {umrahPlatinum.length > 0 && (
+                      <div>
+                        <h2>{umrahPlatinum[0]?.latest_umrah_package}</h2>
+                        <Image
+                          src={umrahPlatinum[0]?.image[0]}
+                          alt=""
+                          width={100}
+                          height={100}
+                          className="w-40 h-40"
+                        ></Image>
+                      </div>
+                    )}
+                    {umrahFamily.length > 0 && (
+                      <div>
+                        <h2>{umrahFamily[0]?.latest_umrah_package}</h2>
+                        <Image
+                          src={umrahFamily[0]?.image[0]}
+                          alt=""
+                          width={100}
+                          height={100}
+                          className="w-40 h-40"
+                        ></Image>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {refreshParams.includes("platinum") && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                    {umrahRamadan.length > 0 && (
+                      <div>
+                        <h2>{umrahRamadan[0]?.latest_umrah_package}</h2>
+                        <Image
+                          src={umrahRamadan[0]?.image[0]}
+                          alt=""
+                          width={100}
+                          height={100}
+                          className="w-40 h-40"
+                        ></Image>
+                      </div>
+                    )}
+                    {umrahPremium.length > 0 && (
+                      <div>
+                        <h2>{umrahPremium[0]?.latest_umrah_package}</h2>
+                        <Image
+                          src={umrahPremium[0]?.image[0]}
+                          alt=""
+                          width={100}
+                          height={100}
+                          className="w-40 h-40"
+                        ></Image>
+                      </div>
+                    )}
+                    {umrahFamily.length > 0 && (
+                      <div>
+                        <h2>{umrahFamily[0]?.latest_umrah_package}</h2>
+                        <Image
+                          src={umrahFamily[0]?.image[0]}
+                          alt=""
+                          width={100}
+                          height={100}
+                          className="w-40 h-40"
+                        ></Image>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {refreshParams.includes("family") && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                    {umrahRamadan.length > 0 && (
+                      <div>
+                        <h2>{umrahRamadan[0]?.latest_umrah_package}</h2>
+                        <Image
+                          src={umrahRamadan[0]?.image[0]}
+                          alt=""
+                          width={100}
+                          height={100}
+                          className="w-40 h-40"
+                        ></Image>
+                      </div>
+                    )}
+                    {umrahPremium.length > 0 && (
+                      <div>
+                        <h2>{umrahPremium[0]?.latest_umrah_package}</h2>
+                        <Image
+                          src={umrahPremium[0]?.image[0]}
+                          alt=""
+                          width={100}
+                          height={100}
+                          className="w-40 h-40"
+                        ></Image>
+                      </div>
+                    )}
+                    {umrahPlatinum.length > 0 && (
+                      <div>
+                        <h2>{umrahPlatinum[0]?.latest_umrah_package}</h2>
+                        <Image
+                          src={umrahPlatinum[0]?.image[0]}
+                          alt=""
+                          width={100}
+                          height={100}
+                          className="w-40 h-40"
+                        ></Image>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         ) : (
           <>

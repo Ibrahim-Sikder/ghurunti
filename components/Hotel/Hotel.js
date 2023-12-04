@@ -38,8 +38,6 @@ const Hotel = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-
-
   const childIncrement = () => {
     setChild(child + 1);
   };
@@ -185,10 +183,9 @@ const Hotel = () => {
       adult: adult,
       room_number: room,
     };
-
+    dispatch(setHotelData(data));
     try {
       const result = await dispatch(fetchHotelData(data));
-     
 
       if (
         result.payload &&
@@ -211,10 +208,6 @@ const Hotel = () => {
       console.error("Error dispatching fetchHotelData:", error);
     }
   };
-
-  
-
- 
 
   return (
     <section>
@@ -248,7 +241,9 @@ const Hotel = () => {
               <div>
                 <h4>City/Hotel/Street Name</h4>
                 <select onChange={(e) => setCityName(e.target.value)}>
-                  <option selected value="Select your city">Select your city</option>
+                  <option selected value="Select your city">
+                    Select your city
+                  </option>
                   <option value="Dhaka">Dhaka</option>
                   <option value="Bangkok">Bangkok</option>
                   <option value="Tokyo">Tokyo</option>

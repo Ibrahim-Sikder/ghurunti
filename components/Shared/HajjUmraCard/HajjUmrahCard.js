@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Beenhere } from "@mui/icons-material";
 import Image from "next/image";
@@ -12,6 +13,7 @@ import { APIContext } from "@/Context/ApiContext";
 import { useSelector } from "react-redux";
 import UmrahCard from "./UmrahCard";
 import { useRouter } from "next/router";
+import axios from "axios";
 const HajjUmrahCard = ({ title, img }) => {
   const router = useRouter();
   const params = router.asPath;
@@ -19,76 +21,10 @@ const HajjUmrahCard = ({ title, img }) => {
   const hajjDetailsData = useSelector((state) => state.hajj.hajjDetailsData);
   const umrahDetailsData = useSelector((state) => state.umrah.umrahDetailsData);
   const hotelDetailsData = useSelector((state) => state.hotel.hotelDetailsData);
-  
-  // console.log(error)
-  // const datas = [
-  //   {
-  //     id: 1,
-  //     title: "Platinum Umrah Package 2023 - 2024 from Bangladesh",
-  //     image: img1,
-  //     heading: "Platinum Umrah Package 2023",
-  //     subheading: "",
-  //     price: "150,000",
-  //     desc: "Hotel in Makkah: Distance 400 meters from Haram Sharif & Madinah 300 meters",
-  //     desc2: "Sharing Room (4 Persons)",
-  //     desc3: "Meals (3 Times)",
-  //     desc4: "Excluding Kurbani",
-  //     day: "20 days",
-  //   },
-  //   {
-  //     id: 1,
-  //     title: "Platinum Umrah Package 2023 - 2024 from Bangladesh",
-  //     image: img,
-  //     heading: "Platinum Umrah Package 2023",
-  //     subheading: "",
-  //     price: "150,000",
-  //     desc: "Hotel in Makkah: Distance 400 meters from Haram Sharif & Madinah 300 meters",
-  //     desc2: "Sharing Room (4 Persons)",
-  //     desc3: "Meals (3 Times)",
-  //     desc4: "Excluding Kurbani",
-  //     day: "20 days",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Platinum Umrah Package 2023 - 2024 from Bangladesh",
-  //     image: img2,
-  //     heading: "Platinum Umrah Package 2023",
-  //     subheading: "",
-  //     price: "150,000",
-  //     desc: "Hotel in Makkah: Distance 400 meters from Haram Sharif & Madinah 300 meters",
-  //     desc2: "Sharing Room (4 Persons)",
-  //     desc3: "Meals (3 Times)",
-  //     desc4: "Excluding Kurbani",
-  //     day: "20 days",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Platinum Umrah Package 2023 - 2024 from Bangladesh",
-  //     image: img3,
-  //     heading: "Platinum Umrah Package 2023",
-  //     subheading: "",
-  //     price: "150,000",
-  //     desc: "Hotel in Makkah: Distance 400 meters from Haram Sharif & Madinah 300 meters",
-  //     desc2: "Sharing Room (4 Persons)",
-  //     desc3: "Meals (3 Times)",
-  //     desc4: "Excluding Kurbani",
-  //     day: "20 days",
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "Platinum Umrah Package 2023 - 2024 from Bangladesh",
-  //     image: img4,
-  //     heading: "Platinum Umrah Package 2023",
-  //     subheading: "",
-  //     price: "150,000",
-  //     desc: "Hotel in Makkah: Distance 400 meters from Haram Sharif & Madinah 300 meters",
-  //     desc2: "Sharing Room (4 Persons)",
-  //     desc3: "Meals (3 Times)",
-  //     desc4: "Excluding Kurbani",
-  //     day: "20 days",
-  //   },
-  // ];
-
+  const [economyHajj, setEconomyHajj] = useState([]);
+  const [nonShiftingHajj, setNonShiftingHajj] = useState([]);
+  const [shiftingHajj, setShiftingHajj] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [limit, setLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(
     Number(sessionStorage.getItem("hajj")) || 1
@@ -154,7 +90,7 @@ const HajjUmrahCard = ({ title, img }) => {
     return (
       <>
         {hajjDetailsData.map((data) => (
-          <div key={data.id} className={style.umrahPackageCardWrap}>
+          <div key={data._id} className={style.umrahPackageCardWrap}>
             <div className={style.packageCardWrap}>
               <div className={style.packageCard}>
                 <div className={style.cardLeft}>
@@ -215,7 +151,7 @@ const HajjUmrahCard = ({ title, img }) => {
                   </div>
                   <div className={style.cardPrice}>
                     <p>{data.price}</p>
-                    <Link href="/hajj/hajjbook">
+                    <Link href={`/hajj/hajjbook?id=${data._id}&type=hajj`}>
                       <button>Details</button>
                     </Link>
                   </div>
@@ -272,7 +208,92 @@ const HajjUmrahCard = ({ title, img }) => {
       </li>
     );
   }
-  
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (refreshParams.includes("economy")) {
+        try {
+          const nonShiftingData = {
+            hajj_package: "Non Shifting Hajj Package",
+          };
+          setLoading(true)
+          const nonShiftingResponse = await axios.post(
+            `http://localhost:5000/api/v1/hajj/filter/getOne`,
+            nonShiftingData
+          );
+          setNonShiftingHajj(nonShiftingResponse.data.nonShifting);
+          setLoading(false)
+          const shiftingData = {
+            hajj_package: "Shifting Hajj Package",
+          };
+          setLoading(true)
+          const shiftingResponse = await axios.post(
+            `http://localhost:5000/api/v1/hajj/filter/getOne`,
+            shiftingData
+          );
+          setShiftingHajj(shiftingResponse.data.shifting);
+          setLoading(false)
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+      if (refreshParams.includes("shifting")) {
+        try {
+          const economyHajj = {
+            hajj_package: "Economy Hajj Package",
+          };
+          setLoading(true)
+          const economyResponse = await axios.post(
+            `http://localhost:5000/api/v1/hajj/filter/getOne`,
+            economyHajj
+          );
+          setEconomyHajj(economyResponse.data.economy);
+          setLoading(false)
+          const nonShiftingData = {
+            hajj_package: "Non Shifting Hajj Package",
+          };
+          setLoading(true)
+          const nonShiftingResponse = await axios.post(
+            `http://localhost:5000/api/v1/hajj/filter/getOne`,
+            nonShiftingData
+          );
+          setNonShiftingHajj(nonShiftingResponse.data.nonShifting);
+          setLoading(false)
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+      if (refreshParams.includes("nonshifting")) {
+        try {
+          const economyHajj = {
+            hajj_package: "Economy Hajj Package",
+          };
+          setLoading(true)
+          const economyResponse = await axios.post(
+            `http://localhost:5000/api/v1/hajj/filter/getOne`,
+            economyHajj
+          );
+          setEconomyHajj(economyResponse.data.economy);
+          setLoading(false)
+          const shiftingData = {
+            hajj_package: "Shifting Hajj Package",
+          };
+          setLoading(true)
+          const shiftingResponse = await axios.post(
+            `http://localhost:5000/api/v1/hajj/filter/getOne`,
+            shiftingData
+          );
+          setShiftingHajj(shiftingResponse.data.shifting);
+          setLoading(false)
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <section>
       <div>
@@ -296,8 +317,100 @@ const HajjUmrahCard = ({ title, img }) => {
               refreshParams.includes("shifting")) && (
               <>
                 {hajjDetailsData.length === 0 ? (
-                  <div className="text-xl text-center flex justify-center items-center h-full">
-                    No matching packages found.
+                  <div>
+                    <div className="text-xl text-center flex justify-center items-center h-full">
+                      No matching packages found.
+                    </div>
+
+                   {
+                    loading ? <div>Loading</div> :  <div>
+                    <div className="my-10">Another hajj packages.</div>
+                    {refreshParams.includes("economy") && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                        {nonShiftingHajj.length > 0 && (
+                          <div>
+                            <h2>{nonShiftingHajj[0]?.hajj_package}</h2>
+                            <Image
+                              src={nonShiftingHajj[0]?.image[0]}
+                              alt=""
+                              width={100}
+                              height={100}
+                              className="w-40 h-40"
+                            ></Image>
+                          </div>
+                        )}
+                        {shiftingHajj.length > 0 && (
+                          <div>
+                            <h2>{shiftingHajj[0]?.hajj_package}</h2>
+                            <Image
+                              src={shiftingHajj[0]?.image[0]}
+                              alt=""
+                              width={100}
+                              height={100}
+                              className="w-40 h-40"
+                            ></Image>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    {refreshParams.includes("nonshifting") && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                        {economyHajj.length > 0 && (
+                          <div>
+                            <h2>{economyHajj[0]?.hajj_package}</h2>
+                            <Image
+                              src={economyHajj[0]?.image[0]}
+                              alt=""
+                              width={100}
+                              height={100}
+                              className="w-40 h-40"
+                            ></Image>
+                          </div>
+                        )}
+                        {shiftingHajj.length > 0 && (
+                          <div>
+                            <h2>{shiftingHajj[0]?.hajj_package}</h2>
+                            <Image
+                              src={shiftingHajj[0]?.image[0]}
+                              alt=""
+                              width={100}
+                              height={100}
+                              className="w-40 h-40"
+                            ></Image>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    {refreshParams.includes("shifting") && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                        {economyHajj.length > 0 && (
+                          <div>
+                            <h2>{economyHajj[0]?.hajj_package}</h2>
+                            <Image
+                              src={economyHajj[0]?.image[0]}
+                              alt=""
+                              width={100}
+                              height={100}
+                              className="w-40 h-40"
+                            ></Image>
+                          </div>
+                        )}
+                        {nonShiftingHajj.length > 0 && (
+                          <div>
+                            <h2>{nonShiftingHajj[0]?.hajj_package}</h2>
+                            <Image
+                              src={nonShiftingHajj[0]?.image[0]}
+                              alt=""
+                              width={100}
+                              height={100}
+                              className="w-40 h-40"
+                            ></Image>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                   }
                   </div>
                 ) : (
                   <>

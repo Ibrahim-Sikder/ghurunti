@@ -116,7 +116,7 @@ const Update = () => {
       type_of_bus: typeOfBus || specificPackage.type_of_bus,
       boarding_point: boardingPoint || specificPackage.boarding_point,
       facilities: facilities || specificPackage.facilities,
-      image: getImage || specificPackage.image[0],
+      image: getImage.length !== 0 ? getImage : specificPackage?.image?.[0],
       description: value || specificPackage.description,
     };
     setLoading(true);
@@ -140,8 +140,6 @@ const Update = () => {
       });
   };
 
-
-   
   return (
     <B2BdashboardLayout>
       <MoveText />

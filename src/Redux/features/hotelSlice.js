@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
   hotelDetailsData: [],
+  filterData: {},
   isLoading: true,
   isError: false,
   error: "",
@@ -17,15 +18,6 @@ export const fetchHotelData = createAsyncThunk(
       data
     );
 
-    // // if (data.event === "Highest Price") {
-    // //   const response = await axios.post(
-    // //     "http://localhost:5000/api/v1/hotel/get/packages/sort",
-    // //     data.hotelDetailsData
-    // //   );
-    // //   console.log(response);
-    //   return response.data;
-    // }
-
     return response.data;
   }
 );
@@ -33,7 +25,12 @@ export const fetchHotelData = createAsyncThunk(
 const hotelSlice = createSlice({
   name: "hotel",
   initialState,
-  reducers: {},
+  reducers: {
+    setHotelData: (state, action) => {
+      // Modify the state based on the action payload
+      state.filterData = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchHotelData.pending, (state, action) => {
       state.isLoading = true;
@@ -52,6 +49,6 @@ const hotelSlice = createSlice({
     });
   },
 });
-
 export const { setHotelData } = hotelSlice.actions;
+
 export default hotelSlice.reducer;

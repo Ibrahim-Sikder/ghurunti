@@ -15,7 +15,7 @@ import { fetchVisaData } from "@/Redux/features/visaSlice";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 
-const visa = () => {
+const Visa = () => {
   const dispatch = useDispatch();
   const [visaCountry, setVisaCountry] = useState("");
   const [visaType, setVisaType] = useState("");
@@ -391,4 +391,4 @@ const visa = () => {
   );
 };
 
-export default visa;
+export default Visa;

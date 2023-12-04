@@ -137,7 +137,7 @@ const HotelUpdate = () => {
       lowest_price: lowestPrice || specificPackage.lowest_price,
       start_price: startPrice || specificPackage.start_price,
       discount_price: discountPrice || specificPackage.discount_price,
-      image: getImage || specificPackage?.image[0],
+      image: getImage.length !== 0 ? getImage : specificPackage?.image?.[0],
       description: value || specificPackage.description,
     };
     setLoading(true);
@@ -159,7 +159,7 @@ const HotelUpdate = () => {
         setLoading(false);
       });
   };
-  // console.log(specificPackage?.image[0]);
+  console.log(getImage);
   return (
     <B2BdashboardLayout>
       <MoveText />
@@ -543,7 +543,7 @@ const HotelUpdate = () => {
                 </div>
 
                 <div className={styles.formControl}>
-                  <button className={styles.submitBtn} type="submit">
+                  <button disabled={loading ? true : false} className={styles.submitBtn} type="submit">
                     Update
                   </button>
                 </div>

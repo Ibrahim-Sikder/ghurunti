@@ -21,16 +21,16 @@ const TrainSearch = () => {
   const handleShowDetails = () => {
     setShowDetails(!showDetails);
   };
-  const busData = [
-    {
-      id: 1,
-      name: "MAHANAGAR PROVATI",
-      price: 900.0,
-      departureTime: "10.30AM",
-      arrivalTime: "12.20PM",
-      seats: 33,
-    },
-  ];
+  // const busData = [
+  //   {
+  //     id: 1,
+  //     name: "MAHANAGAR PROVATI",
+  //     price: 900.0,
+  //     departureTime: "10.30AM",
+  //     arrivalTime: "12.20PM",
+  //     seats: 33,
+  //   },
+  // ];
 
   const [selectedSeats, setSelectedSeats] = useState([]);
 
@@ -160,7 +160,7 @@ const TrainSearch = () => {
     } else {
       setTrainDataWithFilter(trainDetailsData?.getPackage);
     }
-  }, [trainClass, reload]);
+  }, [trainClass, reload, trainDataWithFilter, trainDetailsData?.getPackage]);
 
    
   return (
@@ -323,7 +323,7 @@ const TrainSearch = () => {
           <div className={style.searchBusRightSide}>
             <div>
               {trainDataWithFilter.map((bus) => (
-                <div key={bus.id} className={style.allBusCardWrap}>
+                <div key={bus._id} className={style.allBusCardWrap}>
                   <div className={style.busCard}>
                     <div className={style.busDetail}>
                       <strong className="capitalize">

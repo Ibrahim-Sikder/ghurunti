@@ -7,7 +7,7 @@ import style from "../../../components/SearhPage/HotelBook/HotelBook.module.css"
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useState } from "react";
-const book = () => {
+const Book = () => {
   const [givenName, setGivenName] = useState(null);
   const [email, setEmail] = useState(null);
   const [nationality, setNationality] = useState(null);
@@ -104,4 +104,4 @@ const book = () => {
   );
 };
 
-export default book;
+export default Book;
