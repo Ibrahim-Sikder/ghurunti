@@ -88,13 +88,7 @@ const router = useRouter()
     }
   };
 
-  // const handleJourneyDate = (ranges) => {
-  //   // Assuming the DateRange component always provides a single range
-  //   const selectedRange = ranges.selection;
-
-  //   setRange([selectedRange]); // Update the state with the selected date range
-  //   setJourneyDate(`${format(selectedRange.startDate, "MM/dd/yyyy")}`);
-  // };
+   
 
   const dispatch = useDispatch();
   const handleTrainDetailsData = () => {

@@ -9,25 +9,37 @@ import Seats from "../Seats/Seats";
 import SelectedSeats from "../Seats/SelectedSeat";
 import { useSelector } from "react-redux";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import useModifyModal from "../../Common/Hooks/useModifyModal";
 const SearchBus = () => {
   const busDetailsData = useSelector((state) => state.bus.busDetailsData);
-  console.log(busDetailsData.getPackage);
+ 
   const [chooseSeat, setChooseSeat] = useState("A1", "৳1500", "Economy");
   const [showDetails, setShowDetails] = useState(false);
   const [seatsNumber, setSeatsNumber] = useState([]);
+  const [specificPackage, setSpecificPackage] = useState({});
+  const modifyModal = useModifyModal()
   const handleShowDetails = () => {
     setShowDetails(!showDetails);
   };
-  const busData = [
-    {
-      id: 1,
-      name: "SHYAMOLI NR TRAVELS",
-      price: 900.0,
-      departureTime: "10.30AM",
-      arrivalTime: "12.20PM",
-      seats: 33,
-    },
-  ];
+  const router = useRouter();
+  const { id } = router.query;
+
+  useEffect(() => {
+    // Make sure id is defined before making the fetch request
+    if (id) {
+      fetch(`http://localhost:5000/api/v1/bus/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setSpecificPackage(data.getPackage);
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [id]);
 
   const [selectedSeats, setSelectedSeats] = useState([]);
 
@@ -59,9 +71,9 @@ const SearchBus = () => {
         <div>
           <h6>Total Seats Available: 275</h6>
         </div>
-        <Link href="/bus">
-        <button className={style.modifyBtn}>Modify Search</button>
-        </Link>
+        {/* <Link href="/bus"> */}
+        <button onClick={()=> modifyModal.onOpen("Bus Modify")} className={style.modifyBtn}>Modify Search</button>
+        {/* </Link> */}
       </div>
 
       <div className={style.busWrap}>
@@ -176,7 +188,11 @@ const SearchBus = () => {
           </div>
           <div className={style.searchBusRightSide}>
             <div>
-              {busDetailsData.getPackage.map((bus) => (
+ 
+              {busDetailsData?.getPackage?.map((bus) => (
+ 
+              
+ 
                 <div key={bus._id} className={style.allBusCardWrap}>
                   <div className={style.busCard}>
                     <div className={style.busDetail}>

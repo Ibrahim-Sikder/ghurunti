@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import hotel from "../../../public/assets/hotel9.jpg"
@@ -16,8 +16,33 @@ import "lightgallery/css/lg-zoom.css"
 import "lightgallery/css/lg-thumbnail.css"
 import lgThumbnail from "lightgallery/plugins/thumbnail"
 import lgZoom from "lightgallery/plugins/zoom"
+import { useRouter } from "next/router"
+import useModifyModal from "../../Common/Hooks/useModifyModal"
 
 const HotelDetails = () => {
+  const modifyModal = useModifyModal()
+  const [specificPackage, setSpecificPackage] = useState({});
+
+  const router = useRouter();
+  const { id } = router.query;
+
+  useEffect(() => {
+    // Make sure id is defined before making the fetch request
+    if (id) {
+      fetch(`http://localhost:5000/api/v1/hotel/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setSpecificPackage(data.getPackage);
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [id]);
+
+
+
   return (
     <section>
       <div className={style.hotelDetailWraps}>
@@ -32,7 +57,8 @@ const HotelDetails = () => {
               </p>
             </div>
           </div>
-          <button>Modify Search</button>
+          <button onClick={() => modifyModal.onOpen("Hotel Search Modify")}>Modify Search</button>
+
         </div>
         <div className={style.hotelDetailWrap}>
           <div className={style.leftSideDetail}>

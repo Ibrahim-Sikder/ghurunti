@@ -158,20 +158,7 @@ const Hotel = () => {
     ],
   };
 
-  // const handleCheckInDateRangeChange = (ranges) => {
-  //   // Assuming the DateRange component always provides a single range
-  //   const selectedRange = ranges.selection;
-
-  //   setRange2([selectedRange]); // Update the state with the selected date range
-  //   setCheckInDate(`${format(selectedRange.startDate, "MM/dd/yyyy")}`);
-  // };
-  // const handleCheckOutDateRangeChange = (ranges) => {
-  //   // Assuming the DateRange component always provides a single range
-  //   const selectedRange = ranges.selection;
-
-  //   setRange2([selectedRange]); // Update the state with the selected date range
-  //   setCheckOutDate(`${format(selectedRange.startDate, "MM/dd/yyyy")}`);
-  // };
+   
 
   const handleHotelDetailsData = async () => {
     const data = {
