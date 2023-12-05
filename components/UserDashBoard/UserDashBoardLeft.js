@@ -134,24 +134,26 @@ const UserDashBoardLeft = () => {
                         </Accordion>
                       </li>
                       <li>
-                        <Hotel className={style.flightIcons} /> Hotel
+                        <Link href='/b2bdashboard/hotel/hotelbooking'> <Hotel className={style.flightIcons} /> Hotel </Link>
                       </li>
                       <li>
-                        <Beenhere className={style.flightIcons} /> Visa
+                        <Link href='/b2bdashboard/visa/hotelbooking'>  <Beenhere className={style.flightIcons} /> Visa</Link>
                       </li>
                       <li>
-                        {" "}
-                        <Diversity2 className={style.flightIcons} /> Tours
+                        <Link href='/b2bdashboard/tours/tourbooking'> <Diversity2 className={style.flightIcons} /> Tours </Link>
                       </li>
                       <li>
-                        <DirectionsBusFilled className={style.flightIcons} />
-                        Bus
+                        
+                        <Link href='/b2bdashboard/buses/busbooking'>  <DirectionsBusFilled className={style.flightIcons} />
+                        Bus </Link>
                       </li>
                       <li>
-                        <Train className={style.flightIcons} /> Trains
+                       
+                        <Link href='/b2bdashboard/train/trainbooking'>  <Train className={style.flightIcons} /> Trains </Link>
                       </li>
+                    
                       <li>
-                        <Mosque className={style.flightIcons} /> Hajj & Umrah
+                      <Link href='/b2bdashboard/hajj/hajjbooking'><Mosque className={style.flightIcons} /> Hajj & Umrah </Link>
                       </li>
                     </ul>
                   </div>

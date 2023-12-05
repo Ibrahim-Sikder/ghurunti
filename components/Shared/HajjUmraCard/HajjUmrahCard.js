@@ -109,48 +109,28 @@ const HajjUmrahCard = ({ title, img }) => {
                   <div className={style.rightText}>
                     <div className={style.cardText}>
                       <h5 className="text-xl font-bold mb-2">
-                        {data.hajj_package}
+                        {data.title}
                       </h5>
                       <div className={style.cardIconText}>
                         <Beenhere className={style.checkIcon} />
-                        <p className="ml-2">{data.title}</p>
+                        <p className="ml-2">Hotel in Makkah: Distance 400 meters from Haram Sharif & Madinah 300 meters</p>
                       </div>
                       <div className={style.cardIconText}>
                         <Beenhere className={style.checkIcon} />
-                        <p className="ml-2">{data.sub_title}</p>
+                        <p className="ml-2">Sharing Room (4 Persons)</p>
                       </div>
                       <div className={style.cardIconText}>
                         <Beenhere className={style.checkIcon} />
-                        <p className="ml-2">{data.date}</p>
+                        <p className="ml-2">Meals (3 Times)</p>
                       </div>
                       <div className={style.cardIconText}>
                         <Beenhere className={style.checkIcon} />
-                        <p className="ml-2">{data.day_night}</p>
-                      </div>
-                      <div className={style.cardIconText}>
-                        <Beenhere className={style.checkIcon} />
-                        <p className="ml-2">{data.requirement_list}</p>
-                      </div>
-                      {/* <div className={style.cardIconText}>
-                        <Beenhere className={style.checkIcon} />
-                        <p className="ml-2">{data.popular_hajj_package}</p>
-                      </div>
-                      <div className={style.cardIconText}>
-                        <Beenhere className={style.checkIcon} />
-                        <p className="ml-2">{data.description}</p>
-                      </div> */}
-                      {/* <div className={style.cardIconText}>
-                        <Beenhere className={style.checkIcon} />
-                        <p className="ml-2">{data.hajj_category}</p>
-                      </div> */}
-                      <div className={style.cardIconText}>
-                        <Beenhere className={style.checkIcon} />
-                        <p className="ml-2">{data.date}</p>
+                        <p className="ml-2">{data.day_night} Day/Night</p>
                       </div>
                     </div>
                   </div>
                   <div className={style.cardPrice}>
-                    <p>{data.price}</p>
+                    <b>{data.price} BDT</b>
                     <Link href={`/hajj/hajjbook?id=${data._id}&type=hajj`}>
                       <button>Details</button>
                     </Link>

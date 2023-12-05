@@ -85,6 +85,7 @@ const Train = () => {
       image: getImage,
       description: value,
     };
+    
     setLoading(true);
     axios
       .post("http://localhost:5000/api/v1/train/details", data)

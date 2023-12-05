@@ -41,7 +41,7 @@ const TrainSearch = () => {
 
   const handleSeatSelection = (seat) => {
     if (selectedSeats.includes(seat)) {
-      setSelectedSeats(selectedSeats.filter((s) => s !== seat));
+      setSelectedSeats(selectedSeats?.filter((s) => s !== seat));
     } else {
       setSelectedSeats([...selectedSeats, seat]);
     }
@@ -128,17 +128,17 @@ const TrainSearch = () => {
 
   useEffect(() => {
     if (trainClass === "AC_B") {
-      const trainData = trainDataWithFilter.filter(
+      const trainData = trainDataWithFilter?.filter(
         (item) => item.class_type === "AC_B"
       ); // Exclude non-numeric prices
       setTrainDataWithFilter(trainData);
     } else if (trainClass === "S_CHAIR") {
-      const trainData = trainDataWithFilter.filter(
+      const trainData = trainDataWithFilter?.filter(
         (item) => item.class_type === "S_CHAIR"
       ); // Exclude non-numeric prices
       setTrainDataWithFilter(trainData);
     } else if (trainClass === "F_BERTH") {
-      const trainData = trainDataWithFilter.filter(
+      const trainData = trainDataWithFilter?.filter(
         (item) => item.class_type === "F_BERTH"
       ); // Exclude non-numeric prices
       setTrainDataWithFilter(trainData);
@@ -148,17 +148,17 @@ const TrainSearch = () => {
       ); // Exclude non-numeric prices
       setTrainDataWithFilter(trainData);
     } else if (trainClass === "SNIGDHA") {
-      const trainData = trainDataWithFilter.filter(
+      const trainData = trainDataWithFilter?.filter(
         (item) => item.class_type === "SNIGDHA"
       ); // Exclude non-numeric prices
       setTrainDataWithFilter(trainData);
     } else if (trainClass === "JANAPATH") {
-      const trainData = trainDataWithFilter.filter(
+      const trainData = trainDataWithFilter?.filter(
         (item) => item.class_type === "JANAPATH 1 COUNTER"
       ); // Exclude non-numeric prices
       setTrainDataWithFilter(trainData);
     } else if (trainClass === "AC_CHAIR") {
-      const trainData = trainDataWithFilter.filter(
+      const trainData = trainDataWithFilter?.filter(
         (item) => item.class_type === "AC_CHAIR"
       ); // Exclude non-numeric prices
       setTrainDataWithFilter(trainData);
@@ -207,7 +207,7 @@ const TrainSearch = () => {
         <div className={style.busCardWrap}>
           <div className={style.searchBusLeftSide}>
             <div className={style.seatTypeWrap}>
-              <strong className={style.type}>SEAT TYPE </strong>
+              <strong className={style.type}> SEAT TYPE </strong>
               <hr className="border" />
               <div className="mt-2">
                 <ul>

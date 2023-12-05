@@ -11,6 +11,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useRef } from "react";
 import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 const HajjUmrah = () => {
   const [editorValue, setEditorValue] = useState("");
   const [quill, setQuill] = useState(null);
@@ -79,7 +80,14 @@ const router = useRouter()
       .then(function (response) {
         console.log(response.data);
         if (response.data.message === "Post hajj package details.") {
-          toast.success("Post successful.");
+          // toast.success("Post successful.");
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Hajj Package Data Input Successfully !",
+            showConfirmButton: false,
+            timer: 1500
+          });
           formRef.current.reset();
           router.push("/b2bdashboard/manage/hajj");
           setHajjPackage(null);
