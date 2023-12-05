@@ -11,6 +11,7 @@ import TextEditor from "../../../../../components/TextEditor/TextEditor";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRef } from "react";
+import { useRouter } from "next/router";
 
 const HajjVisaRequirement = () => {
   const [editorValue, setEditorValue] = useState("");
@@ -22,6 +23,8 @@ const HajjVisaRequirement = () => {
   const [subTitle, setSubTitle] = useState(null);
   const [loading, setLoading] = useState(false);
   const formRef = useRef();
+ const router = useRouter()
+
 
   let files;
   const handlePdf = async (e) => {
@@ -32,7 +35,7 @@ const HajjVisaRequirement = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
-      setLoading(true)
+      setLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -41,7 +44,7 @@ const HajjVisaRequirement = () => {
       const data = await response.json();
       if (data.message === "success") {
         setGetImage(data.imageLinks);
-        setLoading(false)
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -55,16 +58,19 @@ const HajjVisaRequirement = () => {
       sub_title: subTitle,
       image: getImage,
       description: value,
-      hajj_category:"Hajj Visa Requirment Data Input"
     };
     setLoading(true);
     axios
-      .post("http://localhost:5000/api/v1/hajj/details", data)
+      .post("http://localhost:5000/api/v1/requirement/hajj/package", data)
       .then(function (response) {
         console.log(response.data);
-        if (response.data.message === "Post hajj package details.") {
+        if (
+          response.data.message ===
+          "Successfully hajj requirements details posted."
+        ) {
           toast.success("Post successful.");
           formRef.current.reset();
+          router.push("/b2bdashboard/manage/hajj-visa-requirement")
           setTitle(null);
           setSubTitle(null);
           setGetImage([]);
@@ -73,7 +79,7 @@ const HajjVisaRequirement = () => {
         if (
           (response.data =
             "Internal server error" &&
-            response.data.message !== "Post hajj package details.")
+            response.data.message !== "Successfully hajj requirements details posted.")
         ) {
           toast.error("Please fill all the field.");
         }
@@ -171,7 +177,11 @@ const HajjVisaRequirement = () => {
                 </div>
 
                 <div className={styles.formControl}>
-                  <button disabled={loading ? true : false} className={styles.submitBtn} type="submit">
+                  <button
+                    disabled={loading ? true : false}
+                    className={styles.submitBtn}
+                    type="submit"
+                  >
                     Submit
                   </button>
                 </div>

@@ -359,14 +359,6 @@ const UmrahCard = ({ title, img }) => {
   return (
     <section>
       <div>
-        {/* <div className={style.umrahImgWrap}>
-          <Image
-            loading="lazy"
-            src={img}
-            alt="umra"
-            className={style.umraImage}
-          />
-        </div> */}
         <h3 className="text-3xl font-bold my-8">{title}</h3>
         {umrahDetailsData.length === 0 ? (
           <div>

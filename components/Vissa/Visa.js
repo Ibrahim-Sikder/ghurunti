@@ -24,7 +24,7 @@ const Visa = () => {
   const router = useRouter();
 
   const handleGetVisaData = () => {
-    Cookies.set("v_t", visaType);
+    // Cookies.set("v_t", visaType);
     const data = {
       country_name: visaCountry,
       visa_type: visaType,

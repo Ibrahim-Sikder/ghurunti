@@ -4,18 +4,15 @@ import { Beenhere } from "@mui/icons-material";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { LocalPhone } from "@mui/icons-material";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import SingleVisaSearch from "./SingleVisaSearch";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { useContext } from "react";
-import { APIContext } from "@/Context/ApiContext";
 import { fetchVisaRequirementData } from "@/Redux/features/visaRequirementSlice";
 
 const VisaSearch = () => {
   const visaType = Cookies.get("v_t");
-  const [profession, setProfession] = useState(visaType);
+  const [profession, setProfession] = useState(visaType || "Govt. Job Holder");
   const [showDetail, setShowDetail] = useState(true);
   const visaDetailsData = useSelector((state) => state.visa.visaDetailsData);
   const handleShowDetail = () => {
@@ -26,20 +23,20 @@ const VisaSearch = () => {
 
   const handleVisaRequirement = (e) => {
     Cookies.set("v_t", e);
+
     setProfession(e);
     const data = {
-      visa_type: e || visaType,
+      visa_type: e ? e : profession,
     };
 
     dispatch(fetchVisaRequirementData(data));
   };
-
-  // console.log(requirementDetails);
   const visaRequirementData = useSelector(
     (state) => state["visa-rq"].visaRequirementData
   );
-  console.log(visaRequirementData);
 
+
+  console.log(visaRequirementData)
   return (
     <div>
       <div className={style.visaSearchWrap}>
@@ -128,32 +125,17 @@ const VisaSearch = () => {
                     handleVisaRequirement(classes);
                   }}
                 >
-                  {/* <option value="Govt. Job Holder">Govt. Job Holder</option>
+                  <option selected value="Select your profession" disabled>
+                    Select your profession
+                  </option>
+                  <option value="Govt. Job Holder">Govt. Job Holder</option>
                   <option value="Private Job Holder">Private Job Holder</option>
                   <option value="Student">Student</option>
                   <option value="Non Student">Non Student</option>
                   <option value="House Wife">House Wife </option>
                   <option value="Advocate Lawyer">Advocate Lawyer </option>
                   <option value="Doctor">Doctor </option>
-                  <option value="Unemployment">Unemployment </option> */}
-                  <option
-                    selected={visaType === "Tourist Visa" ? true : false}
-                    value="Tourist Visa"
-                  >
-                    Tourist Visa{" "}
-                  </option>
-                  <option
-                    selected={visaType === "Student Visa" ? true : false}
-                    value="Student Visa"
-                  >
-                    Student Visa{" "}
-                  </option>
-                  <option
-                    selected={visaType === "Business Visa" ? true : false}
-                    value="Business Visa"
-                  >
-                    Business Visa{" "}
-                  </option>
+                  <option value="Unemployment">Unemployment </option>
                 </select>
               </div>
 

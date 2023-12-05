@@ -9,77 +9,36 @@ import "react-quill/dist/quill.snow.css";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRef } from "react";
+import { useRouter } from "next/router";
 
-const Add = ( ) => {
-  const [editorValue, setEditorValue] = useState("");
-  const [quill, setQuill] = useState(null);
-
-  const [getFile, setGetFile] = useState({});
-  const [getImage, setGetImage] = useState([]);
+const Add = () => {
+  const [visaType, setVisaType] = useState("");
   const [value, setValue] = useState("");
-  const [title, setTitle] = useState(null);
-  const [subTitle, setSubTitle] = useState(null);
-  
-
   const [loading, setLoading] = useState(false);
   const formRef = useRef();
 
-  let files;
-  const handlePdf = async (e) => {
-    setGetFile(e.target.files);
-    try {
-      files = e.target.files;
-      const formData = new FormData();
-      for (let i = 0; i < files.length; i++) {
-        formData.append("pdfFiles", files[i]);
-      }
-      setLoading(true)
-      const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
-        method: "POST",
-        body: formData,
-      });
+  const router = useRouter();
 
-      const data = await response.json();
-      if (data.message === "success") {
-        setGetImage(data.imageLinks);
-        setLoading(false)
-      }
-    } catch (error) {
-      console.error("Error uploading file:", error);
-    }
-  };
-
-  const handleUmrahVisaRequirmentData = (e) => {
+  const handlePostVisaRequirement = (e) => {
     e.preventDefault();
     const data = {
-      title: title,
-      sub_title: subTitle,
-      image: getImage,
-      description: value,
-      category:"Umrah Visa Requirment"
+      visa_type: visaType,
+      requirements: value,
     };
     setLoading(true);
     axios
-      .post("http://localhost:5000/api/v1/umrah/details", data)
+      .post("http://localhost:5000/api/v1/requirement", data)
       .then(function (response) {
         console.log(response.data);
-        if (response.data.message === "Successfully post umrah details.") {
-          toast.success("Post successful.");
-          formRef.current.reset();
-        }
         if (
-          (response.data =
-            "Internal server error" &&
-            response.data.message !== "Successfully post umrah details.")
+          response.data.message ===
+          "Successfully visa requirements details posted."
         ) {
-          toast.error("Please fill all the field.");
+          formRef.current.reset();
+          router.push("/b2bdashboard/manage/visa-requirement");
+
+          setLoading(false);
         }
-      })
-      .catch((error) => {
-        toast.error(error.message);
-      })
-      .finally(() => {
-        setLoading(false);
       });
   };
   return (
@@ -89,23 +48,39 @@ const Add = ( ) => {
         <div className={styling.profileTop}>
           <div className={styling.flightHistory}>
             <h2 className="text-3xl font-bold text-center">
-               Visa Requirment Data Input
+              Visa Requirment Data Input
             </h2>
             <div className="w-full mx-auto">
-              <form ref={formRef} onSubmit={handleUmrahVisaRequirmentData}>
+              <form ref={formRef} onSubmit={handlePostVisaRequirement}>
                 <div className={styles.formControl}>
                   <div>
-                    <label>Select Requiurement </label>
-                 <select  className={styles.inputField}>
-                 <option  className={styles.inputField} value="Govt. Job Holder">Govt. Job Holder</option>
+                    <label>Select Requirement </label>
+                    <select
+                      onChange={(e) => setVisaType(e.target.value)}
+                      className={styles.inputField}
+                    >
+                      {/* <option  className={styles.inputField} value="Govt. Job Holder">Govt. Job Holder</option>
                   <option value="Private Job Holder">Private Job Holder</option>
                   <option value="Student">Student</option>
                   <option value="Non Student">Non Student</option>
                   <option value="House Wife">House Wife </option>
                   <option value="Advocate Lawyer">Advocate Lawyer </option>
                   <option value="Doctor">Doctor </option>
-                  <option value="Unemployment">Unemployment </option>
-                 </select>
+                  <option value="Unemployment">Unemployment </option> */}
+
+                     
+                      <option selected value="Select your profession" disabled>Select your profession</option>
+                      <option value="Govt. Job Holder">Govt. Job Holder</option>
+                      <option value="Private Job Holder">
+                        Private Job Holder
+                      </option>
+                      <option value="Student">Student</option>
+                      <option value="Non Student">Non Student</option>
+                      <option value="House Wife">House Wife </option>
+                      <option value="Advocate Lawyer">Advocate Lawyer </option>
+                      <option value="Doctor">Doctor </option>
+                      <option value="Unemployment">Unemployment </option>
+                    </select>
                   </div>
                 </div>
                 <div className={styles.formControl}>
@@ -137,7 +112,11 @@ const Add = ( ) => {
                 </div>
 
                 <div className={styles.formControl}>
-                  <button disabled={loading ? true : false} className={styles.submitBtn} type="submit">
+                  <button
+                    disabled={loading ? true : false}
+                    className={styles.submitBtn}
+                    type="submit"
+                  >
                     Submit
                   </button>
                 </div>
