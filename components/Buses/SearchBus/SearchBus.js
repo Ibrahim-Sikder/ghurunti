@@ -537,6 +537,7 @@ const SearchBus = () => {
           </div>
           <div className={style.searchBusRightSide}>
             <div>
+ 
               {loading ? (
                 <div>Loading ...</div>
               ) : (
@@ -544,6 +545,10 @@ const SearchBus = () => {
                   {errorMessage ? (
                     <div className="text-xl text-center flex justify-center items-center h-full">
                       {errorMessage}
+ 
+ 
+               
+ 
                     </div>
                   ) : (
                     <>

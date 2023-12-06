@@ -26,7 +26,7 @@ const Add = () => {
   const [dayNight, setDayNight] = useState(null);
   const [getDate, setGetDate] = useState(null);
   const [price, setPrice] = useState(null);
-
+  
   const [loading, setLoading] = useState(false);
   const formRef = useRef();
   const router = useRouter();

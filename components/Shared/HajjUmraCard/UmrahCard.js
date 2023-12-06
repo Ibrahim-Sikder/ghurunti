@@ -103,7 +103,7 @@ const UmrahCard = ({ title, img }) => {
                       </h5>
                       <div className={style.cardIconText}>
                         <Beenhere className={style.checkIcon} />
-                        <p className="ml-2">{data.title}</p>
+                        <p className="ml-2">Hotel in Makkah: Distance 400 meters from Haram Sharif & Madinah 300 meters</p>
                       </div>
                       <div className={style.cardIconText}>
                         <Beenhere className={style.checkIcon} />

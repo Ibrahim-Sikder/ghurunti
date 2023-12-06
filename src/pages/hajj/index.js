@@ -6,6 +6,7 @@ import hajj from "../../../public/assets/hajj5.jpeg";
 
 
 const Hajj = () => {
+  
   return (
    <div>
      <HajjLayout>
