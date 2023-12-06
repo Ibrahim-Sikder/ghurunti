@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import style from "./VisaSearch.module.css";
 import { Beenhere } from "@mui/icons-material";
 import TextField from "@mui/material/TextField";
@@ -15,6 +15,7 @@ const VisaSearch = () => {
   const [profession, setProfession] = useState(visaType || "Govt. Job Holder");
   const [showDetail, setShowDetail] = useState(true);
   const visaDetailsData = useSelector((state) => state.visa.visaDetailsData);
+  const arrayVisaDetails = visaDetailsData.getPackage;
   const handleShowDetail = () => {
     setShowDetail((showDetail) => !showDetail);
   };
@@ -35,8 +36,130 @@ const VisaSearch = () => {
     (state) => state["visa-rq"].visaRequirementData
   );
 
+  //  pagination
 
-  console.log(visaRequirementData)
+  const [limit, setLimit] = useState(5);
+  const [currentPage, setCurrentPage] = useState(
+    Number(sessionStorage.getItem("visa")) || 1
+  );
+  const [pageNumberLimit, setPageNumberLimit] = useState(5);
+  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
+  const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
+ 
+
+  useEffect(() => {
+    sessionStorage.setItem("visa", currentPage.toString());
+  }, [currentPage]);
+  // ...
+
+  useEffect(() => {
+    const storedPage = Number(sessionStorage.getItem("visa")) || 1;
+    setCurrentPage(storedPage);
+    setMaxPageNumberLimit(
+      Math.ceil(storedPage / pageNumberLimit) * pageNumberLimit
+    );
+    setMinPageNumberLimit(
+      Math.ceil(storedPage / pageNumberLimit - 1) * pageNumberLimit
+    );
+  }, [pageNumberLimit]);
+
+  // ...
+
+  const handleClick = (e) => {
+    const pageNumber = Number(e.target.id);
+    setCurrentPage(pageNumber);
+    sessionStorage.setItem("visa", pageNumber.toString());
+  };
+  const pages = [];
+  for (let i = 1; i <= Math.ceil(arrayVisaDetails?.length / limit); i++) {
+    pages.push(i);
+  }
+
+  const renderPagesNumber = pages?.map((number) => {
+    if (number < maxPageNumberLimit + 1 && number > minPageNumberLimit) {
+      return (
+        <li
+          key={number}
+          id={number}
+          onClick={handleClick}
+          className={
+            currentPage === number
+              ? "bg-green-500 text-white px-3 rounded-md cursor-pointer"
+              : "cursor-pointer text-black border border-green-500 px-3 rounded-md"
+          }
+        >
+          {number}
+        </li>
+      );
+    } else {
+      return null;
+    }
+  });
+
+  const lastIndex = currentPage * limit;
+  const startIndex = lastIndex - limit;
+  const currentItems = arrayVisaDetails?.slice(startIndex, lastIndex);
+
+  const renderData = (arrayVisaDetails) => {
+    return (
+      <>
+        {arrayVisaDetails.map((visa) => (
+          <SingleVisaSearch
+            key={visa._id}
+            visa={visa}
+            handleShowDetail={handleShowDetail}
+          ></SingleVisaSearch>
+        ))}
+      </>
+    );
+  };
+   
+  
+
+  const handlePrevious = () => {
+    const newPage = currentPage - 1;
+    setCurrentPage(newPage);
+    sessionStorage.setItem("visa", newPage.toString());
+
+    if (newPage % pageNumberLimit === 0) {
+      setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
+      setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+    }
+  };
+  const handleNext = () => {
+    const newPage = currentPage + 1;
+    setCurrentPage(newPage);
+    sessionStorage.setItem("visa", newPage.toString());
+
+    if (newPage > maxPageNumberLimit) {
+      setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
+      setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+    }
+  };
+
+  let pageIncrementBtn = null;
+  if (pages?.length > maxPageNumberLimit) {
+    pageIncrementBtn = (
+      <li
+        onClick={() => handleClick({ target: { id: maxPageNumberLimit + 1 } })}
+        className="cursor-pointer text-black pl-1"
+      >
+        &hellip;
+      </li>
+    );
+  }
+
+  let pageDecrementBtn = null;
+  if (currentPage > pageNumberLimit) {
+    pageDecrementBtn = (
+      <li
+        onClick={() => handleClick({ target: { id: minPageNumberLimit } })}
+        className="cursor-pointer text-black pr-1"
+      >
+        &hellip;
+      </li>
+    );
+  }
   return (
     <div>
       <div className={style.visaSearchWrap}>
@@ -68,13 +191,61 @@ const VisaSearch = () => {
           </div>
 
           <div>
-            {visaDetailsData.getPackage?.map((visa) => (
-              <SingleVisaSearch
-                key={visa._id}
-                visa={visa}
-                handleShowDetail={handleShowDetail}
-              ></SingleVisaSearch>
-            ))}
+
+          <>
+            {arrayVisaDetails?.length === 0 ? (
+              <div className="text-xl text-center flex justify-center items-center h-full">
+                No matching packages found.
+              </div>
+            ) : (
+              <>
+                <section className="lg:w-10/12 mx-auto rounded  ">
+                  {renderData(currentItems)}
+                  <ul
+                    className={
+                      minPageNumberLimit < 5
+                        ? "flex justify-center gap-2 md:gap-4 pb-5 mt-6"
+                        : "flex justify-center gap-[5px] md:gap-2 pb-5 mt-6"
+                    }
+                  >
+                    <button
+                      onClick={handlePrevious}
+                      disabled={currentPage === pages[0] ? true : false}
+                      className={
+                        currentPage === pages[0]
+                          ? "text-gray-400"
+                          : "text-black"
+                      }
+                    >
+                      Previous
+                    </button>
+                    <span
+                      className={minPageNumberLimit < 5 ? "hidden" : "inline"}
+                    >
+                      {pageDecrementBtn}
+                    </span>
+                    {renderPagesNumber}
+                    {pageIncrementBtn}
+                    <button
+                      onClick={handleNext}
+                      disabled={
+                        currentPage === pages[pages?.length - 1] ? true : false
+                      }
+                      className={
+                        currentPage === pages[pages?.length - 1]
+                          ? "text-gray-400"
+                          : "text-black pl-1"
+                      }
+                    >
+                      Next
+                    </button>
+                  </ul>
+                </section>
+              </>
+            )}
+          </>
+
+
           </div>
 
           <div className={style.pricInfo}>

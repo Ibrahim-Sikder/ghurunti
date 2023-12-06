@@ -42,6 +42,11 @@ const Nav = () => {
     router.push("/");
     localStorage.removeItem("l_p");
     localStorage.removeItem("h_p");
+    sessionStorage.removeItem("t_c");
+    sessionStorage.removeItem("b_o");
+    sessionStorage.removeItem("b_t");
+    sessionStorage.removeItem("b_p");
+    sessionStorage.removeItem("b_f");
   };
 
   return (

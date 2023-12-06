@@ -19,7 +19,7 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useDispatch } from "react-redux";
-import { fetchBusData } from "@/Redux/features/busSlice";
+import { fetchBusData, setBusFilterTypes } from "@/Redux/features/busSlice";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 
@@ -107,7 +107,7 @@ const BusBanner = () => {
       adult: adult,
       seat_type: seat,
     };
-
+    dispatch(setBusFilterTypes(data));
     dispatch(fetchBusData(data)).then((result) => {
       console.log(result);
       if (
