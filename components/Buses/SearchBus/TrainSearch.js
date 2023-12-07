@@ -46,81 +46,81 @@ const TrainSearch = () => {
       setSelectedSeats([...selectedSeats, seat]);
     }
   };
-  const [trainClass, setTrainClass] = useState(localStorage.getItem("t_c"));
+  const [trainClass, setTrainClass] = useState(sessionStorage.getItem("t_c"));
 
   const handleAC = () => {
     if (trainClass === "AC_B") {
-      localStorage.removeItem("t_c");
+      sessionStorage.removeItem("t_c");
       setTrainClass(null);
       setReload(!reload);
     } else {
-      localStorage.setItem("t_c", "AC_B");
+      sessionStorage.setItem("t_c", "AC_B");
       setTrainClass("AC_B");
       setReload(!reload);
     }
   };
   const handleSChair = () => {
     if (trainClass === "S_CHAIR") {
-      localStorage.removeItem("t_c");
+      sessionStorage.removeItem("t_c");
       setTrainClass(null);
       setReload(!reload);
     } else {
-      localStorage.setItem("t_c", "S_CHAIR");
+      sessionStorage.setItem("t_c", "S_CHAIR");
       setTrainClass("S_CHAIR");
       setReload(!reload);
     }
   };
   const handleFBERTH = () => {
     if (trainClass === "F_BERTH") {
-      localStorage.removeItem("t_c");
+      sessionStorage.removeItem("t_c");
       setTrainClass(null);
       setReload(!reload);
     } else {
-      localStorage.setItem("t_c", "F_BERTH");
+      sessionStorage.setItem("t_c", "F_BERTH");
       setTrainClass("F_BERTH");
       setReload(!reload);
     }
   };
   const handleSHULOV = () => {
     if (trainClass === "SHULOV") {
-      localStorage.removeItem("t_c");
+      sessionStorage.removeItem("t_c");
       setTrainClass(null);
       setReload(!reload);
     } else {
-      localStorage.setItem("t_c", "SHULOV");
+      sessionStorage.setItem("t_c", "SHULOV");
       setTrainClass("SHULOV");
       setReload(!reload);
     }
   };
   const handleSNIGDHA = () => {
     if (trainClass === "SNIGDHA") {
-      localStorage.removeItem("t_c");
+      sessionStorage.removeItem("t_c");
       setTrainClass(null);
       setReload(!reload);
     } else {
-      localStorage.setItem("t_c", "SNIGDHA");
+      sessionStorage.setItem("t_c", "SNIGDHA");
       setTrainClass("SNIGDHA");
       setReload(!reload);
     }
   };
   const handleJANAPATH = () => {
     if (trainClass === "JANAPATH") {
-      localStorage.removeItem("t_c");
+      sessionStorage.removeItem("t_c");
       setTrainClass(null);
       setReload(!reload);
     } else {
-      localStorage.setItem("t_c", "JANAPATH");
+      sessionStorage.setItem("t_c", "JANAPATH");
       setTrainClass("JANAPATH");
       setReload(!reload);
     }
   };
   const handleAC_CHAIR = () => {
     if (trainClass === "AC_CHAIR") {
-      localStorage.removeItem("t_c");
+      sessionStorage.removeItem("t_c");
       setTrainClass(null);
       setReload(!reload);
     } else {
-      localStorage.setItem("t_c", "AC_CHAIR");
+      sessionStorage.setItem("t_c", "AC_CHAIR");
       setTrainClass("AC_CHAIR");
       setReload(!reload);
     }

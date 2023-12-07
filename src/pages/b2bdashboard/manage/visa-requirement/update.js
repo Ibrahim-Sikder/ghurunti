@@ -9,70 +9,48 @@ import "react-quill/dist/quill.snow.css";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRef } from "react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-const Update = ( ) => {
-  const [editorValue, setEditorValue] = useState("");
-  const [quill, setQuill] = useState(null);
-
-  const [getFile, setGetFile] = useState({});
-  const [getImage, setGetImage] = useState([]);
+const Update = () => {
+  const [singleRequirement, setSingleRequirement] = useState({});
   const [value, setValue] = useState("");
-  const [title, setTitle] = useState(null);
-  const [subTitle, setSubTitle] = useState(null);
-  
-
+  const [visaType, setVisaType] = useState("");
   const [loading, setLoading] = useState(false);
   const formRef = useRef();
 
-  let files;
-  const handlePdf = async (e) => {
-    setGetFile(e.target.files);
-    try {
-      files = e.target.files;
-      const formData = new FormData();
-      for (let i = 0; i < files.length; i++) {
-        formData.append("pdfFiles", files[i]);
-      }
-      setLoading(true)
-      const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
-        method: "POST",
-        body: formData,
-      });
+  const router = useRouter();
+  const { id } = router.query;
 
-      const data = await response.json();
-      if (data.message === "success") {
-        setGetImage(data.imageLinks);
-        setLoading(false)
-      }
-    } catch (error) {
-      console.error("Error uploading file:", error);
+  useEffect(() => {
+    if (id) {
+      fetch(`http://localhost:5000/api/v1/requirement/${id}`)
+        .then((res) => res.json())
+        .then((data) => setSingleRequirement(data.result));
     }
-  };
+  }, [id]);
 
-  const handleUmrahVisaRequirmentData = (e) => {
+  useEffect(() => {
+    setVisaType(singleRequirement.visa_type);
+    setValue(singleRequirement.requirements);
+  }, [singleRequirement.requirements, singleRequirement.visa_type]);
+
+  const handleVisaRequirementUpdate = (e) => {
     e.preventDefault();
     const data = {
-      title: title,
-      sub_title: subTitle,
-      image: getImage,
-      description: value,
-      category:"Umrah Visa Requirment"
+      visa_type: visaType,
+
+      requirements: value || singleRequirement.requirements,
     };
     setLoading(true);
     axios
-      .post("http://localhost:5000/api/v1/umrah/details", data)
+      .put(`http://localhost:5000/api/v1/requirement/${id}`, data)
       .then(function (response) {
         console.log(response.data);
-        if (response.data.message === "Successfully post umrah details.") {
-          toast.success("Post successful.");
+        if (response.data.message === "Package update successful") {
+          toast.success("Package update successful");
           formRef.current.reset();
-        }
-        if (
-          (response.data =
-            "Internal server error" &&
-            response.data.message !== "Successfully post umrah details.")
-        ) {
-          toast.error("Please fill all the field.");
+          router.push("/b2bdashboard/manage/visa-requirement");
         }
       })
       .catch((error) => {
@@ -82,6 +60,12 @@ const Update = ( ) => {
         setLoading(false);
       });
   };
+
+  const handleVisaTypeChange = (e) => {
+    setVisaType(e.target.value);
+  };
+
+ 
   return (
     <B2BdashboardLayout>
       <MoveText />
@@ -89,23 +73,32 @@ const Update = ( ) => {
         <div className={styling.profileTop}>
           <div className={styling.flightHistory}>
             <h2 className="text-3xl font-bold text-center">
-               Visa Requirment Data Update
+              Visa Requirement Data Update
             </h2>
             <div className="w-full mx-auto">
-              <form ref={formRef} onSubmit={handleUmrahVisaRequirmentData}>
+              <form ref={formRef} onSubmit={handleVisaRequirementUpdate}>
                 <div className={styles.formControl}>
                   <div>
-                    <label>Select Requiurement </label>
-                 <select  className={styles.inputField}>
-                 <option  className={styles.inputField} value="Govt. Job Holder">Govt. Job Holder</option>
-                  <option value="Private Job Holder">Private Job Holder</option>
-                  <option value="Student">Student</option>
-                  <option value="Non Student">Non Student</option>
-                  <option value="House Wife">House Wife </option>
-                  <option value="Advocate Lawyer">Advocate Lawyer </option>
-                  <option value="Doctor">Doctor </option>
-                  <option value="Unemployment">Unemployment </option>
-                 </select>
+                    <label>Select Requirement </label>
+                    <select
+                      onChange={handleVisaTypeChange}
+                      className={styles.inputField}
+                      value={visaType}
+                    >
+                      <option selected value="Select your profession" disabled>
+                        Select your profession
+                      </option>
+                      <option value="Govt. Job Holder">Govt. Job Holder</option>
+                      <option value="Private Job Holder">
+                        Private Job Holder
+                      </option>
+                      <option value="Student">Student</option>
+                      <option value="Non Student">Non Student</option>
+                      <option value="House Wife">House Wife </option>
+                      <option value="Advocate Lawyer">Advocate Lawyer </option>
+                      <option value="Doctor">Doctor </option>
+                      <option value="Unemployment">Unemployment </option>
+                    </select>
                   </div>
                 </div>
                 <div className={styles.formControl}>
@@ -137,7 +130,11 @@ const Update = ( ) => {
                 </div>
 
                 <div className={styles.formControl}>
-                  <button disabled={loading ? true : false} className={styles.submitBtn} type="submit">
+                  <button
+                    disabled={loading ? true : false}
+                    className={styles.submitBtn}
+                    type="submit"
+                  >
                     Update
                   </button>
                 </div>
