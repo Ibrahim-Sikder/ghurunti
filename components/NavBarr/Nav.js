@@ -16,7 +16,7 @@ import {
 } from "@mui/icons-material";
 import Typewriter from "typewriter-effect";
 import { useRef } from "react";
-import ibrahim from "../../public/assets/ibrahim.jpg";
+import ibrahim from "../../public/assets/chairman.jpeg";
 import { useRouter } from "next/router";
 
 const Nav = () => {
@@ -118,8 +118,8 @@ const Nav = () => {
                           />
                         </div>
                         <div>
-                          <h4>Ibrahim Sikder</h4>
-                          <small>ibrahimsikder5033@gmail.com</small>
+                          <h4>Ghuronti</h4>
+                          <small>ghuronti@gmail.com</small>
                         </div>
                       </div>
                     </li>
