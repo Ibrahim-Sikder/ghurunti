@@ -106,6 +106,9 @@
 .userIcon {
   font-size: 50px;
   color: #4ab449 !important;
+  cursor: pointer;
+  height: 50px !important;
+  width: 50px !important;
 }
 .accountWrap {
   position: relative;
