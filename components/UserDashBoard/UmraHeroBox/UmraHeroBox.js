@@ -12,6 +12,7 @@ import {
 import ActiveLink from "../../Banner/ActiveLink";
 
 const UmraHeroBox = () => {
+  const [packageType, setPackageType] = useState("Hajj Package")
   return (
     <section>
       {/* banner */}
@@ -258,11 +259,11 @@ const UmraHeroBox = () => {
 
           <div className={style.hajjUmrapackageWrap}>
             <div className={style.hajjUmraPackage}>
-              <select>
+              <select onChange={(e)=>setPackageType(e.target.value)}>
                 <option value="Hajj Package">Hajj Package</option>
                 <option value="Umrah Package">Umrah Package</option>
               </select>
-              <Link href="/b2bdashboard/hajj/search">
+              <Link href={`/b2bdashboard/hajj/search?type=${packageType}`}>
                 <div className={style.searchBtnWrap}>
                   <button> Search</button>
                   <Search className={style.searchIcon} />

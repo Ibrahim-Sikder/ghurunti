@@ -18,10 +18,13 @@ import Typewriter from "typewriter-effect";
 import { useRef } from "react";
 import ibrahim from "../../public/assets/chairman.jpeg";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+import { decryptTransform } from "../EncryptAndDecrypt/EncryptAnsDecrypt";
 
 const Nav = () => {
   const [stickyMenu, setStickyMenu] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
   const toggleMobileMenu = () => {
     setMobileMenu((mobileMenu) => !mobileMenu);
     navRef.current.classList.toggle("active");
@@ -34,12 +37,10 @@ const Nav = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const user = true;
-
-  const router = useRouter();
+  const { push, pathname,router } = useRouter();
+ 
   const handleHome = () => {
-    router.push("/");
+    push("/");
     localStorage.removeItem("l_p");
     localStorage.removeItem("h_p");
     sessionStorage.removeItem("t_c");
@@ -47,6 +48,25 @@ const Nav = () => {
     sessionStorage.removeItem("b_t");
     sessionStorage.removeItem("b_p");
     sessionStorage.removeItem("b_f");
+  };
+  const token = decryptTransform(Cookies.get("token"));
+  useEffect(() => {
+    if (token) {
+      setAuthenticated(true);
+    } else if (!token) {
+      setAuthenticated(false);
+    }
+  }, [token,pathname]);
+
+  const logOut = () => {
+    setAuthenticated(false);
+    Cookies.remove("token");
+    Cookies.remove("id");
+    return push("/");
+  };
+
+  const handleLogOut = () => {
+    logOut();
   };
 
   return (
@@ -92,7 +112,7 @@ const Nav = () => {
                 />
               </div>
               <div className={style.accountWrap}>
-                {user ? (
+                {!authenticated ? (
                   <div className={style.buttonWrap}>
                     <div className={style.signUpBtn}>
                       <Link href="/signup">
@@ -133,7 +153,9 @@ const Nav = () => {
                     <li>
                       <Link href="/profile">Dashboard</Link>
                     </li>
-                    <li>Log Out </li>
+                    <li onClick={handleLogOut} className=" cursor-pointer">
+                      Log Out{" "}
+                    </li>
                   </ul>
                 </div>
               </div>
