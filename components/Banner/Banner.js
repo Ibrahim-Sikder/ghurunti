@@ -18,6 +18,8 @@ import "react-tabs/style/react-tabs.css";
 import { DateRange } from "react-date-range";
 import format from "date-fns/format";
 import { addDays } from "date-fns";
+// import addDays from 'date-fns/esm/addDays/index.js';
+
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
