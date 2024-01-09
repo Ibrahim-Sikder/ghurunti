@@ -4,11 +4,51 @@ import Link from "next/link";
 import { FaSistrix } from "react-icons/fa";
 import { useState } from "react";
 import ActiveLink from "../Banner/ActiveLink";
+import { fetchVisaData } from "@/Redux/features/visaSlice";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 
 const VisaHeroBox = () => {
   const [activePackage, setActivePackage] = useState(true);
   const handleActivePackage = () => {
     setActivePackage((activePackage) => !activePackage);
+  };
+
+
+  const dispatch = useDispatch();
+  const [visaCountry, setVisaCountry] = useState("");
+  const [visaType, setVisaType] = useState("");
+  const [noMatching, setNoMatching] = useState("");
+  // const isLoading = useSelector((state) => state.visa.isLoading);
+  const router = useRouter();
+
+  const handleGetVisaData = () => {
+    console.log("kjhakjdha")
+    // Cookies.set("v_t", visaType);
+    const data = {
+      country_name: visaCountry,
+      visa_type: visaType,
+    };
+
+    dispatch(fetchVisaData(data)).then((result) => {
+      if (
+        result.payload &&
+        result.payload.message === "Successfully visa details gets."
+      ) {
+        router.push("/b2bdashboard/visa/search");
+      } else if (
+        result.payload &&
+        result.payload.message === "No matching package found."
+      ) {
+        setNoMatching("No matching package found.");
+      } else if (
+        result.payload &&
+        result.payload.message === "Please select a country and visa type."
+      ) {
+        toast.error("Please select a country and visa type.");
+      }
+    });
   };
 
   return (
@@ -254,10 +294,13 @@ const VisaHeroBox = () => {
         </div>
         <div className={style.visaWrap}>
           <div>
+          <div className="text-white text-center font-medium lg:text-xl">
+                {noMatching}
+              </div>
             <div className={style.visaPackajWrap}>
               <div className={style.visaPackaj}>
                 <label>Country </label> <br />
-                <select className="select select-success w-full max-w-xs">
+                <select  onChange={(e) => setVisaCountry(e.target.value)} className="select select-success w-full max-w-xs">
                   <option selected="Chose Your Country">
                     Chose Your Country
                   </option>
@@ -277,18 +320,18 @@ const VisaHeroBox = () => {
               </div>
               <div className={style.visaPackaj}>
                 <label>Visa Type </label> <br />
-                <select className="select select-success w-full max-w-xs">
+                <select  onChange={(e) => setVisaType(e.target.value)} className="select select-success w-full max-w-xs">
                   <option selected="Search Your Visa">Search Your Visa</option>
                   <option>Touris Visa</option>
                   <option>Student Visa</option>
                   <option>Business Visa</option>
                 </select>
               </div>
-              <div className={style.visaBtn}>
-                <Link href="/b2bdashboard/visa/search">
-                  <FaSistrix className={style.searchIcon} />
+              <div onClick={handleGetVisaData} className={style.visaBtn}>
+                {/* <Link href="/b2bdashboard/visa/search"> */}
+                  <FaSistrix   className={style.searchIcon} />
                   <span>Search</span>
-                </Link>
+                {/* </Link> */}
               </div>
             </div>
           </div>

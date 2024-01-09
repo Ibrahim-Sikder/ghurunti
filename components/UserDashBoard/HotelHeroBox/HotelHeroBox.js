@@ -8,9 +8,50 @@ import format from "date-fns/format";
 import { addDays } from "date-fns";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import { CalendarMonth } from "@mui/icons-material";
+import { CalendarMonth, Groups2 } from "@mui/icons-material";
+import toast from "react-hot-toast";
+import { fetchHotelData, setHotelData } from "@/Redux/features/hotelSlice";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 
 const HotelHeroBox = () => {
+  const [countryName, setCountryName] = useState(null);
+  const [cityName, setCityName] = useState(null);
+  const [checkInDate, setCheckInDate] = useState(null);
+  const [checkOutDate, setCheckOutDate] = useState(null);
+  const [noMatch, setNoMatch] = useState(null);
+  const [activeToggleMenu, setActiveToggleMenu] = useState(false);
+  const [child, setChild] = useState(0);
+  const [adult, setAdult] = useState(0);
+  const [room, setRoom] = useState("1 Room");
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const childIncrement = () => {
+    setChild(child + 1);
+  };
+  const childDecrement = () => {
+    if (child < 1) {
+      setChild(0);
+    } else {
+      setChild(child - 1);
+    }
+  };
+  const incrementAdult = () => {
+    setAdult(adult + 1);
+  };
+  const decrementAdult = () => {
+    if (child < 1) {
+      setAdult(0);
+    } else {
+      setAdult(child - 1);
+    }
+  };
+
+  const handleActiveMenu = () => {
+    setActiveToggleMenu((activeToggleMenu) => !activeToggleMenu);
+  };
+
   // date state
   const [range, setRange] = useState([
     {
@@ -26,7 +67,6 @@ const HotelHeroBox = () => {
       endDate: addDays(new Date(), 7),
       key: "selection",
     },
-    
   ]);
 
   // open close
@@ -70,83 +110,261 @@ const HotelHeroBox = () => {
     }
   };
 
+  var settings = {
+    infinite: true,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    initialSlide: 0,
+    autoplay: true,
+    speed: 10000,
+    autoplaySpeed: 5000,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 10,
+          initialSlide: 3,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 10,
+          infinite: true,
+        },
+      },
+    ],
+  };
+
+   
+
+  const handleHotelDetailsData = async () => {
+    const data = {
+      country_name: countryName,
+      city_name: cityName,
+      check_in_date: checkInDate,
+      check_out_date: checkOutDate,
+      child: child,
+      adult: adult,
+      room_number: room,
+    };
+    dispatch(setHotelData(data));
+    try {
+      const result = await dispatch(fetchHotelData(data));
+
+      if (
+        result.payload &&
+        result.payload.message === "Successfully hotel details gets."
+      ) {
+        router.push("/b2bdashboard/hotel/search");
+      } else if (
+        result.payload &&
+        result.payload.message === "No matching package found."
+      ) {
+        setNoMatch("No matching package found.");
+      } else if (
+        result.payload &&
+        result.payload.message === "Please select all the field."
+      ) {
+        toast.error("Please select all the field.");
+      }
+    } catch (error) {
+      // Handle errors if needed
+      console.error("Error dispatching fetchHotelData:", error);
+    }
+  };
   return (
     <section className={style.bannerWrap}>
       <h2>Welcome to Ghuronti! Find Tours, Flights & Hotels Packages</h2>
-      <div className={`${style.heroBoxMain} ${styling.hotelHeroBoxMain}`}>
-        <div className={style.packageWrap}>
-          <div className={style.package}>
-            <div>
-              <h4>City/Hotel/Street Name</h4>
-              <input type="text " placeholder="Enter your city" />
-            </div>
-          </div>
-          <div className={style.package2}>
-            <div>
-              <h4>Nationality</h4>
-              <input type="text " placeholder="Bangladesh" />
-            </div>
-          </div>
-        </div>
-        <div className={style.packageWrap}>
-          <div className={style.packageDate}>
-            <div onClick={() => setOpen2((open2) => !open2)} className={style.date}>
-              <h4>Check In</h4>
-              <div className={style.calendarInput}>
-                <input
-                  value={`${format(range2[0].startDate, "MM/dd/yyyy")}`}
-                  readOnly
-                />
-                <CalendarMonth className={style.calendarIcon} />
+      <div className={style.heroBoxMain}>
+          <div className={style.packageWrap}>
+            <div className={style.package}>
+              <div>
+                <h4>Enter Your Destination Country</h4>
+                <select onChange={(e) => setCountryName(e.target.value)}>
+                  <option selected value="Select your country">
+                    Select your country
+                  </option>
+                  <option value="Bangladesh">Bangladesh</option>
+                  <option value="Thailand">Thailand</option>
+                  <option value="Malaysia">Malaysia</option>
+                  <option value="Indonesia">Indonesia</option>
+                  <option value="India">India</option>
+                  <option value="China">China</option>
+                  <option value="Singapore">Singapore</option>
+                  <option value="Iran">Iran</option>
+                  <option value="Vietnam">Vietnam</option>
+                  <option value="Pakistan">Pakistan</option>
+                  <option value="Japan">Japan</option>
+                </select>
               </div>
             </div>
-            <div className={style.calendar} ref={refTow}>
-              {open2 && (
-                <DateRange
-                  onChange={(item) => setRange2([item.selection])}
-                  editableDateInputs={true}
-                  moveRangeOnFirstSelection={false}
-                  ranges={range2}
-                  months={2}
-                  direction="horizontal"
-                  className="calendarElement"
-                />
-              )}
-            </div>
-            <div onClick={() => setOpen((open) => !open)} className={style.date2}>
-              <h4>Check Out</h4>
-              <div className={style.calendarInput}>
-                <input
-                  value={`${format(range[0].startDate, "MM/dd/yyyy")}`}
-                  readOnly
-                />
-                <CalendarMonth className={style.calendarIcon} />
+
+            <div className={style.package2}>
+              <div>
+                <h4>City/Hotel/Street Name</h4>
+                <select onChange={(e) => setCityName(e.target.value)}>
+                  <option selected value="Select your city">
+                    Select your city
+                  </option>
+                  <option value="Dhaka">Dhaka</option>
+                  <option value="Bangkok">Bangkok</option>
+                  <option value="Tokyo">Tokyo</option>
+                  <option value="Kuala Lumpur">Kuala Lumpur</option>
+                  <option value="Jakarta">Jakarta</option>
+                  <option value="Beijing">Beijing</option>
+                  <option value="Singapore Island">Singapore Island</option>
+                  <option value="Iran">Iran</option>
+                  <option value="Hanoi">Hanoi</option>
+                  <option value="Tehran">Tehran</option>
+                  <option value="Islamabad">Islamabad</option>
+                </select>
               </div>
             </div>
-            <div className={style.calendar} ref={refOne}>
-              {open && (
-                <DateRange
-                  onChange={(item) => setRange([item.selection])}
-                  editableDateInputs={true}
-                  moveRangeOnFirstSelection={false}
-                  ranges={range}
-                  months={2}
-                  direction="horizontal"
-                  className="calendarElement"
+          </div>
+          <div className={style.packageWrap}>
+            <div className={style.packageDate}>
+              <div
+                onClick={() => setOpen((open) => !open)}
+                className={style.date}
+              >
+                <h4>Check In</h4>
+                <div className={style.calendarInput}>
+                  <input
+                    onChange={(e) => setCheckInDate(e.target.value)}
+                    name="checkIn"
+                    placeholder="Check In  "
+                    type="date"
+                    className={style.inputField}
+                  />
+                </div>
+
+                {/* <div className={style.calendarTow} ref={refOne}>
+                  {open && (
+                    <DateRange
+                      onChange={handleCheckInDateRangeChange}
+                      editableDateInputs={true}
+                      moveRangeOnFirstSelection={false}
+                      ranges={range}
+                      months={1}
+                      direction="horizontal"
+                      className="calendarElement"
+                    />
+                  )}
+                </div> */}
+              </div>
+              <div
+                onClick={() => setOpen2((open2) => !open2)}
+                className={style.date2}
+              >
+                <h4>Check Out</h4>
+                <div className={style.calendarInput}>
+                  {/* <input
+                    value={`${format(range2[0].startDate, "MM/dd/yyyy")}`}
+                    readOnly
+                  />
+                  <CalendarMonth className={style.calendarIcon} /> */}
+                  <input
+                    onChange={(e) => setCheckOutDate(e.target.value)}
+                    name="checkout"
+                    placeholder="Check Out "
+                    type="date"
+                    className={style.inputField}
+                  />
+                </div>
+
+                {/* <div className={style.calendarTow} ref={refTow}>
+                  {open2 && (
+                    <DateRange
+                      onChange={handleCheckOutDateRangeChange}
+                      editableDateInputs={true}
+                      moveRangeOnFirstSelection={false}
+                      ranges={range2}
+                      months={1}
+                      direction="horizontal"
+                      className="calendarElement"
+                    />
+                  )}
+                </div> */}
+              </div>
+            </div>
+            <div className={style.package4}>
+              <div className="flex justify-between item-center">
+                <div>
+                  <h4>Guests & Room</h4>
+                  <small>
+                    {child + adult} Guest & {room}{" "}
+                  </small>
+                  <input autoComplete="off" type="text" />
+                </div>
+                <Groups2
+                  onClick={() => window.my_modal_3.showModal()}
+                  className={style.showModalIcon}
                 />
-              )}
+              </div>
+              {/* Open modala  */}
+              <div className={style.modalWrap}>
+                <dialog id="my_modal_3" className={style.hotelModal}>
+                  <form method="dialog" className="modal-box">
+                    <button className={style.hotelModalCloseBtn}>✕</button>
+                    <div className={style.guestRoomWrap}>
+                      <Groups2 className={style.groupIcon} />
+                      <div>
+                        <small>Guest & Room </small> <br />
+                        <p className="text-xl font-bold">
+                          {" "}
+                          {child + adult} Guest & {room}{" "}
+                        </p>
+                      </div>
+                    </div>
+                    <div className={style.adultChildWrap}>
+                      <div className={style.adultIncrementDecrement}>
+                        <small onClick={decrementAdult}> - </small>
+                        <span>{adult} Adult </span>
+                        <small onClick={incrementAdult}> + </small>
+                      </div>
+                      <div className={style.childIncrementDecrement}>
+                        <small onClick={childDecrement}> - </small>
+                        <span> {child} Child </span>
+                        <small onClick={childIncrement}> + </small>
+                      </div>
+                    </div>
+                    <select
+                      className={style.roomSelect}
+                      onChange={(e) => {
+                        const classes = e.target.value;
+                        setRoom(classes);
+                      }}
+                    >
+                      <option value="1 Room" selected>
+                        1 Room
+                      </option>
+                      <option value="2 Room">2 Room</option>
+                      <option value="3 Room">3 Room</option>
+                      <option value="4 Room">4 Room</option>
+                      <option value="5 Room">5 Room</option>
+                    </select>
+                  </form>
+                </dialog>
+              </div>
             </div>
           </div>
-          <div className={style.package4}>
-            <div>
-              <h4>Room & Guests</h4>
-              <input type="text " placeholder="1 person" />
-            </div>
-          </div>
-        </div>
-        <Link href="/b2bdashboard/hotel/search">
-          <button className={style.heroBoxBtn}>Get Your Hotel</button>
-        </Link>
+          {/* <Link href="/search"> */}
+
+          <button onClick={handleHotelDetailsData} className={style.heroBoxBtn}>
+            Get Your Hotel
+          </button>
 
         {/* menubar */}
         <div>

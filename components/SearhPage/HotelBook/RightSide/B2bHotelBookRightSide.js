@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./HotelBookRight.module.css";
-const B2bHotelBookRightSide = () => {
+const B2bHotelBookRightSide = ({ handleHotelConfirm, loading }) => {
   return (
     <section className={style.rightSide}>
       <div className={style.rightSideWrap}>
@@ -64,9 +64,15 @@ const B2bHotelBookRightSide = () => {
             </div>
           </div>
         </div>
-       <div className="w-full text-center mt-5">
-       <button className={style.reservationBtn}>Confirm Reservation</button>
-       </div>
+        <div className="w-full text-center mt-5">
+          <button
+            disabled={loading ? true : false}
+            onClick={handleHotelConfirm}
+            className={style.reservationBtn}
+          >
+            Confirm Reservation
+          </button>
+        </div>
       </div>
     </section>
   );
