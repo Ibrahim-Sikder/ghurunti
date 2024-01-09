@@ -58,7 +58,7 @@ const Login = () => {
       setLoading(false);
 
       if (error.response && error.response.status === 400) {
-        console.log(error.response.data.message);
+        
         setLoading(false);
         setError(error.response.data.message);
         setConfirmation("");
