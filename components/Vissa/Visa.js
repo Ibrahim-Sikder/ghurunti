@@ -29,7 +29,7 @@ const Visa = () => {
       country_name: visaCountry,
       visa_type: visaType,
     };
-
+    
     dispatch(fetchVisaData(data)).then((result) => {
       if (
         result.payload &&
