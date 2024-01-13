@@ -1,6 +1,5 @@
 import React from "react";
 import style from "../Vissa/Visa.module.css";
-import Link from "next/link";
 import { FaSistrix } from "react-icons/fa";
 import { useState } from "react";
 import ActiveLink from "../Banner/ActiveLink";
