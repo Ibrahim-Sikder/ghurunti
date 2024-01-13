@@ -3,7 +3,7 @@ import style from "../../../components/Hotel/Hotel.module.css";
 import Link from "next/link";
 import styling from "./HotelHeroBox.module.css";
 import ActiveLink from "../../Banner/ActiveLink";
-import { DateRange } from "react-date-range";
+// import { DateRange } from "react-date-range";
 import format from "date-fns/format";
 import { addDays } from "date-fns";
 import "react-date-range/dist/styles.css";

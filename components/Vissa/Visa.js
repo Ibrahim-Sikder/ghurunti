@@ -14,6 +14,9 @@ import { useRouter } from "next/router";
 import { fetchVisaData } from "@/Redux/features/visaSlice";
 import { useDispatch, useSelector } from "react-redux";
  
+ 
+import Cookies from "js-cookie";
+ 
 
 const Visa = () => {
   const dispatch = useDispatch();

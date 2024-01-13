@@ -7,6 +7,7 @@ import Travel from "../../../components/Travel/Travel";
 import Customer from "../../../components/Customer/Customer";
 import B2bTourDestination from "../../../components/Tour/B2bTourDestination";
 
+
 const index = () => {
   return (
     <B2BdashboardLayout>
@@ -15,7 +16,10 @@ const index = () => {
       <B2bTourDestination />
       <DisCount />
       <Travel />
+      <div className="mb-[80px]">
       <Customer />
+     
+      </div>
     </B2BdashboardLayout>
   );
 };
