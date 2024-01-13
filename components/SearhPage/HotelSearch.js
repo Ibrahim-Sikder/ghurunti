@@ -1,7 +1,4 @@
- 
 /* eslint-disable react-hooks/exhaustive-deps */
- 
- 
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from "react";
 import style from "./HotelSearch.module.css";
@@ -18,14 +15,10 @@ import { useEffect } from "react";
 import { Slider } from "@mui/material";
 import axios from "axios";
 
- 
 const minDistance = 5;
 const HotelSearch = () => {
   const hotelDetailsData = useSelector((state) => state.hotel.hotelDetailsData);
   const [priceRangeData, setPriceRangeData] = useState(null);
- 
-
- 
   const filterData = useSelector((state) => state.hotel.filterData);
   const isLoading = useSelector((state) => state.hotel.isLoading);
   const [hotelDataWithFilter, setHotelDataWithFilter] = useState(
@@ -89,11 +82,7 @@ const HotelSearch = () => {
     } else {
       setHotelDataWithFilter(hotelDetailsData?.getPackage);
     }
- 
   }, [highPrice, lowPrice, reload]);
- 
-  
- 
 
   const [value, setValue] = useState([0, 500]);
 
@@ -124,7 +113,6 @@ const HotelSearch = () => {
         "http://localhost:5000/api/v1/hotel/get/packages/filter",
         data
       );
- 
       setPriceRangeData( activeThumb);
       setHotelDataWithFilter(response.data.getPackage);
     }
@@ -133,11 +121,6 @@ const HotelSearch = () => {
   const handleAll = () => {
     setHotelDataWithFilter(hotelDetailsData?.getPackage);
     setPriceRangeData(null);
- 
-
-      setHotelDataWithFilter(response.data.getPackage);
-    }
- 
   };
 
   return (
@@ -194,11 +177,7 @@ const HotelSearch = () => {
               </button>
             </div>
           </div>
- 
           {hotelDataWithFilter?.length === 0 ? (
- 
-          
- 
             <div className="flex justify-center py-20">
               No matching hotel package found.
             </div>
@@ -251,11 +230,7 @@ const HotelSearch = () => {
                               Price Includes VAT & Tax{" "}
                             </span>
                           </div>
- 
                           <Link href={`/hotel/hotelDetail?id=${hotel._id}`}>
- 
-                       
- 
                             <button className={style.bookBtn}>
                               See Details{" "}
                             </button>

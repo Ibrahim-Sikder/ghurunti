@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import ActiveLink from "../Banner/ActiveLink";
 import { TabList, TabPanel, Tabs, Tab } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import { DateRange } from "react-date-range";
+// import { DateRange } from "react-date-range";
 import format from "date-fns/format";
 import { addDays } from "date-fns";
 import "react-date-range/dist/styles.css";
@@ -601,7 +601,7 @@ const HeroBox = () => {
                         </div>
                       </div>
 
-                      <div className={style.calendar} ref={refOne}>
+                      {/* <div className={style.calendar} ref={refOne}>
                         {open && (
                           <DateRange
                             onChange={(item) => setRange([item.selection])}
@@ -613,7 +613,7 @@ const HeroBox = () => {
                             className="calendarElement"
                           />
                         )}
-                      </div>
+                      </div> */}
                     </div>
                     <div>
                       <div className={style.package4}>
@@ -773,7 +773,7 @@ const HeroBox = () => {
                           <CalendarMonth className={style.calendarIcon} />
                         </div>
                       </div>
-                      <div className={style.calendar} ref={refOne}>
+                      {/* <div className={style.calendar} ref={refOne}>
                         {open && (
                           <DateRange
                             onChange={(item) => setRange([item.selection])}
@@ -785,7 +785,7 @@ const HeroBox = () => {
                             className="calendarElement"
                           />
                         )}
-                      </div>
+                      </div> */}
 
                       <div
                         onClick={() => setOpen2((open2) => !open2)}
@@ -803,7 +803,7 @@ const HeroBox = () => {
                           <CalendarMonth className={style.calendarIcon} />
                         </div>
                       </div>
-
+{/* 
                       <div className={style.calendar} ref={refTow}>
                         {open2 && (
                           <DateRange
@@ -816,7 +816,7 @@ const HeroBox = () => {
                             className="calendarElement"
                           />
                         )}
-                      </div>
+                      </div> */}
 
                       <div
                         onClick={() => window.my_modal_3.showModal()}
@@ -969,7 +969,7 @@ const HeroBox = () => {
                       <CalendarMonth className={style.calendarIcon} />
                     </div>
                   </div>
-                  <div className={style.calendar} ref={refTow}>
+                  {/* <div className={style.calendar} ref={refTow}>
                     {open2 && (
                       <DateRange
                         onChange={(item) => setRange2([item.selection])}
@@ -981,7 +981,7 @@ const HeroBox = () => {
                         className="calendarElement"
                       />
                     )}
-                  </div>
+                  </div> */}
                 </div>
 
                 <div
@@ -1112,7 +1112,7 @@ const HeroBox = () => {
                           <CalendarMonth className={style.calendarIcon} />
                         </div>
                       </div>
-                      <div className={style.calendar} ref={refOne}>
+                      {/* <div className={style.calendar} ref={refOne}>
                         {open && (
                           <DateRange
                             onChange={(item) => setRange([item.selection])}
@@ -1124,7 +1124,7 @@ const HeroBox = () => {
                             className="calendarElement"
                           />
                         )}
-                      </div>
+                      </div> */}
                     </div>
 
                     {inputList.length !== 1 && (

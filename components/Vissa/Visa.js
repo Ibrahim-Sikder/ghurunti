@@ -12,7 +12,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import { fetchVisaData } from "@/Redux/features/visaSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 
 const Visa = () => {
@@ -20,7 +20,7 @@ const Visa = () => {
   const [visaCountry, setVisaCountry] = useState("");
   const [visaType, setVisaType] = useState("");
   const [noMatching, setNoMatching] = useState("");
-  // const isLoading = useSelector((state) => state.visa.isLoading);
+  const isLoading = useSelector((state) => state.visa.isLoading);
   const router = useRouter();
 
   const handleGetVisaData = () => {
