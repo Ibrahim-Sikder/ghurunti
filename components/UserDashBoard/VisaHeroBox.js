@@ -24,8 +24,6 @@ const VisaHeroBox = () => {
   const router = useRouter();
 
   const handleGetVisaData = () => {
-    console.log("kjhakjdha")
-    // Cookies.set("v_t", visaType);
     const data = {
       country_name: visaCountry,
       visa_type: visaType,

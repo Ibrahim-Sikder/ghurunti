@@ -10,11 +10,8 @@ import {
   Groups2,
   CalendarMonth,
 } from "@mui/icons-material";
-import { DateRange } from "react-date-range";
-import format from "date-fns/format";
-import { addDays } from "date-fns";
-import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default.css";
+ 
+ 
 import { useRef } from "react";
 import { useEffect } from "react";
 import dynamic from "next/dynamic";
@@ -55,13 +52,7 @@ const router = useRouter()
   };
 
   // date state
-  const [range, setRange] = useState([
-    {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 7),
-      key: "selection",
-    },
-  ]);
+  
 
   // open close
   const [open, setOpen] = useState(false);
@@ -88,13 +79,13 @@ const router = useRouter()
     }
   };
 
-  const handleJourneyDate = (ranges) => {
-    // Assuming the DateRange component always provides a single range
-    const selectedRange = ranges.selection;
+  // const handleJourneyDate = (ranges) => {
+  //   // Assuming the DateRange component always provides a single range
+  //   const selectedRange = ranges.selection;
 
-    setRange([selectedRange]); // Update the state with the selected date range
-    setJourneyDate(`${format(selectedRange.startDate, "MM/dd/yyyy")}`);
-  };
+  //   setRange([selectedRange]); // Update the state with the selected date range
+  //   setJourneyDate(`${format(selectedRange.startDate, "MM/dd/yyyy")}`);
+  // };
    
 
   const dispatch = useDispatch();

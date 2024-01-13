@@ -10,11 +10,8 @@ import {
   Groups2,
   CalendarMonth,
 } from "@mui/icons-material";
-import { DateRange } from "react-date-range";
-import format from "date-fns/format";
-import { addDays } from "date-fns";
-import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default.css";
+ 
+ 
 import { useRef } from "react";
 import { useEffect } from "react";
 import dynamic from "next/dynamic";
@@ -56,13 +53,7 @@ const BusBanner = () => {
   };
 
   // date state
-  const [range, setRange] = useState([
-    {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 7),
-      key: "selection",
-    },
-  ]);
+ 
 
   // open close
   const [open, setOpen] = useState(false);

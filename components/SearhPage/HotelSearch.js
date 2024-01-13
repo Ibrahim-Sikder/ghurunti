@@ -138,7 +138,8 @@ const HotelSearch = () => {
       setHotelDataWithFilter(response.data.getPackage);
     }
  
-  };
+  
+
 
   return (
     <section>
@@ -196,8 +197,6 @@ const HotelSearch = () => {
           </div>
  
           {hotelDataWithFilter?.length === 0 ? (
- 
-          
  
             <div className="flex justify-center py-20">
               No matching hotel package found.

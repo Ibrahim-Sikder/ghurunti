@@ -12,15 +12,15 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import { fetchVisaData } from "@/Redux/features/visaSlice";
-import { useDispatch } from "react-redux";
-import Cookies from "js-cookie";
+import { useDispatch, useSelector } from "react-redux";
+ 
 
 const Visa = () => {
   const dispatch = useDispatch();
   const [visaCountry, setVisaCountry] = useState("");
   const [visaType, setVisaType] = useState("");
   const [noMatching, setNoMatching] = useState("");
-  // const isLoading = useSelector((state) => state.visa.isLoading);
+  const isLoading = useSelector((state) => state.visa.isLoading);
   const router = useRouter();
 
   const handleGetVisaData = () => {
@@ -29,8 +29,9 @@ const Visa = () => {
       country_name: visaCountry,
       visa_type: visaType,
     };
-
+ 
     dispatch(fetchVisaData(data)).then((result) => {
+      console.log(result)
       if (
         result.payload &&
         result.payload.message === "Successfully visa details gets."
@@ -375,7 +376,7 @@ const Visa = () => {
                   </select>
                 </div>
                 <button
-                  disabled={isLoading ? true : false}
+                  disabled={isLoading}
                   onClick={handleGetVisaData}
                   className={style.visaBtn}
                 >
