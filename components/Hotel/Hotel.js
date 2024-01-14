@@ -173,23 +173,32 @@ const Hotel = () => {
     dispatch(setHotelData(data));
     try {
       const result = await dispatch(fetchHotelData(data));
+      const hasPreviewNullValues = Object.values(data).some(
+        (val) => val === null
+      );
 
+      if (hasPreviewNullValues) {
+        toast.error("Please fill in all the fields.");
+      
+        return;
+      }
       if (
         result.payload &&
         result.payload.message === "Successfully hotel details gets."
       ) {
         router.push("/search");
-      } else if (
-        result.payload &&
-        result.payload.message === "No matching package found."
-      ) {
-        setNoMatch("No matching package found.");
-      } else if (
-        result.payload &&
-        result.payload.message === "Please select all the field."
-      ) {
-        toast.error("Please select all the field.");
-      }
+      } 
+      // else if (
+      //   result.payload &&
+      //   result.payload.message === "No matching package found."
+      // ) {
+      //   setNoMatch("No matching package found.");
+      // } else if (
+      //   result.payload &&
+      //   result.payload.message === "Please select all the field."
+      // ) {
+      //   toast.error("Please select all the field.");
+      // }
     } catch (error) {
       // Handle errors if needed
       console.error("Error dispatching fetchHotelData:", error);

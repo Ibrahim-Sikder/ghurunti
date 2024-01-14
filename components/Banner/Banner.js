@@ -15,13 +15,8 @@ import TextField from "@mui/material/TextField";
 import ActiveLink from "./ActiveLink";
 import { TabList, TabPanel, Tabs, Tab } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-// import { DateRange } from "react-date-range";
-import format from "date-fns/format";
-import { addDays } from "date-fns";
-// import addDays from 'date-fns/esm/addDays/index.js';
-
-// import "react-date-range/dist/styles.css";
-// import "react-date-range/dist/theme/default.css";
+ 
+ 
 
 
 const Banner = ({ setResults }) => {
@@ -41,21 +36,21 @@ const Banner = ({ setResults }) => {
 
   
   // date state
-  const [range, setRange] = useState([
-    {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 7),
-      key: "selection",
-    },
-  ]);
+  // const [range, setRange] = useState([
+  //   {
+  //     startDate: new Date(),
+  //     endDate: addDays(new Date(), 7),
+  //     key: "selection",
+  //   },
+  // ]);
 
-  const [range2, setRange2] = useState([
-    {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 7),
-      key: "selection",
-    },
-  ]);
+  // const [range2, setRange2] = useState([
+  //   {
+  //     startDate: new Date(),
+  //     endDate: addDays(new Date(), 7),
+  //     key: "selection",
+  //   },
+  // ]);
 
 
   // open close
@@ -531,14 +526,14 @@ const Banner = ({ setResults }) => {
                             onClick={() => setOpen((open) => !open)}
                             className={style.calendarInput}
                           >
-                            <input
+                            {/* <input
                               autoComplete="off"
                               value={`${format(
                                 range[0].startDate,
                                 "MM/dd/yyyy"
                               )}`}
                               readOnly
-                            />
+                            /> */}
                             <CalendarMonth className={style.calendarIcon} />
                           </div>
 
@@ -731,14 +726,14 @@ const Banner = ({ setResults }) => {
                         >
                           <h4>Depart To</h4>
                           <div className={style.calendarInput}>
-                            <input
+                            {/* <input
                               autoComplete="off"
                               value={`${format(
                                 range[0].startDate,
                                 "MM/dd/yyyy"
                               )}`}
                               readOnly
-                            />
+                            /> */}
                             <CalendarMonth className={style.calendarIcon} />
                           </div>
                           
@@ -765,13 +760,13 @@ const Banner = ({ setResults }) => {
                         >
                           <h4>Return To </h4>
                           <div className={style.calendarInput}>
-                            <input
+                            {/* <input
                               value={`${format(
                                 range2[0].startDate,
                                 "MM/dd/yyyy"
                               )}`}
                               readOnly
-                            />
+                            /> */}
                             <CalendarMonth className={style.calendarIcon} />
                           </div>
 
@@ -940,10 +935,10 @@ const Banner = ({ setResults }) => {
                         onClick={() => setOpen((open) => !open)}
                         className={style.calendarInput}
                       >
-                        <input
+                        {/* <input
                           value={`${format(range[0].startDate, "MM/dd/yyyy")}`}
                           readOnly
-                        />
+                        /> */}
                         <CalendarMonth className={style.calendarIcon} />
                       </div>
                     </div>
@@ -1094,17 +1089,22 @@ const Banner = ({ setResults }) => {
                             onClick={() => setOpen2((open2) => !open2)}
                             className={style.calendarInput}
                           >
-                            <input
+                            {/* <input
                               value={`${format(
                                 range2[0].startDate,
                                 "MM/dd/yyyy"
                               )}`}
                               readOnly
-                            />
+                            /> */}
                             <CalendarMonth className={style.calendarIcon} />
                           </div>
+ 
+                          <div className={style.calendarTow} ref={refOne}>
+                      {/* {open2 && (
+ 
                           {/* <div className={style.calendarTow} ref={refOne}>
                       {open2 && (
+ 
                         <DateRange
                           onChange={(item) => setRange2([item.selection])}
                           editableDateInputs={true}
@@ -1114,8 +1114,13 @@ const Banner = ({ setResults }) => {
                           direction="horizontal"
                           className="calendarElement"
                         />
+ 
+                      )} */}
+                    </div>
+ 
                       )}
                     </div> */}
+ 
                         </div>
                       </div>
                       <div className={style.multipleCityBtnGroup}>
