@@ -1,56 +1,56 @@
 .editIcon,
 .deleteIcon {
-  font-size: 25px;
-  color: #4ab449;
-  cursor: pointer;
-  text-align: center;
-  margin: 0 auto;
+	font-size: 25px;
+	color: #4ab449;
+	cursor: pointer;
+	text-align: center;
+	margin: 0 auto;
 }
 
 .deleteIcon {
-  color: red;
+	color: red;
 }
 .addHotel button {
-    background: #4ab449;
-    color: white;
-    border: 1px solid #fff;
-    transition: all 0.5s cubic-bezier(0, 0.01, 0.98, 0.93);
-    border-radius: 25px;
-    padding: 10px 15px;
+	background: #4ab449;
+	color: white;
+	border: 1px solid #fff;
+	transition: all 0.5s cubic-bezier(0, 0.01, 0.98, 0.93);
+	border-radius: 25px;
+	padding: 10px 15px;
 }
 .addHotel button:hover {
-  background: #fff;
-  color: #4ab449;
-  border: 1px solid #4ab449;
+	background: #fff;
+	color: #4ab449;
+	border: 1px solid #4ab449;
 }
-.pagination{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 50px;
+.pagination {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 50px;
 }
 
-.paginationBtn button{
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  border: 1px solid #4AB44A;
-  color: #4AB449;
-  border-radius: 50%;
-  margin-right: 5px;
-  font-size: 12px;
-  transition:all .5s ease-in-out;
-
+.paginationBtn button {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	border: 1px solid #4ab44a;
+	color: #4ab449;
+	border-radius: 50%;
+	margin-right: 5px;
+	font-size: 12px;
+	transition: all .5s ease-in-out;
 }
-.paginationBtn button:hover{
-  background-color: #4AB44A;
-  color:white;
-
+.paginationBtn button:hover {
+	background-color: #4ab44a;
+	color: white;
 }
-.arrowLeft, .arrowRight{
-  color: #4AB449 !important;
-  font-size: 15px !important;
+.arrowLeft,
+.arrowRight {
+	color: #4ab449 !important;
+	font-size: 15px !important;
 }
-.arrowLeft:hover, .arrowRight:hover{
-  color:white !important;
+.arrowLeft:hover,
+.arrowRight:hover {
+	color: white !important;
 }

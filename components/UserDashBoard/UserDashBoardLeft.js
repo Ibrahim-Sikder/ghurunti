@@ -249,12 +249,12 @@ const UserDashBoardLeft = () => {
                                 <Hotel className={style.flightIcons} /> Hotel
                               </li>
                             </Active>
-                            <Active href="/b2bdashboard/manage/visa-requirement">
+                            <Active href="/b2bdashboard/manage/visa">
                               <li>
                                 <Beenhere className={style.flightIcons} /> Visa
                               </li>
                             </Active>
-                            <Active href="/b2bdashboard/manage/visa">
+                            <Active href="/b2bdashboard/manage/visa-requirement">
                               <li>
                                 <Beenhere className={style.flightIcons} /> Visa Requirement
                               </li>
