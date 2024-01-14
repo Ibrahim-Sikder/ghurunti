@@ -13,7 +13,10 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import { fetchVisaData } from "@/Redux/features/visaSlice";
 import { useDispatch, useSelector } from "react-redux";
+ 
+ 
 import Cookies from "js-cookie";
+ 
 
 const Visa = () => {
   const dispatch = useDispatch();
@@ -29,8 +32,9 @@ const Visa = () => {
       country_name: visaCountry,
       visa_type: visaType,
     };
-    
+ 
     dispatch(fetchVisaData(data)).then((result) => {
+      console.log(result)
       if (
         result.payload &&
         result.payload.message === "Successfully visa details gets."
@@ -375,7 +379,7 @@ const Visa = () => {
                   </select>
                 </div>
                 <button
-                  disabled={isLoading ? true : false}
+                  disabled={isLoading}
                   onClick={handleGetVisaData}
                   className={style.visaBtn}
                 >

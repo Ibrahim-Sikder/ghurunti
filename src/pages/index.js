@@ -1,6 +1,7 @@
 "use client";
 
 
+import Customer from "../../components/Customer/Customer";
 import Footer from "../../components/Footer/Footer";
 import Nav from "../../components/NavBarr/Nav";
 import { Helmet } from "react-helmet-async";

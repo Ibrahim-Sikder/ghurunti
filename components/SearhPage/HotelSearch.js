@@ -121,7 +121,17 @@ const HotelSearch = () => {
   const handleAll = () => {
     setHotelDataWithFilter(hotelDetailsData?.getPackage);
     setPriceRangeData(null);
+ 
+ 
+
+      setHotelDataWithFilter(response.data.getPackage);
+    }
+ 
+  
+
+ 
   };
+ 
 
   return (
     <section>
@@ -178,6 +188,7 @@ const HotelSearch = () => {
             </div>
           </div>
           {hotelDataWithFilter?.length === 0 ? (
+ 
             <div className="flex justify-center py-20">
               No matching hotel package found.
             </div>
