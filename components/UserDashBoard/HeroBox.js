@@ -7,11 +7,11 @@ import TextField from "@mui/material/TextField";
 import ActiveLink from "../Banner/ActiveLink";
 import { TabList, TabPanel, Tabs, Tab } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import { DateRange } from "react-date-range";
-import format from "date-fns/format";
-import { addDays } from "date-fns";
-import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default.css";
+// import { DateRange } from "react-date-range";
+// import format from "date-fns/format";
+// import { addDays } from "date-fns";
+// import "react-date-range/dist/styles.css";
+// import "react-date-range/dist/theme/default.css";
  
 
 const HeroBox = () => {
@@ -207,21 +207,21 @@ const HeroBox = () => {
 
 
    // date state
-   const [range, setRange] = useState([
-    {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 7),
-      key: "selection",
-    },
-  ]);
+  //  const [range, setRange] = useState([
+  //   {
+  //     startDate: new Date(),
+  //     endDate: addDays(new Date(), 7),
+  //     key: "selection",
+  //   },
+  // ]);
 
-  const [range2, setRange2] = useState([
-    {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 7),
-      key: "selection",
-    },
-  ]);
+  // const [range2, setRange2] = useState([
+  //   {
+  //     startDate: new Date(),
+  //     endDate: addDays(new Date(), 7),
+  //     key: "selection",
+  //   },
+  // ]);
 
 
   // open close
@@ -591,10 +591,10 @@ const HeroBox = () => {
                         <h4>Depart To</h4>
                         <div className={style.calendarInput}>
                           <input
-                            value={`${format(
-                              range[0].startDate,
-                              "MM/dd/yyyy"
-                            )}`}
+                            // value={`${format(
+                            //   range[0].startDate,
+                            //   "MM/dd/yyyy"
+                            // )}`}
                             readOnly
                           />
                           <CalendarMonth className={style.calendarIcon} />
@@ -602,7 +602,7 @@ const HeroBox = () => {
                       </div>
 
                       <div className={style.calendar} ref={refOne}>
-                        {open && (
+                        {/* {open && (
                           <DateRange
                             onChange={(item) => setRange([item.selection])}
                             editableDateInputs={true}
@@ -612,7 +612,7 @@ const HeroBox = () => {
                             direction="horizontal"
                             className="calendarElement"
                           />
-                        )}
+                        )} */}
                       </div>
                     </div>
                     <div>
@@ -764,17 +764,17 @@ const HeroBox = () => {
                         <h4>Depart To</h4>
                         <div className={style.calendarInput}>
                           <input
-                            value={`${format(
-                              range[0].startDate,
-                              "MM/dd/yyyy"
-                            )}`}
+                            // value={`${format(
+                            //   range[0].startDate,
+                            //   "MM/dd/yyyy"
+                            // )}`}
                             readOnly
                           />
                           <CalendarMonth className={style.calendarIcon} />
                         </div>
                       </div>
                       <div className={style.calendar} ref={refOne}>
-                        {open && (
+                        {/* {open && (
                           <DateRange
                             onChange={(item) => setRange([item.selection])}
                             editableDateInputs={true}
@@ -784,7 +784,7 @@ const HeroBox = () => {
                             direction="horizontal"
                             className="calendarElement"
                           />
-                        )}
+                        )} */}
                       </div>
 
                       <div
@@ -794,10 +794,10 @@ const HeroBox = () => {
                         <h4>Return To </h4>
                         <div className={style.calendarInput}>
                           <input
-                            value={`${format(
-                              range2[0].startDate,
-                              "MM/dd/yyyy"
-                            )}`}
+                            // value={`${format(
+                            //   range2[0].startDate,
+                            //   "MM/dd/yyyy"
+                            // )}`}
                             readOnly
                           />
                           <CalendarMonth className={style.calendarIcon} />
@@ -805,7 +805,7 @@ const HeroBox = () => {
                       </div>
 
                       <div className={style.calendar} ref={refTow}>
-                        {open2 && (
+                        {/* {open2 && (
                           <DateRange
                             onChange={(item) => setRange2([item.selection])}
                             editableDateInputs={true}
@@ -815,7 +815,7 @@ const HeroBox = () => {
                             direction="horizontal"
                             className="calendarElement"
                           />
-                        )}
+                        )} */}
                       </div>
 
                       <div
@@ -963,14 +963,14 @@ const HeroBox = () => {
                     <h4>Select Date </h4>
                     <div className={style.calendarInput}>
                       <input
-                        value={`${format(range2[0].startDate, "MM/dd/yyyy")}`}
+                        // value={`${format(range2[0].startDate, "MM/dd/yyyy")}`}
                         readOnly
                       />
                       <CalendarMonth className={style.calendarIcon} />
                     </div>
                   </div>
                   <div className={style.calendar} ref={refTow}>
-                    {open2 && (
+                    {/* {open2 && (
                       <DateRange
                         onChange={(item) => setRange2([item.selection])}
                         editableDateInputs={true}
@@ -980,7 +980,7 @@ const HeroBox = () => {
                         direction="horizontal"
                         className="calendarElement"
                       />
-                    )}
+                    )} */}
                   </div>
                 </div>
 
@@ -1103,17 +1103,17 @@ const HeroBox = () => {
                         <h4>Select Date </h4>
                         <div className={style.calendarInput}>
                           <input
-                            value={`${format(
-                              range[0].startDate,
-                              "MM/dd/yyyy"
-                            )}`}
+                            // value={`${format(
+                            //   range[0].startDate,
+                            //   "MM/dd/yyyy"
+                            // )}`}
                             readOnly
                           />
                           <CalendarMonth className={style.calendarIcon} />
                         </div>
                       </div>
                       <div className={style.calendar} ref={refOne}>
-                        {open && (
+                        {/* {open && (
                           <DateRange
                             onChange={(item) => setRange([item.selection])}
                             editableDateInputs={true}
@@ -1123,7 +1123,7 @@ const HeroBox = () => {
                             direction="horizontal"
                             className="calendarElement"
                           />
-                        )}
+                        )} */}
                       </div>
                     </div>
 

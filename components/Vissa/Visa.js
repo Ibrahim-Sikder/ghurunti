@@ -376,7 +376,7 @@ const Visa = () => {
                   </select>
                 </div>
                 <button
-                  disabled={isLoading}
+                  // disabled={isLoading}
                   onClick={handleGetVisaData}
                   className={style.visaBtn}
                 >
