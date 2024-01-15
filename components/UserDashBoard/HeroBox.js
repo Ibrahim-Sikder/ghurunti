@@ -8,10 +8,12 @@ import ActiveLink from "../Banner/ActiveLink";
 import { TabList, TabPanel, Tabs, Tab } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 // import { DateRange } from "react-date-range";
+ 
 // import format from "date-fns/format";
 // import { addDays } from "date-fns";
 // import "react-date-range/dist/styles.css";
 // import "react-date-range/dist/theme/default.css";
+ 
  
 
 const HeroBox = () => {
@@ -601,8 +603,13 @@ const HeroBox = () => {
                         </div>
                       </div>
 
+ 
                       <div className={style.calendar} ref={refOne}>
                         {/* {open && (
+ 
+                      {/* <div className={style.calendar} ref={refOne}>
+                        {open && (
+ 
                           <DateRange
                             onChange={(item) => setRange([item.selection])}
                             editableDateInputs={true}
@@ -612,8 +619,13 @@ const HeroBox = () => {
                             direction="horizontal"
                             className="calendarElement"
                           />
+ 
                         )} */}
                       </div>
+ 
+                        )}
+                      </div> */}
+ 
                     </div>
                     <div>
                       <div className={style.package4}>
@@ -773,8 +785,13 @@ const HeroBox = () => {
                           <CalendarMonth className={style.calendarIcon} />
                         </div>
                       </div>
+ 
                       <div className={style.calendar} ref={refOne}>
                         {/* {open && (
+ 
+                      {/* <div className={style.calendar} ref={refOne}>
+                        {open && (
+ 
                           <DateRange
                             onChange={(item) => setRange([item.selection])}
                             editableDateInputs={true}
@@ -784,8 +801,13 @@ const HeroBox = () => {
                             direction="horizontal"
                             className="calendarElement"
                           />
+ 
                         )} */}
                       </div>
+ 
+                        )}
+                      </div> */}
+ 
 
                       <div
                         onClick={() => setOpen2((open2) => !open2)}
@@ -803,7 +825,7 @@ const HeroBox = () => {
                           <CalendarMonth className={style.calendarIcon} />
                         </div>
                       </div>
-
+{/* 
                       <div className={style.calendar} ref={refTow}>
                         {/* {open2 && (
                           <DateRange
@@ -815,8 +837,13 @@ const HeroBox = () => {
                             direction="horizontal"
                             className="calendarElement"
                           />
+ 
                         )} */}
                       </div>
+ 
+                        )}
+                      </div> */}
+ 
 
                       <div
                         onClick={() => window.my_modal_3.showModal()}
@@ -969,8 +996,13 @@ const HeroBox = () => {
                       <CalendarMonth className={style.calendarIcon} />
                     </div>
                   </div>
+ 
                   <div className={style.calendar} ref={refTow}>
                     {/* {open2 && (
+ 
+                  {/* <div className={style.calendar} ref={refTow}>
+                    {open2 && (
+ 
                       <DateRange
                         onChange={(item) => setRange2([item.selection])}
                         editableDateInputs={true}
@@ -980,8 +1012,13 @@ const HeroBox = () => {
                         direction="horizontal"
                         className="calendarElement"
                       />
+ 
                     )} */}
                   </div>
+ 
+                    )}
+                  </div> */}
+ 
                 </div>
 
                 <div
@@ -1112,8 +1149,13 @@ const HeroBox = () => {
                           <CalendarMonth className={style.calendarIcon} />
                         </div>
                       </div>
+ 
                       <div className={style.calendar} ref={refOne}>
                         {/* {open && (
+ 
+                      {/* <div className={style.calendar} ref={refOne}>
+                        {open && (
+ 
                           <DateRange
                             onChange={(item) => setRange([item.selection])}
                             editableDateInputs={true}
@@ -1123,8 +1165,13 @@ const HeroBox = () => {
                             direction="horizontal"
                             className="calendarElement"
                           />
+ 
                         )} */}
                       </div>
+ 
+                        )}
+                      </div> */}
+ 
                     </div>
 
                     {inputList.length !== 1 && (

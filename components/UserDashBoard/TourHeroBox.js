@@ -10,7 +10,7 @@ import {
   Groups2,
   CalendarMonth,
 } from "@mui/icons-material";
-import { DateRange } from "react-date-range";
+// import { DateRange } from "react-date-range";
 import format from "date-fns/format";
 import { addDays } from "date-fns";
 import "react-date-range/dist/styles.css";
@@ -458,7 +458,7 @@ const BusBanner = () => {
                     {/* <CalendarMonth className={style.calendarIcon} /> */}
                   </div>
                 </div>
-                <div className={style.calendarTow} ref={refOne}>
+                {/* <div className={style.calendarTow} ref={refOne}>
                   {open && (
                     <DateRange
                       onChange={(item) => setRange([item.selection])}
@@ -470,7 +470,7 @@ const BusBanner = () => {
                       className="calendarElement"
                     />
                   )}
-                </div>
+                </div> */}
               </div>
               <div className={style.formControl}>
                 <div className={style.package4}>

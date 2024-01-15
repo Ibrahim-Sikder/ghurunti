@@ -106,7 +106,7 @@ const Buses = ({ data }) => {
   const renderData = (packages) => {
     return (
       <>
-        {packages?.map((data) => (
+    
           <div key={data._id} className="overflow-x-auto ">
             <table className="table ">
               <thead className={style.tableWrap}>
@@ -120,7 +120,8 @@ const Buses = ({ data }) => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
+               {
+                packages.map(data=> <tr key={data._id}>
                   <td>
                     <div className="mask   h-[100px] w-[100px] mx-auto ">
                       <Image
@@ -133,8 +134,8 @@ const Buses = ({ data }) => {
                       />
                     </div>
                   </td>
-                  <td>রমজানে ওমরা করলে হজ করার সওয়াব </td>
-                  <td>Top package </td>
+                  <td>{data.title} </td>
+                  <td>{data.sub_title} </td>
                   <td>পবিত্র কোরআনুল কারিমে আল্লাহ তায়ালা বলেন</td>
                   <td>20-05-23</td>
                   <td>
@@ -145,11 +146,12 @@ const Buses = ({ data }) => {
                   <td onClick={() => deletePackage(data._id)}>
                     <FaTrashAlt className={style.deleteIcon} />
                   </td>
-                </tr>
+                </tr>)
+               }
               </tbody>
             </table>
           </div>
-        ))}
+       
       </>
     );
   };

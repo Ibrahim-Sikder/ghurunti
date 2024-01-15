@@ -1,0 +1,20 @@
+.showbutton {
+	transition: all .5s ease;
+}
+
+.scrollToTopBtn {
+	width: 40px;
+	height: 40px;
+	background: #4ab449;
+	color: white;
+	position: fixed;
+	right: 10px;
+	bottom: 10px;
+	z-index: 9999 !important;
+	border-radius: 100%;
+	display: grid;
+	place-items: center;
+	transition: all .5s ease;
+	animation-delay: .5s;
+	z-index: 9999999 !important;
+}

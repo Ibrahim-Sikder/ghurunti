@@ -11,10 +11,12 @@ import {
   CalendarMonth,
 } from "@mui/icons-material";
 // import { DateRange } from "react-date-range";
+ 
 // import format from "date-fns/format";
 // import { addDays } from "date-fns";
 // import "react-date-range/dist/styles.css";
 // import "react-date-range/dist/theme/default.css";
+ 
 import { useRef } from "react";
 import { useEffect } from "react";
 import dynamic from "next/dynamic";
@@ -128,9 +130,9 @@ const router = useRouter()
         <div className={style.heroBoxMain}>
           {/* menubar */}
           <div className={style.desktopMenu}>
-            <ul className={style.menu}>
+          <ul className={style.menu}>
               <div className={style.wrapMenu}>
-                <ActiveLink href="/">
+                <ActiveLink href="/b2bdashboard/hajj">
                   <li className={style.firstChild}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -173,7 +175,7 @@ const router = useRouter()
                     <p className="ml-3">Hajj & Umrah</p>
                   </li>
                 </ActiveLink>
-                <ActiveLink href="/flight">
+                <ActiveLink href="/b2bdashboard">
                   <li>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -205,7 +207,7 @@ const router = useRouter()
                     <p className="ml-3">Flight</p>
                   </li>
                 </ActiveLink>
-                <ActiveLink href="/hotel">
+                <ActiveLink href="/b2bdashboard/hotel">
                   <li>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -230,7 +232,7 @@ const router = useRouter()
                     <p className="ml-3">Hotel</p>
                   </li>
                 </ActiveLink>
-                <ActiveLink href="/visa">
+                <ActiveLink href="/b2bdashboard/visa">
                   <li>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -256,7 +258,7 @@ const router = useRouter()
                     <p className="ml-3">Visa</p>
                   </li>
                 </ActiveLink>
-                <ActiveLink href="/tours">
+                <ActiveLink href="/b2bdashboard/tours">
                   <li>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -279,7 +281,7 @@ const router = useRouter()
                     <p className="ml-3">Tours</p>
                   </li>
                 </ActiveLink>
-                <ActiveLink href="/bus">
+                <ActiveLink href="/b2bdashboard/buses">
                   <li>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -302,7 +304,7 @@ const router = useRouter()
                     <p className="ml-3">Buses</p>
                   </li>
                 </ActiveLink>
-                <ActiveLink href="/train">
+                <ActiveLink href="/b2bdashboard/train">
                   <li className={style.lastChild}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

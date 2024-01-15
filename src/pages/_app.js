@@ -55,12 +55,9 @@ export default function App({ Component, pageProps: { ...pageProps } }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-
-
-
 function scrollToTop(){
   window.scrollTo(0,0)
-
+  scroll.scrollToTop({ smooth: true });
 }
 
 
