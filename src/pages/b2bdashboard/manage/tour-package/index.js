@@ -11,6 +11,7 @@ import Link from "next/link";
 import { ArrowForward, ArrowBack } from "@mui/icons-material";
 import axios from "axios";
 import swal from "sweetalert";
+import { DEFAULT_SANS_SERIF_FONT } from "next/dist/shared/lib/constants";
 const ToursPackages = ({ data }) => {
   const [packages, setPackages] = useState(data);
   const [limit, setLimit] = useState(5);
@@ -102,8 +103,8 @@ const ToursPackages = ({ data }) => {
   const renderData = (packages) => {
     return (
       <>
-        {packages?.map((data) => (
-          <div key={data._id} className="overflow-x-auto ">
+
+          <div className="overflow-x-auto ">
             <table className="table ">
               <thead className={style.tableWrap}>
                 <tr>
@@ -116,7 +117,8 @@ const ToursPackages = ({ data }) => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
+              {
+                packages.map(data=>  <tr key={data._id}>
                   <td>
                     <div className="mask   h-[100px] w-[100px] mx-auto ">
                       <Image
@@ -141,11 +143,12 @@ const ToursPackages = ({ data }) => {
                   <td onClick={() => deletePackage(data._id)}>
                     <FaTrashAlt className={style.deleteIcon} />
                   </td>
-                </tr>
+                </tr>)
+              }
               </tbody>
             </table>
           </div>
-        ))}
+
       </>
     );
   };

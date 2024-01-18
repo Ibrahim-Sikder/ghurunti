@@ -12,6 +12,7 @@ import {
   FaHeadset,
   FaSignOutAlt,
   FaAcquisitionsIncorporated,
+  FaImages,
 
 } from "react-icons/fa"
 import Accordion from "@mui/material/Accordion"
@@ -216,6 +217,15 @@ const UserDashBoardLeft = () => {
                     <div className="flex items-center justify-center">
                       <FaSkating className="text-white" />
                       <span>Quick Passengers</span>
+                    </div>
+                  </Active>
+                 
+                </li>
+                <li>
+                <Active href="/b2bdashboard/gallery">
+                    <div className="flex items-center justify-center">
+                      <FaImages className="text-white" />
+                      <span>Gallery</span>
                     </div>
                   </Active>
                 </li>

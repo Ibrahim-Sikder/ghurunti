@@ -25,17 +25,6 @@ const TrainSearch = () => {
  
   const modifyModal = useModifyModal()
  
-  // const busData = [
-  //   {
-  //     id: 1,
-  //     name: "MAHANAGAR PROVATI",
-  //     price: 900.0,
-  //     departureTime: "10.30AM",
-  //     arrivalTime: "12.20PM",
-  //     seats: 33,
-  //   },
-  // ];
- 
 
   const [selectedSeats, setSelectedSeats] = useState([]);
 
@@ -167,7 +156,7 @@ const TrainSearch = () => {
     }
   }, [trainClass, reload, trainDataWithFilter, trainDetailsData?.getPackage]);
 
-   
+   console.log(trainDataWithFilter)
   return (
     <main className={style.trainSearchWrap}>
       <div className={style.busTopBar}>
@@ -339,24 +328,24 @@ const TrainSearch = () => {
                         {bus.train_name}(SNIGDHA)
                       </strong>
                       <small className="block">Dhaka - Biman_Bandar</small>
-                      <p>Starting Point: Uttara</p>
-                      <p>End Point: Bandarban</p>
+                      <p>Starting Point: {bus.starting_point}</p>
+                      <p>End Point: {bus.end_point}</p>
                     </div>
                     <div className={style.busDetail}>
                       <small className="block">DEPARTURE TIME</small>
-                      {/* <strong className=" capitalize">
-                        {bus.departureTime}{" "}
-                      </strong> */}
+                      <strong className=" capitalize">
+                        {bus.departure_time}{" "}
+                      </strong>
                     </div>
                     <div className={style.busDetail}>
                       <small className="block">ARRIVAL TIME</small>
-                      {/* <strong className=" capitalize">
-                        {bus.arrivalTime}{" "}
-                      </strong> */}
+                      <strong className=" capitalize">
+                        {bus.arrival_time}{" "}
+                      </strong>
                     </div>
                     <div className={style.busDetail}>
                       <h5 className=" capitalize">Seats Available</h5>
-                      {/* <strong>{bus.seats}</strong> */}
+                      <strong>{bus.seats}22</strong>
                     </div>
                     <div className={style.busDetail}>
                       <small className="block">FARE</small>

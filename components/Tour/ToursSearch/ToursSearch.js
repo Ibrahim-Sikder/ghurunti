@@ -11,10 +11,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 const ToursSearch = () => {
   const toursDetailsData = useSelector((state) => state.tours.toursDetailsData);
-  // console.log(toursDetailsData.getPackage);
+  console.log(toursDetailsData.getPackage);
   const [toursDataWithFilter, setToursDataWithFilter] = useState(
     toursDetailsData?.getPackage
   );
+  console.log(toursDataWithFilter)
   const [reload, setReload] = useState(false);
   const handleFilterMethod = (e) => {
     if (e === "Traveler Favorite") {
@@ -25,6 +26,8 @@ const ToursSearch = () => {
       setReload(!reload);
     }
   };
+  console.log(toursDataWithFilter)
+  const { category_type, } = toursDataWithFilter
 
   const getMethod = localStorage.getItem("t_f");
   useEffect(() => {
@@ -43,7 +46,7 @@ const ToursSearch = () => {
     }
   }, [getMethod, reload, toursDataWithFilter, toursDetailsData?.getPackage]);
 
-  console.log(toursDataWithFilter);
+
 
   return (
     <div>
@@ -111,81 +114,23 @@ const ToursSearch = () => {
               <h6 className="text-xl font-bold mb-3">
                 120 places sorted by traveler favorites
               </h6>
-              <div className={style.toursCard}>
-                {/* <div className={style.toursCardLeft}>
-                  <Image
-                    loading="lazy"
-                    alt="tours"
-                    src={tours}
-                    width={500}
-                    className={style.toursImg}
-                  />
-                </div> */}
-                {toursDataWithFilter.map((tour) => (
-                  <div key={tour._id} className="grid grid-cols-1">
-                    <h1 className="ml-10 mr-10">
-                      low {tour.price_low_to_hight}
-                    </h1>
-                    <h1 className="ml-10 mr-10">
-                      high {tour.price_hight_to_low}
-                    </h1>
-                    <Link href={`/tours/book?id=${tour._id}`}>
-                        {" "}
-                        <button>Reserve</button>
-                      </Link>
-                  </div>
-                  
-                ))}
-                <div className={style.toursCardRight}>
-                  <h6 className="text-xl">
-                    Explore Dhaka City in a Local Way !!
-                  </h6>
-                  <div className={style.cardTextWrap}>
-                    <div className={style.cardText}>
-                      <div className="flex mt-2">
-                        <StarOutline className={style.star} />
-                        <StarOutline className={style.star} />
-                        <StarOutline className={style.star} />
-                        <StarOutline className={style.star} />
-                        <StarOutline className={style.star} />
-                      </div>
-                      <p>Private and Luxury</p>
-                      <p>6–8 hours</p>
-                      <p>
-                        Stimulate your senses and challenge your photographic
-                        eye by taking part in the awakening of one of the
-                        world’s largest …Free cancellation
-                      </p>
-                      <p>
-                        Free cancellation{" "}
-                        <span>
-                          {" "}
-                          <Block className={style.star} />{" "}
-                        </span>
-                      </p>
-                      <p>Recommended by 100% of travelers</p>
-                    </div>
-                    <div className={style.cardPrice}>
-                      <p>$989</p>
-                      <p>Per adults</p>
-                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className={style.toursCard}>
+              
+            {
+              toursDataWithFilter.map(data=>(
+                <div key={data._id} className={style.toursCard}>
                 <div className={style.toursCardLeft}>
                   <Image
                     loading="lazy"
                     alt="tours"
-                    src={tours2}
+                    src={data?.image[0]}
                     width={500}
+                    height={100}
                     className={style.toursImg}
                   />
                 </div>
                 <div className={style.toursCardRight}>
                   <h6 className="text-xl">
-                    Explore Dhaka City in a Local Way !!
+                   {data.title}
                   </h6>
                   <div className={style.cardTextWrap}>
                     <div className={style.cardText}>
@@ -199,9 +144,7 @@ const ToursSearch = () => {
                       <p>Private and Luxury</p>
                       <p>6–8 hours</p>
                       <p>
-                        Stimulate your senses and challenge your photographic
-                        eye by taking part in the awakening of one of the
-                        world’s largest …Free cancellation
+                        {data.sub_title}
                       </p>
                       <p>
                         Free cancellation{" "}
@@ -213,66 +156,18 @@ const ToursSearch = () => {
                       <p>Recommended by 100% of travelers</p>
                     </div>
                     <div className={style.cardPrice}>
-                      <p>$989</p>
+                      <b>৳{data.price}</b>
                       <p>Per adults</p>
-                      <Link href="/tours/toursReserve">
-                        {" "}
+                      <Link href="/tours/book">
                         <button>Reserve</button>
                       </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className={style.toursCard}>
-                <div className={style.toursCardLeft}>
-                  <Image
-                    loading="lazy"
-                    alt="tours"
-                    src={tours3}
-                    width={500}
-                    className={style.toursImg}
-                  />
-                </div>
-                <div className={style.toursCardRight}>
-                  <h6 className="text-xl">
-                    Explore Dhaka City in a Local Way !!
-                  </h6>
-                  <div className={style.cardTextWrap}>
-                    <div className={style.cardText}>
-                      <div className="flex mt-2">
-                        <StarOutline className={style.star} />
-                        <StarOutline className={style.star} />
-                        <StarOutline className={style.star} />
-                        <StarOutline className={style.star} />
-                        <StarOutline className={style.star} />
-                      </div>
-                      <p>Private and Luxury</p>
-                      <p>6–8 hours</p>
-                      <p>
-                        Stimulate your senses and challenge your photographic
-                        eye by taking part in the awakening of one of the
-                        world’s largest …Free cancellation
-                      </p>
-                      <p>
-                        Free cancellation{" "}
-                        <span>
-                          {" "}
-                          <Block className={style.star} />{" "}
-                        </span>
-                      </p>
-                      <p>Recommended by 100% of travelers</p>
-                    </div>
-                    <div className={style.cardPrice}>
-                      <p>$989</p>
-                      <p>Per adults</p>
-                      <Link href="/tours/toursReserve">
-                        {" "}
-                        <button>Reserve</button>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              ))
+            }
+            
             </div>
           </div>
         </div>

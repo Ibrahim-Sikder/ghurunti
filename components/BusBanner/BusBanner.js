@@ -97,6 +97,7 @@ const BusBanner = () => {
       adult: adult,
       seat_type: seat,
     };
+    
     dispatch(setBusFilterTypes(data));
     dispatch(fetchBusData(data)).then((result) => {
       console.log(result);

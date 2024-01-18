@@ -150,9 +150,9 @@ const SelectedSeats = ({ selectedSeats }) => {
         </select>
        
       <div className="flex items-center justify-between my-5">
-       {/* <Link href='/train/confirm'>  */}
+       <Link href='/train/confirm'> 
        <button className={style.continoueBtn}>Continue Purchase</button>
-       {/* </Link> */}
+       </Link>
         <small className="underline cursor-pointer hover:text-[#0BB811]">
           Close
         </small>
