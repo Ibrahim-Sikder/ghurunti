@@ -35,7 +35,7 @@ const Busses = () => {
   const [loading, setLoading] = useState(false);
   const [child, setChild] = useState(0);
   const [adult, setAdult] = useState(0);
-  const [seat, setSeat] = useState("1 Class");
+  const [seat, setSeat] = useState("");
   const formRef = useRef();
   const router = useRouter();
   const childIncrement = () => {
@@ -104,6 +104,14 @@ const Busses = () => {
       image: getImage,
       description: value,
     };
+    const hasQuotationNullValues = Object.values(data).some(
+      (val) => val === null
+    );
+
+    if (hasQuotationNullValues) {
+      setError("Please fill in all the fields.");
+      return;
+    }
     setLoading(true);
     axios
       .post("http://localhost:5000/api/v1/bus/details", data)
@@ -231,7 +239,7 @@ const Busses = () => {
                 </div>
                 <div className={styles.formControl}>
                   <div>
-                    <label>Journy Date </label>
+                    <label>Journey Date </label>
                     <input
                       onChange={(e) => setJourneyDate(e.target.value)}
                       name="category"
@@ -292,7 +300,10 @@ const Busses = () => {
                               setSeat(classes);
                             }}
                           >
-                            <option value="Class" selected>
+                            <option value="" selected>
+                              Select your class
+                            </option>
+                            <option value="Economy">
                               Economy
                             </option>
                             <option value="Premium">Premium</option>

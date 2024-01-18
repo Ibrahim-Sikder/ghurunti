@@ -13,7 +13,6 @@ import { Helmet } from "react-helmet-async";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { encryptTransform } from "../EncryptAndDecrypt/EncryptAnsDecrypt";
- 
 
 const Login = () => {
   const {
@@ -28,6 +27,7 @@ const Login = () => {
 
   const router = useRouter();
   const [error, setError] = useState("");
+  const [verificationError, setVerificationError] = useState("");
   const [confirmation, setConfirmation] = useState("");
   const [loading, setLoading] = useState(false);
   const onSubmit = async (data) => {
@@ -49,16 +49,22 @@ const Login = () => {
         setConfirmation(
           "Successfully logged in. Explore and enjoy your personalized experience!"
         );
-        router.push("/")
         setError(""); // Assuming you want to log the response data
         Cookies.set("token", encryptTransform(response.data.token));
         Cookies.set("id", encryptTransform(response.data.user.id));
+        Cookies.set("em", encryptTransform(response.data.user.email));
+        const { query } = router;
+        const nextPage = query.next || "/";
+        router.push(nextPage);
+      }
+      if (response.data.status === "failed") {
+        setVerificationError(response.data.message);
+        setError(""); // Assuming you want to log the response data
       }
     } catch (error) {
       setLoading(false);
 
       if (error.response && error.response.status === 400) {
-        
         setLoading(false);
         setError(error.response.data.message);
         setConfirmation("");
@@ -143,10 +149,15 @@ const Login = () => {
                 <div className="py-3 text-center text-red-500">{error}</div>
               )}
               <div className="mb-5">
-                <button disabled={loading} className={style.loginBtn} type="submit">
+                <button
+                  disabled={loading}
+                  className={style.loginBtn}
+                  type="submit"
+                >
                   Login
                 </button>
               </div>
+              <div className="my-3 text-red-400">{verificationError}</div>
               <div className="flex items-center ">
                 <p className={style.devided}></p>
                 <span className="mx-2">or</span>

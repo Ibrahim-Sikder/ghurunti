@@ -17,26 +17,13 @@ const TrainSearch = () => {
     trainDetailsData?.getPackage
   );
   const [reload, setReload] = useState(false);
-  const [chooseSeat, setChooseSeat] = useState("A1", "৳1500", "Economy");
+  // const [chooseSeat, setChooseSeat] = useState("A1", "৳1500", "Economy");
   const [showDetails, setShowDetails] = useState(false);
   const handleShowDetails = () => {
     setShowDetails(!showDetails);
   };
  
   const modifyModal = useModifyModal()
- 
-  // const busData = [
-  //   {
-  //     id: 1,
-  //     name: "MAHANAGAR PROVATI",
-  //     price: 900.0,
-  //     departureTime: "10.30AM",
-  //     arrivalTime: "12.20PM",
-  //     seats: 33,
-  //   },
-  // ];
- 
-
   const [selectedSeats, setSelectedSeats] = useState([]);
 
   const handleSeatSelection = (seat) => {
@@ -292,7 +279,7 @@ const TrainSearch = () => {
                 </ul>
               </div>
             </div>
-            <div className={style.seatTypeWrap}>
+            {/* <div className={style.seatTypeWrap}>
               <strong className={style.type}>DEPARTURE TIME </strong>
               <hr className="border" />
               <div className="mt-2">
@@ -323,7 +310,7 @@ const TrainSearch = () => {
                   </li>
                 </ul>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className={style.searchBusRightSide}>
             <div>

@@ -1,4 +1,4 @@
-import React, { useState }  from "react";
+import React, { useEffect, useState } from "react";
 
 import Link from "next/link";
 import { TabList, TabPanel, Tabs, Tab } from "react-tabs";
@@ -14,15 +14,20 @@ import {
   TransferWithinAStation,
   BusAlert,
   DirectionsRailway,
-  LocalPhone
+  LocalPhone,
 } from "@mui/icons-material";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
-
-import style from './bookin.module.css'
+import style from "./bookin.module.css";
 import B2CDashboardLayout from "../../../../components/Layout/B2CDashboardLayout/B2CDashboardLayout";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { decryptTransform } from "../../../../components/EncryptAndDecrypt/EncryptAnsDecrypt";
+import Cookies from "js-cookie";
 const Booking = () => {
-  const [tabIndex, setTabIndex] = useState(0)
+  const [tabIndex, setTabIndex] = useState(0);
+  const [user, setUser] = useState({});
+  const [trainConfirmation, setTrainConfirmation] = useState([]);
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -37,6 +42,39 @@ const Booking = () => {
     setChecked(newChecked);
   };
 
+  // for train
+
+  const em = decryptTransform(Cookies.get("em"));
+
+  useEffect(() => {
+    try {
+      fetch(`http://localhost:5000/api/v1/user/${em}`)
+        .then((res) => res.json())
+        .then((data) => setUser(data.getUser));
+    } catch (error) {}
+  }, [em]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // console.log(em, user.profile_type)
+        if (em && user.profile_type) {
+          const response = await axios.get(
+            `http://localhost:5000/api/v1/confirmation/train?email=${em}&profile_type=${user.profile_type}`
+          );
+ console.log(response)
+          setTrainConfirmation(response.data.result);
+        }
+      } catch (error) {
+        toast.error("Error fetching data");
+      }
+    };
+
+    fetchData();
+  }, [em, user.profile_type]);
+
+ 
+
   return (
     <div>
       <B2CDashboardLayout>
@@ -48,26 +86,38 @@ const Booking = () => {
             <TabList className={style.tabListWrap}>
               <Tab className={style.bookingTab}>
                 <div className="flex items-center ">
-                  <Flight className={style.bookingIcon}/>
+                  <Flight className={style.bookingIcon} />
                   <span className="ml-2">Flight </span>
                 </div>
               </Tab>
               <Tab className={style.bookingTab}>
                 <div className="flex items-center ">
-                <Hotel className={style.bookingIcon}/>
+                  <Hotel className={style.bookingIcon} />
                   <span className="ml-2">Hotel </span>
                 </div>
               </Tab>
-              <Tab  className={style.bookingTab}>
+              <Tab className={style.bookingTab}>
                 <div className="flex items-center ">
-                <BookOnline className={style.bookingIcon}/>
+                  <BookOnline className={style.bookingIcon} />
                   <span className="ml-2">Visa </span>
                 </div>
               </Tab>
               <Tab className={style.bookingTab}>
                 <div className="flex items-center ">
-                 <TransferWithinAStation className={style.bookingIcon}/>
+                  <TransferWithinAStation className={style.bookingIcon} />
                   <span className="ml-2">Tours </span>
+                </div>
+              </Tab>
+              <Tab className={style.bookingTab}>
+                <div className="flex items-center ">
+                  <TransferWithinAStation className={style.bookingIcon} />
+                  <span className="ml-2">Bus </span>
+                </div>
+              </Tab>
+              <Tab className={style.bookingTab}>
+                <div className="flex items-center ">
+                  <TransferWithinAStation className={style.bookingIcon} />
+                  <span className="ml-2">Trains </span>
                 </div>
               </Tab>
             </TabList>
@@ -106,7 +156,7 @@ const Booking = () => {
                       <button>Flight Details</button>
                     </Link>
                     <Link href="/profile/userbooking/travelerdetails">
-                      <button>Traveller</button>
+                      <button>Traveler</button>
                     </Link>
                     <Link href="/profile/userbooking/fareDetail">
                       <button>Pricing</button>

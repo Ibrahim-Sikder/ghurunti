@@ -4,6 +4,10 @@ import { FaInfo } from "react-icons/fa";
 import Nav from "../../../../components/NavBarr/Nav";
 import Footer from "../../../../components/Footer/Footer";
 const confirm = () => {
+
+
+
+  
   return (
     <div>
       <Nav/>
