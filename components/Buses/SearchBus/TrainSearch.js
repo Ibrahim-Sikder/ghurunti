@@ -18,7 +18,7 @@ const TrainSearch = () => {
   );
 
   const [reload, setReload] = useState(false);
-  const [chooseSeat, setChooseSeat] = useState("A1", "৳1500", "Economy");
+  // const [chooseSeat, setChooseSeat] = useState("A1", "৳1500", "Economy");
   const [showDetails, setShowDetails] = useState(false);
   
   const handleShowDetails = () => {
@@ -26,8 +26,6 @@ const TrainSearch = () => {
   };
  
   const modifyModal = useModifyModal()
- 
-
   const [selectedSeats, setSelectedSeats] = useState([]);
 
   const handleSeatSelection = (seat) => {
@@ -283,7 +281,7 @@ const TrainSearch = () => {
                 </ul>
               </div>
             </div>
-            <div className={style.seatTypeWrap}>
+            {/* <div className={style.seatTypeWrap}>
               <strong className={style.type}>DEPARTURE TIME </strong>
               <hr className="border" />
               <div className="mt-2">
@@ -314,7 +312,7 @@ const TrainSearch = () => {
                   </li>
                 </ul>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className={style.searchBusRightSide}>
             <div>

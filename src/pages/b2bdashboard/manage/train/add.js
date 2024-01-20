@@ -36,7 +36,7 @@ const Train = () => {
 
   const [loading, setLoading] = useState(false);
   const formRef = useRef();
-  const router = useRouter()
+  const router = useRouter();
 
   let files;
   const handlePdf = async (e) => {
@@ -85,7 +85,7 @@ const Train = () => {
       image: getImage,
       description: value,
     };
-    
+
     setLoading(true);
     axios
       .post("http://localhost:5000/api/v1/train/details", data)
@@ -95,9 +95,6 @@ const Train = () => {
           toast.success("Post successful.");
           formRef.current.reset();
           router.push("/b2bdashboard/manage/train");
-
-          // setGetImage([]);
-          // setValue("");
         }
         if (
           (response.data =
@@ -114,8 +111,6 @@ const Train = () => {
         setLoading(false);
       });
   };
-
-  console.log(travelFrom, travelTo, trainName);
 
   return (
     <B2BdashboardLayout>
@@ -226,6 +221,7 @@ const Train = () => {
                       onChange={(e) => setClassType(e.target.value)}
                       className={styles.inputField}
                     >
+                      <option value="" selected>Select type</option>
                       <option value="AC_B">AC_B</option>
                       <option value="S_CHAIR">S_CHAIR</option>
                       <option value="F_BERTH">F_BERTH</option>
@@ -235,11 +231,11 @@ const Train = () => {
                     </select>
                   </div>
                   <div>
-                    <label> Journy Date </label>
+                    <label> Journey Date </label>
                     <input
                       onChange={(e) => setJourneyDate(e.target.value)}
                       name="jouryDate"
-                      placeholder="Journy Date"
+                      placeholder="Journey Date"
                       type="date"
                       className={styles.inputField}
                     />
@@ -262,7 +258,7 @@ const Train = () => {
                     <input
                       onChange={(e) => setDepartureTime(e.target.value)}
                       name="address"
-                      placeholder="DEPARTURE TIME "
+                      placeholder="Departure Time"
                       type="text"
                       className={styles.inputField}
                     />
@@ -274,7 +270,7 @@ const Train = () => {
                     <input
                       onChange={(e) => setArrivalTime(e.target.value)}
                       name="category"
-                      placeholder="ARRIVAL TIME"
+                      placeholder="Arrival Time"
                       type="text"
                       className={styles.inputField}
                     />

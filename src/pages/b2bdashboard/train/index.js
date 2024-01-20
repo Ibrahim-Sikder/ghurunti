@@ -13,7 +13,7 @@ const Train = () => {
   return (
     <B2BdashboardLayout>
       <MoveText />
-    <B2bTrainBanner/>
+      <B2bTrainBanner />
       <BestPlace></BestPlace>
       <Travel></Travel>
       <TourDestination></TourDestination>
