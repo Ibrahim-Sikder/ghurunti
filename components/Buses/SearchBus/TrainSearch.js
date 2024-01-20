@@ -16,9 +16,11 @@ const TrainSearch = () => {
   const [trainDataWithFilter, setTrainDataWithFilter] = useState(
     trainDetailsData?.getPackage
   );
+
   const [reload, setReload] = useState(false);
   const [chooseSeat, setChooseSeat] = useState("A1", "৳1500", "Economy");
   const [showDetails, setShowDetails] = useState(false);
+  
   const handleShowDetails = () => {
     setShowDetails(!showDetails);
   };
