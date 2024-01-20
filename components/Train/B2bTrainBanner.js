@@ -34,7 +34,7 @@ const B2BTrainBanner = () => {
   const [child, setChild] = useState(0);
   const [adult, setAdult] = useState(0);
   const [seat, setSeat] = useState("1 Class");
-const router = useRouter()
+  const router = useRouter();
   const childIncrement = () => {
     setChild(child + 1);
   };
@@ -89,8 +89,6 @@ const router = useRouter()
       setOpen(false);
     }
   };
-
-   
 
   const dispatch = useDispatch();
   const handleTrainDetailsData = () => {
@@ -432,7 +430,7 @@ const router = useRouter()
                       // value={`${format(range[0].startDate, "MM/dd/yyyy")}`}
 
                       type="date"
-                      onChange={(e)=>setJourneyDate(e.target.value)}
+                      onChange={(e) => setJourneyDate(e.target.value)}
                     />
                     {/* <CalendarMonth className={style.calendarIcon} /> */}
                   </div>
@@ -453,12 +451,13 @@ const router = useRouter()
               </div>
               <div className={style.formControl}>
                 <div className={style.package4}>
-                  <label htmlFor="">Choos a class</label>
+                  <label htmlFor="">Choose a class</label>
                   <select
                     onChange={(e) => setSeatType(e.target.value)}
                     name=""
                     id=""
                   >
+                    <option value="" selected>Choose your class</option>
                     <option value="AC_B">AC_B</option>
                     <option value="S_CHAIR">S_CHAIR</option>
                     <option value="F_BERTH">F_BERTH</option>

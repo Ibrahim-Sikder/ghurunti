@@ -8,17 +8,16 @@ import { useState } from "react";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { saveTrainConfirmationData } from "@/Redux/features/trainConfirmationSlice";
 const SelectedSeats = ({ selectedSeats }) => {
   const [selectedSeatNumber, setSelectedSeatNumber] = useState(null);
   const [fareAmount, setFareAmount] = useState(null);
   const [className, setClassName] = useState(null);
   const [getTotalAmount, setGetTotalAmount] = useState(null);
   const [getId, setGetId] = useState("")
-  // const [getName, setGetName] = useState(null);
-  // const [getEmail, setGetEmail] = useState(null);
-  // const [getPhoneNumber, setGetPhoneNumber] = useState(null);
   const [getBoardingPoint, setGetBoardingPoint] = useState(null);
-  const [loading, setLoading] = useState(false);
+
  const router = useRouter  ()
   useEffect(() => {
     const allSeatNumbers = selectedSeats.map((seat) => seat.number).join(", ");
@@ -37,7 +36,38 @@ const SelectedSeats = ({ selectedSeats }) => {
 
  
 
-  const handleConfirmTrain = (e) => {
+  // const handleConfirmTrain = (e) => {
+  //   e.preventDefault();
+
+  //   const data = {
+  //     Seats: selectedSeatNumber,
+  //     fare: fareAmount,
+  //     class: className,
+  //     total: getTotalAmount,
+  //     boarding_point: getBoardingPoint,
+       
+  //   };
+  //   setLoading(true);
+  //   axios
+  //     .post("http://localhost:5000/api/v1/train", data)
+  //     .then(function (response) {
+  //       if (response.data.message === "Send request for train confirmation.") {
+  //         toast.success(
+  //           "Confirmation request accepted. Please wait to confirm."
+  //         );
+  //         router.push("/train/confirm")
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       toast.error(error.message);
+  //       console.log(error)
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  // };
+ const dispatch = useDispatch()
+  const handleConfirmTrain = async (e) => {
     e.preventDefault();
 
     const data = {
@@ -46,31 +76,12 @@ const SelectedSeats = ({ selectedSeats }) => {
       class: className,
       total: getTotalAmount,
       boarding_point: getBoardingPoint,
-       
     };
-    setLoading(true);
-    axios
-      .post("http://localhost:5000/api/v1/train", data)
-      .then(function (response) {
-        console.log(response)
-        if (response.data.message === "Send request for train confirmation.") {
-          toast.success(
-            "Confirmation request accepted. Please wait to confirm."
-          );
-          // setGetId(response.data.result._id)
-          // router.push("/train/confirm")
-        }
-      })
-      .catch((error) => {
-        toast.error(error.message);
-        console.log(error)
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    const result = await dispatch(saveTrainConfirmationData(data));
+    if (result.payload) {
+      router.push("/train/confirm");
+    }
   };
-
-  // console.log(getId)
    
   return (
     <div className="">

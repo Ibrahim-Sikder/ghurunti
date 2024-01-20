@@ -34,7 +34,7 @@ const Update = () => {
   const formRef = useRef();
   const [child, setChild] = useState(0);
   const [adult, setAdult] = useState(0);
-  const [seat, setSeat] = useState("1 Class");
+  const [seat, setSeat] = useState("");
 
   const router = useRouter();
   const { id } = router.query;
@@ -46,13 +46,15 @@ const Update = () => {
         .then((res) => res.json())
         .then((data) => {
           setSpecificPackage(data.getPackage);
-          console.log(data);
+          setChild(specificPackage.child)
+          setAdult(specificPackage.adult)
+          setSeat(specificPackage.seat_type)
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
     }
-  }, [id]);
+  }, [id, specificPackage.adult, specificPackage.child, specificPackage.seat_type]);
 
   const childIncrement = () => {
     setChild(child + 1);
@@ -128,6 +130,7 @@ const Update = () => {
           toast.success("Update successful.");
           formRef.current.reset();
           router.push("/b2bdashboard/manage/buses");
+         
           setGetImage([]);
           setValue("");
         }
@@ -245,11 +248,11 @@ const Update = () => {
                 </div>
                 <div className={styles.formControl}>
                   <div>
-                    <label>Journy Date </label>
+                    <label>Journey Date </label>
                     <input
                       onChange={(e) => setJourneyDate(e.target.value)}
                       name="category"
-                      placeholder="Joury Date"
+                      placeholder="Journey Date"
                       type="date"
                       className={styles.inputField}
                       defaultValue={specificPackage.journey_date}
@@ -259,9 +262,15 @@ const Update = () => {
                     <h4>Passenger Number</h4>
                     <div className={styles.mondalInputFiled}>
                       <div>
-                        <small>
-                          {child + adult} Passenger & {seat} Class
-                        </small>
+                        {child || adult || seat ? (
+                          <small>
+                            {child + adult} Passenger & {seat} 
+                          </small>
+                        ) : (
+                          <small>
+                            {specificPackage.child} child, {specificPackage.adult} adult, & {specificPackage.seat_type}  
+                          </small>
+                        )}
                         <input autoComplete="off" type="text" />
                       </div>
                       <div>
@@ -306,8 +315,12 @@ const Update = () => {
                               const classes = e.target.value;
                               setSeat(classes);
                             }}
+                            value={specificPackage.seat_type}
                           >
-                            <option value="Class" selected>
+                            <option value="" selected>
+                              Select your class
+                            </option>
+                            <option value="Economy">
                               Economy
                             </option>
                             <option value="Premium">Premium</option>

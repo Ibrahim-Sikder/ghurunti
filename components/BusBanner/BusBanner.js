@@ -26,7 +26,7 @@ const BusBanner = () => {
   const [journeyDate, setJourneyDate] = useState(null);
   const [child, setChild] = useState(0);
   const [adult, setAdult] = useState(0);
-  const [seat, setSeat] = useState("1 Class");
+  const [seat, setSeat] = useState("Economy");
  const router = useRouter()
 
 

@@ -447,6 +447,7 @@ const router = useRouter()
                     name=""
                     id=""
                   >
+                    <option value="" selected>Select type</option>
                     <option value="AC_B">AC_B</option>
                     <option value="S_CHAIR">S_CHAIR</option>
                     <option value="F_BERTH">F_BERTH</option>

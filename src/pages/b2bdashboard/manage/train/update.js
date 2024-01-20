@@ -43,7 +43,6 @@ const Update = () => {
  
 
   useEffect(() => {
-    // Make sure id is defined before making the fetch request
     if (id) {
       fetch(`http://localhost:5000/api/v1/train/${id}`)
         .then((res) => res.json())
@@ -219,7 +218,7 @@ const Update = () => {
                     <select
                       onChange={(e) => setCityName(e.target.value)}
                       className={styles.inputField}
-                      defaultValue={cityName || specificPackage?.city_name}
+                      value={cityName || specificPackage?.city_name}
                     >
                       <option selected value="Dhaka">
                         Select your city
@@ -246,6 +245,7 @@ const Update = () => {
                       className={styles.inputField}
                       value={classType || specificPackage?.class_type}
                     >
+                      <option value="" selected>Select type</option>
                       <option value="AC_B">AC_B</option>
                       <option value="S_CHAIR">S_CHAIR</option>
                       <option value="F_BERTH">F_BERTH</option>
@@ -259,7 +259,7 @@ const Update = () => {
                     <input
                       onChange={(e) => setJourneyDate(e.target.value)}
                       name="jouryDate"
-                      placeholder="Journy Date"
+                      placeholder="Journey Date"
                       type="date"
                       className={styles.inputField}
                       defaultValue={specificPackage.journey_date}
