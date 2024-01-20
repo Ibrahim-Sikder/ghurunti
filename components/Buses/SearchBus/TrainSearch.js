@@ -156,7 +156,7 @@ const TrainSearch = () => {
     }
   }, [trainClass, reload, trainDataWithFilter, trainDetailsData?.getPackage]);
 
-   console.log(trainDataWithFilter)
+
   return (
     <main className={style.trainSearchWrap}>
       <div className={style.busTopBar}>

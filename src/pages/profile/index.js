@@ -8,7 +8,7 @@ const index = () => {
     return (
         <div>
             <B2CDashboardLayout>
-            <ProfileRightSide></ProfileRightSide>
+            <ProfileRightSide/>
             </B2CDashboardLayout>
         </div>
     );

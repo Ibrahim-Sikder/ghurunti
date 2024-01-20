@@ -1,13 +1,13 @@
 
   .tabListWrap{
-    margin-left:290px ;
+  
     width: 100%;
     display: flex;
-    margin-top: 10px;
+    margin-top: 15px;
   }
   .bookingIcon{
     font-size: 30px !important;
-    color: black !important;
+  
   }
   .bookingTab{
     cursor: pointer;
@@ -360,14 +360,7 @@
   }
   
   
-  
-  
-  
-  
-  
-  
-  
-  
+
   @media only screen and (max-width: 500px) {
     .tabListWrap{
       margin-left: 20px !important;

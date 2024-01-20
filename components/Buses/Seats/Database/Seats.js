@@ -1,6 +1,6 @@
 const allSeats = [
     { id: 1, number: 'Driver', isBooked: true },
-    { id: 2, number: 'A1', isBooked: false, fare: 1200, class: 'Economy' },
+    { id: 2, number: 'A1', isBooked: true, fare: 1200, class: 'Economy' },
     { id: 3, number: 'A2', isBooked: false, fare: 1200, class: 'Economy' },
     { id: 4, number: 'A3', isBooked: false, fare: 1200, class: 'Economy' },
     { id: 5, number: 'A4', isBooked: false, fare: 1200, class: 'Economy' },

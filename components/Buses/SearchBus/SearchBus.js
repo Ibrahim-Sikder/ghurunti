@@ -295,6 +295,7 @@ const SearchBus = () => {
     );
   };
 
+  
   const handlePrevious = () => {
     const newPage = currentPage - 1;
     setCurrentPage(newPage);

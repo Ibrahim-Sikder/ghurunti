@@ -27,6 +27,7 @@ const TrainSearch = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
 
   const handleSeatSelection = (seat) => {
+    console.log(seat)
     if (selectedSeats.includes(seat)) {
       setSelectedSeats(selectedSeats.filter((s) => s !== seat));
     } else {
