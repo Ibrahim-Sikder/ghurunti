@@ -36,6 +36,7 @@ const ToursReserve = () => {
   const { id } = router.query;
 
   const [specificPackage, setSpecificPackage] = useState({});
+  console.log(specificPackage)
   useEffect(() => {
     // Make sure id is defined before making the fetch request
     if (id) {
@@ -43,7 +44,7 @@ const ToursReserve = () => {
         .then((res) => res.json())
         .then((data) => {
           setSpecificPackage(data.getPackage);
-          console.log(data);
+        
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
@@ -296,7 +297,7 @@ const ToursReserve = () => {
                     className={style.accordonSummary}
                   >
                     <Typography className={style.accordionTypo}>
-                      <strong>Itinerary</strong>
+                      <strong>Itinary</strong>
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails className={style.accordionDetails}>

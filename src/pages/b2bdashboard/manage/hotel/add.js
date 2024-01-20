@@ -145,7 +145,6 @@ const Hotel = () => {
         setLoading(false);
       });
   };
-
   console.log(checkInDate, checkOutDate);
   return (
     <B2BdashboardLayout>

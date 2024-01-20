@@ -12,6 +12,7 @@ import {
   FaHeadset,
   FaSignOutAlt,
   FaAcquisitionsIncorporated,
+  FaImages,
 
 } from "react-icons/fa"
 import Accordion from "@mui/material/Accordion"
@@ -218,6 +219,15 @@ const UserDashBoardLeft = () => {
                       <span>Quick Passengers</span>
                     </div>
                   </Active>
+                 
+                </li>
+                <li>
+                <Active href="/b2bdashboard/gallery">
+                    <div className="flex items-center justify-center">
+                      <FaImages className="text-white" />
+                      <span>Gallery</span>
+                    </div>
+                  </Active>
                 </li>
                 <li>
                   <Accordion className={style.bookingHistory}>
@@ -249,12 +259,12 @@ const UserDashBoardLeft = () => {
                                 <Hotel className={style.flightIcons} /> Hotel
                               </li>
                             </Active>
-                            <Active href="/b2bdashboard/manage/visa-requirement">
+                            <Active href="/b2bdashboard/manage/visa">
                               <li>
                                 <Beenhere className={style.flightIcons} /> Visa
                               </li>
                             </Active>
-                            <Active href="/b2bdashboard/manage/visa">
+                            <Active href="/b2bdashboard/manage/visa-requirement">
                               <li>
                                 <Beenhere className={style.flightIcons} /> Visa Requirement
                               </li>

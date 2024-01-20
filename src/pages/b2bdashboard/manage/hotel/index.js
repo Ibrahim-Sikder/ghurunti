@@ -13,6 +13,7 @@ import axios from "axios";
 import swal from "sweetalert";
 const Hotel = ({ data }) => {
   const [packages, setPackages] = useState(data);
+  console.log(packages)
   const [limit, setLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(
     Number(sessionStorage.getItem("hotel")) || 1
@@ -102,9 +103,9 @@ const Hotel = ({ data }) => {
   const renderData = (packages) => {
     return (
       <>
-        {packages?.map((data) => (
-          <div key={data._id} className="overflow-x-auto ">
-            <table className="table ">
+       
+          <div className="overflow-x-auto ">
+            <table className="table">
               <thead className={style.tableWrap}>
                 <tr>
                   <th>Image</th>
@@ -116,7 +117,8 @@ const Hotel = ({ data }) => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
+               {
+                packages.map(data=> <tr key={data._id}>
                   <td>
                     <div className="mask   h-[100px] w-[100px] mx-auto ">
                       <Image
@@ -129,10 +131,10 @@ const Hotel = ({ data }) => {
                       />
                     </div>
                   </td>
-                  <td>রমজানে ওমরা করলে হজ করার সওয়াব </td>
+                  <td>{data.title} </td>
                   <td>Top package </td>
-                  <td>পবিত্র কোরআনুল কারিমে আল্লাহ তায়ালা বলেন</td>
-                  <td>20-05-23</td>
+                  <td>{data.sub_title} </td>
+                  <td>{data.updatedAt}</td>
                   <td>
                     <Link href={`/b2bdashboard/manage/hotel/update?id=${data._id}`}>
                       <FaEdit className={style.editIcon} />
@@ -141,11 +143,12 @@ const Hotel = ({ data }) => {
                   <td onClick={() => deletePackage(data._id)}>
                     <FaTrashAlt className={style.deleteIcon} />
                   </td>
-                </tr>
+                </tr>)
+               }
               </tbody>
             </table>
           </div>
-        ))}
+       
       </>
     );
   };

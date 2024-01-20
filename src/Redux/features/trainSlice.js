@@ -8,7 +8,6 @@ const initialState = {
   isError: false,
   error: "",
 };
-
 export const fetchTrainData = createAsyncThunk(
   "train/fetchTrainData",
   async (data) => {
