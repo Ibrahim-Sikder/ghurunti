@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
 import MoveText from "../../../../../components/UserDashBoard/MoveText/MoveText";
 import B2BdashboardLayout from "../../../../../components/Layout/B2BdashboardLayout/B2BdashboardLayout";
 import style from "../hotel/hotel.module.css";
 import { FaTrashAlt, FaEdit } from "react-icons/fa";
-import img from "../../../../../public/assets/hotel.jpg";
 import Image from "next/image";
 import TextField from "@mui/material/TextField";
 import Link from "next/link";

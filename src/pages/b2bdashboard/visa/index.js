@@ -13,7 +13,9 @@ const Visa = () => {
       <VisaHeroBox />
       <Countries />
       <Passion />
-      <Travel />
+     <div className="mb-[100px]">
+     <Travel />
+     </div>
     </B2BdashboardLayout>
   );
 };

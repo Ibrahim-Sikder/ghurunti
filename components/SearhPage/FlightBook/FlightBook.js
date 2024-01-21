@@ -162,6 +162,7 @@ const FlightBook = () => {
         <p className={style.mandatory}>
           *It is mandatory to upload copy of your valid passport and visa
         </p>
+        
         <div className={style.uploadWrap}>
           <div>
             <p className="mb-2">Passport Copy (max 2MB)</p>

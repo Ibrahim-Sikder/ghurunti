@@ -11,7 +11,7 @@ import Image from "next/image"
 import SectionTitle from "../../Shared/SectionTitle/SectionTitle"
 const Reveiw = () => {
   return (
-    <section className="mb-10">
+    <section className="mb-[100px]">
       <div className={style.swiperSliderWrap}>
         <SectionTitle heading="What Our Client Say "></SectionTitle>
         <Swiper

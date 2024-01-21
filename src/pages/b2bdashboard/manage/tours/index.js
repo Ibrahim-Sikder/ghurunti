@@ -102,8 +102,8 @@ const Tours = ({ data }) => {
   const renderData = (packages) => {
     return (
       <>
-        {packages?.map((data) => (
-          <div key={data._id} className="overflow-x-auto ">
+    
+          <div className="overflow-x-auto ">
             <table className="table ">
               <thead className={style.tableWrap}>
                 <tr>
@@ -116,38 +116,40 @@ const Tours = ({ data }) => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    <div className="mask   h-[100px] w-[100px] mx-auto ">
-                      <Image
-                        loading="lazy"
-                        className="h-20 w-20 object-cover text-center"
-                        src={data.image[0]}
-                        alt="img"
-                        width={100}
-                        height={100}
-                      />
-                    </div>
-                  </td>
-                  <td>রমজানে ওমরা করলে হজ করার সওয়াব </td>
-                  <td>Top package </td>
-                  <td>পবিত্র কোরআনুল কারিমে আল্লাহ তায়ালা বলেন</td>
-                  <td>20-05-23</td>
-                  <td>
-                    <Link
-                      href={`/b2bdashboard/manage/tours/update?id=${data._id}`}
-                    >
-                      <FaEdit className={style.editIcon} />
-                    </Link>
-                  </td>
-                  <td onClick={() => deletePackage(data._id)}>
-                    <FaTrashAlt className={style.deleteIcon} />
-                  </td>
-                </tr>
+                {
+                  packages.map(data=><tr key={data._id}>
+                    <td>
+                      <div className="mask   h-[100px] w-[100px] mx-auto ">
+                        <Image
+                          loading="lazy"
+                          className="h-20 w-20 object-cover text-center"
+                          src={data.image[0]}
+                          alt="img"
+                          width={100}
+                          height={100}
+                        />
+                      </div>
+                    </td>
+                    <td>{data.title} </td>
+                    <td>Top package </td>
+                    <td>{data.sub_title}</td>
+                    <td>20-05-23</td>
+                    <td>
+                      <Link
+                        href={`/b2bdashboard/manage/tours/update?id=${data._id}`}
+                      >
+                        <FaEdit className={style.editIcon} />
+                      </Link>
+                    </td>
+                    <td onClick={() => deletePackage(data._id)}>
+                      <FaTrashAlt className={style.deleteIcon} />
+                    </td>
+                  </tr>)
+                }
               </tbody>
             </table>
           </div>
-        ))}
+      
       </>
     );
   };

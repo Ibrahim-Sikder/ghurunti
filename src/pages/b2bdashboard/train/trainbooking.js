@@ -11,80 +11,7 @@ const TrainBooking = () => {
   const [reload, setReload] = useState(false);
   const [user, setUser] = useState({});
   const [trainConfirmation, setTrainConfirmation] = useState([]);
-  // const bookingData = [
-  //   {
-  //     id: 1,
-  //     name: "Ibrahim Sikder",
-  //     destination: "Destination",
-  //     phone: "013565423",
-  //     email: "ibrahimsikder5033@gmail.com",
-  //     requiruement: "I want to go Umrah package",
-  //     date: "05-12-2023",
-  //     passengerNumber: 5,
-  //     passportNumber: 3567876543,
-  //     city: "Cox's Bazar",
-  //   },
-  //   {
-  //     id: 1,
-  //     name: "Ibrahim Sikder",
-  //     destination: "Destination",
-  //     phone: "013565423",
-  //     email: "ibrahimsikder5033@gmail.com",
-  //     requiruement: "I want to go Umrah package",
-  //     date: "05-12-2023",
-  //     passengerNumber: 5,
-  //     passportNumber: 3567876543,
-  //     city: "Cox's Bazar",
-  //   },
-  //   {
-  //     id: 1,
-  //     name: "Ibrahim Sikder",
-  //     destination: "Destination",
-  //     phone: "013565423",
-  //     email: "ibrahimsikder5033@gmail.com",
-  //     requiruement: "I want to go Umrah package",
-  //     date: "05-12-2023",
-  //     passengerNumber: 5,
-  //     passportNumber: 3567876543,
-  //     city: "Cox's Bazar",
-  //   },
-  //   {
-  //     id: 1,
-  //     name: "Ibrahim Sikder",
-  //     destination: "Destination",
-  //     phone: "013565423",
-  //     email: "ibrahimsikder5033@gmail.com",
-  //     requiruement: "I want to go Umrah package",
-  //     date: "05-12-2023",
-  //     passengerNumber: 5,
-  //     passportNumber: 3567876543,
-  //     city: "Cox's Bazar",
-  //   },
-  //   {
-  //     id: 1,
-  //     name: "Ibrahim Sikder",
-  //     destination: "Destination",
-  //     phone: "013565423",
-  //     email: "ibrahimsikder5033@gmail.com",
-  //     requiruement: "I want to go Umrah package",
-  //     date: "05-12-2023",
-  //     passengerNumber: 5,
-  //     passportNumber: 3567876543,
-  //     city: "Cox's Bazar",
-  //   },
-  //   {
-  //     id: 1,
-  //     name: "Ibrahim Sikder",
-  //     destination: "Destination",
-  //     phone: "013565423",
-  //     email: "ibrahimsikder5033@gmail.com",
-  //     requiruement: "I want to go Umrah package",
-  //     date: "05-12-2023",
-  //     passengerNumber: 5,
-  //     passportNumber: 3567876543,
-  //     city: "Cox's Bazar",
-  //   },
-  // ];
+
 
   const em = decryptTransform(Cookies.get("em"));
 
@@ -146,7 +73,7 @@ const TrainBooking = () => {
   return (
     <B2BdashboardLayout>
       <div className={style.ticketListHead}>
-        <h3 className="text-2xl font-bold text-white">Tour Booking Info</h3>
+        <h3 className="text-2xl font-bold text-white">Train Booking Details </h3>
       </div>
 
       <div className="mt-5">
@@ -156,14 +83,18 @@ const TrainBooking = () => {
               <table className="table lg:table-auto columns-xl break-after-column">
                 <thead className={style.tableWrap}>
                   <tr>
-                    <th>Name </th>
-                    <th>Destination </th>
+                    <th>Train Name </th>
+                    <th>Passenger Name </th>
                     <th>Mobile Number</th>
                     <th>Email</th>
-                    <th>Requirement</th>
-                    <th>Passport Number</th>
+                    <th>Seat Type </th>
+                    <th>Seats</th>
                     <th>Passenger Number </th>
-                    <th>Approved</th>
+                    <th>Deperture Time </th>
+                    <th>ARRIVAL TIME </th>
+                    <th>Starting Point </th>
+                    <th>End Point </th>
+                    <th>Total Fare </th>
                     <th>Action </th>
                   </tr>
                 </thead>

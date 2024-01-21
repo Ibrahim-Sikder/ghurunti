@@ -88,7 +88,8 @@ const router = useRouter()
       journey_date: journeyDate,
       class_type: seatType,
     };
-
+    
+    
     dispatch(fetchTrainData(data)).then((result) => {
       console.log(result);
       if (

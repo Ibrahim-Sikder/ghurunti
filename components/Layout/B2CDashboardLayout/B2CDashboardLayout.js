@@ -9,7 +9,7 @@ const B2CDashboardLayout = ({ children }) => {
       <Nav/>
       <div className={style.profileWrap}>
         <aside className={style.userProfileLeftSide}>
-          <ProfileLeftSide></ProfileLeftSide>
+          <ProfileLeftSide/>
         </aside>
         <main className={style.userProfileRightSide}>
         {children}

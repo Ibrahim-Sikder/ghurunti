@@ -295,6 +295,7 @@ const SearchBus = () => {
     );
   };
 
+  
   const handlePrevious = () => {
     const newPage = currentPage - 1;
     setCurrentPage(newPage);
@@ -552,7 +553,8 @@ const SearchBus = () => {
                     </div>
                   ) : (
                     <>
-                      <section className="lg:w-10/12 mx-auto rounded  ">
+                    {/* lg:w-10/12 mx-auto rounded  */}
+                      <section className=" ">
                         {renderData(currentItems)}
                         <ul
                           className={

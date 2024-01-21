@@ -394,7 +394,7 @@ const HajjUmrahCard = ({ title, img }) => {
                   </div>
                 ) : (
                   <>
-                    <section className="lg:w-10/12 mx-auto rounded  ">
+                    <section>
                       {renderData(currentItems)}
                       <ul
                         className={

@@ -1,91 +1,27 @@
 .userProfileLeftSide {
-  background: #092e3d;
-  width: 100%;
-  height: 100%;
-}
-.userImg {
   display: flex;
   justify-content: center;
-  padding-top: 41px;
 }
-.userInfo {
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
+
+
+.userInfoList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 300px;
+    display: grid;
+    padding: 0px 0px 10px 0px;
+    border: 1px solid #ddd;
+    
 }
-.userInfo p {
-  color: white;
-  background: #19abe3;
-  margin-bottom: 12px;
-  text-align: center;
-  padding: 8px 1px;
-  font-size: 18px;
-  width: 200px;
-  transition: all .3s ease-in-out;
-  border-radius: 5px;
+.userInfoList li
+
+{
+  margin-bottom: 10px;;
 }
-.userInfo p:hover {
-  background:#4ab449
-}
-.userLogoutBtn {
-  background: #4ab449;
-  color: white;
-  margin-bottom: 12px;
-  text-align: center;
-  font-size: 18px;
-  width: 200px;
-  transition: all .3s ease-in-out;
-  height: 45px;
-  border-radius: 20px;
-}
-.userLogoutBtn:hover {
-  background: #19abe3;
-}
-.logOutBtn {
-  display: flex;
-  padding-top: 200px;
-  justify-content: center;
-  padding-bottom: 50px;
-}
+
+
 .bookingMenu {
   display: none;
 }
-@media only screen and (max-width: 768px) {
-  .userImg {
-    display: none;
-  }
-  .userInfoList {
-    flex-wrap: wrap;
-    width: 100%;
-    justify-content: center;
-    margin-top: 15px;
-    display: flex;
-  }
-  .userInfoList a {
-    margin-right: 7px;
-  }
-  .userInfo {
-    margin-top: 0px;
-  }
-  .logOutBtn {
-    padding-top: 0px;
-  }
-  .userInfo p {
-    text-align: center;
-    border-radius: 4px;
-    padding: 4px 0px;
-    font-size: 14px;
-    background: none;
-    color: black;
-    margin-bottom: 0px;
-    cursor: pointer;
-    width: 155px;
-  }
 
-  .logOutBtn {
-    display: none;
-  }
-  .userProfileLeftSide {
-    background: none;
-  }
-}

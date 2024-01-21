@@ -1,26 +1,13 @@
 .profileWrap {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
+  display: flex;
+  margin: 50px auto;
+  justify-content:center;
+  width: 1200px;
   }
-  .userProfileLeftSide {
-    grid-column: span 3 / span 3;
-  }
+
   .userProfileRightSide {
-    grid-column: span 9 / span 9;
+   margin-left:20px;
+   width:800px;
   }
-
-
-.userProfileLeftSide {
-    background: #092e3d;
-    width: 100%;
-    height: 100%;
-  }
+ 
   
-  @media only screen and (max-width:768px){
-    .profileWrap {
-      display:block
-    }
-    .userProfileLeftSide {
-      background:none;
-    }
-  }

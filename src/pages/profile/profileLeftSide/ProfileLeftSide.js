@@ -1,56 +1,71 @@
-import React from "react";
-import Image from "next/image";
-import admin from "../../../../public/assets/admin.png";
-import Link from "next/link";
-import style from "./profile.module.css";
-
+import React from "react"
+import style from "./profile.module.css"
+import { FaAddressCard, FaBookmark, FaLock, FaRegUser } from "react-icons/fa"
+import { IoLogOut, IoCardOutline } from "react-icons/io5"
+import ActiveUser from "../ActiveLink/ActiveUser"
 const ProfileLeftSide = () => {
-  const [age, setAge] = React.useState("");
+  const [age, setAge] = React.useState("")
   const handleChange = (event) => {
-    setAge(event.target.value);
-  };
+    setAge(event.target.value)
+  }
 
   return (
     <section>
       <div className={style.userProfileLeftSide}>
-        <div className={style.userImg}>
-          <div>
-            <Image
-            loading="lazy"
-              src={admin}
-              alt="Picture of the author"
-              width={100}
-              height={100}
-            />
-            <h5 className="text-white mt-3">Ibrahim Sikder</h5>
-          </div>
-        </div>
         <div className={style.userInfo}>
-          <div className={style.userInfoList}>
-            <Link href="/profile">
-              <p>My Account </p>
-            </Link>
-            <Link href="/profile/booking">
-              <p>My Booking </p>
-            </Link>
-            <Link href="/profile/password">
-              <p>Change Password </p>
-            </Link>
-            <Link href="/profile/savecard">
-              <p>Save Cards </p>
-            </Link>
-            <Link href="/profile/manage">
-              <p>Manage Your Data </p>
-            </Link>
-          </div>
-        </div>
-        <div className={style.logOutBtn}>
-          <button className={style.userLogoutBtn}>Log Out</button>
+          <ul className={style.userInfoList}>
+            <li>
+              <ActiveUser href="/profile">
+                <div className="flex items-center">
+                  <FaRegUser className="mr-2" size={20} />
+                  <span>My Account </span>
+                </div>
+              </ActiveUser>
+            </li>
+            <li>
+              <ActiveUser href="/profile/booking">
+                <div className="flex items-center">
+                  <FaBookmark className="mr-2" size={20} />
+                  <span>My Booking </span>
+                </div>
+              </ActiveUser>
+            </li>
+            <li>
+              <ActiveUser href="/profile/password">
+                <div className="flex items-center">
+                  <FaLock className="mr-2" size={20} />
+                  <span>Change Password </span>
+                </div>
+              </ActiveUser>
+            </li>
+            <li>
+              <ActiveUser href="/profile/savecard">
+                <div className="flex items-center">
+                  <FaAddressCard className="mr-2" size={20} />
+                  <span>Save Cards</span>
+                </div>
+              </ActiveUser>
+            </li>
+            <li>
+              <ActiveUser href="/profile/manage">
+                <div className="flex items-center">
+                  <IoCardOutline className="mr-2" size={20} />
+                  <span>Manage Your Data </span>
+                </div>
+              </ActiveUser>
+            </li>
+
+            <li>
+              <div className="flex items-center ml-[15px] cursor-pointer">
+                <IoLogOut className="mr-2" size={20} />
+                <span>Log Out </span>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </section>
-    
-  );
-};
+  )
+}
 
-export default ProfileLeftSide;
+export default ProfileLeftSide

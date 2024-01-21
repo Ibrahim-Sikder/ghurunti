@@ -1,39 +1,17 @@
 .userInfo {
   display: flex;
   justify-content: center;
-  margin-top: 50px;
 }
-.uploadImgWrap {
-  display: flex;
-}
-.uploadImgWrap button {
-  background: #c9e9c9;
-  color: #000;
-  box-shadow: 0 7px 29px 0 hsla(240,5%,41%,.2);
-  margin-right: 48px;
-  font-size: 20px;
-  border-radius: 25px;
-  font-weight: 500;
-  width: 202px;
-  height: 48px;
-  transition:all .5s ease;
-}
-.uploadImgWrap button:hover, .saveBtn button:hover {
-  background: #0BB811 !important;
-  color:white;
-}
-.uploadImgWrap button:nth-child(2) {
-  background: #fff;
-}
-.userImg {
-  margin-bottom: 42px;
-  text-align: center;
-  margin-left: 182px;
-}
+
+
+
 .inputBtn {
-  width: 400px;
-  margin-right: 10px;
-  margin-left: 10px;
+  width: 430px;
+  margin-right: 5px !important;
+}
+.userInputField{
+  width:380px;
+  margin-right: 5px !important;
 }
 .inputGroupWrap {
   width: 100%;
@@ -41,12 +19,10 @@
   display: flex;
   justify-content: center;
   margin-top: 30px;
+  align-items: center;
 }
 .saveBtn {
-  display: flex;
-  justify-content: center;
-  margin-top: 37px;
-  margin-bottom: 50px;
+margin-top:15px;
 }
 .saveBtn button {
   background: #26ade2;
@@ -54,9 +30,56 @@
   font-size: 20px;
   width: 272px;
   height: 45px;
-  border-radius: 25px;
+  border-radius: 5px;
   transition:all .5s ease-in-out;
 }
+.inputBox{
+  margin-right:5px !important;
+}
+.userIcon{
+  color:#666666;
+  margin-right:10px;
+}
+.uploadWrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 21px auto;
+}
+.fileUploadIcon {
+  color: #fff;
+  background: #19abe3;
+  border-radius: 50%;
+  width: 25px !important;
+  height: 25px !important;
+  margin-right: 5px;
+  line-height: 25px;
+}
+.upload {
+  width: 300px;
+  margin-right: 19px;
+  background: #e6f8ff;
+  text-align: center;
+  height: 49px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.uploadIcon {
+  font-size: 20px !important;
+}
+.viewbtn {
+  font-size: 12px;
+  width: 97px;
+  height: 29px;
+  background-color: #19abe3;
+  color:#fff;
+  margin-top:10px;
+}
+
 
 @media only screen and (max-width: 768px) {
   .inputBtn {
