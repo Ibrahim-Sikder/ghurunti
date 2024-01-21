@@ -1,12 +1,13 @@
 .profileWrap {
     display: flex;
     margin-top: 50px;
+    justify-content: center;
   }
   .userProfileLeftSide {
     grid-column: span 3 / span 3;
   }
   .userProfileRightSide {
-   margin-left:30px;
+   margin-left:20px;
   }
-
+ 
   

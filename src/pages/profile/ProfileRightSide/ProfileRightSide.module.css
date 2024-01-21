@@ -6,9 +6,12 @@
 
 
 .inputBtn {
-  width: 450px;
-  margin-right: 10px !important;
-  margin-left: 10px;
+  width: 430px;
+  margin-right: 5px !important;
+}
+.userInputField{
+  width:380px;
+  margin-right: 5px !important;
 }
 .inputGroupWrap {
   width: 100%;
@@ -16,6 +19,7 @@
   display: flex;
   justify-content: center;
   margin-top: 30px;
+  align-items: center;
 }
 .saveBtn {
   display: flex;
@@ -32,6 +36,16 @@
   border-radius: 25px;
   transition:all .5s ease-in-out;
 }
+.inputBox{
+  margin-right:5px !important;
+}
+.userIcon{
+  color:#666666;
+  margin-right:10px;
+}
+
+
+
 
 @media only screen and (max-width: 768px) {
   .inputBtn {
