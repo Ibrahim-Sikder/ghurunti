@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
 
-import Link from "next/link";
-import { TabList, TabPanel, Tabs, Tab } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
+import Link from "next/link"
+import { TabList, TabPanel, Tabs, Tab } from "react-tabs"
+import "react-tabs/style/react-tabs.css"
 import {
   Groups,
   SwapHoriz,
@@ -12,47 +12,45 @@ import {
   Hotel,
   BookOnline,
   TransferWithinAStation,
-  BusAlert,
-  DirectionsRailway,
-  LocalPhone,
-} from "@mui/icons-material";
-import { FaMapMarkerAlt } from "react-icons/fa";
+} from "@mui/icons-material"
+import { FaMapMarkerAlt } from "react-icons/fa"
 
-import style from "./bookin.module.css";
-import B2CDashboardLayout from "../../../../components/Layout/B2CDashboardLayout/B2CDashboardLayout";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { decryptTransform } from "../../../../components/EncryptAndDecrypt/EncryptAnsDecrypt";
-import Cookies from "js-cookie";
+import style from "./bookin.module.css"
+import B2CDashboardLayout from "../../../../components/Layout/B2CDashboardLayout/B2CDashboardLayout"
+import axios from "axios"
+import toast from "react-hot-toast"
+import { decryptTransform } from "../../../../components/EncryptAndDecrypt/EncryptAnsDecrypt"
+import Cookies from "js-cookie"
+
 const Booking = () => {
-  const [tabIndex, setTabIndex] = useState(0);
-  const [user, setUser] = useState({});
-  const [trainConfirmation, setTrainConfirmation] = useState([]);
+  const [tabIndex, setTabIndex] = useState(0)
+  const [user, setUser] = useState({})
+  const [trainConfirmation, setTrainConfirmation] = useState([])
 
   const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+    const currentIndex = checked.indexOf(value)
+    const newChecked = [...checked]
 
     if (currentIndex === -1) {
-      newChecked.push(value);
+      newChecked.push(value)
     } else {
-      newChecked.splice(currentIndex, 1);
+      newChecked.splice(currentIndex, 1)
     }
 
-    setChecked(newChecked);
-  };
+    setChecked(newChecked)
+  }
 
   // for train
 
-  const em = decryptTransform(Cookies.get("em"));
+  const em = decryptTransform(Cookies.get("em"))
 
   useEffect(() => {
     try {
       fetch(`http://localhost:5000/api/v1/user/${em}`)
         .then((res) => res.json())
-        .then((data) => setUser(data.getUser));
+        .then((data) => setUser(data.getUser))
     } catch (error) {}
-  }, [em]);
+  }, [em])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,24 +59,33 @@ const Booking = () => {
         if (em && user.profile_type) {
           const response = await axios.get(
             `http://localhost:5000/api/v1/confirmation/train?email=${em}&profile_type=${user.profile_type}`
-          );
- console.log(response)
-          setTrainConfirmation(response.data.result);
+          )
+          console.log(response)
+          setTrainConfirmation(response.data.result)
         }
       } catch (error) {
-        toast.error("Error fetching data");
+        toast.error("Error fetching data")
       }
-    };
+    }
 
-    fetchData();
-  }, [em, user.profile_type]);
-
- 
+    fetchData()
+  }, [em, user.profile_type])
 
   return (
     <div>
       <B2CDashboardLayout>
         <div className={style.tabWrap}>
+          {/* <Tabs aria-label="Options">
+        <Tab key="photos" title="Photos">
+        
+        </Tab>
+        <Tab key="music" title="Music">
+          
+        </Tab>
+        <Tab key="videos" title="Videos">
+           
+        </Tab>
+      </Tabs> */}
           <Tabs
             defaultTabIndex={tabIndex}
             onSelect={(index) => setTabIndex(index)}
@@ -127,14 +134,14 @@ const Booking = () => {
                 <div className={style.flightBooking}>
                   <div className="flex w-full justify-between mb-8">
                     <strong>
-                      DAC <SwapHoriz className="mx-3" /> CXB{" "}
+                      DAC <SwapHoriz className={style.bookingIcon} /> CXB{" "}
                     </strong>
                     <strong>BDT 12,445 </strong>
                   </div>
                   <div className={style.traveler}>
                     <div className="flex items-center mb-3 ">
-                      <Groups className="mr-3 " />
-                      <span> 1 Travelers</span>
+                      <Groups className={style.bookingIcon} />
+                      <span className="ml-2 block"> 1 Travelers</span>
                     </div>
                     <div className="flex items-center w-[200px] text-left ">
                       <span> Airline PNR: </span>
@@ -143,8 +150,8 @@ const Booking = () => {
                   </div>
                   <div className={style.travelerDate}>
                     <div className="flex items-center">
-                      <CalendarMonth className="mr-3 mb-3" />
-                      <span>21 Aug 23 - 24 Dev 23</span>
+                      <CalendarMonth className={style.bookingIcon} />
+                      <span className="ml-2">21 Aug 23 - 24 Dev 23</span>
                     </div>
                     <div className="flex items-center  w-[200px] text-left">
                       <span> Reservation PNR:</span>
@@ -187,163 +194,394 @@ const Booking = () => {
               </div>
             </TabPanel>
             <TabPanel>
-              <div className={style.userHotelBookingInfoWrap}>
-                <div className={style.userHotelBookingInfo}>
-                  <div className={style.left}>
-                    <div className=" pl-3 pt-3">
-                      <h6>BOOKING ID: HB-DP2307290102</h6>
-                      <hr className="w-full my-5" />
+              <div className={style.userProfileRightSide}>
+                <div className={style.flightBooking}>
+                  <div className="flex w-full justify-between mb-8">
+                    <div>
+                      <h3 className="text-2xl font-bold">Hotel Sea Pal </h3>
+                      <p>
+                        BookingId: <strong>GH05757585685959</strong>
+                      </p>
                     </div>
-                    <div className={style.payHistory}>
-                      <div>
-                        <h6>Hotel The Cox Today</h6>
-                        <div className="flex items-center">
-                          <FaMapMarkerAlt />
-                          <small>Kolatoli Cox s Bazar</small>
-                        </div>
-                      </div>
-                      <div>
-                        <small>Total</small> <br />
-                        <strong>BDT 45,900</strong>
-                      </div>
-                      <div>
-                        <small>Paid</small> <br />
-                        <strong>BDT 00</strong>
+                    <strong>BDT 12,445 </strong>
+                  </div>
+                  <div className={style.traveler}>
+                    <div>
+                      <span>Chekc In</span>
+                      <div className="flex items-center">
+                        <p className="text-4xl text-[#666666]">30</p>{" "}
+                        <span>Jul 24</span>
                       </div>
                     </div>
-                  </div>
-                  <div className={style.pending}>
-                    <p>Pending </p>
-                  </div>
-                </div>
-                <div className={style.userContactInfo}>
-                  <div>
-                    <small>Contact Name</small> <br />
-                    <span>MD Rofique</span>
-                  </div>
-                  <div>
-                    <small>Guest </small> <br />
-                    <span>3 Adults</span>
-                  </div>
-                  <div>
-                    <small>Check In </small> <br />
-                    <span>Sat, Aug 05, 2023</span>
-                  </div>
-                  <div>
-                    <small>Check Out </small> <br />
-                    <span>Sat, Aug 12, 2023</span>
-                  </div>
-                  <div>
-                    <small>5 Nights x 1 Room</small> <br />
-                    <span>Family </span>
-                  </div>
-                </div>
-              </div>
-            </TabPanel>
-            <TabPanel>
-              <div className={style.userHotelBookingInfoWrap}>
-                <div className={style.userHotelBookingInfo}>
-                  <div className={style.left}>
-                    <div className=" pl-3 pt-3">
-                      <h6>BOOKING ID: HB-DP2307290102</h6>
-                      <hr className="w-full my-5" />
+                    <div>
+                      <span>Chekc Out </span>
+                      <div className="flex items-center">
+                        <p className="text-4xl text-[#666666]">30</p>{" "}
+                        <span>Jul 24</span>
+                      </div>
                     </div>
-                    <div className={style.payHistory}>
-                      <div>
-                        <h6>Hotel The Cox Today</h6>
-                        <div className="flex items-center">
-                          <FaMapMarkerAlt />
-                          <small>Kolatoli Cox s Bazar</small>
-                        </div>
-                      </div>
-                      <div>
-                        <small>Total</small> <br />
-                        <strong>BDT 45,900</strong>
-                      </div>
-                      <div>
-                        <small>Paid</small> <br />
-                        <strong>BDT 00</strong>
+                    <div>
+                      <span>2 Room </span>
+                      <div className="flex items-center">
+                        <span className="mr-2">2 Adult</span>
+                        <span>1 Child</span>
                       </div>
                     </div>
                   </div>
-                  <div className={style.pending}>
-                    <p>Pending </p>
+                  <div className={style.travelerDate}>
+                    <div className="flex items-center">
+                      <CalendarMonth className={style.bookingIcon} />
+                      <span className="ml-2">21 Aug 23 - 24 Dev 23</span>
+                    </div>
+                    <div className="flex items-center  w-[200px] text-left">
+                      <span> Reservation PNR:</span>
+                      <strong>540K9C</strong>
+                    </div>
                   </div>
-                </div>
-                <div className={style.userContactInfo}>
-                  <div>
-                    <small>Contact Name</small> <br />
-                    <span>MD Rofique</span>
+                  <div className={style.detailBtnGroup}>
+                    <Link href="/profile/userbooking/flightDetail">
+                      <button>Hotel Information </button>
+                    </Link>
+                    <Link href="/profile/userbooking/travelerdetails">
+                      <button>Travelers Info </button>
+                    </Link>
+                    <Link href="/profile/userbooking/fareDetail">
+                      <button>Pricing Details </button>
+                    </Link>
+                    <Link href="/profile/userbooking/flightCancel">
+                      <button>Cancellation Policy</button>
+                    </Link>
+                    <Link href="/profile/userbooking/baggage">
+                      <button>Baggages</button>
+                    </Link>
                   </div>
-                  <div>
-                    <small>Guest </small> <br />
-                    <span>3 Adults</span>
-                  </div>
-                  <div>
-                    <small>Check In </small> <br />
-                    <span>Sat, Aug 05, 2023</span>
-                  </div>
-                  <div>
-                    <small>Check Out </small> <br />
-                    <span>Sat, Aug 12, 2023</span>
-                  </div>
-                  <div>
-                    <small>5 Nights x 1 Room</small> <br />
-                    <span>Family </span>
+                  <div className="flex justify-between mt-5">
+                    <div className={style.payments}>
+                      <span>Payment:</span>
+                      <strong> Unpaid - </strong>
+                      <span> Booking:</span>
+                      <strong>Canacelled:</strong>
+                    </div>
+                    <div className="flex items-center">
+                      <small className={style.dollars}>
+                        {" "}
+                        <AttachMoney className={style.dollarIcons} />
+                      </small>
+                      <strong>240</strong>
+                    </div>
                   </div>
                 </div>
               </div>
             </TabPanel>
             <TabPanel>
-              <div className={style.userHotelBookingInfoWrap}>
-                <div className={style.userHotelBookingInfo}>
-                  <div className={style.left}>
-                    <div className=" pl-3 pt-3">
-                      <h6>BOOKING ID: HB-DP2307290102</h6>
-                      <hr className="w-full my-5" />
+              <div className={style.userProfileRightSide}>
+                <div className={style.flightBooking}>
+                  <div className="flex w-full justify-between mb-8">
+                    <div>
+                      <h3 className="text-2xl font-bold">Hotel Sea Pal </h3>
+                      <p>
+                        BookingId: <strong>GH05757585685959</strong>
+                      </p>
                     </div>
-                    <div className={style.payHistory}>
-                      <div>
-                        <h6>Hotel The Cox Today</h6>
-                        <div className="flex items-center">
-                          <FaMapMarkerAlt />
-                          <small>Kolatoli Cox s Bazar</small>
-                        </div>
+                    <strong>BDT 12,445 </strong>
+                  </div>
+                  <div className={style.traveler}>
+                    <div>
+                      <span>Chekc In</span>
+                      <div className="flex items-center">
+                        <p className="text-4xl text-[#666666]">30</p>{" "}
+                        <span>Jul 24</span>
                       </div>
-                      <div>
-                        <small>Total</small> <br />
-                        <strong>BDT 45,900</strong>
+                    </div>
+                    <div>
+                      <span>Chekc Out </span>
+                      <div className="flex items-center">
+                        <p className="text-4xl text-[#666666]">30</p>{" "}
+                        <span>Jul 24</span>
                       </div>
-                      <div>
-                        <small>Paid</small> <br />
-                        <strong>BDT 00</strong>
+                    </div>
+                    <div>
+                      <span>2 Room </span>
+                      <div className="flex items-center">
+                        <span className="mr-2">2 Adult</span>
+                        <span>1 Child</span>
                       </div>
                     </div>
                   </div>
-                  <div className={style.pending}>
-                    <p>Pending </p>
+                  <div className={style.travelerDate}>
+                    <div className="flex items-center">
+                      <CalendarMonth className={style.bookingIcon} />
+                      <span className="ml-2">21 Aug 23 - 24 Dev 23</span>
+                    </div>
+                    <div className="flex items-center  w-[200px] text-left">
+                      <span> Reservation PNR:</span>
+                      <strong>540K9C</strong>
+                    </div>
+                  </div>
+                  <div className={style.detailBtnGroup}>
+                    <Link href="/profile/userbooking/flightDetail">
+                      <button>Hotel Information </button>
+                    </Link>
+                    <Link href="/profile/userbooking/travelerdetails">
+                      <button>Travelers Info </button>
+                    </Link>
+                    <Link href="/profile/userbooking/fareDetail">
+                      <button>Pricing Details </button>
+                    </Link>
+                    <Link href="/profile/userbooking/flightCancel">
+                      <button>Cancellation Policy</button>
+                    </Link>
+                    <Link href="/profile/userbooking/baggage">
+                      <button>Baggages</button>
+                    </Link>
+                  </div>
+                  <div className="flex justify-between mt-5">
+                    <div className={style.payments}>
+                      <span>Payment:</span>
+                      <strong> Unpaid - </strong>
+                      <span> Booking:</span>
+                      <strong>Canacelled:</strong>
+                    </div>
+                    <div className="flex items-center">
+                      <small className={style.dollars}>
+                        {" "}
+                        <AttachMoney className={style.dollarIcons} />
+                      </small>
+                      <strong>240</strong>
+                    </div>
                   </div>
                 </div>
-                <div className={style.userContactInfo}>
-                  <div>
-                    <small>Contact Name</small> <br />
-                    <span>MD Rofique</span>
+              </div>
+            </TabPanel>
+            <TabPanel>
+              <div className={style.userProfileRightSide}>
+                <div className={style.flightBooking}>
+                  <div className="flex w-full justify-between mb-8">
+                    <div>
+                      <h3 className="text-2xl font-bold">Hotel Sea Pal </h3>
+                      <p>
+                        BookingId: <strong>GH05757585685959</strong>
+                      </p>
+                    </div>
+                    <strong>BDT 12,445 </strong>
                   </div>
-                  <div>
-                    <small>Guest </small> <br />
-                    <span>3 Adults</span>
+                  <div className={style.traveler}>
+                    <div>
+                      <span>Chekc In</span>
+                      <div className="flex items-center">
+                        <p className="text-4xl text-[#666666]">30</p>{" "}
+                        <span>Jul 24</span>
+                      </div>
+                    </div>
+                    <div>
+                      <span>Chekc Out </span>
+                      <div className="flex items-center">
+                        <p className="text-4xl text-[#666666]">30</p>{" "}
+                        <span>Jul 24</span>
+                      </div>
+                    </div>
+                    <div>
+                      <span>2 Room </span>
+                      <div className="flex items-center">
+                        <span className="mr-2">2 Adult</span>
+                        <span>1 Child</span>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <small>Check In </small> <br />
-                    <span>Sat, Aug 05, 2023</span>
+                  <div className={style.travelerDate}>
+                    <div className="flex items-center">
+                      <CalendarMonth className={style.bookingIcon} />
+                      <span className="ml-2">21 Aug 23 - 24 Dev 23</span>
+                    </div>
+                    <div className="flex items-center  w-[200px] text-left">
+                      <span> Reservation PNR:</span>
+                      <strong>540K9C</strong>
+                    </div>
                   </div>
-                  <div>
-                    <small>Check Out </small> <br />
-                    <span>Sat, Aug 12, 2023</span>
+                  <div className={style.detailBtnGroup}>
+                    <Link href="/profile/userbooking/flightDetail">
+                      <button>Hotel Information </button>
+                    </Link>
+                    <Link href="/profile/userbooking/travelerdetails">
+                      <button>Travelers Info </button>
+                    </Link>
+                    <Link href="/profile/userbooking/fareDetail">
+                      <button>Pricing Details </button>
+                    </Link>
+                    <Link href="/profile/userbooking/flightCancel">
+                      <button>Cancellation Policy</button>
+                    </Link>
+                    <Link href="/profile/userbooking/baggage">
+                      <button>Baggages</button>
+                    </Link>
                   </div>
-                  <div>
-                    <small>5 Nights x 1 Room</small> <br />
-                    <span>Family </span>
+                  <div className="flex justify-between mt-5">
+                    <div className={style.payments}>
+                      <span>Payment:</span>
+                      <strong> Unpaid - </strong>
+                      <span> Booking:</span>
+                      <strong>Canacelled:</strong>
+                    </div>
+                    <div className="flex items-center">
+                      <small className={style.dollars}>
+                        {" "}
+                        <AttachMoney className={style.dollarIcons} />
+                      </small>
+                      <strong>240</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </TabPanel>
+            <TabPanel>
+              <div className={style.userProfileRightSide}>
+                <div className={style.flightBooking}>
+                  <div className="flex w-full justify-between mb-8">
+                    <div>
+                      <h3 className="text-2xl font-bold">
+                        SHYAMOLI NR TRAVELS{" "}
+                      </h3>
+                      <p>
+                        BookingId: <strong>GH05757585685959</strong>
+                      </p>
+                    </div>
+                    <strong>BDT 12,445 </strong>
+                  </div>
+                  <div className={style.traveler}>
+                    <div className=" items-center">
+                      <p className=" text-[rgb(154,129,129)]">DEPARTURE TIME</p>{" "}
+                      <b>10.30AM</b>
+                    </div>
+                    <div className=" items-center">
+                      <p className=" text-[rgb(154,129,129)]">ARRIVAL TIME</p>{" "}
+                      <b>10.30AM</b>
+                    </div>
+                    <div className=" items-center">
+                      <p className=" text-[rgb(154,129,129)]">Boarding point</p>{" "}
+                      <b>College Gate B 7 Counter</b>
+                    </div>
+                  </div>
+                  <div className={style.travelerDate}>
+                    <div className="flex items-center">
+                      <CalendarMonth className={style.bookingIcon} />
+                      <span className="ml-2">21 Aug 23 - 24 Dev 23</span>
+                    </div>
+                    <div className="flex items-center  w-[200px] text-left">
+                      <span> Reservation PNR:</span>
+                      <strong>540K9C</strong>
+                    </div>
+                  </div>
+                  <div className={style.detailBtnGroup}>
+                    <Link href="/profile/userbooking/flightDetail">
+                      <button>bUS Information </button>
+                    </Link>
+                    <Link href="/profile/userbooking/travelerdetails">
+                      <button>Travelers Info </button>
+                    </Link>
+                    <Link href="/profile/userbooking/fareDetail">
+                      <button>Pricing Details </button>
+                    </Link>
+                    <Link href="/profile/userbooking/flightCancel">
+                      <button>Cancellation Policy</button>
+                    </Link>
+                    <Link href="/profile/userbooking/baggage">
+                      <button>Facilities</button>
+                    </Link>
+                  </div>
+                  <div className="flex justify-between mt-5">
+                    <div className={style.payments}>
+                      <span>Payment:</span>
+                      <strong> Unpaid - </strong>
+                      <span> Booking:</span>
+                      <strong>Canacelled:</strong>
+                    </div>
+                    <div className="flex items-center">
+                      <small className={style.dollars}>
+                        {" "}
+                        <AttachMoney className={style.dollarIcons} />
+                      </small>
+                      <strong>240</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </TabPanel>
+            <TabPanel>
+              <div className={style.userProfileRightSide}>
+                <div className={style.flightBooking}>
+                  <div className="flex w-full justify-between mb-8">
+                    <div>
+                      <h3 className="text-2xl font-bold">Hotel Sea Pal </h3>
+                      <p>
+                        BookingId: <strong>GH05757585685959</strong>
+                      </p>
+                    </div>
+                    <strong>BDT 12,445 </strong>
+                  </div>
+                  <div className={style.traveler}>
+                    <div>
+                      <span>Chekc In</span>
+                      <div className="flex items-center">
+                        <p className="text-4xl text-[#666666]">30</p>{" "}
+                        <span>Jul 24</span>
+                      </div>
+                    </div>
+                    <div>
+                      <span>Chekc Out </span>
+                      <div className="flex items-center">
+                        <p className="text-4xl text-[#666666]">30</p>{" "}
+                        <span>Jul 24</span>
+                      </div>
+                    </div>
+                    <div>
+                      <span>2 Room </span>
+                      <div className="flex items-center">
+                        <span className="mr-2">2 Adult</span>
+                        <span>1 Child</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={style.travelerDate}>
+                    <div className="flex items-center">
+                      <CalendarMonth className={style.bookingIcon} />
+                      <span className="ml-2">21 Aug 23 - 24 Dev 23</span>
+                    </div>
+                    <div className="flex items-center  w-[200px] text-left">
+                      <span> Reservation PNR:</span>
+                      <strong>540K9C</strong>
+                    </div>
+                  </div>
+                  <div className={style.detailBtnGroup}>
+                    <Link href="/profile/userbooking/flightDetail">
+                      <button>Hotel Information </button>
+                    </Link>
+                    <Link href="/profile/userbooking/travelerdetails">
+                      <button>Travelers Info </button>
+                    </Link>
+                    <Link href="/profile/userbooking/fareDetail">
+                      <button>Pricing Details </button>
+                    </Link>
+                    <Link href="/profile/userbooking/flightCancel">
+                      <button>Cancellation Policy</button>
+                    </Link>
+                    <Link href="/profile/userbooking/baggage">
+                      <button>Baggages</button>
+                    </Link>
+                  </div>
+                  <div className="flex justify-between mt-5">
+                    <div className={style.payments}>
+                      <span>Payment:</span>
+                      <strong> Unpaid - </strong>
+                      <span> Booking:</span>
+                      <strong>Canacelled:</strong>
+                    </div>
+                    <div className="flex items-center">
+                      <small className={style.dollars}>
+                        {" "}
+                        <AttachMoney className={style.dollarIcons} />
+                      </small>
+                      <strong>240</strong>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -352,7 +590,7 @@ const Booking = () => {
         </div>
       </B2CDashboardLayout>
     </div>
-  );
-};
+  )
+}
 
-export default Booking;
+export default Booking

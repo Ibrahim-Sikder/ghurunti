@@ -7,6 +7,7 @@
   }
   .bookingIcon{
     font-size: 30px !important;
+    color:#666666 !important;
   
   }
   .bookingTab{
@@ -24,15 +25,27 @@
     padding: 0px 88px;
     display: flex;
     align-items: center;
-  
+   
   }
+
+  .flightBooking{
+    width:100%;
+    padding: 20px;
+    margin-top:30px;
+    margin:0 auto;
+    padding-top:30px;
+    box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+    transition: all 0.3s ease-in-out;
+    border-radius: 5px;
+  }
+
   .fTopBar {
     display: flex;
     align-items: center;
   }
   .topIcon {
     font-size: 18px;
-    color: #4ab449;
+    color: #19ABE3;
     font-weight: bold;
   }
   .fTopBar span {
@@ -63,7 +76,7 @@
     margin-top: 15px;
     padding: 10px 50px;
     color: black !important;
-    border-bottom: 1px solid #4ab449;
+    border-bottom: 1px solid #19ABE3;
     width: 90%;
     margin: 24px auto;
     margin-top: 40px
@@ -150,17 +163,11 @@
   .payment button {
     color: white;
     font-size: 12px;
-    background: #4ab449;
+    background: #19ABE3;
     padding: 5px 10px;
     border-radius: 4px;
   }
-  .flightBooking{
-    width:89%;
-    padding:0px 20px;
-    margin-top:30px;
-    margin:0 auto;
-    padding-top:30px;
-  }
+
   .detailBtnGroup{
     display: flex;
     flex-wrap: wrap;
@@ -178,9 +185,9 @@
     padding: 10px 5px;
   }
   .detailBtnGroup button:hover{
-    background:#4ab449;
+    background:#19ABE3;
     color:#fff;
-    border:1px solid #4ab449;
+    border:1px solid #19ABE3;
   }
   .payments{
     display: flex;
@@ -193,13 +200,13 @@
     display: block;
   }
   .payments strong{
-    color:#4AB449;
+    color:#FF7733;
   }
   .dollars{
     width: 20px;
     height: 20px;
     line-height: 20px;
-    background: #4AB449;
+    background: #19ABE3;
     border-radius: 50%;
     text-align: center;
     color: #fff;
@@ -231,8 +238,8 @@
     align-items: center;
     justify-content: center;
     margin-top: 30px;
-    border-top: 1px solid #4AB449;
-    border-bottom: 1px solid #4AB449;
+    border-top: 1px solid #19ABE3;
+    border-bottom: 1px solid #19ABE3;
     padding: 10px;
   }
   .bookingWrap button {
@@ -247,49 +254,10 @@
   .bookingHistory button {
     background: transparent;
   }
-  .userHotelBookingInfoWrap {
-    width: 100%;
-    margin: 0 auto;
-  }
-  .userHotelBookingInfo {
-    width: 90%;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    margin: 32px auto;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-  }
-  
-  .left {
-    width: 85%;
-  }
-  .pending {
-    width: 15%;
-    border-left: 1px solid #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .payHistory {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .userContactInfo {
-    width: 90%;
-    display: flex;
-    justify-content: space-between;
-    margin: 0 auto;
-    background: #e9f6e9;
-    padding: 12px 8px;
-    margin-top: -31px;
-  }
-  .userContactInfo small {
-    font-size: 12px;
-  }
-  .userContactInfo span {
-    font-size: 13px;
-  }
+
+
+
+
   
   
   

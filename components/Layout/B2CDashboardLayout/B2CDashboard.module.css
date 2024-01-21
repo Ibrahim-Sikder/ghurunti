@@ -1,11 +1,10 @@
 .profileWrap {
-    display: flex;
-    margin-top: 50px;
-    justify-content: center;
+  display: flex;
+  margin: 50px auto;
+  justify-content:center;
+  width: 1200px;
   }
-  .userProfileLeftSide {
-    grid-column: span 3 / span 3;
-  }
+
   .userProfileRightSide {
    margin-left:20px;
   }

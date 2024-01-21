@@ -15,6 +15,7 @@ import {
   FaUserAlt,
 } from "react-icons/fa"
 import { HiDeviceMobile, HiOutlineLockClosed, HiUsers } from "react-icons/hi"
+import { FileUpload } from "@mui/icons-material"
 const ProfileRightSide = () => {
   const [age, setAge] = React.useState("")
 
@@ -148,8 +149,36 @@ const ProfileRightSide = () => {
         <FaLaptopHouse size={20} className={style.userIcon} />
         <TextField fullWidth id="outlined-required" label="Post Code" />
       </div>
+      <div className="flex items-cener mt-5">
+        <div>
+          <p className="mb-2">Passport Copy (max 2MB)</p>
+          <div className={style.upload}>
+            <input type="file" id="files" className="hidden" />
+            <label for="files">
+              <span className={style.fileUploadIcon}>
+                <FileUpload className={style.uploadIcon} />
+              </span>
+              Upload
+            </label>
+          </div>
+          <button className={style.viewbtn}>View Passport </button>
+        </div>
+        <div>
+          <p className="mb-2">Visa Copy (max 2MB)</p>
+          <div className={style.upload}>
+            <input type="file" id="files" className="hidden" />
+            <label for="files">
+              <span className={style.fileUploadIcon}>
+                <FileUpload className={style.uploadIcon} />
+              </span>
+              Upload
+            </label>
+          </div>
+          <button className={style.viewbtn}>View Visa </button>
+        </div>
+      </div>
       <div className={style.saveBtn}>
-        <button>Save Your Information </button>
+        <button>Update </button>
       </div>
     </div>
   )
