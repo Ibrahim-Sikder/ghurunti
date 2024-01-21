@@ -254,9 +254,26 @@
   .bookingHistory button {
     background: transparent;
   }
+.trainModalIno{
+  width:700px ;
+  padding:20px;
+  border-radius:5px;
 
-
-
+ 
+}
+.modalCloseBtn{
+  border:none;
+  width:auto;
+}
+.hotelFacilityList{
+  margin-left: 20px;
+}
+.hotelFacilityList li{
+list-style-type: disc;
+}
+.accordionIcon{
+  color:black !important;
+}
 
   
   

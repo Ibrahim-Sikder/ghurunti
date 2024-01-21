@@ -13,6 +13,28 @@ body {
 	overflow-x: hidden;
 	scroll-behavior: smooth;
 }
+@layer base{
+	h1{
+		@apply text-4xl font-bold
+	}
+	h2{
+		@apply text-3xl font-bold
+	}
+	h3{
+		@apply text-2xl font-bold
+	}
+	h4{
+		@apply text-xl font-bold
+	}
+	h4{
+		@apply font-bold
+	}
+	@layer components{
+		.btn{
+			
+		}
+	}
+}
 .layout {
 	width: 100vw;
 	overflow: hidden;
