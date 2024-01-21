@@ -90,7 +90,7 @@ const Confirm = () => {
   };
 
   return (
-    <PrivateRoute>
+    // <PrivateRoute>
       <div>
         <Nav />
         <div className={style.purchasWrap}>
@@ -211,7 +211,7 @@ const Confirm = () => {
         </div>
         <Footer />
       </div>
-    </PrivateRoute>
+    // </PrivateRoute>
   );
 };
 

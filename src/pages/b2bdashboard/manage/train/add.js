@@ -54,14 +54,23 @@ const Train = () => {
       });
 
       const data = await response.json();
+      console.log(data);
       if (data.message === "success") {
         console.log(data.imageLinks);
         setGetImage(data.imageLinks);
         setLoading(false);
-        // console.log(data.imageLinks);
+      }
+      if (data.error === "Something went wrong") {
+        toast.error("Something went wrong");
+        setLoading(false);
+        setGetImage([]);
+        setGetFile({});
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
+      toast.error("Something went wrong");
+      setLoading(false);
+      setGetImage([]);
+      setGetFile({});
     }
   };
 
@@ -221,7 +230,9 @@ const Train = () => {
                       onChange={(e) => setClassType(e.target.value)}
                       className={styles.inputField}
                     >
-                      <option value="" selected>Select type</option>
+                      <option value="" selected>
+                        Select type
+                      </option>
                       <option value="AC_B">AC_B</option>
                       <option value="S_CHAIR">S_CHAIR</option>
                       <option value="F_BERTH">F_BERTH</option>
@@ -377,10 +388,14 @@ const Train = () => {
                 <div className={styles.formControl}>
                   <button
                     disabled={loading ? true : false}
-                    className={styles.submitBtn}
+                    className={
+                      loading
+                        ? "bg-gray-600 w-full rounded-full text-white/90 py-3 font-semibold text-xl"
+                        : `${styles.submitBtn}`
+                    }
                     type="submit"
                   >
-                    Submit
+                    {loading ? "Loading..." : " Submit"}
                   </button>
                 </div>
               </form>
