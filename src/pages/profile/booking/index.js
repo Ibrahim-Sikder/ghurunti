@@ -464,7 +464,7 @@ const Booking = () => {
                   <div className={style.travelerDate}>
                     <div className="flex items-center">
                       <CalendarMonth className={style.bookingIcon} />
-                      <span className="ml-2">21 Aug 23 - 24 Dev 23</span>
+                      <span className="ml-2">21 Aug 24</span>
                     </div>
                     <div className="flex items-center  w-[200px] text-left">
                       <span> Reservation PNR:</span>
@@ -472,21 +472,11 @@ const Booking = () => {
                     </div>
                   </div>
                   <div className={style.detailBtnGroup}>
-                    <Link href="/profile/userbooking/flightDetail">
-                      <button>bUS Information </button>
-                    </Link>
-                    <Link href="/profile/userbooking/travelerdetails">
-                      <button>Travelers Info </button>
-                    </Link>
-                    <Link href="/profile/userbooking/fareDetail">
-                      <button>Pricing Details </button>
-                    </Link>
-                    <Link href="/profile/userbooking/flightCancel">
-                      <button>Cancellation Policy</button>
-                    </Link>
-                    <Link href="/profile/userbooking/baggage">
-                      <button>Facilities</button>
-                    </Link>
+                    <button>Bus Information </button>
+                    <button>Travelers Info </button>
+                    <button>Pricing Details </button>
+                    <button>Cancellation Policy</button>
+                    <button>Facilities</button>
                   </div>
                   <div className="flex justify-between mt-5">
                     <div className={style.payments}>
@@ -511,40 +501,36 @@ const Booking = () => {
                 <div className={style.flightBooking}>
                   <div className="flex w-full justify-between mb-8">
                     <div>
-                      <h3 className="text-2xl font-bold">Hotel Sea Pal </h3>
+                      <h3 className="text-2xl font-bold">
+                        MAHANAGAR PROVATI(SNIGDHA)
+                      </h3>
                       <p>
                         BookingId: <strong>GH05757585685959</strong>
                       </p>
                     </div>
-                    <strong>BDT 12,445 </strong>
+                    <div>
+                      <p>Fare</p>
+                      <strong>BDT 12,445 </strong>
+                    </div>
                   </div>
                   <div className={style.traveler}>
-                    <div>
-                      <span>Chekc In</span>
-                      <div className="flex items-center">
-                        <p className="text-4xl text-[#666666]">30</p>{" "}
-                        <span>Jul 24</span>
-                      </div>
+                    <div className=" items-center">
+                      <p className=" text-[rgb(154,129,129)]">DEPARTURE TIME</p>{" "}
+                      <b>10.30AM</b>
                     </div>
-                    <div>
-                      <span>Chekc Out </span>
-                      <div className="flex items-center">
-                        <p className="text-4xl text-[#666666]">30</p>{" "}
-                        <span>Jul 24</span>
-                      </div>
+                    <div className=" items-center">
+                      <p className=" text-[rgb(154,129,129)]">ARRIVAL TIME</p>{" "}
+                      <b>10.30AM</b>
                     </div>
-                    <div>
-                      <span>2 Room </span>
-                      <div className="flex items-center">
-                        <span className="mr-2">2 Adult</span>
-                        <span>1 Child</span>
-                      </div>
+                    <div className=" items-center">
+                      <p className=" text-[rgb(154,129,129)]">SEAT TYPE</p>{" "}
+                      <b>AC_Br</b>
                     </div>
                   </div>
                   <div className={style.travelerDate}>
                     <div className="flex items-center">
                       <CalendarMonth className={style.bookingIcon} />
-                      <span className="ml-2">21 Aug 23 - 24 Dev 23</span>
+                      <span className="ml-2">21 Aug 24</span>
                     </div>
                     <div className="flex items-center  w-[200px] text-left">
                       <span> Reservation PNR:</span>
@@ -552,21 +538,11 @@ const Booking = () => {
                     </div>
                   </div>
                   <div className={style.detailBtnGroup}>
-                    <Link href="/profile/userbooking/flightDetail">
-                      <button>Hotel Information </button>
-                    </Link>
-                    <Link href="/profile/userbooking/travelerdetails">
-                      <button>Travelers Info </button>
-                    </Link>
-                    <Link href="/profile/userbooking/fareDetail">
-                      <button>Pricing Details </button>
-                    </Link>
-                    <Link href="/profile/userbooking/flightCancel">
-                      <button>Cancellation Policy</button>
-                    </Link>
-                    <Link href="/profile/userbooking/baggage">
-                      <button>Baggages</button>
-                    </Link>
+                    <button>Train Information </button>
+                    <button>Travelers Info </button>
+                    <button>Pricing Details </button>
+                    <button>Cancellation Policy</button>
+                    <button>Facilities</button>
                   </div>
                   <div className="flex justify-between mt-5">
                     <div className={style.payments}>
