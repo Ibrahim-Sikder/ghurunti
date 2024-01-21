@@ -1,27 +1,26 @@
-import React, { useEffect, useState } from "react";
-import style from "../../../../components/UserDashBoard/UserDashBoard.module.css";
-import styling from "../profile.module.css";
-import dynamic from "next/dynamic";
-import B2BdashboardLayout from "../../../../components/Layout/B2BdashboardLayout/B2BdashboardLayout";
-import { decryptTransform } from "../../../../components/EncryptAndDecrypt/EncryptAnsDecrypt";
-import Cookies from "js-cookie";
-import toast from "react-hot-toast";
-import axios from "axios";
+import React, { useEffect, useState } from "react"
+import style from "../../../../components/UserDashBoard/UserDashBoard.module.css"
+import styling from "../profile.module.css"
+import dynamic from "next/dynamic"
+import B2BdashboardLayout from "../../../../components/Layout/B2BdashboardLayout/B2BdashboardLayout"
+import { decryptTransform } from "../../../../components/EncryptAndDecrypt/EncryptAnsDecrypt"
+import Cookies from "js-cookie"
+import toast from "react-hot-toast"
+import axios from "axios"
 const TrainBooking = () => {
-  const [reload, setReload] = useState(false);
-  const [user, setUser] = useState({});
-  const [trainConfirmation, setTrainConfirmation] = useState([]);
+  const [reload, setReload] = useState(false)
+  const [user, setUser] = useState({})
+  const [trainConfirmation, setTrainConfirmation] = useState([])
 
-
-  const em = decryptTransform(Cookies.get("em"));
+  const em = decryptTransform(Cookies.get("em"))
 
   useEffect(() => {
     try {
       fetch(`http://localhost:5000/api/v1/user/${em}`)
         .then((res) => res.json())
-        .then((data) => setUser(data.getUser));
+        .then((data) => setUser(data.getUser))
     } catch (error) {}
-  }, [em]);
+  }, [em])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,51 +28,53 @@ const TrainBooking = () => {
         if (em && user.profile_type) {
           const response = await axios.get(
             `http://localhost:5000/api/v1/confirmation/train?email=${em}&profile_type=${user.profile_type}`
-          );
+          )
 
-          setTrainConfirmation(response.data.result);
+          setTrainConfirmation(response.data.result)
         }
       } catch (error) {
-        toast.error("Something went wrong");
+        toast.error("Something went wrong")
       }
-    };
+    }
 
-    fetchData();
-  }, [em, user.profile_type, reload]);
+    fetchData()
+  }, [em, user.profile_type, reload])
 
   const handleApproved = async (id) => {
     try {
       if (id) {
         const res = await fetch(`http://localhost:5000/api/v1/train/${id}`, {
           method: "PUT",
-        });
-        const result = await res.json();
-        setReload(!reload);
-        console.log(result);
+        })
+        const result = await res.json()
+        setReload(!reload)
+        console.log(result)
       }
     } catch (error) {
-      console.error("Error updating data:", error);
+      console.error("Error updating data:", error)
     }
-  };
+  }
   const handleCancel = async (id) => {
     try {
       if (id) {
         const res = await fetch(`http://localhost:5000/api/v1/train/${id}`, {
           method: "PATCH",
-        });
-        const result = await res.json();
-        setReload(!reload);
-        console.log(result);
+        })
+        const result = await res.json()
+        setReload(!reload)
+        console.log(result)
       }
     } catch (error) {
-      console.error("Error updating data:", error);
+      console.error("Error updating data:", error)
     }
-  };
+  }
 
   return (
     <B2BdashboardLayout>
       <div className={style.ticketListHead}>
-        <h3 className="text-2xl font-bold text-white">Train Booking Details </h3>
+        <h3 className="text-2xl font-bold text-white">
+          Train Booking Details{" "}
+        </h3>
       </div>
 
       <div className="mt-5">
@@ -95,7 +96,7 @@ const TrainBooking = () => {
                     <th>Starting Point </th>
                     <th>End Point </th>
                     <th>Total Fare </th>
-                    <th>Action </th>
+                    <th >Action </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -155,7 +156,7 @@ const TrainBooking = () => {
         </div>
       </div>
     </B2BdashboardLayout>
-  );
-};
+  )
+}
 
-export default dynamic(() => Promise.resolve(TrainBooking), { ssr: false });
+export default dynamic(() => Promise.resolve(TrainBooking), { ssr: false })
