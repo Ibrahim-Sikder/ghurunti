@@ -29,6 +29,7 @@ import lgZoom from "lightgallery/plugins/zoom";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 const ToursReserve = () => {
 
@@ -38,7 +39,6 @@ const ToursReserve = () => {
   const [specificPackage, setSpecificPackage] = useState({});
   console.log(specificPackage)
   useEffect(() => {
-    // Make sure id is defined before making the fetch request
     if (id) {
       fetch(`http://localhost:5000/api/v1/tours/${id}`)
         .then((res) => res.json())
@@ -47,6 +47,7 @@ const ToursReserve = () => {
         
         })
         .catch((error) => {
+          toast.error("Something went wrong.")
           console.error("Error fetching data:", error);
         });
     }
@@ -492,7 +493,7 @@ const ToursReserve = () => {
                   <div className={style.checkout}>
                     <Link href="/tours/checkout">
                       {" "}
-                      <button> Continoue </button>
+                      <button> Continue </button>
                     </Link>
                   </div>
                 </div>

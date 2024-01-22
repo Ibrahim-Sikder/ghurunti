@@ -412,6 +412,9 @@ const router = useRouter()
                 <label> Your Destination Country</label>
                 <select onChange={(e) => setCountryName(e.target.value)}>
                   <option  selected value="Bangladesh">
+                   Choose your country
+                  </option>
+                  <option   value="Bangladesh">
                     Bangladesh
                   </option>
                   <option value="Thailand">Thailand</option>

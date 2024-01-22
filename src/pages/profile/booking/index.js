@@ -42,19 +42,20 @@ const Booking = () => {
   const [user, setUser] = useState({});
   const [trainConfirmation, setTrainConfirmation] = useState([]);
   const [busConfirmation, setBusConfirmation] = useState([]);
+  const [toursConfirmation, setToursConfirmation] = useState([]);
 
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+  // const handleToggle = (value) => () => {
+  //   const currentIndex = checked.indexOf(value);
+  //   const newChecked = [...checked];
 
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
+  //   if (currentIndex === -1) {
+  //     newChecked.push(value);
+  //   } else {
+  //     newChecked.splice(currentIndex, 1);
+  //   }
 
-    setChecked(newChecked);
-  };
+  //   setChecked(newChecked);
+  // };
 
   // for train
 
@@ -79,7 +80,7 @@ const Booking = () => {
           const response = await axios.get(
             `http://localhost:5000/api/v1/confirmation/train?email=${em}&profile_type=${user.profile_type}`
           );
-          console.log(response);
+       
           setTrainConfirmation(response.data.result);
         }
       } catch (error) {
@@ -98,7 +99,7 @@ const Booking = () => {
           const response = await axios.get(
             `http://localhost:5000/api/v1/confirmation/bus?email=${em}&profile_type=${user.profile_type}`
           );
-          console.log(response);
+           
           setBusConfirmation(response.data.result);
         }
       } catch (error) {
@@ -108,6 +109,29 @@ const Booking = () => {
 
     fetchData();
   }, [em, user.profile_type]);
+
+  // tours 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (em && user.profile_type) {
+          const response = await axios.get(
+            `http://localhost:5000/api/v1/confirmation/tours?email=${em}&profile_type=${user.profile_type}`
+          );
+           
+          setToursConfirmation(response.data.result);
+        }
+      } catch (error) {
+        toast.error("Error fetching data");
+        console.log(error)
+      }
+    };
+
+    fetchData();
+  }, [em, user.profile_type]);
+
+
 
   return (
     <div>

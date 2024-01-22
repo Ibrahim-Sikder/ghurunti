@@ -77,7 +77,6 @@ const Busses = () => {
 
       const data = await response.json();
       if (data.message === "success") {
-        console.log(data.imageLinks);
         setGetImage(data.imageLinks);
         setImageLoading(false);
       }

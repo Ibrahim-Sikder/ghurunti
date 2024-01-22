@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/router";
 const ToursUpdate = () => {
+  const [specificPackage, setSpecificPackage] = useState({});
   const [getFile, setGetFile] = useState({});
   const [getImage, setGetImage] = useState([]);
   const [value, setValue] = useState("");
@@ -31,13 +32,14 @@ const ToursUpdate = () => {
   const [priceHighToLow, setPriceHighToLow] = useState(null);
   const [time, setTime] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   const formRef = useRef();
   const [child, setChild] = useState(0);
   const [adult, setAdult] = useState(0);
+
   const router = useRouter();
   const { id } = router.query;
 
-  const [specificPackage, setSpecificPackage] = useState({});
   useEffect(() => {
     // Make sure id is defined before making the fetch request
     if (id) {
@@ -45,13 +47,14 @@ const ToursUpdate = () => {
         .then((res) => res.json())
         .then((data) => {
           setSpecificPackage(data.getPackage);
-          console.log(data);
+          setChild(specificPackage.child);
+          setAdult(specificPackage.adult);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
     }
-  }, [id]);
+  }, [id, specificPackage?.adult, specificPackage?.child]);
   const childIncrement = () => {
     setChild(child + 1);
   };
@@ -81,7 +84,7 @@ const ToursUpdate = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
-      setLoading(true);
+      setImageLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -90,10 +93,19 @@ const ToursUpdate = () => {
       const data = await response.json();
       if (data.message === "success") {
         setGetImage(data.imageLinks);
-        setLoading(false);
+        setImageLoading(false);
+      }
+      if (data.error === "Something went wrong") {
+        toast.error("Something went wrong");
+        setImageLoading(false);
+        setGetImage([]);
+        setGetFile({});
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
+      toast.error("Something went wrong");
+      setImageLoading(false);
+      setGetImage([]);
+      setGetFile({});
     }
   };
 
@@ -117,9 +129,7 @@ const ToursUpdate = () => {
       product_category: productCategory || specificPackage.product_category,
       price_low_to_hight: priceLowToHigh || specificPackage.price_low_to_hight,
       price_hight_to_low: priceHighToLow || specificPackage.price_hight_to_low,
-      image: getImage.length !== 0
-        ? getImage
-        : specificPackage?.image?.[0],
+      image: getImage.length !== 0 ? getImage : specificPackage?.image?.[0],
       description: value || specificPackage.description,
     };
     setLoading(true);
@@ -130,7 +140,7 @@ const ToursUpdate = () => {
         if (response.data.message === "Package update successful") {
           toast.success("Package update successful");
           formRef.current.reset();
-          router.push("/b2bdashboard/manage/tours")
+          router.push("/b2bdashboard/manage/tours");
         }
       })
       .catch((error) => {
@@ -161,7 +171,7 @@ const ToursUpdate = () => {
                       placeholder="Travel From "
                       type="text"
                       className={styles.inputField}
-                      defaultValue={specificPackage.travel_from}
+                      defaultValue={specificPackage?.travel_from}
                     />
                   </div>
                   <div>
@@ -208,7 +218,10 @@ const ToursUpdate = () => {
                       className={styles.inputField}
                       value={specificPackage.country_name}
                     >
-                      <option selected value="Bangladesh">
+                      <option value="">
+                        Choose your country
+                      </option>
+                      <option value="Bangladesh">
                         Bangladesh
                       </option>
                       <option value="Thailand">Thailand</option>
@@ -260,9 +273,8 @@ const ToursUpdate = () => {
                           <div className={style.guestRoomWrap}>
                             <Groups2 className={style.groupIcon} />
                             <div>
-                              <small>Guest & Room </small> <br />
+                              <small>Guest </small> <br />
                               <p className="text-xl font-bold">
-                                {" "}
                                 {child + adult} Guest
                               </p>
                             </div>
@@ -394,16 +406,23 @@ const ToursUpdate = () => {
                 </div>
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
-                    {getFile[0]?.name || specificPackage?.image?.length > 0 ? (
-                      <label for="files">
-                        {getFile[0]?.name || specificPackage?.image[0]}
-                      </label>
+                    {imageLoading ? (
+                      <div>Uploading...</div>
                     ) : (
-                      <label for="files">
-                        {" "}
-                        <CloudUpload className={styles.uploadIcon} /> Image
-                        Upload{" "}
-                      </label>
+                      <>
+                        {getFile[0]?.name ||
+                        specificPackage?.image?.length > 0 ? (
+                          <label for="files">
+                            {getFile[0]?.name || specificPackage?.image[0]}
+                          </label>
+                        ) : (
+                          <label for="files">
+                            {" "}
+                            <CloudUpload className={styles.uploadIcon} /> Image
+                            Upload{" "}
+                          </label>
+                        )}
+                      </>
                     )}
 
                     <input
@@ -448,11 +467,11 @@ const ToursUpdate = () => {
 
                 <div className={styles.formControl}>
                   <button
-                    disabled={loading ? true : false}
+                    disabled={loading || imageLoading ? true : false}
                     className={styles.submitBtn}
                     type="submit"
                   >
-                    Update
+                    {loading ? "Loading..." : "Update"}
                   </button>
                 </div>
               </form>

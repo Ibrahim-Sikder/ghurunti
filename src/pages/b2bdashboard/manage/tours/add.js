@@ -35,10 +35,12 @@ const Tours = () => {
   const [time, setTime] = useState(null);
 
   const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
+  const [error, setError] = useState("");
   const [child, setChild] = useState(0);
   const [adult, setAdult] = useState(0);
   const formRef = useRef();
-  const router = useRouter()
+  const router = useRouter();
 
   const childIncrement = () => {
     setChild(child + 1);
@@ -69,7 +71,7 @@ const Tours = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
-      setLoading(true)
+      setImageLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -78,10 +80,19 @@ const Tours = () => {
       const data = await response.json();
       if (data.message === "success") {
         setGetImage(data.imageLinks);
-        setLoading(false)
+        setImageLoading(false);
+      }
+      if (data.error === "Something went wrong") {
+        toast.error("Something went wrong");
+        setImageLoading(false);
+        setGetImage([]);
+        setGetFile({});
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
+      toast.error("Something went wrong");
+      setImageLoading(false);
+      setGetImage([]);
+      setGetFile({});
     }
   };
 
@@ -108,6 +119,16 @@ const Tours = () => {
       image: getImage,
       description: value,
     };
+
+    const hasQuotationNullValues = Object.values(data).some(
+      (val) => val === null
+    );
+
+    if (hasQuotationNullValues) {
+      setError("Please fill in all the fields.");
+      return;
+    }
+
     setLoading(true);
     axios
       .post("http://localhost:5000/api/v1/tours/details", data)
@@ -115,8 +136,9 @@ const Tours = () => {
         console.log(response.data);
         if (response.data.message === "Successfully tours details posted.") {
           toast.success("Post successful.");
+          setError("")
           formRef.current.reset();
-          router.push("/b2bdashboard/manage/tours")
+          router.push("/b2bdashboard/manage/tours");
         }
         if (
           (response.data =
@@ -128,8 +150,10 @@ const Tours = () => {
       })
       .catch((error) => {
         toast.error(error.message);
+        setLoading(false);
       })
       .finally(() => {
+        setError("")
         setLoading(false);
       });
   };
@@ -194,9 +218,10 @@ const Tours = () => {
                       onChange={(e) => setCountryName(e.target.value)}
                       className={styles.inputField}
                     >
-                      <option selected value="Bangladesh">
-                        Bangladesh
+                      <option selected value="">
+                        Choose your country
                       </option>
+                      <option value="Bangladesh">Bangladesh</option>
                       <option value="Thailand">Thailand</option>
                       <option value="Malaysia">Malaysia</option>
                       <option value="Indonesia">Indonesia</option>
@@ -370,16 +395,21 @@ const Tours = () => {
                 </div>
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
-                    {getFile[0]?.name ? (
-                      <label for="files">{getFile[0]?.name}</label>
+                    {imageLoading ? (
+                      <div>Uploading...</div>
                     ) : (
-                      <label for="files">
-                        {" "}
-                        <CloudUpload className={styles.uploadIcon} /> Image
-                        Upload{" "}
-                      </label>
+                      <>
+                        {getFile[0]?.name ? (
+                          <label for="files">{getFile[0]?.name}</label>
+                        ) : (
+                          <label for="files">
+                            {" "}
+                            <CloudUpload className={styles.uploadIcon} /> Image
+                            Upload{" "}
+                          </label>
+                        )}
+                      </>
                     )}
-
                     <input
                       onChange={handlePdf}
                       name="image"
@@ -419,14 +449,14 @@ const Tours = () => {
                     />
                   </div>
                 </div>
-
+                <div className="my-2 text-red-400 text-center">{error}</div>
                 <div className={styles.formControl}>
                   <button
-                    disabled={loading ? true : false}
+                    disabled={loading || imageLoading ? true : false}
                     className={styles.submitBtn}
                     type="submit"
                   >
-                    Submit
+                    {loading ? "Loading..." : " Submit"}
                   </button>
                 </div>
               </form>
