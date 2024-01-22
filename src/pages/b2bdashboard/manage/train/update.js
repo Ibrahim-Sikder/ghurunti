@@ -36,11 +36,10 @@ const Update = () => {
   const [endPoint, setEndPoint] = useState(null);
 
   const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   const formRef = useRef();
   const router = useRouter();
   const { id } = router.query;
-
- 
 
   useEffect(() => {
     if (id) {
@@ -56,7 +55,6 @@ const Update = () => {
     }
   }, [id]);
 
-
   let files;
   const handlePdf = async (e) => {
     setGetFile(e.target.files);
@@ -66,7 +64,7 @@ const Update = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
-      setLoading(true);
+      setImageLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -76,11 +74,19 @@ const Update = () => {
       if (data.message === "success") {
         console.log(data.imageLinks);
         setGetImage(data.imageLinks);
-        setLoading(false);
-        // console.log(data.imageLinks);
+        setImageLoading(false);
+      }
+      if (data.error === "Something went wrong") {
+        toast.error("Something went wrong");
+        setImageLoading(false);
+        setGetImage([]);
+        setGetFile({});
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
+      toast.error("Something went wrong");
+      setImageLoading(false);
+      setGetImage([]);
+      setGetFile({});
     }
   };
 
@@ -101,9 +107,7 @@ const Update = () => {
       price: price || specificPackage.price,
       starting_point: startingPoint || specificPackage.starting_point,
       end_point: endPoint || specificPackage.end_point,
-      image: getImage.length !== 0
-        ? getImage
-        : specificPackage?.image?.[0],
+      image: getImage.length !== 0 ? getImage : specificPackage?.image?.[0],
       description: value || specificPackage.description,
     };
     setLoading(true);
@@ -119,7 +123,6 @@ const Update = () => {
           // setGetImage([]);
           // setValue("");
         }
-         
       })
       .catch((error) => {
         toast.error(error.message);
@@ -197,7 +200,7 @@ const Update = () => {
                       className={styles.inputField}
                       value={countryName || specificPackage?.country_name}
                     >
-                      <option selected value="Bangladesh">
+                      <option   value="">
                         Select your country
                       </option>
                       <option value="Bangladesh">Bangladesh</option>
@@ -220,7 +223,7 @@ const Update = () => {
                       className={styles.inputField}
                       value={cityName || specificPackage?.city_name}
                     >
-                      <option selected value="Dhaka">
+                      <option   value="">
                         Select your city
                       </option>
                       <option value="Dhaka">Dhaka</option>
@@ -245,7 +248,9 @@ const Update = () => {
                       className={styles.inputField}
                       value={classType || specificPackage?.class_type}
                     >
-                      <option value="" selected>Select type</option>
+                      <option value="">
+                        Select type
+                      </option>
                       <option value="AC_B">AC_B</option>
                       <option value="S_CHAIR">S_CHAIR</option>
                       <option value="F_BERTH">F_BERTH</option>
@@ -255,7 +260,7 @@ const Update = () => {
                     </select>
                   </div>
                   <div>
-                    <label> Journy Date </label>
+                    <label> Journey Date </label>
                     <input
                       onChange={(e) => setJourneyDate(e.target.value)}
                       name="jouryDate"
@@ -355,14 +360,23 @@ const Update = () => {
 
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
-                    {getFile[0]?.name || specificPackage?.image?.length > 0 ? (
-                      <label for="files">{getFile[0]?.name || specificPackage.image[0]}</label>
+                    {imageLoading ? (
+                      <div>Uploading...</div>
                     ) : (
-                      <label for="files">
-                        {" "}
-                        <CloudUpload className={styles.uploadIcon} /> Image
-                        Upload{" "}
-                      </label>
+                      <>
+                        {getFile[0]?.name ||
+                        specificPackage?.image?.length > 0 ? (
+                          <label for="files">
+                            {getFile[0]?.name || specificPackage.image[0]}
+                          </label>
+                        ) : (
+                          <label for="files">
+                            {" "}
+                            <CloudUpload className={styles.uploadIcon} /> Image
+                            Upload{" "}
+                          </label>
+                        )}
+                      </>
                     )}
 
                     <input
@@ -407,7 +421,7 @@ const Update = () => {
 
                 <div className={styles.formControl}>
                   <button
-                    disabled={loading ? true : false}
+                    disabled={loading || imageLoading ? true : false}
                     className={styles.submitBtn}
                     type="submit"
                   >

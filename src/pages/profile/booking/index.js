@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
 
-import Link from "next/link"
-import { TabList, TabPanel, Tabs, Tab } from "react-tabs"
-import "react-tabs/style/react-tabs.css"
+import Link from "next/link";
+import { TabList, TabPanel, Tabs, Tab } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 import {
   Groups,
   SwapHoriz,
@@ -13,78 +13,101 @@ import {
   Hotel,
   BookOnline,
   TransferWithinAStation,
-} from "@mui/icons-material"
-import { FaEnvelopeOpenText, FaMapMarkerAlt } from "react-icons/fa"
-import hotel from "../../../../public/assets/hotel7.png"
-import style from "./bookin.module.css"
-import B2CDashboardLayout from "../../../../components/Layout/B2CDashboardLayout/B2CDashboardLayout"
-import axios from "axios"
-import toast from "react-hot-toast"
-import { decryptTransform } from "../../../../components/EncryptAndDecrypt/EncryptAnsDecrypt"
-import Cookies from "js-cookie"
+} from "@mui/icons-material";
+import { FaEnvelopeOpenText, FaMapMarkerAlt } from "react-icons/fa";
+import hotel from "../../../../public/assets/hotel7.png";
+import style from "./bookin.module.css";
+import B2CDashboardLayout from "../../../../components/Layout/B2CDashboardLayout/B2CDashboardLayout";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { decryptTransform } from "../../../../components/EncryptAndDecrypt/EncryptAnsDecrypt";
+import Cookies from "js-cookie";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   TextField,
-} from "@mui/material"
+} from "@mui/material";
 import {
   HiCheck,
   HiLocationMarker,
   HiOutlineHome,
   HiOutlinePhone,
   HiUser,
-} from "react-icons/hi"
-import Image from "next/image"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+} from "react-icons/hi";
+import Image from "next/image";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 const Booking = () => {
-  const [tabIndex, setTabIndex] = useState(0)
-  const [user, setUser] = useState({})
-  const [trainConfirmation, setTrainConfirmation] = useState([])
+  const [tabIndex, setTabIndex] = useState(0);
+  const [user, setUser] = useState({});
+  const [trainConfirmation, setTrainConfirmation] = useState([]);
+  const [busConfirmation, setBusConfirmation] = useState([]);
 
   const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value)
-    const newChecked = [...checked]
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
 
     if (currentIndex === -1) {
-      newChecked.push(value)
+      newChecked.push(value);
     } else {
-      newChecked.splice(currentIndex, 1)
+      newChecked.splice(currentIndex, 1);
     }
 
-    setChecked(newChecked)
-  }
+    setChecked(newChecked);
+  };
 
   // for train
 
-  const em = decryptTransform(Cookies.get("em"))
-
+  const em = decryptTransform(Cookies.get("em"));
+  
   useEffect(() => {
     try {
       fetch(`http://localhost:5000/api/v1/user/${em}`)
         .then((res) => res.json())
-        .then((data) => setUser(data.getUser))
-    } catch (error) {}
-  }, [em])
+        .then((data) => setUser(data.getUser));
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }, [em]);
+
+ 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // console.log(em, user.profile_type)
         if (em && user.profile_type) {
           const response = await axios.get(
             `http://localhost:5000/api/v1/confirmation/train?email=${em}&profile_type=${user.profile_type}`
-          )
-          console.log(response)
-          setTrainConfirmation(response.data.result)
+          );
+          console.log(response);
+          setTrainConfirmation(response.data.result);
         }
       } catch (error) {
-        toast.error("Error fetching data")
+        toast.error("Error fetching data");
       }
-    }
+    };
 
-    fetchData()
-  }, [em, user.profile_type])
+    fetchData();
+  }, [em, user.profile_type]);
+
+  //  for bus
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (em && user.profile_type) {
+          const response = await axios.get(
+            `http://localhost:5000/api/v1/confirmation/bus?email=${em}&profile_type=${user.profile_type}`
+          );
+          console.log(response);
+          setBusConfirmation(response.data.result);
+        }
+      } catch (error) {
+        toast.error("Error fetching data");
+      }
+    };
+
+    fetchData();
+  }, [em, user.profile_type]);
 
   return (
     <div>
@@ -1959,7 +1982,7 @@ const Booking = () => {
         </div>
       </B2CDashboardLayout>
     </div>
-  )
-}
+  );
+};
 
-export default Booking
+export default Booking;

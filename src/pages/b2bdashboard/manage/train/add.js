@@ -35,6 +35,7 @@ const Train = () => {
   const [endPoint, setEndPoint] = useState(null);
 
   const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   const formRef = useRef();
   const router = useRouter();
 
@@ -47,28 +48,27 @@ const Train = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
-      setLoading(true);
+      setImageLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
       });
 
       const data = await response.json();
-      console.log(data);
       if (data.message === "success") {
         console.log(data.imageLinks);
         setGetImage(data.imageLinks);
-        setLoading(false);
+        setImageLoading(false);
       }
       if (data.error === "Something went wrong") {
         toast.error("Something went wrong");
-        setLoading(false);
+        setImageLoading(false);
         setGetImage([]);
         setGetFile({});
       }
     } catch (error) {
       toast.error("Something went wrong");
-      setLoading(false);
+      setImageLoading(false);
       setGetImage([]);
       setGetFile({});
     }
@@ -335,14 +335,20 @@ const Train = () => {
 
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
-                    {getFile[0]?.name ? (
-                      <label for="files">{getFile[0]?.name}</label>
+                    {imageLoading ? (
+                      <div>Uploading...</div>
                     ) : (
-                      <label for="files">
-                        {" "}
-                        <CloudUpload className={styles.uploadIcon} /> Image
-                        Upload{" "}
-                      </label>
+                      <>
+                        {getFile[0]?.name ? (
+                          <label for="files">{getFile[0]?.name}</label>
+                        ) : (
+                          <label for="files">
+                            {" "}
+                            <CloudUpload className={styles.uploadIcon} /> Image
+                            Upload{" "}
+                          </label>
+                        )}
+                      </>
                     )}
 
                     <input
@@ -387,7 +393,7 @@ const Train = () => {
 
                 <div className={styles.formControl}>
                   <button
-                    disabled={loading ? true : false}
+                    disabled={loading || imageLoading ? true : false}
                     className={
                       loading
                         ? "bg-gray-600 w-full rounded-full text-white/90 py-3 font-semibold text-xl"

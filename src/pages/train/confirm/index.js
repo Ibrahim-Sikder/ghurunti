@@ -57,7 +57,13 @@ const Confirm = () => {
       email: user.email,
       profile_type: user.profile_type
     };
-    const hasQuotationNullValues = Object.values(data).some(
+    const  values={
+      name: name,
+      passenger_type: type,
+      mobile_number: number,
+      confirmation_email: email,
+    }
+    const hasQuotationNullValues = Object.values(values).some(
       (val) => val === null
     );
 
