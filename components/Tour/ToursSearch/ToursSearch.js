@@ -158,7 +158,7 @@ const ToursSearch = () => {
                     <div className={style.cardPrice}>
                       <b>৳{data.price}</b>
                       <p>Per adults</p>
-                      <Link href="/tours/book">
+                      <Link href={`/tours/book?id=${data._id}`}>
                         <button>Reserve</button>
                       </Link>
                     </div>

@@ -138,7 +138,7 @@ const UserDashBoardLeft = () => {
                         <Link href='/b2bdashboard/hotel/hotelbooking'> <Hotel className={style.flightIcons} /> Hotel </Link>
                       </li>
                       <li>
-                        <Link href='/b2bdashboard/visa/hotelbooking'>  <Beenhere className={style.flightIcons} /> Visa</Link>
+                        <Link href='/b2bdashboard/visa/visabooking'>  <Beenhere className={style.flightIcons} /> Visa</Link>
                       </li>
                       <li>
                         <Link href='/b2bdashboard/tours/tourbooking'> <Diversity2 className={style.flightIcons} /> Tours </Link>

@@ -43,6 +43,7 @@ const Booking = () => {
   const [trainConfirmation, setTrainConfirmation] = useState([]);
   const [busConfirmation, setBusConfirmation] = useState([]);
   const [toursConfirmation, setToursConfirmation] = useState([]);
+  const [visaConfirmation, setVisaConfirmation] = useState([]);
 
   // const handleToggle = (value) => () => {
   //   const currentIndex = checked.indexOf(value);
@@ -131,8 +132,29 @@ const Booking = () => {
     fetchData();
   }, [em, user.profile_type]);
 
+  // visa 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (em && user.profile_type) {
+          const response = await axios.get(
+            `http://localhost:5000/api/v1/confirmation/visa?email=${em}&profile_type=${user.profile_type}`
+          );
+           
+          setVisaConfirmation(response.data.result);
+        }
+      } catch (error) {
+        toast.error("Error fetching data");
+        console.log(error)
+      }
+    };
+
+    fetchData();
+  }, [em, user.profile_type]);
 
 
+ 
   return (
     <div>
       <B2CDashboardLayout>

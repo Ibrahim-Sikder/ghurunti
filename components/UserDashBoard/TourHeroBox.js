@@ -424,7 +424,10 @@ const BusBanner = () => {
               <div className={style.formControl}>
                 <label> Your Destination Country</label>
                 <select onChange={(e) => setCountryName(e.target.value)}>
-                  <option selected value="Bangladesh">
+                  <option selected value="">
+                    Choose your country
+                  </option>
+                  <option   value="Bangladesh">
                     Bangladesh
                   </option>
                   <option value="Thailand">Thailand</option>
@@ -476,9 +479,9 @@ const BusBanner = () => {
                 <div className={style.package4}>
                   <div className="flex justify-between item-center">
                     <div>
-                      <h4>Guests & Room</h4>
+                      <h4>Guests  </h4>
                       <small>
-                        {child + adult} Guest & {room}{" "}
+                        {child + adult} Guest  
                       </small>
                       <input type="text" />
                     </div>
@@ -496,10 +499,10 @@ const BusBanner = () => {
                       <div className={style.guestRoomWrap}>
                         <Groups2 className={style.groupIcon} />
                         <div>
-                          <small>Guest & Room </small> <br />
+                          <small>Guest   </small> <br />
                           <p className="text-xl font-bold">
                             {" "}
-                            {child + adult} Guest & {room}{" "}
+                            {child + adult} Guest  
                           </p>
                         </div>
                       </div>
@@ -516,7 +519,7 @@ const BusBanner = () => {
                         </div>
                       </div>
 
-                      <select
+                      {/* <select
                         className={style.roomSelect}
                         onChange={(e) => {
                           const classes = e.target.value;
@@ -530,7 +533,7 @@ const BusBanner = () => {
                         <option value="3 Room">3 Room</option>
                         <option value="4 Room">4 Room</option>
                         <option value="5 Room">5 Room</option>
-                      </select>
+                      </select> */}
                     </form>
                   </dialog>
                 </div>

@@ -1,26 +1,51 @@
-import React from "react";
+import React, { useEffect } from "react";
 import style from "./VisaRequest.module.css";
 import { LocalPhone, CloudUpload } from "@mui/icons-material";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useState } from "react";
 import { useRef } from "react";
+import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
+import { decryptTransform } from "../../EncryptAndDecrypt/EncryptAnsDecrypt";
+import Cookies from "js-cookie";
 
 const VisaRequest = () => {
+  const [error, setError] = useState("")
   const [getFile, setGetFile] = useState({});
   const [getPdfLinks, setGetPdfLinks] = useState([]);
-  const [country, setCountry] = useState("");
-  const [writeDownCountry, setWriteDownCountry] = useState(0);
-  const [getDate, setGetDate] = useState("");
-  const [passportNumber, setPassportNumber] = useState(0);
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [mobileNumber, setMobileNumber] = useState();
-  const [email, setEmail] = useState("");
   const [requirements, setRequirements] = useState("");
   const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
+  const [user, setUser] = useState({});
   const formRef = useRef();
+  const router = useRouter();
 
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const em = decryptTransform(Cookies.get("em"));
+
+  useEffect(() => {
+    try {
+      fetch(`http://localhost:5000/api/v1/user/${em}`)
+        .then((res) => res.json())
+        .then((data) => setUser(data.getUser));
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  }, [em]);
+
+  useEffect(() => {
+    if (getPdfLinks.length !== 0) {
+      setError("");
+    }
+  }, [getPdfLinks.length]);
+  
   let files;
   const handlePdf = async (e) => {
     setGetFile(e.target.files);
@@ -30,7 +55,7 @@ const VisaRequest = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
-      setLoading(true)
+      setImageLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -38,64 +63,79 @@ const VisaRequest = () => {
 
       const data = await response.json();
       if (data.message === "success") {
+        console.log(data.imageLinks);
         setGetPdfLinks(data.imageLinks);
-        // console.log(data.imageLinks);
-        setLoading(false)
+        setImageLoading(false);
+      }
+      if (data.error === "Something went wrong") {
+        toast.error("Something went wrong");
+        setImageLoading(false);
+        setGetImage([]);
+        setGetFile({});
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
+      toast.error("Something went wrong");
+      setImageLoading(false);
+      setGetImage([]);
+      setGetFile({});
     }
   };
 
-  const handleConfirmVisaRequest = (e) => {
-    e.preventDefault();
-    const data = {
-      country: country,
-      write_down_country: writeDownCountry,
-      journey_date: getDate,
-      passport: passportNumber,
-      given_name: name,
-      surname: surname,
-      mobile_number: mobileNumber,
-      email: email,
-      pdf: getPdfLinks,
-      requirements: requirements,
-    };
-    setLoading(true);
-    axios
-      .post("http://localhost:5000/api/v1/visa", data)
-      .then(function (response) {
-        console.log(response.data);
-        if (response.data.message === "Send request for Visa Confirmation.") {
-          toast.success(
-            "Confirmation request accepted. Please wait to confirm."
-          );
-          formRef.current.reset();
-          setCountry("");
-          setWriteDownCountry("");
-          setGetDate("");
-          setPassportNumber();
-          setName("");
-          setSurname("");
-          setEmail("");
-          setRequirements("");
-          setGetPdfLinks([]);
-        }
-        if (
-          response.data === "Interval server error" &&
-          response.data !== "Send request for Visa Confirmation."
-        ) {
-          toast.error("Something went wrong!");
-        }
-      })
-      .catch((error) => {
-        toast.error(error.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+ 
+  const onSubmit = (data) => {
+    if(getPdfLinks.length !== 0){
+      const values = {
+        country: data.country,
+        write_down_country: data.write_down,
+        journey_date: data.date,
+        passport: data.passport,
+        given_name: data.name,
+        surname: data.surName,
+        mobile_number: data.mobileNumber,
+        confirmation_email: data.email,
+        pdf: getPdfLinks,
+        requirements: requirements,
+        email: user.email,
+        profile_type: user.profile_type,
+        user_type: user.user_type,
+      };
+      
+      setLoading(true);
+      axios
+        .post("http://localhost:5000/api/v1/visa", values)
+        .then(function (response) {
+          if (response.data.message === "Send request for Visa Confirmation.") {
+            toast.success(
+              "Confirmation request accepted. Please wait to confirm."
+            );
+            formRef.current.reset();
+            if (user.profile_type === "b2c") {
+              router.push("/profile/booking");
+            }
+            if (user.profile_type === "b2b") {
+              router.push("/b2bdashboard/visa/visabooking");
+            }
+            setRequirements("");
+            setGetPdfLinks([]);
+          }
+          if (
+            response.data === "Interval server error" &&
+            response.data !== "Send request for Visa Confirmation."
+          ) {
+            toast.error("Something went wrong!");
+          }
+        })
+        .catch((error) => {
+          toast.error(error.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }else{
+      setError("Please upload doc.")
+    }
+    
   };
-
   return (
     <section>
       <div className={style.visaRequestWrap}>
@@ -116,7 +156,7 @@ const VisaRequest = () => {
           <h2 className="text-xl font-bold">
             Tell us where do you want to go ?{" "}
           </h2>
-          <form ref={formRef} onSubmit={handleConfirmVisaRequest}>
+          <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
             <div className={style.inputFieldWrap}>
               <div className={style.formControl}>
                 <label className={style.inputLabel}>
@@ -124,10 +164,14 @@ const VisaRequest = () => {
                   Select a destination from list
                 </label>
                 <select
-                  onChange={(e) => setCountry(e.target.value)}
+                  // onChange={(e) => setCountry(e.target.value)}
+                  {...register("country", { required: true })}
                   className={style.visaInput}
                 >
-                  <option selected value="Bangladesh">
+                  <option selected value=" ">
+                    Choose your country
+                  </option>
+                  <option   value="Bangladesh">
                     Bangladesh
                   </option>
                   <option value="Thailand">Thailand</option>
@@ -141,11 +185,19 @@ const VisaRequest = () => {
                   <option value="Pakistan">Pakistan</option>
                   <option value="Japan">Japan</option>
                 </select>
+                <br />
+                {errors.country && (
+                  <span className="text-sm text-red-400 mt-1">
+                    {" "}
+                    Choose your country
+                  </span>
+                )}
               </div>
               <div className={style.formControl}>
                 <label className={style.inputLabel}>Or Write down </label>
                 <input
-                  onChange={(e) => setWriteDownCountry(e.target.value)}
+                  // onChange={(e) => setWriteDownCountry(e.target.value)}
+                  {...register("write_down")}
                   type="text"
                   className={style.visaInput}
                 />
@@ -157,22 +209,40 @@ const VisaRequest = () => {
                   When do you want to go?
                 </label>
                 <input
-                  onChange={(e) => setGetDate(e.target.value)}
+                  // onChange={(e) => setGetDate(e.target.value)}
+                  {...register("date", { required: true })}
                   placeholder="Date "
                   type="date"
                   className={style.visaInput}
-                  required
+                   
                 />
+                <br />
+                {errors.date && (
+                  <span className="text-sm text-red-400 mt-1">
+                    {" "}
+                    Select correct date.
+                  </span>
+                )}
               </div>
               <div className={style.formControl}>
                 <label className={style.inputLabel}>Passport Number </label>
                 <input
-                  onChange={(e) => setPassportNumber(e.target.value)}
-                  placeholder="Passport Number "
-                  type="text"
+                 
                   className={style.visaInput}
-                  required
+                  {...register("passport", {
+                    pattern: {
+                      value: /^[0-9]+$/,
+                      message: "Enter a valid passport number",
+                    },
+                  })}
+                  placeholder="Passport Number"
+                  type="text"
                 />
+                {errors.passport && (
+                  <p className="text-red-400 text-sm my-1">
+                    {errors.passport.message}
+                  </p>
+                )}
               </div>
             </div>
             <div className="mt-5">
@@ -182,12 +252,16 @@ const VisaRequest = () => {
               <div className={style.formControl}>
                 <label className={style.inputLabel}>Given Name </label>
                 <input
-                  onChange={(e) => setName(e.target.value)}
+                  // onChange={(e) => setName(e.target.value)}
+                  {...register("name", { required: true })}
                   placeholder="Given Name "
                   type="text"
                   className={style.visaInput}
-                  required
+                   
                 />
+                 {errors.name && (
+                  <p className="text-red-400 text-sm my-1"> Enter your name</p>
+                )}
               </div>
               <div className={style.formControl}>
                 <label placeholder="Surname" className={style.inputLabel}>
@@ -195,11 +269,12 @@ const VisaRequest = () => {
                   Surname{" "}
                 </label>
                 <input
-                  onChange={(e) => setSurname(e.target.value)}
+                  // onChange={(e) => setSurname(e.target.value)}
+                  {...register("surName")}
                   placeholder="Surname"
                   type="text"
                   className={style.visaInput}
-                  required
+                   
                 />
               </div>
             </div>
@@ -207,22 +282,41 @@ const VisaRequest = () => {
               <div className={style.formControl}>
                 <label className={style.inputLabel}>Movile Number </label>
                 <input
-                  onChange={(e) => setMobileNumber(e.target.value)}
+                  // onChange={(e) => setMobileNumber(e.target.value)}
+                  {...register("mobileNumber", {
+                    required: "Mobile Number is required",
+                    pattern: {
+                      value: /^[0-9]+$/,
+                      message: "Please enter a valid number",
+                    },
+                  })}
                   placeholder="Phone Number"
                   type="text"
                   className={style.visaInput}
-                  required
+                   
                 />
+                {errors.mobileNumber && (
+                  <p className="text-sm text-red-400 my-1">
+                    {errors.mobileNumber.message}
+                  </p>
+                )}
               </div>
               <div className={style.formControl}>
                 <label className={style.inputLabel}> Email </label>
                 <input
-                  onChange={(e) => setEmail(e.target.value)}
+                  // onChange={(e) => setEmail(e.target.value)}
+                  {...register("email", { required: true })}
                   placeholder="Email"
                   type="text"
                   className={style.visaInput}
-                  required
+                   
                 />
+                {errors.email && (
+                  <p className="text-sm text-red-400 my-1">
+                    {" "}
+                    Enter your email.
+                  </p>
+                )}
               </div>
             </div>
             <div className={`${style.formControl} ${style.uploadDoc}`}>
@@ -239,13 +333,20 @@ const VisaRequest = () => {
                     multiple
                   />
                 </div>
-                {getFile[0]?.name ? (
-                  <label for="files">{getFile[0]?.name}</label>
+                {imageLoading ? (
+                  <div>Uploading...</div>
                 ) : (
-                  <label for="files">
-                    {" "}
-                    <CloudUpload className={style.uploadIcon} /> Upload Your Doc
-                  </label>
+                  <>
+                    {getFile[0]?.name ? (
+                      <label for="files">{getFile[0]?.name}</label>
+                    ) : (
+                      <label for="files">
+                        {" "}
+                        <CloudUpload className={style.uploadIcon} /> Upload Your
+                        Doc
+                      </label>
+                    )}
+                  </>
                 )}
 
                 {/* <label for="files"></label>
@@ -267,7 +368,15 @@ const VisaRequest = () => {
                 rows="10"
               ></textarea>
             </div>
-            <button disabled={loading ? true : false} className={style.visaSubmitBtn}>Confirm Request</button>
+            <div className="text-sm text-red-400 text-start my-1">
+              {error}
+            </div>
+            <button
+              disabled={loading || imageLoading ? true : false}
+              className={style.visaSubmitBtn}
+            >
+              Confirm Request
+            </button>
           </form>
         </div>
       </div>

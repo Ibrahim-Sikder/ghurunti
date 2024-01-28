@@ -18,6 +18,7 @@ const B2bHotelBookLeftSide = ({
   setPrivacyPolicy,
   guestStaying,
   privacyPolicy,
+  setGuest
 }) => {
   return (
     <section>
@@ -36,7 +37,7 @@ const B2bHotelBookLeftSide = ({
           <div className={style.line}></div>
           <FaUserTie />
           <span>Guest </span>
-          <select>
+          <select onChange={()=>setGuest(e.target.value)}>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -51,7 +52,7 @@ const B2bHotelBookLeftSide = ({
 
       <div className={style.passengerInformation}>
         <h3 className="text-xl font-bold text-[#4AB449]">
-          Passenger Infromation{" "}
+          Passenger Information{" "}
         </h3>
         <form>
           <div className={style.formControl}>
@@ -62,6 +63,7 @@ const B2bHotelBookLeftSide = ({
                 className={style.passengerField}
                 type="text"
                 placeholder="Given Name"
+                required
               />
             </div>
             <div className={style.passengerInfo}>
@@ -71,6 +73,7 @@ const B2bHotelBookLeftSide = ({
                 className={style.passengerField}
                 type="email"
                 placeholder="Email"
+                required
               />
             </div>
           </div>
@@ -81,6 +84,7 @@ const B2bHotelBookLeftSide = ({
                 onChange={(e) => setNationality(e.target.value)}
                 className={style.passengerField}
               >
+                <option value=""> Choose your country</option>
                 <option value="Bangladesh"> Bangladesh</option>
                 <option value="Malaysia"> Malaysia</option>
                 <option value="India"> India</option>
@@ -94,6 +98,7 @@ const B2bHotelBookLeftSide = ({
                 className={style.passengerField}
                 type="number"
                 placeholder="NRIC No"
+                required
               />
             </div>
           </div>
@@ -104,6 +109,7 @@ const B2bHotelBookLeftSide = ({
                 onChange={(e) => setCountryOfResidence(e.target.value)}
                 className={style.passengerField}
               >
+                <option value=""> Choose your country</option>
                 <option value="Bangladesh"> Bangladesh</option>
                 <option value="Malaysia"> Malaysia</option>
                 <option value="India"> India</option>
@@ -118,6 +124,7 @@ const B2bHotelBookLeftSide = ({
                 className={style.passengerField}
                 type="number"
                 placeholder="Mobile Number"
+                required
               />
             </div>
           </div>
@@ -136,11 +143,13 @@ const B2bHotelBookLeftSide = ({
                   onChange={(e) => setAdultGuestName(e.target.value)}
                   placeholder="Given Name"
                   type="text"
+                  required
                 />
                 <input
                   onChange={(e) => setAdultGuestSurName(e.target.value)}
                   placeholder="Sure Name"
                   type="text"
+                  required
                 />
               </div>
             </div>
@@ -151,11 +160,13 @@ const B2bHotelBookLeftSide = ({
                   onChange={(e) => setChildrenName(e.target.value)}
                   placeholder="Given Name"
                   type="text"
+                  required
                 />
                 <input
                   onChange={(e) => setChildrenSurName(e.target.value)}
                   placeholder="Sure Name"
                   type="text"
+                  required
                 />
               </div>
             </div>
@@ -166,11 +177,13 @@ const B2bHotelBookLeftSide = ({
                   onChange={(e) => setInfantName(e.target.value)}
                   placeholder="Given Name"
                   type="text"
+                  required
                 />
                 <input
                   onChange={(e) => setInfantSurName(e.target.value)}
                   placeholder="Sure Name"
                   type="text"
+                  required
                 />
               </div>
             </div>
@@ -180,6 +193,7 @@ const B2bHotelBookLeftSide = ({
               <input
                 onClick={() => setGuestStaying(!guestStaying)}
                 type="checkbox"
+                required
               />
               <small className="ml-2">
                 {" "}
@@ -192,6 +206,7 @@ const B2bHotelBookLeftSide = ({
               <input
                 onClick={() => setPrivacyPolicy(!privacyPolicy)}
                 type="checkbox"
+                required
               />
               <small className="ml-2">
                 {" "}
