@@ -3,11 +3,34 @@ import style from "./profile.module.css"
 import { FaAddressCard, FaBookmark, FaLock, FaRegUser } from "react-icons/fa"
 import { IoLogOut, IoCardOutline } from "react-icons/io5"
 import ActiveUser from "../ActiveLink/ActiveUser"
+import { useRouter } from "next/router"
+import Cookies from "js-cookie"
+
 const ProfileLeftSide = () => {
   const [age, setAge] = React.useState("")
   const handleChange = (event) => {
     setAge(event.target.value)
   }
+ 
+  const { push } = useRouter();
+ 
+  const logOut = () => {
+    setAuthenticated(false);
+    Cookies.remove("token");
+    Cookies.remove("id");
+    Cookies.remove("em");
+    return push("/");
+  };
+
+  const handleLogOut = () => {
+    logOut();
+  };
+
+
+    
+
+
+
 
   return (
     <section>
@@ -56,7 +79,7 @@ const ProfileLeftSide = () => {
             </li>
 
             <li>
-              <div className="flex items-center ml-[15px] cursor-pointer">
+              <div onClick={handleLogOut} className="flex items-center ml-[15px] cursor-pointer">
                 <IoLogOut className="mr-2" size={20} />
                 <span>Log Out </span>
               </div>

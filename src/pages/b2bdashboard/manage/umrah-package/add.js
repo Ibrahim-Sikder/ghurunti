@@ -26,8 +26,9 @@ const Add = () => {
   const [dayNight, setDayNight] = useState(null);
   const [getDate, setGetDate] = useState(null);
   const [price, setPrice] = useState(null);
-  
+
   const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   const formRef = useRef();
   const router = useRouter();
 
@@ -40,7 +41,7 @@ const Add = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
-      setLoading(true);
+      setImageLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -48,11 +49,21 @@ const Add = () => {
 
       const data = await response.json();
       if (data.message === "success") {
+        console.log(data.imageLinks);
         setGetImage(data.imageLinks);
-        setLoading(false);
+        setImageLoading(false);
+      }
+      if (data.error === "Something went wrong") {
+        toast.error("Something went wrong");
+        setImageLoading(false);
+        setGetImage([]);
+        setGetFile({});
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
+      toast.error("Something went wrong");
+      setImageLoading(false);
+      setGetImage([]);
+      setGetFile({});
     }
   };
 
@@ -77,7 +88,7 @@ const Add = () => {
         if (response.data.message === "Successfully post umrah details.") {
           toast.success("Post successful.");
           formRef.current.reset();
-          router.push("/b2bdashboard/manage/umrah-package")
+          router.push("/b2bdashboard/manage/umrah-package");
         }
         if (
           (response.data =
@@ -132,14 +143,26 @@ const Add = () => {
                 <div className={styles.formControl}>
                   <div>
                     <label> Latest Umrah Package </label>
-                    <input
+                    <select
                       onChange={(e) => setLatestUmrahPackage(e.target.value)}
-                      name="title"
-                      placeholder="Latest Umrah Package"
-                      type="text"
                       className={styles.inputField}
-                    />
+                    >
+                      <option selected value="">
+                        Select Umrah Package
+                      </option>
+                      <option value="Umrah In Ramadan">Umrah In Ramadan</option>
+                      <option value="Premium Umrah Packages">
+                        Premium Umrah Packages
+                      </option>
+                      <option value="Platinum Umrah Packages">
+                        Platinum Umrah Packages
+                      </option>
+                      <option value="Family Umrah Packages">
+                        Family Umrah Packages
+                      </option>
+                    </select>
                   </div>
+
                   <div>
                     <label>Day/Night</label>
                     <input
@@ -175,14 +198,20 @@ const Add = () => {
                 </div>
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
-                    {getFile[0]?.name ? (
-                      <label for="files">{getFile[0]?.name}</label>
+                    {imageLoading ? (
+                      <div>Uploading...</div>
                     ) : (
-                      <label for="files">
-                        {" "}
-                        <CloudUpload className={styles.uploadIcon} /> Image
-                        Upload{" "}
-                      </label>
+                      <>
+                        {getFile[0]?.name ? (
+                          <label for="files">{getFile[0]?.name}</label>
+                        ) : (
+                          <label for="files">
+                            {" "}
+                            <CloudUpload className={styles.uploadIcon} /> Image
+                            Upload{" "}
+                          </label>
+                        )}
+                      </>
                     )}
 
                     <input
@@ -227,7 +256,7 @@ const Add = () => {
 
                 <div className={styles.formControl}>
                   <button
-                    disabled={loading ? true : false}
+                    disabled={loading || imageLoading ? true : false}
                     className={styles.submitBtn}
                     type="submit"
                   >

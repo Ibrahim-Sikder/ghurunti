@@ -29,7 +29,7 @@ const HotelBooking = () => {
           const response = await axios.get(
             `http://localhost:5000/api/v1/confirmation/hotel?email=${em}&profile_type=${user.profile_type}`
           );
-console.log(response)
+ 
           setHotelConfirmation(response.data.result);
         }
       } catch (error) {

@@ -61,7 +61,7 @@ const Checkout = () => {
       if (data.error === "Something went wrong") {
         toast.error("Something went wrong");
         setImageLoading(false);
-        setGetImage([]);
+        setGetPdfLinks([]);
         setGetFile({});
       }
     } catch (error) {
