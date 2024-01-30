@@ -28,8 +28,9 @@ const HajjUmrah = () => {
   const [popularHajjPackage, setPopularHajjPackage] = useState(null);
   // const [description, setDescription] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   const formRef = useRef();
-const router = useRouter()
+  const router = useRouter();
   let files;
   const handlePdf = async (e) => {
     setGetFile(e.target.files);
@@ -39,7 +40,7 @@ const router = useRouter()
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
-      setLoading(true)
+      setImageLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -48,10 +49,19 @@ const router = useRouter()
       const data = await response.json();
       if (data.message === "success") {
         setGetImage(data.imageLinks);
-        setLoading(false)
+        setImageLoading(false);
+      }
+      if (data.error === "Something went wrong") {
+        toast.error("Something went wrong");
+        setImageLoading(false);
+        setGetImage([]);
+        setGetFile({});
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
+      toast.error("Something went wrong");
+      setImageLoading(false);
+      setGetImage([]);
+      setGetFile({});
     }
   };
 
@@ -86,7 +96,7 @@ const router = useRouter()
             icon: "success",
             title: "Hajj Package Data Input Successfully !",
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
           formRef.current.reset();
           router.push("/b2bdashboard/manage/hajj");
@@ -207,7 +217,7 @@ const router = useRouter()
                   </div>
                 </div>
                 <div className={styles.formControl}>
-                  <div onClick={() => window.my_modal_3.showModal()}>
+                  {/* <div onClick={() => window.my_modal_3.showModal()}>
                     <label>Requirement List </label>
                     <div className={styles.requirementField}>
                       <input
@@ -272,7 +282,7 @@ const router = useRouter()
                         </form>
                       </dialog>
                     </div>
-                  </div>
+                  </div> */}
                   <div>
                     <label>Popular Hajj Package </label>
                     <input
@@ -286,14 +296,20 @@ const router = useRouter()
                 </div>
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
-                    {getFile[0]?.name ? (
-                      <label for="files">{getFile[0]?.name}</label>
+                    {imageLoading ? (
+                      <div>Uploading...</div>
                     ) : (
-                      <label for="files">
-                        {" "}
-                        <CloudUpload className={styles.uploadIcon} /> Image
-                        Upload{" "}
-                      </label>
+                      <>
+                        {getFile[0]?.name ? (
+                          <label for="files">{getFile[0]?.name}</label>
+                        ) : (
+                          <label for="files">
+                            {" "}
+                            <CloudUpload className={styles.uploadIcon} /> Image
+                            Upload{" "}
+                          </label>
+                        )}
+                      </>
                     )}
 
                     <input
@@ -338,7 +354,7 @@ const router = useRouter()
 
                 <div className={styles.formControl}>
                   <button
-                    disabled={loading ? true : false}
+                    disabled={loading || imageLoading ? true : false}
                     className={styles.submitBtn}
                     type="submit"
                   >

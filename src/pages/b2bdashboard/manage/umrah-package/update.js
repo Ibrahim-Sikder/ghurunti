@@ -24,6 +24,7 @@ const Update = () => {
   const [getDate, setGetDate] = useState(null);
   const [price, setPrice] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   const formRef = useRef();
   const router = useRouter();
   const { id } = router.query;
@@ -40,6 +41,7 @@ const Update = () => {
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
+          toast.error(error);
         });
     }
   }, [id]);
@@ -53,7 +55,7 @@ const Update = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
-      setLoading(true);
+      setImageLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -61,11 +63,21 @@ const Update = () => {
 
       const data = await response.json();
       if (data.message === "success") {
+        console.log(data.imageLinks);
         setGetImage(data.imageLinks);
-        setLoading(false);
+        setImageLoading(false);
+      }
+      if (data.error === "Something went wrong") {
+        toast.error("Something went wrong");
+        setImageLoading(false);
+        setGetImage([]);
+        setGetFile({});
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
+      toast.error("Something went wrong");
+      setImageLoading(false);
+      setGetImage([]);
+      setGetFile({});
     }
   };
 
@@ -137,16 +149,25 @@ const Update = () => {
                   </div>
                 </div>
                 <div className={styles.formControl}>
-                  <div>
+                <div>
                     <label> Latest Umrah Package </label>
-                    <input
+                    <select
                       onChange={(e) => setLatestUmrahPackage(e.target.value)}
-                      name="title"
-                      placeholder="Latest Umrah Package"
-                      type="text"
                       className={styles.inputField}
-                      defaultValue={specificPackage.latest_umrah_package}
-                    />
+                      value={latestUmrahPackage || specificPackage.latest_umrah_package}
+                    >
+                      
+                      <option value="Umrah In Ramadan">Umrah In Ramadan</option>
+                      <option value="Premium Umrah Packages">
+                        Premium Umrah Packages
+                      </option>
+                      <option value="Platinum Umrah Packages">
+                        Platinum Umrah Packages
+                      </option>
+                      <option value="Family Umrah Packages">
+                        Family Umrah Packages
+                      </option>
+                    </select>
                   </div>
                   <div>
                     <label>Day/Night</label>
@@ -186,16 +207,23 @@ const Update = () => {
                 </div>
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
-                    {getFile[0]?.name || specificPackage?.image?.length > 0 ? (
-                      <label for="files">
-                        {getFile[0]?.name || specificPackage.image[0]}
-                      </label>
+                    {imageLoading ? (
+                      <div>Uploading...</div>
                     ) : (
-                      <label for="files">
-                        {" "}
-                        <CloudUpload className={styles.uploadIcon} /> Image
-                        Upload{" "}
-                      </label>
+                      <>
+                        {getFile[0]?.name ||
+                        specificPackage?.image?.length > 0 ? (
+                          <label for="files">
+                            {getFile[0]?.name || specificPackage.image[0]}
+                          </label>
+                        ) : (
+                          <label for="files">
+                            {" "}
+                            <CloudUpload className={styles.uploadIcon} /> Image
+                            Upload{" "}
+                          </label>
+                        )}
+                      </>
                     )}
 
                     <input
@@ -240,7 +268,7 @@ const Update = () => {
 
                 <div className={styles.formControl}>
                   <button
-                    disabled={loading ? true : false}
+                    disabled={loading || imageLoading ? true : false}
                     className={styles.submitBtn}
                     type="submit"
                   >

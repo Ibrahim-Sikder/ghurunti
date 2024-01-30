@@ -319,7 +319,7 @@ const VisaHeroBox = () => {
                 <label>Visa Type </label> <br />
                 <select  onChange={(e) => setVisaType(e.target.value)} className="select select-success w-full max-w-xs">
                   <option selected="Search Your Visa">Search Your Visa</option>
-                  <option>Touris Visa</option>
+                  <option>Tourist Visa</option>
                   <option>Student Visa</option>
                   <option>Business Visa</option>
                 </select>

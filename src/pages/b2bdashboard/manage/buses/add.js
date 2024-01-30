@@ -33,6 +33,7 @@ const Busses = () => {
   const [facilities, setFacilities] = useState(null);
   // const [getDate, setGetDate] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   const [child, setChild] = useState(0);
   const [adult, setAdult] = useState(0);
   const [seat, setSeat] = useState("");
@@ -58,6 +59,7 @@ const Busses = () => {
       setAdult(child - 1);
     }
   };
+
   let files;
   const handlePdf = async (e) => {
     setGetFile(e.target.files);
@@ -67,7 +69,7 @@ const Busses = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
-      setLoading(true);
+      setImageLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -76,10 +78,19 @@ const Busses = () => {
       const data = await response.json();
       if (data.message === "success") {
         setGetImage(data.imageLinks);
-        setLoading(false);
+        setImageLoading(false);
+      }
+      if (data.error === "Something went wrong") {
+        toast.error("Something went wrong");
+        setImageLoading(false);
+        setGetImage([]);
+        setGetFile({});
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
+      toast.error("Something went wrong");
+      setImageLoading(false);
+      setGetImage([]);
+      setGetFile({});
     }
   };
 
@@ -303,9 +314,7 @@ const Busses = () => {
                             <option value="" selected>
                               Select your class
                             </option>
-                            <option value="Economy">
-                              Economy
-                            </option>
+                            <option value="Economy">Economy</option>
                             <option value="Premium">Premium</option>
                           </select>
                         </form>
@@ -357,29 +366,23 @@ const Busses = () => {
                     />
                   </div>
                 </div>
-                {/* <div className={styles.formControl}>
-                  
-                  <div>
-                    <label> Date </label>
-                    <input
-                    onChange={(e) => setGetDate(e.target.value)}
-                      name="Date"
-                      placeholder="Date "
-                      type="date"
-                      className={styles.inputField}
-                    />
-                  </div>
-                </div> */}
+
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
-                    {getFile[0]?.name ? (
-                      <label for="files">{getFile[0]?.name}</label>
+                    {imageLoading ? (
+                      <div>Uploading...</div>
                     ) : (
-                      <label for="files">
-                        {" "}
-                        <CloudUpload className={styles.uploadIcon} /> Image
-                        Upload{" "}
-                      </label>
+                      <>
+                        {getFile[0]?.name ? (
+                          <label for="files">{getFile[0]?.name}</label>
+                        ) : (
+                          <label for="files">
+                            {" "}
+                            <CloudUpload className={styles.uploadIcon} /> Image
+                            Upload{" "}
+                          </label>
+                        )}
+                      </>
                     )}
 
                     <input
@@ -425,10 +428,14 @@ const Busses = () => {
                 <div className={styles.formControl}>
                   <button
                     disabled={loading ? true : false}
-                    className={styles.submitBtn}
+                    className={
+                      loading
+                        ? "bg-gray-600 w-full rounded-full text-white/90 py-3 font-semibold text-xl"
+                        : `${styles.submitBtn}`
+                    }
                     type="submit"
                   >
-                    Submit
+                    {loading ? "Loading..." : " Submit"}
                   </button>
                 </div>
               </form>
@@ -441,4 +448,3 @@ const Busses = () => {
 };
 
 export default dynamic(() => Promise.resolve(Busses), { ssr: false });
-

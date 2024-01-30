@@ -36,6 +36,7 @@ const Update = () => {
   const [getDate, setGetDate] = useState(null);
   const [requirement, setRequirement] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   const formRef = useRef();
   const router = useRouter();
   const { id } = router.query;
@@ -64,7 +65,7 @@ const Update = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
-      setLoading(true);
+      setImageLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -72,11 +73,21 @@ const Update = () => {
 
       const data = await response.json();
       if (data.message === "success") {
+        console.log(data.imageLinks);
         setGetImage(data.imageLinks);
-        setLoading(false);
+        setImageLoading(false);
+      }
+      if (data.error === "Something went wrong") {
+        toast.error("Something went wrong");
+        setImageLoading(false);
+        setGetImage([]);
+        setGetFile({});
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
+      toast.error("Something went wrong");
+      setImageLoading(false);
+      setGetImage([]);
+      setGetFile({});
     }
   };
 
@@ -142,7 +153,10 @@ const Update = () => {
                       className={styles.inputField}
                       value={specificPackage.country_name}
                     >
-                      <option selected value="Bangladesh">
+                      <option value="">
+                        Choose your country
+                      </option>
+                      <option value="Bangladesh">
                         Bangladesh
                       </option>
                       <option value="Thailand">Thailand</option>
@@ -164,6 +178,7 @@ const Update = () => {
                       className={styles.inputField}
                       value={specificPackage.city_name}
                     >
+                      <option value=" ">Choose your city</option>
                       <option value="Dhaka">Dhaka</option>
                       <option value="Bangkok">Bangkok</option>
                       <option value="Tokyo">Tokyo</option>
@@ -195,14 +210,14 @@ const Update = () => {
                     </select>
                   </div>
                   <div>
-                    <label> Traveller Type </label>
+                    <label> Traveler Type </label>
                     <select
                       onChange={(e) => setTravelerType(e.target.value)}
                       className={styles.inputField}
                       value={specificPackage.traveler_type}
                     >
                       <option value="Select Traveller Type">
-                        Select Traveller Type{" "}
+                        Select Traveler Type{" "}
                       </option>
                       <option value="Govt. Job Holder">Govt. Job Holder</option>
                       <option value="Private Job Holder">
@@ -350,7 +365,18 @@ const Update = () => {
                       defaultValue={specificPackage.date}
                     />
                   </div>
-                  <div onClick={() => window.my_modal_3.showModal()}>
+                  <div>
+                    <label>Validity Day</label>
+                    <input
+                      onChange={(e) => setValidityDay(e.target.value)}
+                      name="validity"
+                      placeholder="Validity Day"
+                      type="text"
+                      className={styles.inputField}
+                      defaultValue={specificPackage.validity_day}
+                    />
+                  </div>
+                  {/* <div onClick={() => window.my_modal_3.showModal()}>
                     <label>Requirement List </label>
                     <div className={styles.requirementField}>
                       <input
@@ -409,10 +435,10 @@ const Update = () => {
                         </form>
                       </dialog>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className={styles.formControl}>
-                  <div>
+                  {/* <div>
                     <label>Validity Day</label>
                     <input
                       onChange={(e) => setValidityDay(e.target.value)}
@@ -422,7 +448,7 @@ const Update = () => {
                       className={styles.inputField}
                       defaultValue={specificPackage.validity_day}
                     />
-                  </div>
+                  </div> */}
                   {/* <div>
                     <label>Max Stay</label>
                     <input
@@ -436,16 +462,23 @@ const Update = () => {
                 </div>
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
-                    {getFile[0]?.name || specificPackage?.image?.length > 0 ? (
-                      <label for="files">
-                        {getFile[0]?.name || specificPackage.image[0]}
-                      </label>
+                    {imageLoading ? (
+                      <div>Uploading...</div>
                     ) : (
-                      <label for="files">
-                        {" "}
-                        <CloudUpload className={styles.uploadIcon} /> Image
-                        Upload{" "}
-                      </label>
+                      <>
+                        {getFile[0]?.name ||
+                        specificPackage?.image?.length > 0 ? (
+                          <label for="files">
+                            {getFile[0]?.name || specificPackage.image[0]}
+                          </label>
+                        ) : (
+                          <label for="files">
+                            {" "}
+                            <CloudUpload className={styles.uploadIcon} /> Image
+                            Upload{" "}
+                          </label>
+                        )}
+                      </>
                     )}
 
                     <input
@@ -457,7 +490,6 @@ const Update = () => {
                       id="files"
                       class="hidden"
                       multiple
- 
                     />
                   </div>
                 </div>
@@ -491,7 +523,7 @@ const Update = () => {
 
                 <div className={styles.formControl}>
                   <button
-                    disabled={loading ? true : false}
+                    disabled={loading || imageLoading ? true : false}
                     className={styles.submitBtn}
                     type="submit"
                   >

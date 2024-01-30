@@ -31,6 +31,7 @@ const Update = () => {
   const [boardingPoint, setBoardingPoint] = useState(null);
   const [facilities, setFacilities] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   const formRef = useRef();
   const [child, setChild] = useState(0);
   const [adult, setAdult] = useState(0);
@@ -46,15 +47,20 @@ const Update = () => {
         .then((res) => res.json())
         .then((data) => {
           setSpecificPackage(data.getPackage);
-          setChild(specificPackage.child)
-          setAdult(specificPackage.adult)
-          setSeat(specificPackage.seat_type)
+          setChild(specificPackage.child);
+          setAdult(specificPackage.adult);
+          setSeat(specificPackage.seat_type);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
     }
-  }, [id, specificPackage.adult, specificPackage.child, specificPackage.seat_type]);
+  }, [
+    id,
+    specificPackage.adult,
+    specificPackage.child,
+    specificPackage.seat_type,
+  ]);
 
   const childIncrement = () => {
     setChild(child + 1);
@@ -85,7 +91,7 @@ const Update = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
-      setLoading(true);
+      setImageLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -93,11 +99,21 @@ const Update = () => {
 
       const data = await response.json();
       if (data.message === "success") {
+        console.log(data.imageLinks);
         setGetImage(data.imageLinks);
-        setLoading(false);
+        setImageLoading(false);
+      }
+      if (data.error === "Something went wrong") {
+        toast.error("Something went wrong");
+        setImageLoading(false);
+        setGetImage([]);
+        setGetFile({});
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
+      toast.error("Something went wrong");
+      setImageLoading(false);
+      setGetImage([]);
+      setGetFile({});
     }
   };
 
@@ -130,7 +146,7 @@ const Update = () => {
           toast.success("Update successful.");
           formRef.current.reset();
           router.push("/b2bdashboard/manage/buses");
-         
+
           setGetImage([]);
           setValue("");
         }
@@ -152,28 +168,6 @@ const Update = () => {
             <h2 className="text-3xl font-bold text-center">Bus Data Update</h2>
             <div className="w-full mx-auto">
               <form ref={formRef} onSubmit={handleBusData}>
-                {/* <div className={styles.formControl}>
-                  <div>
-                    <label>Travel From City</label>
-                    <input
-                      onChange={(e) => setOperators(e.target.value)}
-                      name="travelFromCity"
-                      placeholder="Travel From City"
-                      type="text"
-                      className={styles.inputField}
-                    />
-                  </div>
-                  <div>
-                    <label> Travel To City</label>
-                    <input
-                      onChange={(e) => setTypeOfBus(e.target.value)}
-                      name="travelToCity"
-                      placeholder="Travel To City"
-                      type="text"
-                      className={styles.inputField}
-                    />
-                  </div>
-                </div> */}
                 <div className={styles.formControl}>
                   <div>
                     <label>Bus Name </label>
@@ -264,11 +258,13 @@ const Update = () => {
                       <div>
                         {child || adult || seat ? (
                           <small>
-                            {child + adult} Passenger & {seat} 
+                            {child + adult} Passenger & {seat}
                           </small>
                         ) : (
                           <small>
-                            {specificPackage.child} child, {specificPackage.adult} adult, & {specificPackage.seat_type}  
+                            {specificPackage.child} child,{" "}
+                            {specificPackage.adult} adult, &{" "}
+                            {specificPackage.seat_type}
                           </small>
                         )}
                         <input autoComplete="off" type="text" />
@@ -320,9 +316,7 @@ const Update = () => {
                             <option value="" selected>
                               Select your class
                             </option>
-                            <option value="Economy">
-                              Economy
-                            </option>
+                            <option value="Economy">Economy</option>
                             <option value="Premium">Premium</option>
                           </select>
                         </form>
@@ -381,16 +375,23 @@ const Update = () => {
 
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
-                    {getFile[0]?.name || specificPackage?.image?.length > 0 ? (
-                      <label for="files">
-                        {getFile[0]?.name || specificPackage.image[0]}
-                      </label>
+                    {imageLoading ? (
+                      <div>Uploading...</div>
                     ) : (
-                      <label for="files">
-                        {" "}
-                        <CloudUpload className={styles.uploadIcon} /> Image
-                        Upload{" "}
-                      </label>
+                      <>
+                        {getFile[0]?.name ||
+                        specificPackage?.image?.length > 0 ? (
+                          <label for="files">
+                            {getFile[0]?.name || specificPackage.image[0]}
+                          </label>
+                        ) : (
+                          <label for="files">
+                            {" "}
+                            <CloudUpload className={styles.uploadIcon} /> Image
+                            Upload{" "}
+                          </label>
+                        )}
+                      </>
                     )}
 
                     <input
@@ -440,7 +441,7 @@ const Update = () => {
 
                 <div className={styles.formControl}>
                   <button
-                    disabled={loading ? true : false}
+                    disabled={loading || imageLoading ? true : false}
                     className={styles.submitBtn}
                     type="submit"
                   >

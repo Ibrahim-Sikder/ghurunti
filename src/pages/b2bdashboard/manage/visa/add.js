@@ -38,6 +38,7 @@ const Add = () => {
   const [getDate, setGetDate] = useState(null);
   const [requirement, setRequirement] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   const formRef = useRef();
   const router = useRouter();
 
@@ -50,7 +51,7 @@ const Add = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
-      setLoading(true);
+      setImageLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -58,11 +59,21 @@ const Add = () => {
 
       const data = await response.json();
       if (data.message === "success") {
+        console.log(data.imageLinks);
         setGetImage(data.imageLinks);
-        setLoading(false);
+        setImageLoading(false);
+      }
+      if (data.error === "Something went wrong") {
+        toast.error("Something went wrong");
+        setImageLoading(false);
+        setGetImage([]);
+        setGetFile({});
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
+      toast.error("Something went wrong");
+      setImageLoading(false);
+      setGetImage([]);
+      setGetFile({});
     }
   };
 
@@ -168,9 +179,10 @@ const Add = () => {
                       onChange={(e) => setCountryName(e.target.value)}
                       className={styles.inputField}
                     >
-                      <option selected value="Bangladesh">
-                        Bangladesh
+                      <option selected value="">
+                        Choose your country
                       </option>
+                      <option value="Bangladesh">Bangladesh</option>
                       <option value="Thailand">Thailand</option>
                       <option value="Malaysia">Malaysia</option>
                       <option value="Indonesia">Indonesia</option>
@@ -189,6 +201,7 @@ const Add = () => {
                       onChange={(e) => setCityName(e.target.value)}
                       className={styles.inputField}
                     >
+                      <option value="">Choose your city</option>
                       <option value="Dhaka">Dhaka</option>
                       <option value="Bangkok">Bangkok</option>
                       <option value="Tokyo">Tokyo</option>
@@ -362,7 +375,17 @@ const Add = () => {
                       className={styles.inputField}
                     />
                   </div>
-                  <div
+                  <div>
+                    <label>Validity Day</label>
+                    <input
+                      onChange={(e) => setValidityDay(e.target.value)}
+                      name="validity"
+                      placeholder="Validity Day"
+                      type="text"
+                      className={styles.inputField}
+                    />
+                  </div>
+                  {/* <div
                     className={
                       requirementDetails?.requirements
                         ? "cursor-not-allowed"
@@ -461,10 +484,10 @@ const Add = () => {
                         </form>
                       </dialog>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className={styles.formControl}>
-                  <div>
+                  {/* <div>
                     <label>Validity Day</label>
                     <input
                       onChange={(e) => setValidityDay(e.target.value)}
@@ -473,7 +496,7 @@ const Add = () => {
                       type="text"
                       className={styles.inputField}
                     />
-                  </div>
+                  </div> */}
                   {/* <div>
                     <label>Max Stay</label>
                     <input
@@ -487,14 +510,20 @@ const Add = () => {
                 </div>
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
-                    {getFile[0]?.name ? (
-                      <label for="files">{getFile[0]?.name}</label>
+                    {imageLoading ? (
+                      <div>Uploading...</div>
                     ) : (
-                      <label for="files">
-                        {" "}
-                        <CloudUpload className={styles.uploadIcon} /> Image
-                        Upload{" "}
-                      </label>
+                      <>
+                        {getFile[0]?.name ? (
+                          <label for="files">{getFile[0]?.name}</label>
+                        ) : (
+                          <label for="files">
+                            {" "}
+                            <CloudUpload className={styles.uploadIcon} /> Image
+                            Upload{" "}
+                          </label>
+                        )}
+                      </>
                     )}
 
                     <input
@@ -539,7 +568,7 @@ const Add = () => {
 
                 <div className={styles.formControl}>
                   <button
-                    disabled={loading ? true : false}
+                    disabled={loading || imageLoading ? true : false}
                     className={styles.submitBtn}
                     type="submit"
                   >

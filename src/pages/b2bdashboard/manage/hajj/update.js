@@ -28,8 +28,8 @@ const Update = () => {
   const [dayNight, setDayNight] = useState(null);
   const [requirementList, setRequirementList] = useState(null);
   const [popularHajjPackage, setPopularHajjPackage] = useState(null);
-  // const [description, setDescription] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   const formRef = useRef();
 
   const [specificPackage, setSpecificPackage] = useState({});
@@ -50,7 +50,6 @@ const Update = () => {
 
   let files;
   const handlePdf = async (e) => {
-    console.log(e);
     setGetFile(e.target.files);
     try {
       files = e.target.files;
@@ -58,7 +57,7 @@ const Update = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
-      setLoading(true);
+      setImageLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -67,10 +66,19 @@ const Update = () => {
       const data = await response.json();
       if (data.message === "success") {
         setGetImage(data.imageLinks);
-        setLoading(false);
+        setImageLoading(false);
+      }
+      if (data.error === "Something went wrong") {
+        toast.error("Something went wrong");
+        setImageLoading(false);
+        setGetImage([]);
+        setGetFile({});
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
+      toast.error("Something went wrong");
+      setImageLoading(false);
+      setGetImage([]);
+      setGetFile({});
     }
   };
 
@@ -98,7 +106,6 @@ const Update = () => {
     axios
       .put(`http://localhost:5000/api/v1/hajj/update/${id}`, data)
       .then(function (response) {
-        console.log(response.data);
         if (response.data.message === "Package update successful") {
           toast.success("Package update successful");
           formRef.current.reset();
@@ -141,7 +148,7 @@ const Update = () => {
                     <select
                       onChange={(e) => setHajjPackage(e.target.value)}
                       className={styles.inputField}
-                      value={specificPackage.hajj_package}
+                      value={hajjPackage || specificPackage.hajj_package}
                     >
                       <option value="Select Hajj Package">
                         Select Hajj Package
@@ -218,7 +225,7 @@ const Update = () => {
                   </div>
                 </div>
                 <div className={styles.formControl}>
-                  <div>
+                  {/* <div>
                     <label>Requirement List </label>
                     <input
                       onChange={(e) => setRequirementList(e.target.value)}
@@ -228,7 +235,7 @@ const Update = () => {
                       className={styles.inputField}
                       defaultValue={specificPackage.requirement_list}
                     />
-                  </div>
+                  </div> */}
                   <div>
                     <label>Popular Hajj Package </label>
                     <input
@@ -243,16 +250,23 @@ const Update = () => {
                 </div>
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
-                    {getFile[0]?.name || specificPackage?.image?.length > 0 ? (
-                      <label for="files">
-                        {getFile[0]?.name || specificPackage?.image[0]}
-                      </label>
+                    {imageLoading ? (
+                      <div>Uploading...</div>
                     ) : (
-                      <label for="files">
-                        {" "}
-                        <CloudUpload className={styles.uploadIcon} /> Image
-                        Upload{" "}
-                      </label>
+                      <>
+                        {getFile[0]?.name ||
+                        specificPackage?.image?.length > 0 ? (
+                          <label for="files">
+                            {getFile[0]?.name || specificPackage?.image[0]}
+                          </label>
+                        ) : (
+                          <label for="files">
+                            {" "}
+                            <CloudUpload className={styles.uploadIcon} /> Image
+                            Upload{" "}
+                          </label>
+                        )}
+                      </>
                     )}
 
                     <input
@@ -296,7 +310,7 @@ const Update = () => {
 
                 <div className={styles.formControl}>
                   <button
-                    disabled={loading ? true : false}
+                    disabled={loading || imageLoading ? true : false}
                     className={styles.submitBtn}
                     type="submit"
                   >
