@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Logo from "../../public/assets/logo.png";
 import Link from "next/link";
 import style from "./Nav.module.css";
@@ -16,12 +16,14 @@ import {
 } from "@mui/icons-material";
 import Typewriter from "typewriter-effect";
 import { useRef } from "react";
-import ibrahim from "../../public/assets/chairman.jpeg";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import { decryptTransform } from "../EncryptAndDecrypt/EncryptAnsDecrypt";
+import toast from "react-hot-toast";
+import { FaUserCircle } from "react-icons/fa";
 
 const Nav = () => {
+  const [user, setUser] = useState({});
   const [stickyMenu, setStickyMenu] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
@@ -50,6 +52,7 @@ const Nav = () => {
     sessionStorage.removeItem("b_f");
   };
   const token = decryptTransform(Cookies.get("token"));
+  const em = decryptTransform(Cookies.get("em"));
   useEffect(() => {
     if (token) {
       setAuthenticated(true);
@@ -70,6 +73,15 @@ const Nav = () => {
     logOut();
   };
 
+  useEffect(() => {
+    try {
+      fetch(`http://localhost:5000/api/v1/user/${em}`)
+        .then((res) => res.json())
+        .then((data) => setUser(data.getUser));
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }, [em]);
   return (
     <section className={style.navBarMainWrap}>
       <div className={style.navbarMain}>
@@ -131,15 +143,22 @@ const Nav = () => {
                         <li>
                           <div className="flex items-center">
                             <div className="w-[50px] h-[50px] mr-2">
-                              <Image
-                                src={ibrahim}
-                                alt="user"
-                                className="w-full h-full rounded-full"
-                              />
+                              {user?.profile_image?.length > 0 ? (
+                                <Image
+                                  loading="lazy"
+                                  className={style.logoImg}
+                                  src={user?.profile_image[0]}
+                                  alt="Picture of the author"
+                                  width={100}
+                                  height={100}
+                                />
+                              ) : (
+                                <FaUserCircle className="h-7 w-7" />
+                              )}
                             </div>
                             <div>
-                              <h4>Ghuronti</h4>
-                              <small>ghuronti@gmail.com</small>
+                              <h4>{user.given_name}</h4>
+                              <small> {user.email}</small>
                             </div>
                           </div>
                         </li>

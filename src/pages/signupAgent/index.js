@@ -63,7 +63,7 @@ const SignUpAgent = () => {
         city_name: data.city,
         mobile_number: data.number,
         zip_code: data.zipCode,
-        image: getImage,
+        profile_image: getImage,
         agree: agree,
         profile_type: "b2b",
       };
@@ -74,7 +74,6 @@ const SignUpAgent = () => {
         "http://localhost:5000/api/v1/register",
         values
       );
-      console.log(response.status);
       if (response.status === 201) {
         setConfirmation("Check your email for confirmation.");
 

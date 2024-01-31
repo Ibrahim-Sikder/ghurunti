@@ -47,19 +47,6 @@ const Booking = () => {
   const [visaConfirmation, setVisaConfirmation] = useState([]);
   const [hajjConfirmation, setHajjConfirmation] = useState([]);
 
-  // const handleToggle = (value) => () => {
-  //   const currentIndex = checked.indexOf(value);
-  //   const newChecked = [...checked];
-
-  //   if (currentIndex === -1) {
-  //     newChecked.push(value);
-  //   } else {
-  //     newChecked.splice(currentIndex, 1);
-  //   }
-
-  //   setChecked(newChecked);
-  // };
-
   // for train
 
   const em = decryptTransform(Cookies.get("em"));
@@ -160,7 +147,7 @@ const Booking = () => {
       try {
         if (em && user.profile_type) {
           const response = await axios.get(
-            `http://localhost:5000/api/v1/confirmation/hajj?email=${em}&profile_type=${user.profile_type}`
+            `http://localhost:5000/api/v1/confirmation/hajj?email=${em}&profile_type=${user?.profile_type}`
           );
 
           setHajjConfirmation(response.data.result);
@@ -172,7 +159,7 @@ const Booking = () => {
     };
 
     fetchData();
-  }, [em, user.profile_type]);
+  }, [em, user?.profile_type]);
 
   return (
     <PrivateRoute>

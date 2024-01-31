@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./ProfileRightSide.module.css";
 import Image from "next/image";
 import admin from "../../../../public/assets/admin.png";
@@ -13,17 +13,30 @@ import {
   FaLaptopHouse,
   FaPassport,
   FaUserAlt,
+  FaUserCircle,
 } from "react-icons/fa";
 import { HiDeviceMobile, HiOutlineLockClosed, HiUsers } from "react-icons/hi";
 import { FileUpload } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { decryptTransform } from "../../../../components/EncryptAndDecrypt/EncryptAnsDecrypt";
+import { FormSuccess } from "../../../../components/form-success";
+import { FormError } from "../../../../components/form-error";
 const ProfileRightSide = () => {
+  const [reload, setReload] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [user, setUser] = useState({});
   const [getFile, setGetFile] = useState({});
+  const [getPassportFile, setGetPassportFile] = useState({});
+  const [getVisaFile, setGetVisaFile] = useState({});
 
   const [profileImage, setProfileImage] = useState([]);
   const [passportImage, setPassportImage] = useState([]);
   const [visaImage, setVisaImage] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
   const [passportLoading, setPassportLoading] = useState(false);
   const [visaLoading, setVisaLoading] = useState(false);
@@ -63,7 +76,7 @@ const ProfileRightSide = () => {
   };
   let passportFiles;
   const handlePassport = async (e) => {
-    setGetFile(e.target.files);
+    setGetPassportFile(e.target.files);
     try {
       passportFiles = e.target.files;
       const formData = new FormData();
@@ -85,13 +98,46 @@ const ProfileRightSide = () => {
         toast.error("Something went wrong");
         setPassportLoading(false);
         setPassportImage([]);
-        setGetFile({});
+        setGetPassportFile({});
       }
     } catch (error) {
       toast.error("Something went wrong");
       setPassportLoading(false);
       setPassportImage([]);
-      setGetFile({});
+      setGetPassportFile({});
+    }
+  };
+  let visaFiles;
+  const handleVisaCopy = async (e) => {
+    setGetVisaFile(e.target.files);
+    try {
+      visaFiles = e.target.files;
+      const formData = new FormData();
+      for (let i = 0; i < visaFiles.length; i++) {
+        formData.append("pdfFiles", visaFiles[i]);
+      }
+      setVisaLoading(true);
+      const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      if (data.message === "success") {
+        setVisaImage(data.imageLinks);
+        setVisaLoading(false);
+      }
+      if (data.error === "Something went wrong") {
+        toast.error("Something went wrong");
+        setVisaLoading(false);
+        setVisaImage([]);
+        setGetVisaFile({});
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+      setVisaLoading(false);
+      setVisaImage([]);
+      setGetVisaFile({});
     }
   };
 
@@ -99,28 +145,76 @@ const ProfileRightSide = () => {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm();
-  const onSubmit = (data) => console.log(data);
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setValue("profile_image", file);
+  const em = decryptTransform(Cookies.get("em"));
+
+  useEffect(() => {
+    try {
+      fetch(`http://localhost:5000/api/v1/user/${em}`)
+        .then((res) => res.json())
+        .then((data) => setUser(data.getUser));
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }, [em, reload]);
+
+  const onSubmit = async (data) => {
+    setError("");
+    setSuccess("");
+    const values = {
+      profile_image:
+        profileImage.length !== 0 ? profileImage : user?.profile_image[0],
+      title: data.title || user.title,
+      given_name: data.name || user.given_name,
+      surname: data.surname || user.surname,
+      email: data.email || user.email,
+      mobile_number: data.mobile_number || user.mobile_number,
+      gender: data.gender || user.gender,
+      nationality: data.nationality || user.nationality,
+      date: data.date || user.date,
+      passport_number: data.passport_number || user.passport_number,
+      passport_expire_date:
+        data.passport_expire_date || user.passport_expire_date,
+      address: data.address || user.address,
+      zip_code: data.post_code || user.zip_code,
+      passport_file:
+        passportImage.length !== 0 ? passportImage : user?.passport_file[0],
+      visa_file: visaImage.length !== 0 ? visaImage : user?.visa_file[0],
+    };
+    try {
+      setLoading(true);
+      const response = await axios.put(
+        `http://localhost:5000/api/v1/user/${em}`,
+        values
+      );
+      if (response.status === 200) {
+        setSuccess(response.data.message);
+        setReload(!reload);
+        setLoading(false);
+      }
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
   };
 
-  console.log(passportImage);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={style.userInfo}>
         <div className="flex ">
-          <Image
-            loading="lazy"
-            src={admin}
-            alt="Picture of the author"
-            width={150}
-            height={100}
-            className={style.userImg}
-          />
+          {user?.profile_image?.length > 0 || profileImage.length > 0 ? (
+            <Image
+              loading="lazy"
+              src={profileImage[0] || user?.profile_image[0]}
+              alt="Picture of the author"
+              width={150}
+              height={100}
+              className={style.userImg}
+            />
+          ) : (
+            <FaUserCircle className="h-32 w-32" />
+          )}
           <div className="ml-8">
             <h2 className="text-5xl font-bold">Ghuronti</h2>
             <p className="my-1 mb-2">ghuronti@gmail.com</p>
@@ -133,11 +227,18 @@ const ProfileRightSide = () => {
                 onChange={handleProfileImage}
               />
               {imageLoading ? (
-                <div  className="text-bold btn border text-[#19ABE3] border-[#19ABE3] border-purple-1 hover:bg-[#19ABE3] hover:text-white px-8 py-2 text-center transition rounded-sm cursor-pointer">Uploading...</div>
+                <div className="text-bold btn border text-[#19ABE3] border-[#19ABE3] border-purple-1 hover:bg-[#19ABE3] hover:text-white px-8 py-2 text-center transition rounded-sm cursor-pointer">
+                  Uploading...
+                </div>
               ) : (
                 <>
                   {getFile[0]?.name ? (
-                    <label  className="text-bold btn border text-[#19ABE3] border-[#19ABE3] border-purple-1 hover:bg-[#19ABE3] hover:text-white px-8 py-2 text-center transition rounded-sm cursor-pointer" for="file">{getFile[0]?.name?.slice(0,10)}...</label>
+                    <label
+                      className="text-bold btn border text-[#19ABE3] border-[#19ABE3] border-purple-1 hover:bg-[#19ABE3] hover:text-white px-8 py-2 text-center transition rounded-sm cursor-pointer"
+                      for="file"
+                    >
+                      {getFile[0]?.name?.slice(0, 10)}...
+                    </label>
                   ) : (
                     <label
                       htmlFor="file"
@@ -162,8 +263,8 @@ const ProfileRightSide = () => {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="Title"
-              // onChange={handleChange}
               {...register("title")}
+              value={user?.title || ""}
             >
               <MenuItem value="Mr">Mr</MenuItem>
               <MenuItem value="Ms">Ms</MenuItem>
@@ -181,6 +282,7 @@ const ProfileRightSide = () => {
             id="outlined-required"
             label="Given Name"
             {...register("name")}
+            defaultValue={user?.given_name || ""}
           />
         </div>
 
@@ -191,6 +293,7 @@ const ProfileRightSide = () => {
           id="outlined-required"
           label="Sur Name"
           {...register("surname")}
+          value={user?.surname || ""}
         />
         <br />
       </div>
@@ -201,6 +304,8 @@ const ProfileRightSide = () => {
           id="outlined-required"
           label="Email"
           {...register("email")}
+          value={user?.email || ""}
+          disabled
         />
       </div>
       {/* <div className="mt-3 flex items-center ">
@@ -214,6 +319,7 @@ const ProfileRightSide = () => {
           id="outlined-required"
           label="Mobile Number"
           {...register("mobile_number")}
+          value={user?.mobile_number}
         />
       </div>
       <div className="flex items-center mt-3 ">
@@ -224,8 +330,8 @@ const ProfileRightSide = () => {
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             label="Title"
-            // onChange={handleChange}
             {...register("gender")}
+            value={user?.gender}
           >
             <MenuItem value={"Male"}>Male</MenuItem>
             <MenuItem value={"Female"}>Female </MenuItem>
@@ -301,38 +407,77 @@ const ProfileRightSide = () => {
         <div>
           <p className="mb-2">Passport Copy (max 2MB)</p>
           <div className={style.upload}>
-            <input type="file" id="files" className="hidden" />
-            <label for="files" onClick={handlePassport}>
-              <span className={style.fileUploadIcon}>
-                <FileUpload
-                  className={style.uploadIcon}
-                  // {...register("passport_copy")}
+            {passportLoading ? (
+              <div>Uploading...</div>
+            ) : (
+              <>
+                <input
+                  type="file"
+                  id="files"
+                  className="hidden"
+                  onChange={handlePassport}
                 />
-              </span>
-              Upload
-            </label>
+                {getPassportFile[0]?.name ? (
+                  <label for="files">
+                    {getPassportFile[0]?.name.slice(0, 15)}...
+                  </label>
+                ) : (
+                  <label for="files">
+                    <span className={style.fileUploadIcon}>
+                      <FileUpload className={style.uploadIcon} />
+                    </span>
+                    Upload
+                  </label>
+                )}
+              </>
+            )}
           </div>
           <button className={style.viewbtn}>View Passport </button>
         </div>
         <div>
           <p className="mb-2">Visa Copy (max 2MB)</p>
           <div className={style.upload}>
-            <input type="file" id="files" className="hidden" />
-            <label for="files">
-              <span className={style.fileUploadIcon}>
-                <FileUpload
-                  className={style.uploadIcon}
-                  {...register("visa_copy")}
+            {visaLoading ? (
+              <div>Uploading...</div>
+            ) : (
+              <>
+                <input
+                  type="file"
+                  id="visafiles"
+                  className="hidden"
+                  onChange={handleVisaCopy}
                 />
-              </span>
-              Upload
-            </label>
+                {getVisaFile[0]?.name ? (
+                  <label for="visafiles">
+                    {getVisaFile[0]?.name.slice(0, 15)}...
+                  </label>
+                ) : (
+                  <>
+                    {" "}
+                    <label for="visafiles">
+                      <span className={style.fileUploadIcon}>
+                        <FileUpload className={style.uploadIcon} />
+                      </span>
+                      Upload
+                    </label>
+                  </>
+                )}
+              </>
+            )}
           </div>
           <button className={style.viewbtn}>View Visa </button>
         </div>
       </div>
+      <div className="mt-5">
+        {error && <FormError message={error} />}
+        {success && <FormSuccess message={success} />}
+      </div>
       <div className={style.saveBtn}>
-        <button>Update </button>
+        <button
+          disabled={loading || imageLoading || passportLoading || visaLoading}
+        >
+          Update{" "}
+        </button>
       </div>
     </form>
   );
