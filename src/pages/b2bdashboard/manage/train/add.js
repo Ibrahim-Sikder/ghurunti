@@ -35,6 +35,7 @@ const Train = () => {
   const [endPoint, setEndPoint] = useState(null);
 
   const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   const formRef = useRef();
   const router = useRouter();
 
@@ -47,7 +48,7 @@ const Train = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
-      setLoading(true);
+      setImageLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -57,11 +58,19 @@ const Train = () => {
       if (data.message === "success") {
         console.log(data.imageLinks);
         setGetImage(data.imageLinks);
-        setLoading(false);
-        // console.log(data.imageLinks);
+        setImageLoading(false);
+      }
+      if (data.error === "Something went wrong") {
+        toast.error("Something went wrong");
+        setImageLoading(false);
+        setGetImage([]);
+        setGetFile({});
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
+      toast.error("Something went wrong");
+      setImageLoading(false);
+      setGetImage([]);
+      setGetFile({});
     }
   };
 
@@ -221,7 +230,9 @@ const Train = () => {
                       onChange={(e) => setClassType(e.target.value)}
                       className={styles.inputField}
                     >
-                      <option value="" selected>Select type</option>
+                      <option value="" selected>
+                        Select type
+                      </option>
                       <option value="AC_B">AC_B</option>
                       <option value="S_CHAIR">S_CHAIR</option>
                       <option value="F_BERTH">F_BERTH</option>
@@ -324,14 +335,20 @@ const Train = () => {
 
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
-                    {getFile[0]?.name ? (
-                      <label for="files">{getFile[0]?.name}</label>
+                    {imageLoading ? (
+                      <div>Uploading...</div>
                     ) : (
-                      <label for="files">
-                        {" "}
-                        <CloudUpload className={styles.uploadIcon} /> Image
-                        Upload{" "}
-                      </label>
+                      <>
+                        {getFile[0]?.name ? (
+                          <label for="files">{getFile[0]?.name}</label>
+                        ) : (
+                          <label for="files">
+                            {" "}
+                            <CloudUpload className={styles.uploadIcon} /> Image
+                            Upload{" "}
+                          </label>
+                        )}
+                      </>
                     )}
 
                     <input
@@ -376,11 +393,15 @@ const Train = () => {
 
                 <div className={styles.formControl}>
                   <button
-                    disabled={loading ? true : false}
-                    className={styles.submitBtn}
+                    disabled={loading || imageLoading ? true : false}
+                    className={
+                      loading
+                        ? "bg-gray-600 w-full rounded-full text-white/90 py-3 font-semibold text-xl"
+                        : `${styles.submitBtn}`
+                    }
                     type="submit"
                   >
-                    Submit
+                    {loading ? "Loading..." : " Submit"}
                   </button>
                 </div>
               </form>

@@ -6,6 +6,9 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import { useRouter } from "next/router";
+import { decryptTransform } from "../../EncryptAndDecrypt/EncryptAnsDecrypt";
+import Cookies from "js-cookie";
 const SelectedSeats = ({ selectedSeats }) => {
   const [selectedSeatNumber, setSelectedSeatNumber] = useState(null);
   const [fareAmount, setFareAmount] = useState(null);
@@ -16,6 +19,11 @@ const SelectedSeats = ({ selectedSeats }) => {
   const [getPhoneNumber, setGetPhoneNumber] = useState(null);
   const [getBoardingPoint, setGetBoardingPoint] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("")
+
+ const [user, setUser] = useState({})
+
+ const router = useRouter()
 
   useEffect(() => {
     const allSeatNumbers = selectedSeats.map((seat) => seat.number).join(", ");
@@ -32,11 +40,20 @@ const SelectedSeats = ({ selectedSeats }) => {
     setGetTotalAmount(totalAmount);
   }, [selectedSeats]);
 
- 
+  
+  const em = decryptTransform(Cookies.get("em"));
+
+  useEffect(() => {
+    try {
+      fetch(`http://localhost:5000/api/v1/user/${em}`)
+        .then((res) => res.json())
+        .then((data) => setUser(data.getUser));
+    } catch (error) {toast.error(error.message)}
+  }, [em]);
 
   const  handleConfirmBus = (e) => {
     e.preventDefault();
-    console.log(e.target.value);
+ 
     const data = {
       Seats: selectedSeatNumber,
       fare: fareAmount,
@@ -44,29 +61,41 @@ const SelectedSeats = ({ selectedSeats }) => {
       total: getTotalAmount,
       boarding_point: getBoardingPoint,
       name: getName,
-      email: getEmail,
+      confirmation_email: getEmail,
       mobile_number: getPhoneNumber,
+      email: user.email,
+      profile_type: user.profile_type
     };
     setLoading(true);
     axios
       .post("http://localhost:5000/api/v1/bus", data)
       .then(function (response) {
-        console.log(response.data)
+        console.log(response)
         if (response.data.message === "Send request for bus confirmation.") {
           toast.success(
             "Confirmation request accepted. Please wait to confirm."
           );
+          if (user.profile_type === "b2c") {
+            router.push("/profile/booking");
+          } else if (user.profile_type === "b2b") {
+            router.push("/b2bdashboard/buses/busbooking");
+          }
+          setError("")
+        }
+        if(response.data === "Internal server error"){
+          setError("All fields must be filled out.")
         }
       })
       .catch((error) => {
         toast.error(error);
+        setError("")
       })
       .finally(() => {
         setLoading(false);
       });
   };
 
-  console.log(getTotalAmount);
+  
   return (
     <div className="">
       <div className="flex justify-between items-center">
@@ -165,8 +194,11 @@ const SelectedSeats = ({ selectedSeats }) => {
           type="text"
           placeholder="Phone Number"
         />
+        <div className="text-sm text-red-400 mt-3 mb-0">
+          {error}
+        </div>
         <div className="flex items-center justify-between my-5">
-          <button disabled={loading ? true : false} className={style.continoueBtn}>Continoue </button>
+          <button disabled={loading ? true : false} className={style.continoueBtn}>Continue </button>
           <small className="underline cursor-pointer hover:text-[#0BB811]">
             Close
           </small>

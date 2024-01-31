@@ -172,19 +172,19 @@ const SearchBus = () => {
 
   const [limit, setLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(
-    Number(sessionStorage.getItem("hajj")) || 1
+    Number(sessionStorage.getItem("bus")) || 1
   );
   const [pageNumberLimit, setPageNumberLimit] = useState(5);
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
 
   useEffect(() => {
-    sessionStorage.setItem("hajj", currentPage.toString());
+    sessionStorage.setItem("bus", currentPage.toString());
   }, [currentPage]);
   // ...
 
   useEffect(() => {
-    const storedPage = Number(sessionStorage.getItem("hajj")) || 1;
+    const storedPage = Number(sessionStorage.getItem("bus")) || 1;
     setCurrentPage(storedPage);
     setMaxPageNumberLimit(
       Math.ceil(storedPage / pageNumberLimit) * pageNumberLimit
@@ -199,7 +199,7 @@ const SearchBus = () => {
   const handleClick = (e) => {
     const pageNumber = Number(e.target.id);
     setCurrentPage(pageNumber);
-    sessionStorage.setItem("hajj", pageNumber.toString());
+    sessionStorage.setItem("bus", pageNumber.toString());
   };
   const pages = [];
   for (
@@ -299,7 +299,7 @@ const SearchBus = () => {
   const handlePrevious = () => {
     const newPage = currentPage - 1;
     setCurrentPage(newPage);
-    sessionStorage.setItem("hajj", newPage.toString());
+    sessionStorage.setItem("bus", newPage.toString());
 
     if (newPage % pageNumberLimit === 0) {
       setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
@@ -309,7 +309,7 @@ const SearchBus = () => {
   const handleNext = () => {
     const newPage = currentPage + 1;
     setCurrentPage(newPage);
-    sessionStorage.setItem("hajj", newPage.toString());
+    sessionStorage.setItem("bus", newPage.toString());
 
     if (newPage > maxPageNumberLimit) {
       setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
@@ -546,10 +546,7 @@ const SearchBus = () => {
                   {errorMessage ? (
                     <div className="text-xl text-center flex justify-center items-center h-full">
                       {errorMessage}
- 
- 
-               
- 
+  
                     </div>
                   ) : (
                     <>

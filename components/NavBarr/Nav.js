@@ -37,8 +37,8 @@ const Nav = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  const { push, pathname,router } = useRouter();
- 
+  const { push, pathname, router } = useRouter();
+
   const handleHome = () => {
     push("/");
     localStorage.removeItem("l_p");
@@ -56,12 +56,13 @@ const Nav = () => {
     } else if (!token) {
       setAuthenticated(false);
     }
-  }, [token,pathname]);
+  }, [token, pathname]);
 
   const logOut = () => {
     setAuthenticated(false);
     Cookies.remove("token");
     Cookies.remove("id");
+    Cookies.remove("em");
     return push("/");
   };
 
@@ -121,43 +122,44 @@ const Nav = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className={style.iconWrap}>
-                    <AccountCircle className={style.userIcon} />
-                  </div>
+                  <>
+                    <div className={style.iconWrap}>
+                      <AccountCircle className={style.userIcon} />
+                    </div>
+                    <div className={style.userInfo}>
+                      <ul>
+                        <li>
+                          <div className="flex items-center">
+                            <div className="w-[50px] h-[50px] mr-2">
+                              <Image
+                                src={ibrahim}
+                                alt="user"
+                                className="w-full h-full rounded-full"
+                              />
+                            </div>
+                            <div>
+                              <h4>Ghuronti</h4>
+                              <small>ghuronti@gmail.com</small>
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          {" "}
+                          <hr className="mb-2 mt-1 " />
+                        </li>
+                        <li>
+                          <Link href="/profile/booking">My Booking</Link>
+                        </li>
+                        <li>
+                          <Link href="/profile">Dashboard</Link>
+                        </li>
+                        <li onClick={handleLogOut} className=" cursor-pointer">
+                          Log Out{" "}
+                        </li>
+                      </ul>
+                    </div>
+                  </>
                 )}
-
-                <div className={style.userInfo}>
-                  <ul>
-                    <li>
-                      <div className="flex items-center">
-                        <div className="w-[50px] h-[50px] mr-2">
-                          <Image
-                            src={ibrahim}
-                            alt="user"
-                            className="w-full h-full rounded-full"
-                          />
-                        </div>
-                        <div>
-                          <h4>Ghuronti</h4>
-                          <small>ghuronti@gmail.com</small>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      {" "}
-                      <hr className="mb-2 mt-1 " />
-                    </li>
-                    <li>
-                      <Link href="/profile/booking">My Booking</Link>
-                    </li>
-                    <li>
-                      <Link href="/profile">Dashboard</Link>
-                    </li>
-                    <li onClick={handleLogOut} className=" cursor-pointer">
-                      Log Out{" "}
-                    </li>
-                  </ul>
-                </div>
               </div>
             </div>
           </div>

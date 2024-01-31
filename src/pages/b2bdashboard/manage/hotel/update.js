@@ -43,6 +43,7 @@ const HotelUpdate = () => {
   // const [priceLowToHigh, setPriceLowToHight] = useState(null);
 
   const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   const formRef = useRef();
 
   const [child, setChild] = useState(0);
@@ -59,10 +60,12 @@ const HotelUpdate = () => {
         .then((res) => res.json())
         .then((data) => {
           setSpecificPackage(data.getPackage);
-          console.log(data);
+          setChild(data.getPackage.child)
+          setAdult(data.getPackage.adult)
+          setRoom(data.getPackage.room_number)
         })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
+        .catch(() => {
+          toast.error("Something went wrong.")
         });
     }
   }, [id]);
@@ -97,7 +100,7 @@ const HotelUpdate = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
-      setLoading(true);
+      setImageLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -105,11 +108,21 @@ const HotelUpdate = () => {
 
       const data = await response.json();
       if (data.message === "success") {
+        console.log(data.imageLinks);
         setGetImage(data.imageLinks);
-        setLoading(false);
+        setImageLoading(false);
+      }
+      if (data.error === "Something went wrong") {
+        toast.error("Something went wrong");
+        setImageLoading(false);
+        setGetImage([]);
+        setGetFile({});
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
+      toast.error("Something went wrong");
+      setImageLoading(false);
+      setGetImage([]);
+      setGetFile({});
     }
   };
 
@@ -159,7 +172,7 @@ const HotelUpdate = () => {
         setLoading(false);
       });
   };
-  console.log(getImage);
+ 
   return (
     <B2BdashboardLayout>
       <MoveText />
@@ -229,7 +242,10 @@ const HotelUpdate = () => {
                       className={styles.inputField}
                       value={country || specificPackage?.country_name}
                     >
-                      <option selected value="Bangladesh">
+                      <option value="">
+                        Choose your country
+                      </option>
+                      <option value="Bangladesh">
                         Bangladesh
                       </option>
                       <option value="Thailand">Thailand</option>
@@ -251,6 +267,7 @@ const HotelUpdate = () => {
                       className={styles.inputField}
                       value={city || specificPackage?.city_name}
                     >
+                      <option value="">Choose your city</option>
                       <option value="Dhaka">Dhaka</option>
                       <option value="Bangkok">Bangkok</option>
                       <option value="Tokyo">Tokyo</option>
@@ -488,16 +505,23 @@ const HotelUpdate = () => {
 
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
-                    {getFile[0]?.name || specificPackage?.image?.length > 0 ? (
-                      <label for="files">
-                        {getFile[0]?.name || specificPackage?.image[0]}
-                      </label>
+                    {imageLoading ? (
+                      <div>Uploading...</div>
                     ) : (
-                      <label for="files">
-                        {" "}
-                        <CloudUpload className={styles.uploadIcon} /> Image
-                        Upload{" "}
-                      </label>
+                      <>
+                        {getFile[0]?.name ||
+                        specificPackage?.image?.length > 0 ? (
+                          <label for="files">
+                            {getFile[0]?.name || specificPackage?.image[0]}
+                          </label>
+                        ) : (
+                          <label for="files">
+                            {" "}
+                            <CloudUpload className={styles.uploadIcon} /> Image
+                            Upload{" "}
+                          </label>
+                        )}
+                      </>
                     )}
 
                     <input
@@ -543,7 +567,11 @@ const HotelUpdate = () => {
                 </div>
 
                 <div className={styles.formControl}>
-                  <button disabled={loading ? true : false} className={styles.submitBtn} type="submit">
+                  <button
+                    disabled={loading || imageLoading ? true : false}
+                    className={styles.submitBtn}
+                    type="submit"
+                  >
                     Update
                   </button>
                 </div>

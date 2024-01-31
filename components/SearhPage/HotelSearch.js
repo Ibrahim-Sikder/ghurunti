@@ -121,17 +121,8 @@ const HotelSearch = () => {
   const handleAll = () => {
     setHotelDataWithFilter(hotelDetailsData?.getPackage);
     setPriceRangeData(null);
- 
- 
-
       setHotelDataWithFilter(response.data.getPackage);
     }
- 
-  
-
- 
-  };
- 
 
   return (
     <section>

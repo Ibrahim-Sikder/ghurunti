@@ -7,21 +7,27 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
+import { decryptTransform } from "../../EncryptAndDecrypt/EncryptAnsDecrypt";
+import Cookies from "js-cookie";
+import { FormError } from "../../form-error";
+import { FormWarning } from "../../form-warning";
 const HajjBook = () => {
   const [getFile, setGetFile] = useState({});
   const [getPdfLinks, setGetPdfLinks] = useState([]);
-  const [cityName, setCityName] = useState("");
-  const [passengerNumber, setPassengerNumber] = useState(0);
-  const [date, setDate] = useState();
-  const [passportNumber, setPassportNumber] = useState();
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [mobileNumber, setMobileNumber] = useState();
-  const [email, setEmail] = useState("");
+
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [requirements, setRequirements] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [imageLoading, setImageLoading] = useState(false);
+  const [user, setUser] = useState({});
   const [specificPackage, setSpecificPackage] = useState({});
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const router = useRouter();
   const { id, type } = router.query;
 
@@ -56,6 +62,18 @@ const HajjBook = () => {
     }
   }, [id, type]);
 
+  const em = decryptTransform(Cookies.get("em"));
+
+  useEffect(() => {
+    try {
+      fetch(`http://localhost:5000/api/v1/user/${em}`)
+        .then((res) => res.json())
+        .then((data) => setUser(data.getUser));
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  }, [em]);
+
   let files;
   const handlePdf = async (e) => {
     setGetFile(e.target.files);
@@ -65,7 +83,7 @@ const HajjBook = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("pdfFiles", files[i]);
       }
-      setLoading(true);
+      setImageLoading(true);
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
@@ -74,48 +92,73 @@ const HajjBook = () => {
       const data = await response.json();
       if (data.message === "success") {
         setGetPdfLinks(data.imageLinks);
-        setLoading(false);
-        // console.log(data.imageLinks);
+        setImageLoading(false);
+      }
+      if (data.error === "Something went wrong") {
+        toast.error("Something went wrong");
+        setImageLoading(false);
+        setGetImage([]);
+        setGetFile({});
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
+      toast.error("Something went wrong");
+      setImageLoading(false);
+      setGetPdfLinks([]);
+      setGetFile({});
     }
   };
 
-  const handleConfirmUmrah = (e) => {
-    e.preventDefault();
-    const data = {
-      city: cityName,
-      passenger: passengerNumber,
-      given_name: name,
-      surname: surname,
-      journey_date: date,
-      passport: passportNumber,
-      mobile_number: mobileNumber,
-      email: email,
+  const onSubmit = (data) => {
+    if (getPdfLinks.length === 0) {
+      return setError("Upload a doc");
+    }
+    setError("");
+    setSuccess("");
+    const values = {
+      city: data.cityName,
+      passenger: data.passengerNumber,
+      given_name: data.name,
+      surname: data.surname,
+      journey_date: data.date,
+      passport: data.passportNumber,
+      mobile_number: data.mobileNumber,
+      confirmation_email: data.email,
       pdf: getPdfLinks,
       requirements: requirements,
+      email: user.email,
+      profile_type: user.profile_type,
+      user_type: user.user_type,
     };
     setLoading(true);
     axios
-      .post("http://localhost:5000/api/v1/umrah", data)
+      .post("http://localhost:5000/api/v1/confirmation/hajj/post/one", values)
       .then(function (response) {
-        console.log(response.data);
-        if (response.data.message === "Send request for umrah.") {
-          toast.success(
-            "Confirmation request accepted. Please wait to confirm."
-          );
+        if (response.data.message === "Send request for hajj.") {
+          setSuccess("Confirmation request accepted. Please wait to confirm.");
+
+          if (user.profile_type === "b2c") {
+            router.push("/profile/booking");
+          }
+          if (user.profile_type === "b2b") {
+            router.push("/b2bdashboard/hajj/hajjbooking");
+          }
         }
       })
       .catch((error) => {
-        toast.error(error);
+        setError(error);
       })
       .finally(() => {
         setLoading(false);
       });
   };
 
- 
+  useEffect(() => {
+    if (getPdfLinks.length > 0) {
+      setError("");
+    }
+  }, [getPdfLinks.length]);
+
+  console.log(user);
   return (
     <section>
       <div className={style.visaRequestWrap}>
@@ -206,7 +249,7 @@ const HajjBook = () => {
           <h2 className="text-xl font-bold">
             Tell us where do you want to go ?{" "}
           </h2>
-          <form onSubmit={handleConfirmUmrah}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className={style.inputFieldWrap}>
               <div className={style.formControl}>
                 <label className={style.inputLabel}>
@@ -214,20 +257,38 @@ const HajjBook = () => {
                   <small className="text-red-500 text-xl">*</small>{" "}
                 </label>
                 <input
-                  onChange={(e) => {
-                    setCityName(e.target.value);
-                  }}
+                  {...register("cityName", { required: true })}
                   type="text"
                   className={style.visaInput}
                 />
+                <br className="hidden lg:flex" />
+                {errors.cityName && (
+                  <span className="text-sm text-red-400 mt-1">
+                    {" "}
+                    City name is required.
+                  </span>
+                )}
               </div>
               <div className={style.formControl}>
                 <label className={style.inputLabel}>Passenger Number </label>
                 <input
-                  onChange={(e) => setPassengerNumber(e.target.value)}
+                  {...register("passengerNumber", {
+                    required: "Passenger number name is required",
+                    pattern: {
+                      value: /^[0-9]+$/,
+                      message: "Enter a valid passenger number",
+                    },
+                  })}
                   type="text"
                   className={style.visaInput}
                 />
+                <br className="hidden lg:flex" />
+                {errors.passengerNumber && (
+                  <span className="text-sm text-red-400 mt-1">
+                    {" "}
+                    {errors.passengerNumber.message}
+                  </span>
+                )}
               </div>
             </div>
             <div className={style.inputFieldWrap}>
@@ -236,22 +297,34 @@ const HajjBook = () => {
                   When do you want to go?
                 </label>
                 <input
-                  onChange={(e) => setDate(e.target.value)}
+                  {...register("date", { required: true })}
                   placeholder="Date "
                   type="date"
                   className={style.visaInput}
-                  required
                 />
+                <br className="hidden lg:flex" />
+                {errors.date && (
+                  <span className="text-sm text-red-400 mt-1">
+                    {" "}
+                    Date is required.
+                  </span>
+                )}
               </div>
               <div className={style.formControl}>
                 <label className={style.inputLabel}>Passport Number </label>
                 <input
-                  onChange={(e) => setPassportNumber(e.target.value)}
+                  {...register("passportNumber", { required: true })}
                   placeholder="Passport Number "
                   type="text"
                   className={style.visaInput}
-                  required
                 />
+                <br className="hidden lg:flex" />
+                {errors.passportNumber && (
+                  <span className="text-sm text-red-400 mt-1">
+                    {" "}
+                    Passport number is required.
+                  </span>
+                )}
               </div>
             </div>
             <div className="mt-5">
@@ -263,12 +336,19 @@ const HajjBook = () => {
                   Given Name <small className="text-red-500 text-xl">*</small>{" "}
                 </label>
                 <input
-                  onChange={(e) => setName(e.target.value)}
+                  // onChange={(e) => setName(e.target.value)}
+                  {...register("name", { required: true })}
                   placeholder="Given Name "
                   type="text"
                   className={style.visaInput}
-                  required
                 />
+                <br className="hidden lg:flex" />
+                {errors.name && (
+                  <span className="text-sm text-red-400 mt-1">
+                    {" "}
+                    Name is required.
+                  </span>
+                )}
               </div>
               <div className={style.formControl}>
                 <label placeholder="Surname" className={style.inputLabel}>
@@ -276,12 +356,19 @@ const HajjBook = () => {
                   Surname{" "}
                 </label>
                 <input
-                  onChange={(e) => setSurname(e.target.value)}
+                  // onChange={(e) => setSurname(e.target.value)}
+                  {...register("surname", { required: true })}
                   placeholder="Surname"
                   type="text"
                   className={style.visaInput}
-                  required
                 />
+                <br className="hidden lg:flex" />
+                {errors.surname && (
+                  <span className="text-sm text-red-400 mt-1">
+                    {" "}
+                    Surname is required.
+                  </span>
+                )}
               </div>
             </div>
             <div className={style.inputFieldWrap}>
@@ -291,12 +378,25 @@ const HajjBook = () => {
                   <small className="text-red-500 text-xl">*</small>{" "}
                 </label>
                 <input
-                  onChange={(e) => setMobileNumber(e.target.value)}
+                  // onChange={(e) => setMobileNumber(e.target.value)}
+                  {...register("mobileNumber", {
+                    required: "Mobile number is required.",
+                    pattern: {
+                      value: /^[0-9]+$/,
+                      message: "Enter a valid mobile number",
+                    },
+                  })}
                   placeholder="Phone Number"
                   type="text"
                   className={style.visaInput}
-                  required
                 />
+                <br className="hidden lg:flex" />
+                {errors.mobileNumber && (
+                  <span className="text-sm text-red-400 mt-1">
+                    {" "}
+                    {errors.mobileNumber.message}
+                  </span>
+                )}
               </div>
               <div className={style.formControl}>
                 <label className={style.inputLabel}>
@@ -304,12 +404,19 @@ const HajjBook = () => {
                   Email <small className="text-red-500 text-xl">*</small>{" "}
                 </label>
                 <input
-                  onChange={(e) => setEmail(e.target.value)}
+                  // onChange={(e) => setEmail(e.target.value)}
+                  {...register("email", { required: true })}
                   placeholder="Email"
                   type="email"
                   className={style.visaInput}
-                  required
                 />
+                <br className="hidden lg:flex" />
+                {errors.email && (
+                  <span className="text-sm text-red-400 mt-1">
+                    {" "}
+                    Email is required.
+                  </span>
+                )}
               </div>
             </div>
             <div className={styling.uploadDoc}>
@@ -321,11 +428,20 @@ const HajjBook = () => {
                 id="files"
                 multiple
               />
-              {getFile[0]?.name ? (
-                <label for="files">{getFile[0]?.name}</label>
+              {imageLoading ? (
+                <div>Uploading...</div>
               ) : (
-                <label for="files">Upload Your Doc</label>
+                <>
+                  {getFile[0]?.name ? (
+                    <label for="files">{getFile[0]?.name}</label>
+                  ) : (
+                    <label for="files">Upload Your Doc</label>
+                  )}
+                </>
               )}
+            </div>
+            <div>
+              {error && <span className="text-red-400 text-sm">{error}</span>}
             </div>
             <div className={style.formControl}>
               <h2 className="font-bold text-xl"> Share Your Requirements </h2>
@@ -338,12 +454,18 @@ const HajjBook = () => {
                 rows="10"
               ></textarea>
             </div>
-            <button
-              className={style.visaSubmitBtn}
-              disabled={loading ? true : false}
-            >
-              Confirm Request
-            </button>
+            {!user.email && (
+              <FormWarning message={"Need to login before confirmation"} />
+            )}
+
+            <div className="flex justify-end">
+              <button
+                className={style.visaSubmitBtn}
+                disabled={loading || imageLoading || !user.email ? true : false}
+              >
+                Confirm Request
+              </button>
+            </div>
           </form>
         </div>
       </div>

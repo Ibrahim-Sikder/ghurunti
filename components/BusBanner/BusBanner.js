@@ -26,7 +26,7 @@ const BusBanner = () => {
   const [journeyDate, setJourneyDate] = useState(null);
   const [child, setChild] = useState(0);
   const [adult, setAdult] = useState(0);
-  const [seat, setSeat] = useState("Economy");
+  const [seat, setSeat] = useState("Select class");
  const router = useRouter()
 
 
@@ -502,7 +502,10 @@ const BusBanner = () => {
                             setSeat(classes);
                           }}
                         >
-                          <option value="Economy" selected>
+                          <option value="" selected>
+                            Select your class
+                          </option>
+                          <option value="Economy" >
                             Economy
                           </option>
                           <option value="Premium">Premium</option>
