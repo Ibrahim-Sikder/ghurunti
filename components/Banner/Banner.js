@@ -707,6 +707,7 @@ const Banner = ({ setResults }) => {
                         />
                       </div>
                     </div>
+                    
                     <div className={style.package2}>
                       <div className={style.searchTop}>
                         <h4>Flying To</h4>
