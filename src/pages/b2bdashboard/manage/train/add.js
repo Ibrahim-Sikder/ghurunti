@@ -1,81 +1,81 @@
-import styling from "../../profile.module.css";
-import dynamic from "next/dynamic";
-import MoveText from "../../../../../components/UserDashBoard/MoveText/MoveText";
-import styles from "../manage.module.css";
-import { CloudUpload } from "@mui/icons-material";
-import B2BdashboardLayout from "../../../../../components/Layout/B2BdashboardLayout/B2BdashboardLayout";
-import TextEditor from "../../../../../components/TextEditor/TextEditor";
-import React, { useState, useEffect } from "react";
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-import "react-quill/dist/quill.snow.css";
-import toast from "react-hot-toast";
-import axios from "axios";
-import { useRef } from "react";
-import { useRouter } from "next/router";
+import styling from "../../profile.module.css"
+import dynamic from "next/dynamic"
+import MoveText from "../../../../../components/UserDashBoard/MoveText/MoveText"
+import styles from "../manage.module.css"
+import { CloudUpload } from "@mui/icons-material"
+import B2BdashboardLayout from "../../../../../components/Layout/B2BdashboardLayout/B2BdashboardLayout"
+import TextEditor from "../../../../../components/TextEditor/TextEditor"
+import React, { useState, useEffect } from "react"
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false })
+import "react-quill/dist/quill.snow.css"
+import toast from "react-hot-toast"
+import axios from "axios"
+import { useRef } from "react"
+import { useRouter } from "next/router"
 const Train = () => {
-  const [editorValue, setEditorValue] = useState("");
-  const [quill, setQuill] = useState(null);
-  const [getFile, setGetFile] = useState({});
-  const [getImage, setGetImage] = useState([]);
-  const [value, setValue] = useState("");
-  const [travelFrom, setTravelFrom] = useState(null);
-  const [travelTo, setTravelTo] = useState(null);
-  const [trainName, setTrainName] = useState(null);
-  const [title, setTitle] = useState(null);
+  const [editorValue, setEditorValue] = useState("")
+  const [quill, setQuill] = useState(null)
+  const [getFile, setGetFile] = useState({})
+  const [getImage, setGetImage] = useState([])
+  const [value, setValue] = useState("")
+  const [travelFrom, setTravelFrom] = useState(null)
+  const [travelTo, setTravelTo] = useState(null)
+  const [trainName, setTrainName] = useState(null)
+  const [title, setTitle] = useState(null)
   // const [subTitle, setSubTitle] = useState(null);
-  const [countryName, setCountryName] = useState(null);
-  const [cityName, setCityName] = useState(null);
-  const [classType, setClassType] = useState(null);
-  const [journeyDate, setJourneyDate] = useState(null);
-  const [seatType, setSeatType] = useState(null);
-  const [departureTime, setDepartureTime] = useState(null);
-  const [arrivalTime, setArrivalTime] = useState(null);
-  const [price, setPrice] = useState();
-  const [startingPoint, setStartingPoint] = useState(null);
-  const [endPoint, setEndPoint] = useState(null);
+  const [countryName, setCountryName] = useState(null)
+  const [cityName, setCityName] = useState(null)
+  const [classType, setClassType] = useState(null)
+  const [journeyDate, setJourneyDate] = useState(null)
+  const [seatType, setSeatType] = useState(null)
+  const [departureTime, setDepartureTime] = useState(null)
+  const [arrivalTime, setArrivalTime] = useState(null)
+  const [price, setPrice] = useState()
+  const [startingPoint, setStartingPoint] = useState(null)
+  const [endPoint, setEndPoint] = useState(null)
 
-  const [loading, setLoading] = useState(false);
-  const [imageLoading, setImageLoading] = useState(false);
-  const formRef = useRef();
-  const router = useRouter();
+  const [loading, setLoading] = useState(false)
+  const [imageLoading, setImageLoading] = useState(false)
+  const formRef = useRef()
+  const router = useRouter()
 
-  let files;
+  let files
   const handlePdf = async (e) => {
-    setGetFile(e.target.files);
+    setGetFile(e.target.files)
     try {
-      files = e.target.files;
-      const formData = new FormData();
+      files = e.target.files
+      const formData = new FormData()
       for (let i = 0; i < files.length; i++) {
-        formData.append("pdfFiles", files[i]);
+        formData.append("pdfFiles", files[i])
       }
-      setImageLoading(true);
+      setImageLoading(true)
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
-      });
+      })
 
-      const data = await response.json();
+      const data = await response.json()
       if (data.message === "success") {
-        console.log(data.imageLinks);
-        setGetImage(data.imageLinks);
-        setImageLoading(false);
+        console.log(data.imageLinks)
+        setGetImage(data.imageLinks)
+        setImageLoading(false)
       }
       if (data.error === "Something went wrong") {
-        toast.error("Something went wrong");
-        setImageLoading(false);
-        setGetImage([]);
-        setGetFile({});
+        toast.error("Something went wrong")
+        setImageLoading(false)
+        setGetImage([])
+        setGetFile({})
       }
     } catch (error) {
-      toast.error("Something went wrong");
-      setImageLoading(false);
-      setGetImage([]);
-      setGetFile({});
+      toast.error("Something went wrong")
+      setImageLoading(false)
+      setGetImage([])
+      setGetFile({})
     }
-  };
+  }
 
   const handleTrainData = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     const data = {
       travel_from: travelFrom,
       travel_to: travelTo,
@@ -93,33 +93,33 @@ const Train = () => {
       end_point: endPoint,
       image: getImage,
       description: value,
-    };
+    }
 
-    setLoading(true);
+    setLoading(true)
     axios
       .post("http://localhost:5000/api/v1/train/details", data)
       .then(function (response) {
-        console.log(response.data);
+        console.log(response.data)
         if (response.data.message === "Successfully post train details.") {
-          toast.success("Post successful.");
-          formRef.current.reset();
-          router.push("/b2bdashboard/manage/train");
+          toast.success("Post successful.")
+          formRef.current.reset()
+          router.push("/b2bdashboard/manage/train")
         }
         if (
           (response.data =
             "Internal server error" &&
             response.data.message !== "Successfully post train details.")
         ) {
-          toast.error("Please fill all the field.");
+          toast.error("Please fill all the field.")
         }
       })
       .catch((error) => {
-        toast.error(error.message);
+        toast.error(error.message)
       })
       .finally(() => {
-        setLoading(false);
-      });
-  };
+        setLoading(false)
+      })
+  }
 
   return (
     <B2BdashboardLayout>
@@ -234,7 +234,8 @@ const Train = () => {
                         Select type
                       </option>
                       <option value="AC_B">AC_B</option>
-                      <option value="S_CHAIR">S_CHAIR</option>
+                      <option value="AC">S_CHAIR</option>
+                      <option value="NON_AC">S_CHAIR</option>
                       <option value="F_BERTH">F_BERTH</option>
                       <option value="SHULOV">SHULOV</option>
                       <option value="SNIGDHA">SNIGDHA</option>
@@ -253,7 +254,7 @@ const Train = () => {
                   </div>
                 </div>
                 <div className={styles.formControl}>
-                  <div>
+                  {/* <div>
                     <label> Seat Type </label>
                     <input
                       onChange={(e) => setSeatType(e.target.value)}
@@ -262,6 +263,24 @@ const Train = () => {
                       type="text"
                       className={styles.inputField}
                     />
+                  </div> */}
+                  <div>
+                  <label> Seat Type </label>
+                    <select
+                      onChange={(e) => setClassType(e.target.value)}
+                      className={styles.inputField}
+                    >
+                      <option value="" selected>
+                        Select Seat Type 
+                      </option>
+                      <option value="AC_B">AC_B</option>
+                      <option value="AC">S_CHAIR</option>
+                      <option value="NON_AC">S_CHAIR</option>
+                      <option value="F_BERTH">F_BERTH</option>
+                      <option value="SHULOV">SHULOV</option>
+                      <option value="SNIGDHA">SNIGDHA</option>
+                      <option value="AC_CHAIR">AC_CHAIR</option>
+                    </select>
                   </div>
 
                   <div>
@@ -320,20 +339,39 @@ const Train = () => {
                     />
                   </div>
                 </div>
-                {/* <div className={styles.formControl}>
+                <div className={styles.formControl}>
                   <div>
-                    <label>Date</label>
+                    <label>Boarding Point </label>
                     <input
-                      onChange={(e) => setGetDate(e.target.value)}
-                      name="date"
-                      placeholder="Date "
-                      type="date"
+                      name="boardingPointing"
+                      placeholder="Boarding Point "
+                      type="text"
                       className={styles.inputField}
                     />
                   </div>
-                </div> */}
 
+                  <div>
+                    <label> Seat </label>
+                    <input
+                      name="productCategory"
+                      placeholder="Seat"
+                      type="text"
+                      className={styles.inputField}
+                    />
+                  </div>
+                </div>
                 <div className={styles.formControl}>
+                  <div>
+                    <label>Coach  </label>
+                    <input
+                      name="Coach "
+                      placeholder="Coach  "
+                      type="text"
+                      className={styles.inputField}
+                    />
+                  </div>
+                </div>
+                {/* <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
                     {imageLoading ? (
                       <div>Uploading...</div>
@@ -362,7 +400,7 @@ const Train = () => {
                       multiple
                     />
                   </div>
-                </div>
+                </div> */}
                 <div className={styles.formControl}>
                   <div>
                     <ReactQuill
@@ -410,7 +448,7 @@ const Train = () => {
         </div>
       </div>
     </B2BdashboardLayout>
-  );
-};
+  )
+}
 
-export default dynamic(() => Promise.resolve(Train), { ssr: false });
+export default dynamic(() => Promise.resolve(Train), { ssr: false })

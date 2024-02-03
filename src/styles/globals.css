@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
+@import '../style/style.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,7 +15,7 @@ body {
 	scroll-behavior: smooth;
 }
 @layer base{
-	h1{
+	/* h1{
 		@apply text-4xl font-bold
 	}
 	h2{
@@ -22,17 +23,10 @@ body {
 	}
 	h3{
 		@apply text-2xl font-bold
-	}
-	h4{
-		@apply text-xl font-bold
-	}
-	h4{
-		@apply font-bold
-	}
+	} */
+
 	@layer components{
-		.btn{
-			
-		}
+		
 	}
 }
 .layout {
@@ -85,10 +79,10 @@ table {
 .vertical-timeline::before {
 	background: #4ab449 !important;
 }
-.css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
+/* .css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
 	color: #fff !important;
 	background: #19abe3 !important;
-}
+} */
 
 .css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root {
 	background: #e9f6e9;
@@ -131,10 +125,10 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 input::placeholder {
 	font-size: 12px;
-	color: white;
+	/* color: white; */
 }
 
-.css-1ujnqem-MuiTabs-root {
+/* .css-1ujnqem-MuiTabs-root {
 	margin-left: 305px;
 	margin-top: 25px;
 	margin-bottom: 8px;
@@ -142,7 +136,7 @@ input::placeholder {
 
 .css-1aquho2-MuiTabs-indicator {
 	background-color: #4ab449;
-}
+} */
 .modal {
 	width: 430px;
 	margin: 0 auto;
@@ -180,9 +174,7 @@ input::placeholder {
 	margin: 0px 0;
 }
 
-.css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
-	color: #fff !important;
-}
+
 
 .react-tabs__tab--selected {
 	background: #4ab449 !important;
@@ -230,19 +222,7 @@ input::placeholder {
 .css-1aquho2-MuiTabs-indicator {
 	background-color: white !important;
 }
-.chatBox {
-	position: absolute !important;
-	bottom: 0 !important;
-	right: 10px !important;
-	margin-left: auto;
-	margin-right: auto;
-	border: none;
-	border-radius: 20px;
-	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-	z-index: 9999999999999;
-	width: 40px !important;
-	height: 50px !important;
-}
+
 .swiper-3d .swiper-slide-shadow-left {
 	background-image: none !important;
 }
@@ -275,34 +255,52 @@ input::placeholder {
   animation-delay: .5s;
 }
 
+
+.css-1h9z7r5-MuiButtonBase-root-MuiTab-root{
+	border:1px solid #4ab449 !important;
+}
+
+.tabPanel{
+	padding:80px 100px !important;
+}
+
+.css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
+    background: #4ab449 !important;
+	color:white !important;
+}
+
+
 @media only screen and (max-width: 1024px) {
-	.css-1ujnqem-MuiTabs-root {
+	/* .css-1ujnqem-MuiTabs-root {
 		margin-left: 250px;
-	}
+	} */
 }
 
 @media only screen and (max-width: 768px) {
-	.css-1x51dt5-MuiInputBase-input-MuiInput-input {
+	/* .css-1x51dt5-MuiInputBase-input-MuiInput-input {
 		margin-right: 58px !important;
-	}
-	.css-1ujnqem-MuiTabs-root {
+	} */
+	/* .css-1ujnqem-MuiTabs-root {
 		margin-left: 125px;
 		margin-top: -40px;
-	}
-	button,
+	} */
+	/* button,
 	[type="button"],
 	[type="reset"],
 	[type="submit"]:hover {
 		padding: 0px 3px;
 		text-transform: capitalize;
 		font-size: 14px;
-	}
-	.css-heg063-MuiTabs-flexContainer {
+	} */
+	/* .css-heg063-MuiTabs-flexContainer {
 		margin-left: 49px;
-	}
+	} */
 }
 
 @media only screen and (max-width: 500px) {
+	.css-heg063-MuiTabs-flexContainer {
+		display: block !important;
+	}
 	.css-pwngrv-MuiPaper-root-MuiCard-root {
 		width: 191px;
 		margin: 0 auto;
@@ -321,18 +319,18 @@ input::placeholder {
 		margin-top: 16px;
 		width: 50% !important;
 	}
-	.css-1x51dt5-MuiInputBase-input-MuiInput-input {
+	/* .css-1x51dt5-MuiInputBase-input-MuiInput-input {
 		margin-right: 183px !important;
-	}
-	.css-1ujnqem-MuiTabs-root {
+	} */
+	/* .css-1ujnqem-MuiTabs-root {
 		margin-left: 10px;
 		margin-top: -40px;
-	}
-	.css-heg063-MuiTabs-flexContainer {
+	} */
+	/* .css-heg063-MuiTabs-flexContainer {
 		margin-top: 9px;
 		margin-left: 20px;
-	}
-	button,
+	} */
+	/* button,
 	[type="button"],
 	[type="reset"],
 	[type="submit"]:hover {
@@ -340,7 +338,7 @@ input::placeholder {
 		padding: 0px 3px;
 		text-transform: capitalize;
 		font-size: 14px;
-	}
+	} */
 
 	.react-tabs__tab,
 	.react-tabs__tab--selected {
@@ -353,7 +351,7 @@ input::placeholder {
 }
 
 @media only screen and (max-width: 400px) {
-	.css-heg063-MuiTabs-flexContainer {
+	/* .css-heg063-MuiTabs-flexContainer {
 		margin-left: -12px !important;
-	}
+	} */
 }

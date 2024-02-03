@@ -1,161 +1,161 @@
-"use client";
+"use client"
 
-import React, { useEffect, useRef, useState } from "react";
-import style from "./SearchBus.module.css";
-import train from "../../../public/assets/train.png";
-import Image from "next/image";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import SelectedSeats from "../../Train/SearcTrain/Seats/SelectedSeat";
-import Seats from "../../Train/SearcTrain/Seats/Seats";
-import Link from "next/link";
-import { useSelector } from "react-redux";
-import useModifyModal from "../../Common/Hooks/useModifyModal";
+import React, { useEffect, useRef, useState } from "react"
+import style from "./SearchBus.module.css"
+import train from "../../../public/assets/train.png"
+import Image from "next/image"
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa"
+import SelectedSeats from "../../Train/SearcTrain/Seats/SelectedSeat"
+import Seats from "../../Train/SearcTrain/Seats/Seats"
+import Link from "next/link"
+import { useSelector } from "react-redux"
+import useModifyModal from "../../Common/Hooks/useModifyModal"
 const TrainSearch = () => {
-  const trainDetailsData = useSelector((state) => state.train.trainDetailsData);
+  const trainDetailsData = useSelector((state) => state.train.trainDetailsData)
   // const isLoading = useSelector((state) => state.train.isLoading);
   const [trainDataWithFilter, setTrainDataWithFilter] = useState(
     trainDetailsData?.getPackage
-  );
+  )
+  console.log(trainDataWithFilter)
 
-  const [reload, setReload] = useState(false);
+  const [reload, setReload] = useState(false)
   // const [chooseSeat, setChooseSeat] = useState("A1", "৳1500", "Economy");
-  const [showDetails, setShowDetails] = useState(false);
-  
+  const [showDetails, setShowDetails] = useState(false)
+
   const handleShowDetails = () => {
-    setShowDetails(!showDetails);
-  };
- 
+    setShowDetails(!showDetails)
+  }
+
   const modifyModal = useModifyModal()
-  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedSeats, setSelectedSeats] = useState([])
 
   const handleSeatSelection = (seat) => {
     if (selectedSeats.includes(seat)) {
-      setSelectedSeats(selectedSeats?.filter((s) => s !== seat));
+      setSelectedSeats(selectedSeats?.filter((s) => s !== seat))
     } else {
-      setSelectedSeats([...selectedSeats, seat]);
+      setSelectedSeats([...selectedSeats, seat])
     }
-  };
-  const [trainClass, setTrainClass] = useState(sessionStorage.getItem("t_c"));
+  }
+  const [trainClass, setTrainClass] = useState(sessionStorage.getItem("t_c"))
 
   const handleAC = () => {
     if (trainClass === "AC_B") {
-      sessionStorage.removeItem("t_c");
-      setTrainClass(null);
-      setReload(!reload);
+      sessionStorage.removeItem("t_c")
+      setTrainClass(null)
+      setReload(!reload)
     } else {
-      sessionStorage.setItem("t_c", "AC_B");
-      setTrainClass("AC_B");
-      setReload(!reload);
+      sessionStorage.setItem("t_c", "AC_B")
+      setTrainClass("AC_B")
+      setReload(!reload)
     }
-  };
+  }
   const handleSChair = () => {
     if (trainClass === "S_CHAIR") {
-      sessionStorage.removeItem("t_c");
-      setTrainClass(null);
-      setReload(!reload);
+      sessionStorage.removeItem("t_c")
+      setTrainClass(null)
+      setReload(!reload)
     } else {
-      sessionStorage.setItem("t_c", "S_CHAIR");
-      setTrainClass("S_CHAIR");
-      setReload(!reload);
+      sessionStorage.setItem("t_c", "S_CHAIR")
+      setTrainClass("S_CHAIR")
+      setReload(!reload)
     }
-  };
+  }
   const handleFBERTH = () => {
     if (trainClass === "F_BERTH") {
-      sessionStorage.removeItem("t_c");
-      setTrainClass(null);
-      setReload(!reload);
+      sessionStorage.removeItem("t_c")
+      setTrainClass(null)
+      setReload(!reload)
     } else {
-      sessionStorage.setItem("t_c", "F_BERTH");
-      setTrainClass("F_BERTH");
-      setReload(!reload);
+      sessionStorage.setItem("t_c", "F_BERTH")
+      setTrainClass("F_BERTH")
+      setReload(!reload)
     }
-  };
+  }
   const handleSHULOV = () => {
     if (trainClass === "SHULOV") {
-      sessionStorage.removeItem("t_c");
-      setTrainClass(null);
-      setReload(!reload);
+      sessionStorage.removeItem("t_c")
+      setTrainClass(null)
+      setReload(!reload)
     } else {
-      sessionStorage.setItem("t_c", "SHULOV");
-      setTrainClass("SHULOV");
-      setReload(!reload);
+      sessionStorage.setItem("t_c", "SHULOV")
+      setTrainClass("SHULOV")
+      setReload(!reload)
     }
-  };
+  }
   const handleSNIGDHA = () => {
     if (trainClass === "SNIGDHA") {
-      sessionStorage.removeItem("t_c");
-      setTrainClass(null);
-      setReload(!reload);
+      sessionStorage.removeItem("t_c")
+      setTrainClass(null)
+      setReload(!reload)
     } else {
-      sessionStorage.setItem("t_c", "SNIGDHA");
-      setTrainClass("SNIGDHA");
-      setReload(!reload);
+      sessionStorage.setItem("t_c", "SNIGDHA")
+      setTrainClass("SNIGDHA")
+      setReload(!reload)
     }
-  };
+  }
   const handleJANAPATH = () => {
     if (trainClass === "JANAPATH") {
-      sessionStorage.removeItem("t_c");
-      setTrainClass(null);
-      setReload(!reload);
+      sessionStorage.removeItem("t_c")
+      setTrainClass(null)
+      setReload(!reload)
     } else {
-      sessionStorage.setItem("t_c", "JANAPATH");
-      setTrainClass("JANAPATH");
-      setReload(!reload);
+      sessionStorage.setItem("t_c", "JANAPATH")
+      setTrainClass("JANAPATH")
+      setReload(!reload)
     }
-  };
+  }
   const handleAC_CHAIR = () => {
     if (trainClass === "AC_CHAIR") {
-      sessionStorage.removeItem("t_c");
-      setTrainClass(null);
-      setReload(!reload);
+      sessionStorage.removeItem("t_c")
+      setTrainClass(null)
+      setReload(!reload)
     } else {
-      sessionStorage.setItem("t_c", "AC_CHAIR");
-      setTrainClass("AC_CHAIR");
-      setReload(!reload);
+      sessionStorage.setItem("t_c", "AC_CHAIR")
+      setTrainClass("AC_CHAIR")
+      setReload(!reload)
     }
-  };
+  }
 
   useEffect(() => {
     if (trainClass === "AC_B") {
       const trainData = trainDataWithFilter?.filter(
         (item) => item.class_type === "AC_B"
-      ); // Exclude non-numeric prices
-      setTrainDataWithFilter(trainData);
+      ) // Exclude non-numeric prices
+      setTrainDataWithFilter(trainData)
     } else if (trainClass === "S_CHAIR") {
       const trainData = trainDataWithFilter?.filter(
         (item) => item.class_type === "S_CHAIR"
-      ); // Exclude non-numeric prices
-      setTrainDataWithFilter(trainData);
+      ) // Exclude non-numeric prices
+      setTrainDataWithFilter(trainData)
     } else if (trainClass === "F_BERTH") {
       const trainData = trainDataWithFilter?.filter(
         (item) => item.class_type === "F_BERTH"
-      ); // Exclude non-numeric prices
-      setTrainDataWithFilter(trainData);
+      ) // Exclude non-numeric prices
+      setTrainDataWithFilter(trainData)
     } else if (trainClass === "SHULOV") {
       const trainData = trainDataWithFilter.filter(
         (item) => item.class_type === "SHULOV"
-      ); // Exclude non-numeric prices
-      setTrainDataWithFilter(trainData);
+      ) // Exclude non-numeric prices
+      setTrainDataWithFilter(trainData)
     } else if (trainClass === "SNIGDHA") {
       const trainData = trainDataWithFilter?.filter(
         (item) => item.class_type === "SNIGDHA"
-      ); // Exclude non-numeric prices
-      setTrainDataWithFilter(trainData);
+      ) // Exclude non-numeric prices
+      setTrainDataWithFilter(trainData)
     } else if (trainClass === "JANAPATH") {
       const trainData = trainDataWithFilter?.filter(
         (item) => item.class_type === "JANAPATH 1 COUNTER"
-      ); // Exclude non-numeric prices
-      setTrainDataWithFilter(trainData);
+      ) // Exclude non-numeric prices
+      setTrainDataWithFilter(trainData)
     } else if (trainClass === "AC_CHAIR") {
       const trainData = trainDataWithFilter?.filter(
         (item) => item.class_type === "AC_CHAIR"
-      ); // Exclude non-numeric prices
-      setTrainDataWithFilter(trainData);
+      ) // Exclude non-numeric prices
+      setTrainDataWithFilter(trainData)
     } else {
-      setTrainDataWithFilter(trainDetailsData?.getPackage);
+      setTrainDataWithFilter(trainDetailsData?.getPackage)
     }
-  }, [trainClass, reload, trainDataWithFilter, trainDetailsData?.getPackage]);
-
+  }, [trainClass, reload, trainDataWithFilter, trainDetailsData?.getPackage])
 
   return (
     <main className={style.trainSearchWrap}>
@@ -188,7 +188,12 @@ const TrainSearch = () => {
           </div>
         </div>
         {/* <Link href={"/train"}> */}
-          <button onClick={()=>modifyModal.onOpen("Train Modify")} className={style.modifyBtn}>Modify Search</button>
+        <button
+          onClick={() => modifyModal.onOpen("Train Modify")}
+          className={style.modifyBtn}
+        >
+          Modify Search
+        </button>
         {/* </Link> */}
       </div>
 
@@ -281,7 +286,7 @@ const TrainSearch = () => {
                 </ul>
               </div>
             </div>
-            {/* <div className={style.seatTypeWrap}>
+            <div className={style.seatTypeWrap}>
               <strong className={style.type}>DEPARTURE TIME </strong>
               <hr className="border" />
               <div className="mt-2">
@@ -312,21 +317,15 @@ const TrainSearch = () => {
                   </li>
                 </ul>
               </div>
-            </div> */}
+            </div>
           </div>
           <div className={style.searchBusRightSide}>
             <div>
- 
               {trainDataWithFilter?.map((bus) => (
- 
-              
- 
                 <div key={bus._id} className={style.allBusCardWrap}>
                   <div className={style.busCard}>
                     <div className={style.busDetail}>
-                      <strong className="capitalize">
-                        {bus.train_name}(SNIGDHA)
-                      </strong>
+                      <strong className="capitalize">{bus.train_name}</strong>
                       <small className="block">Dhaka - Biman_Bandar</small>
                       <p>Starting Point: {bus.starting_point}</p>
                       <p>End Point: {bus.end_point}</p>
@@ -381,7 +380,7 @@ const TrainSearch = () => {
         </div>
       </div>
     </main>
-  );
-};
+  )
+}
 
-export default TrainSearch;
+export default TrainSearch

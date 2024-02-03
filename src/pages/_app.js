@@ -44,10 +44,10 @@ export default function App({ Component, pageProps: { ...pageProps } }) {
     const handleScroll = () => {
       const button = document.getElementById('button')
      if(window.scrollY > 600){
-       button.classList.add('scrollToTopBtn')
+       button?.classList.add('scrollToTopBtn')
       }
       else{
-      button.classList.remove('scrollToTopBtn')
+      button?.classList.remove('scrollToTopBtn')
      }
 
     };

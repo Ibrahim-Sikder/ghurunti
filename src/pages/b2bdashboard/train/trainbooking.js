@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
-import style from "../../../../components/UserDashBoard/UserDashBoard.module.css";
-import styling from "../profile.module.css";
-import dynamic from "next/dynamic";
-import B2BdashboardLayout from "../../../../components/Layout/B2BdashboardLayout/B2BdashboardLayout";
-import { decryptTransform } from "../../../../components/EncryptAndDecrypt/EncryptAnsDecrypt";
-import Cookies from "js-cookie";
-import toast from "react-hot-toast";
-import axios from "axios";
+import React, { useEffect, useState } from "react"
+import style from "../../../../components/UserDashBoard/UserDashBoard.module.css"
+import styling from "../profile.module.css"
+import dynamic from "next/dynamic"
+import B2BdashboardLayout from "../../../../components/Layout/B2BdashboardLayout/B2BdashboardLayout"
+import { decryptTransform } from "../../../../components/EncryptAndDecrypt/EncryptAnsDecrypt"
+import Cookies from "js-cookie"
+import toast from "react-hot-toast"
+import axios from "axios"
 const TrainBooking = () => {
-  const [reload, setReload] = useState(false);
-  const [user, setUser] = useState({});
-  const [trainConfirmation, setTrainConfirmation] = useState([]);
+  const [reload, setReload] = useState(false)
+  const [user, setUser] = useState({})
+  const [trainConfirmation, setTrainConfirmation] = useState([])
 
-  const em = decryptTransform(Cookies.get("em"));
+  const em = decryptTransform(Cookies.get("em"))
 
   useEffect(() => {
     try {
       fetch(`http://localhost:5000/api/v1/user/${em}`)
         .then((res) => res.json())
-        .then((data) => setUser(data.getUser));
+        .then((data) => setUser(data.getUser))
     } catch (error) {}
-  }, [em]);
+  }, [em])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,87 +28,87 @@ const TrainBooking = () => {
         if (em && user.profile_type) {
           const response = await axios.get(
             `http://localhost:5000/api/v1/confirmation/train?email=${em}&profile_type=${user.profile_type}`
-          );
+          )
 
-          setTrainConfirmation(response.data.result);
+          setTrainConfirmation(response.data.result)
         }
       } catch (error) {
-        toast.error("Something went wrong");
+        toast.error("Something went wrong")
       }
-    };
+    }
 
-    fetchData();
-  }, [em, user.profile_type, reload]);
+    fetchData()
+  }, [em, user.profile_type, reload])
 
   const handleApproved = async (id) => {
     try {
       if (id) {
         const res = await fetch(`http://localhost:5000/api/v1/train/${id}`, {
           method: "PUT",
-        });
-        const result = await res.json();
+        })
+        const result = await res.json()
         if (result.message === "Approved successful.") {
-          toast.success("Approved successful.");
-          setReload(!reload);
+          toast.success("Approved successful.")
+          setReload(!reload)
         }
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong")
     }
-  };
+  }
   const handleCancel = async (id) => {
     try {
       if (id) {
         const res = await fetch(`http://localhost:5000/api/v1/train/${id}`, {
           method: "PATCH",
-        });
-        const result = await res.json();
+        })
+        const result = await res.json()
         if (result.message === "Rejected") {
-          toast.success("Rejected");
-          setReload(!reload);
+          toast.success("Rejected")
+          setReload(!reload)
         }
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong")
     }
-  };
+  }
 
   //  pagination
 
-  const [limit, setLimit] = useState(20);
+  const [limit, setLimit] = useState(20)
   const [currentPage, setCurrentPage] = useState(
     Number(sessionStorage.getItem("train_p")) || 1
-  );
-  const [pageNumberLimit, setPageNumberLimit] = useState(5);
-  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
-  const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
+  )
+  const [pageNumberLimit, setPageNumberLimit] = useState(5)
+  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5)
+  const [minPageNumberLimit, setMinPageNumberLimit] = useState(0)
 
   useEffect(() => {
-    sessionStorage.setItem("train_p", currentPage.toString());
-  }, [currentPage]);
+    sessionStorage.setItem("train_p", currentPage.toString())
+  }, [currentPage])
   // ...
 
   useEffect(() => {
-    const storedPage = Number(sessionStorage.getItem("train_p")) || 1;
-    setCurrentPage(storedPage);
+    const storedPage = Number(sessionStorage.getItem("train_p")) || 1
+    setCurrentPage(storedPage)
     setMaxPageNumberLimit(
       Math.ceil(storedPage / pageNumberLimit) * pageNumberLimit
-    );
+    )
     setMinPageNumberLimit(
       Math.ceil(storedPage / pageNumberLimit - 1) * pageNumberLimit
-    );
-  }, [pageNumberLimit]);
+    )
+  }, [pageNumberLimit])
 
   // ...
 
   const handleClick = (e) => {
-    const pageNumber = Number(e.target.id);
-    setCurrentPage(pageNumber);
-    sessionStorage.setItem("train_p", pageNumber.toString());
-  };
-  const pages = [];
+    const pageNumber = Number(e.target.id)
+    setCurrentPage(pageNumber)
+    sessionStorage.setItem("train_p", pageNumber.toString())
+  }
+  const pages = []
   for (let i = 1; i <= Math.ceil(trainConfirmation?.length / limit); i++) {
-    pages.push(i);
+    pages.push(i)
   }
 
   const renderPagesNumber = pages?.map((number) => {
@@ -126,15 +126,15 @@ const TrainBooking = () => {
         >
           {number}
         </li>
-      );
+      )
     } else {
-      return null;
+      return null
     }
-  });
+  })
 
-  const lastIndex = currentPage * limit;
-  const startIndex = lastIndex - limit;
-  const currentItems = trainConfirmation?.slice(startIndex, lastIndex);
+  const lastIndex = currentPage * limit
+  const startIndex = lastIndex - limit
+  const currentItems = trainConfirmation?.slice(startIndex, lastIndex)
 
   const renderData = (trainConfirmation) => {
     return (
@@ -210,31 +210,31 @@ const TrainBooking = () => {
           </tbody>
         </table>
       </>
-    );
-  };
+    )
+  }
 
   const handlePrevious = () => {
-    const newPage = currentPage - 1;
-    setCurrentPage(newPage);
-    sessionStorage.setItem("train_p", newPage.toString());
+    const newPage = currentPage - 1
+    setCurrentPage(newPage)
+    sessionStorage.setItem("train_p", newPage.toString())
 
     if (newPage % pageNumberLimit === 0) {
-      setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
-      setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+      setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit)
+      setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit)
     }
-  };
+  }
   const handleNext = () => {
-    const newPage = currentPage + 1;
-    setCurrentPage(newPage);
-    sessionStorage.setItem("train_p", newPage.toString());
+    const newPage = currentPage + 1
+    setCurrentPage(newPage)
+    sessionStorage.setItem("train_p", newPage.toString())
 
     if (newPage > maxPageNumberLimit) {
-      setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
-      setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+      setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit)
+      setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit)
     }
-  };
+  }
 
-  let pageIncrementBtn = null;
+  let pageIncrementBtn = null
   if (pages?.length > maxPageNumberLimit) {
     pageIncrementBtn = (
       <li
@@ -243,10 +243,10 @@ const TrainBooking = () => {
       >
         &hellip;
       </li>
-    );
+    )
   }
 
-  let pageDecrementBtn = null;
+  let pageDecrementBtn = null
   if (currentPage > pageNumberLimit) {
     pageDecrementBtn = (
       <li
@@ -255,7 +255,7 @@ const TrainBooking = () => {
       >
         &hellip;
       </li>
-    );
+    )
   }
 
   return (
@@ -315,7 +315,7 @@ const TrainBooking = () => {
         </div>
       </div>
     </B2BdashboardLayout>
-  );
-};
+  )
+}
 
-export default dynamic(() => Promise.resolve(TrainBooking), { ssr: false });
+export default dynamic(() => Promise.resolve(TrainBooking), { ssr: false })

@@ -2,13 +2,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
   text-align: center;
   padding-bottom: 50px;
 }
 .loginInput {
-  width: 472px;
-  height: 45px;
+  width: 430px;
+  height: 60px;
   background: #e6f8ff;
   border: 1px solid #4ab449;
   border-radius: 5px;
@@ -18,8 +17,8 @@
   color: black !important;
 }
 .loginBtn {
-  width: 323px;
-  height: 45px;
+  width: 430px;
+  height: 60px;
   background: #4ab449;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
@@ -41,33 +40,12 @@
   border: 2px solid #b0b8ba;
 }
 .loginBtn2 {
-  width: 323px;
-  height: 45px;
   background: #26ade2;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  color: white;
-  font-size: 14px;
-  transition: all 0.5s ease-in-out;
 }
 .loginBtn2:hover {
   background: #4ab449;
 }
-.loginBtn3 {
-  width: 323px;
-  height: 45px;
-  background: #ffffff;
-  border: 1px solid rgba(74, 180, 73, 0.5);
-  box-shadow: 0px 2px 4px rgba(25, 171, 227, 0.3);
-  border-radius: 5px;
-  color: #4ab449;
-  font-size: 14px;
-  transition: all 0.4s ease-in-out;
-}
-.loginBtn3:hover {
-  background: #4ab449;
-  color: white;
-}
+
 .loginWithProvider {
   margin-bottom: 20px;
   margin-top: 30px;
@@ -76,7 +54,7 @@
   position: absolute;
   right: 15px;
   top: 39px;
-  font-size: 18px;
+  font-size: 30px;
   color: #4ab449;
 }
 .circle button {
@@ -122,9 +100,6 @@
     top: 38px;
   }
 
-  .loginBtn3 {
-    left: 51px;
-  }
   .inputLabel {
     left: 7px;
   }
@@ -132,10 +107,6 @@
 @media only screen and (max-width: 400px) {
   .loginInput {
     width: 350px;
-  }
-
-  .loginBtn3 {
-    left: 25px;
   }
   .devided {
     width: 150px;

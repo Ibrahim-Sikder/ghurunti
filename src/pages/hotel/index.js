@@ -8,8 +8,8 @@ import Footer from "../../../components/Footer/Footer"
 import Nav from "../../../components/NavBarr/Nav"
 import { Helmet } from "react-helmet-async"
 import Reveiw from "../../../components/Vissa/Review/Reveiw"
-import TourDestination from "../../../components/Tour/TourDestination"
-const HotelPage = () => {
+import InternationalHotel from "../../../components/Tour/InternationalHotel"
+const InternationalHotelPackage = () => {
   return (
     <section>
       <Helmet>
@@ -17,7 +17,7 @@ const HotelPage = () => {
       </Helmet>
       <Nav />
       <Hotel></Hotel>
-      <TourDestination/>
+      <InternationalHotel />
       <Travel></Travel>
       <Customer></Customer>
       <Reveiw />
@@ -26,4 +26,4 @@ const HotelPage = () => {
   )
 }
 
-export default HotelPage
+export default InternationalHotelPackage

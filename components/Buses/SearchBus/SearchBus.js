@@ -1,36 +1,36 @@
-import React, { useRef, useState } from "react";
-import style from "./SearchBus.module.css";
-import bus from "../../../public/assets/bus.png";
-import Image from "next/image";
+import React, { useRef, useState } from "react"
+import style from "./SearchBus.module.css"
+import bus from "../../../public/assets/bus.png"
+import Image from "next/image"
 
-import Seats from "../Seats/Seats";
-import SelectedSeats from "../Seats/SelectedSeat";
-import { useSelector } from "react-redux";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import useModifyModal from "../../Common/Hooks/useModifyModal";
-import axios from "axios";
+import Seats from "../Seats/Seats"
+import SelectedSeats from "../Seats/SelectedSeat"
+import { useSelector } from "react-redux"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { useEffect } from "react"
+import useModifyModal from "../../Common/Hooks/useModifyModal"
+import axios from "axios"
 const SearchBus = () => {
-  const busDetailsData = useSelector((state) => state.bus.busDetailsData);
-  const busFilterData = useSelector((state) => state.bus.filterData);
+  const busDetailsData = useSelector((state) => state.bus.busDetailsData)
+  const busFilterData = useSelector((state) => state.bus.filterData)
   const [busDetailsDataWithFilter, setBusDetailsDataWithFilter] = useState(
     busDetailsData?.getPackage
-  );
-  const [errorMessage, setErrorMessage] = useState("");
-  const [chooseSeat, setChooseSeat] = useState("A1", "৳1500", "Economy");
-  const [showDetails, setShowDetails] = useState(false);
-  const [seatsNumber, setSeatsNumber] = useState([]);
-  const [specificPackage, setSpecificPackage] = useState({});
-  const [reload, setReload] = useState(false);
+  )
+  const [errorMessage, setErrorMessage] = useState("")
+  const [chooseSeat, setChooseSeat] = useState("A1", "৳1500", "Economy")
+  const [showDetails, setShowDetails] = useState(false)
+  const [seatsNumber, setSeatsNumber] = useState([])
+  const [specificPackage, setSpecificPackage] = useState({})
+  const [reload, setReload] = useState(false)
 
-  const [loading, setLoading] = useState(false);
-  const modifyModal = useModifyModal();
+  const [loading, setLoading] = useState(false)
+  const modifyModal = useModifyModal()
   const handleShowDetails = () => {
-    setShowDetails(!showDetails);
-  };
-  const router = useRouter();
-  const { id } = router.query;
+    setShowDetails(!showDetails)
+  }
+  const router = useRouter()
+  const { id } = router.query
 
   useEffect(() => {
     // Make sure id is defined before making the fetch request
@@ -38,80 +38,80 @@ const SearchBus = () => {
       fetch(`http://localhost:5000/api/v1/bus/${id}`)
         .then((res) => res.json())
         .then((data) => {
-          setSpecificPackage(data.getPackage);
-          console.log(data);
+          setSpecificPackage(data.getPackage)
+          console.log(data)
         })
         .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
+          console.error("Error fetching data:", error)
+        })
     }
-  }, [id]);
+  }, [id])
 
-  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedSeats, setSelectedSeats] = useState([])
 
   const handleSeatSelection = (seat) => {
     if (selectedSeats.includes(seat)) {
-      setSelectedSeats(selectedSeats.filter((s) => s !== seat));
+      setSelectedSeats(selectedSeats.filter((s) => s !== seat))
     } else {
-      setSelectedSeats([...selectedSeats, seat]);
+      setSelectedSeats([...selectedSeats, seat])
     }
-  };
+  }
 
   const [busOperators, setBusOperators] = useState(
     sessionStorage.getItem("b_o")
-  );
-  const [busTypes, setBusTypes] = useState(sessionStorage.getItem("b_t"));
+  )
+  const [busTypes, setBusTypes] = useState(sessionStorage.getItem("b_t"))
   const [boardingPoint, setBoardingPoint] = useState(
     sessionStorage.getItem("b_p")
-  );
+  )
   const [busFacilities, setBusFacilities] = useState(
     sessionStorage.getItem("b_f")
-  );
+  )
 
   const handleOperator = (operator) => {
     if (busOperators === operator) {
-      sessionStorage.removeItem("b_o");
-      setBusOperators(null);
-      setReload(!reload);
+      sessionStorage.removeItem("b_o")
+      setBusOperators(null)
+      setReload(!reload)
     } else {
-      sessionStorage.setItem("b_o", operator);
-      setBusOperators(operator);
-      setReload(!reload);
+      sessionStorage.setItem("b_o", operator)
+      setBusOperators(operator)
+      setReload(!reload)
     }
-  };
+  }
   const handleBusType = (type) => {
     if (busTypes === type) {
-      sessionStorage.removeItem("b_t");
-      setBusTypes(null);
-      setReload(!reload);
+      sessionStorage.removeItem("b_t")
+      setBusTypes(null)
+      setReload(!reload)
     } else {
-      sessionStorage.setItem("b_t", type);
-      setBusTypes(type);
-      setReload(!reload);
+      sessionStorage.setItem("b_t", type)
+      setBusTypes(type)
+      setReload(!reload)
     }
-  };
+  }
   const handleBusBoardingPoint = (point) => {
     if (boardingPoint === point) {
-      sessionStorage.removeItem("b_p");
-      setBoardingPoint(null);
-      setReload(!reload);
+      sessionStorage.removeItem("b_p")
+      setBoardingPoint(null)
+      setReload(!reload)
     } else {
-      sessionStorage.setItem("b_p", point);
-      setBoardingPoint(point);
-      setReload(!reload);
+      sessionStorage.setItem("b_p", point)
+      setBoardingPoint(point)
+      setReload(!reload)
     }
-  };
+  }
   const handleBusFacilities = (facilities) => {
     if (busFacilities === facilities) {
-      sessionStorage.removeItem("b_f");
-      setBusFacilities(null);
-      setReload(!reload);
+      sessionStorage.removeItem("b_f")
+      setBusFacilities(null)
+      setReload(!reload)
     } else {
-      sessionStorage.setItem("b_f", facilities);
-      setBusFacilities(facilities);
-      setReload(!reload);
+      sessionStorage.setItem("b_f", facilities)
+      setBusFacilities(facilities)
+      setReload(!reload)
     }
-  };
+  }
 
   useEffect(() => {
     if (busOperators || busTypes || boardingPoint || busFacilities) {
@@ -127,31 +127,31 @@ const SearchBus = () => {
         bus_type: busTypes,
         boarding_point: boardingPoint,
         facilities: busFacilities,
-      };
-      setLoading(true);
+      }
+      setLoading(true)
 
       axios
         .post("http://localhost:5000/api/v1/bus/gets/packages/filter", data)
         .then((response) => {
-          setLoading(false);
+          setLoading(false)
           // console.log(response);
-          console.log(response.data);
+          console.log(response.data)
           if (response.data.message === "Successfully bus details get.") {
-            setBusDetailsDataWithFilter(response.data.getPackage);
-            setErrorMessage("");
+            setBusDetailsDataWithFilter(response.data.getPackage)
+            setErrorMessage("")
           }
           if (response.data.message === "No matching package found.") {
-            setErrorMessage(response.data.message);
-            setBusDetailsDataWithFilter([]);
+            setErrorMessage(response.data.message)
+            setBusDetailsDataWithFilter([])
           }
         })
         .catch((error) => {
-          setLoading(false);
-          console.error(error);
-        });
+          setLoading(false)
+          console.error(error)
+        })
     } else {
-      setBusDetailsDataWithFilter(busDetailsData?.getPackage);
-      setErrorMessage("");
+      setBusDetailsDataWithFilter(busDetailsData?.getPackage)
+      setErrorMessage("")
     }
   }, [
     boardingPoint,
@@ -166,48 +166,48 @@ const SearchBus = () => {
     busOperators,
     busTypes,
     reload,
-  ]);
+  ])
 
   //  pagination
 
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(5)
   const [currentPage, setCurrentPage] = useState(
     Number(sessionStorage.getItem("bus")) || 1
-  );
-  const [pageNumberLimit, setPageNumberLimit] = useState(5);
-  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
-  const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
+  )
+  const [pageNumberLimit, setPageNumberLimit] = useState(5)
+  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5)
+  const [minPageNumberLimit, setMinPageNumberLimit] = useState(0)
 
   useEffect(() => {
-    sessionStorage.setItem("bus", currentPage.toString());
-  }, [currentPage]);
+    sessionStorage.setItem("bus", currentPage.toString())
+  }, [currentPage])
   // ...
 
   useEffect(() => {
-    const storedPage = Number(sessionStorage.getItem("bus")) || 1;
-    setCurrentPage(storedPage);
+    const storedPage = Number(sessionStorage.getItem("bus")) || 1
+    setCurrentPage(storedPage)
     setMaxPageNumberLimit(
       Math.ceil(storedPage / pageNumberLimit) * pageNumberLimit
-    );
+    )
     setMinPageNumberLimit(
       Math.ceil(storedPage / pageNumberLimit - 1) * pageNumberLimit
-    );
-  }, [pageNumberLimit]);
+    )
+  }, [pageNumberLimit])
 
   // ...
 
   const handleClick = (e) => {
-    const pageNumber = Number(e.target.id);
-    setCurrentPage(pageNumber);
-    sessionStorage.setItem("bus", pageNumber.toString());
-  };
-  const pages = [];
+    const pageNumber = Number(e.target.id)
+    setCurrentPage(pageNumber)
+    sessionStorage.setItem("bus", pageNumber.toString())
+  }
+  const pages = []
   for (
     let i = 1;
     i <= Math.ceil(busDetailsDataWithFilter?.length / limit);
     i++
   ) {
-    pages.push(i);
+    pages.push(i)
   }
 
   const renderPagesNumber = pages?.map((number) => {
@@ -225,40 +225,45 @@ const SearchBus = () => {
         >
           {number}
         </li>
-      );
+      )
     } else {
-      return null;
+      return null
     }
-  });
+  })
 
-  const lastIndex = currentPage * limit;
-  const startIndex = lastIndex - limit;
-  const currentItems = busDetailsDataWithFilter?.slice(startIndex, lastIndex);
+  const lastIndex = currentPage * limit
+  const startIndex = lastIndex - limit
+  const currentItems = busDetailsDataWithFilter?.slice(startIndex, lastIndex)
 
-  console.log(busDetailsDataWithFilter);
+  console.log(busDetailsDataWithFilter)
 
   const renderData = (busDetailsDataWithFilter) => {
     return (
       <>
+        <div className="flex iems-center justify-between px-5">
+          <small>Operator (Bus Type)</small>
+          <small>Deprature Time</small>
+          <small>Arrival Time</small>
+          <small>Seat Available </small>
+          <small className="mr-5">Fare </small>
+        </div>
         {busDetailsDataWithFilter?.map((bus) => (
           <div key={bus._id} className={style.allBusCardWrap}>
             <div className={style.busCard}>
               <div className={style.busDetail}>
                 <strong className="capitalize">{bus.bus_name}</strong>
-                <small className="block">504-BAN Non AC</small>
+                <small className="block">Seat Type: Non AC</small>
                 <p>Starting Point: {bus.starting_point}</p>
                 <p>End Point: {bus.end_point}</p>
               </div>
               <div className={style.busDetail}>
-                <h5 className=" capitalize">{bus.starting_time} </h5>
-                <strong>10:30AM</strong>
+                <strong>{bus.starting_time} </strong>
               </div>
               <div className={style.busDetail}>
-                <h5 className=" capitalize">{bus.end_time} </h5>
-                <strong>10:30AM</strong>
+                <strong>{bus.end_time}</strong>
               </div>
               <div className={style.busDetail}>
-                <h5 className=" capitalize">Seats Available</h5>
+                <b>45</b>
                 <strong>{bus.seats}</strong>
               </div>
               <div className={style.busDetail}>
@@ -288,36 +293,36 @@ const SearchBus = () => {
                   <SelectedSeats selectedSeats={selectedSeats} />
                 </div>
               </div>
+              
             </div>
           </div>
         ))}
       </>
-    );
-  };
+    )
+  }
 
-  
   const handlePrevious = () => {
-    const newPage = currentPage - 1;
-    setCurrentPage(newPage);
-    sessionStorage.setItem("bus", newPage.toString());
+    const newPage = currentPage - 1
+    setCurrentPage(newPage)
+    sessionStorage.setItem("bus", newPage.toString())
 
     if (newPage % pageNumberLimit === 0) {
-      setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
-      setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+      setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit)
+      setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit)
     }
-  };
+  }
   const handleNext = () => {
-    const newPage = currentPage + 1;
-    setCurrentPage(newPage);
-    sessionStorage.setItem("bus", newPage.toString());
+    const newPage = currentPage + 1
+    setCurrentPage(newPage)
+    sessionStorage.setItem("bus", newPage.toString())
 
     if (newPage > maxPageNumberLimit) {
-      setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
-      setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+      setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit)
+      setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit)
     }
-  };
+  }
 
-  let pageIncrementBtn = null;
+  let pageIncrementBtn = null
   if (pages?.length > maxPageNumberLimit) {
     pageIncrementBtn = (
       <li
@@ -326,10 +331,10 @@ const SearchBus = () => {
       >
         &hellip;
       </li>
-    );
+    )
   }
 
-  let pageDecrementBtn = null;
+  let pageDecrementBtn = null
   if (currentPage > pageNumberLimit) {
     pageDecrementBtn = (
       <li
@@ -338,7 +343,7 @@ const SearchBus = () => {
       >
         &hellip;
       </li>
-    );
+    )
   }
 
   return (
@@ -538,7 +543,6 @@ const SearchBus = () => {
           </div>
           <div className={style.searchBusRightSide}>
             <div>
- 
               {loading ? (
                 <div>Loading ...</div>
               ) : (
@@ -546,11 +550,10 @@ const SearchBus = () => {
                   {errorMessage ? (
                     <div className="text-xl text-center flex justify-center items-center h-full">
                       {errorMessage}
-  
                     </div>
                   ) : (
                     <>
-                    {/* lg:w-10/12 mx-auto rounded  */}
+                      {/* lg:w-10/12 mx-auto rounded  */}
                       <section className=" ">
                         {renderData(currentItems)}
                         <ul
@@ -606,7 +609,7 @@ const SearchBus = () => {
         </div>
       </div>
     </main>
-  );
-};
+  )
+}
 
-export default SearchBus;
+export default SearchBus

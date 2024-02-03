@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import style from "../../../../components/UserDashBoard/UserDashBoard.module.css";
-import styling from "../profile.module.css";
-import dynamic from "next/dynamic";
-import B2BdashboardLayout from "../../../../components/Layout/B2BdashboardLayout/B2BdashboardLayout";
-import toast from "react-hot-toast";
-import axios from "axios";
-import { decryptTransform } from "../../../../components/EncryptAndDecrypt/EncryptAnsDecrypt";
-import Cookies from "js-cookie";
+import React from "react"
+import style from "../../../../components/UserDashBoard/UserDashBoard.module.css"
+import styling from "../profile.module.css"
+import dynamic from "next/dynamic"
+import B2BdashboardLayout from "../../../../components/Layout/B2BdashboardLayout/B2BdashboardLayout"
+import toast from "react-hot-toast"
+import axios from "axios"
+import { decryptTransform } from "../../../../components/EncryptAndDecrypt/EncryptAnsDecrypt"
+import Cookies from "js-cookie"
 const TourBooking = () => {
   const bookingData = [
     {
@@ -81,23 +81,23 @@ const TourBooking = () => {
       passportNumber: 3567876543,
       city: "Cox's Bazar",
     },
-  ];
+  ]
 
-  const [reload, setReload] = useState(false);
-  const [user, setUser] = useState({});
-  const [toursConfirmation, setToursConfirmation] = useState([]);
+  const [reload, setReload] = useState(false)
+  const [user, setUser] = useState({})
+  const [toursConfirmation, setToursConfirmation] = useState([])
 
-  const em = decryptTransform(Cookies.get("em"));
+  const em = decryptTransform(Cookies.get("em"))
 
   useEffect(() => {
     try {
       fetch(`http://localhost:5000/api/v1/user/${em}`)
         .then((res) => res.json())
-        .then((data) => setUser(data.getUser));
+        .then((data) => setUser(data.getUser))
     } catch (error) {
-      toast.error("Something went wrong.");
+      toast.error("Something went wrong.")
     }
-  }, [em]);
+  }, [em])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -105,88 +105,88 @@ const TourBooking = () => {
         if (em && user.profile_type) {
           const response = await axios.get(
             `http://localhost:5000/api/v1/confirmation/tours?email=${em}&profile_type=${user.profile_type}`
-          );
+          )
 
-          setToursConfirmation(response.data.result);
+          setToursConfirmation(response.data.result)
         }
       } catch (error) {
-        toast.error("Something went wrong");
+        toast.error("Something went wrong")
       }
-    };
+    }
 
-    fetchData();
-  }, [em, user.profile_type, reload]);
+    fetchData()
+  }, [em, user.profile_type, reload])
 
   const handleApproved = async (id) => {
     try {
       if (id) {
         const res = await fetch(`http://localhost:5000/api/v1/tours/${id}`, {
           method: "PUT",
-        });
-        const result = await res.json();
+        })
+        const result = await res.json()
 
         if (result.message === "Approved successful.") {
-          toast.success("Approved successful.");
-          setReload(!reload);
+          toast.success("Approved successful.")
+          setReload(!reload)
         }
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong")
     }
-  };
+  }
   const handleCancel = async (id) => {
     try {
       if (id) {
         const res = await fetch(`http://localhost:5000/api/v1/tours/${id}`, {
           method: "PATCH",
-        });
-        const result = await res.json();
+        })
+        const result = await res.json()
         if (result.message === "Rejected") {
-          toast.success("Rejected");
-          setReload(!reload);
+          toast.success("Rejected")
+          setReload(!reload)
         }
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong")
     }
-  };
+  }
 
-  console.log(toursConfirmation);
+  console.log(toursConfirmation)
 
   //  pagination
 
-  const [limit, setLimit] = useState(20);
+  const [limit, setLimit] = useState(20)
   const [currentPage, setCurrentPage] = useState(
     Number(sessionStorage.getItem("tours_p")) || 1
-  );
-  const [pageNumberLimit, setPageNumberLimit] = useState(5);
-  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
-  const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
+  )
+  const [pageNumberLimit, setPageNumberLimit] = useState(5)
+  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5)
+  const [minPageNumberLimit, setMinPageNumberLimit] = useState(0)
 
   useEffect(() => {
-    sessionStorage.setItem("tours_p", currentPage.toString());
-  }, [currentPage]);
+    sessionStorage.setItem("tours_p", currentPage.toString())
+  }, [currentPage])
   // ...
 
   useEffect(() => {
-    const storedPage = Number(sessionStorage.getItem("tours_p")) || 1;
-    setCurrentPage(storedPage);
+    const storedPage = Number(sessionStorage.getItem("tours_p")) || 1
+    setCurrentPage(storedPage)
     setMaxPageNumberLimit(
       Math.ceil(storedPage / pageNumberLimit) * pageNumberLimit
-    );
+    )
     setMinPageNumberLimit(
       Math.ceil(storedPage / pageNumberLimit - 1) * pageNumberLimit
-    );
-  }, [pageNumberLimit]);
+    )
+  }, [pageNumberLimit])
 
   const handleClick = (e) => {
-    const pageNumber = Number(e.target.id);
-    setCurrentPage(pageNumber);
-    sessionStorage.setItem("tours_p", pageNumber.toString());
-  };
-  const pages = [];
+    const pageNumber = Number(e.target.id)
+    setCurrentPage(pageNumber)
+    sessionStorage.setItem("tours_p", pageNumber.toString())
+  }
+  const pages = []
   for (let i = 1; i <= Math.ceil(toursConfirmation?.length / limit); i++) {
-    pages.push(i);
+    pages.push(i)
   }
 
   const renderPagesNumber = pages?.map((number) => {
@@ -204,15 +204,15 @@ const TourBooking = () => {
         >
           {number}
         </li>
-      );
+      )
     } else {
-      return null;
+      return null
     }
-  });
+  })
 
-  const lastIndex = currentPage * limit;
-  const startIndex = lastIndex - limit;
-  const currentItems = toursConfirmation?.slice(startIndex, lastIndex);
+  const lastIndex = currentPage * limit
+  const startIndex = lastIndex - limit
+  const currentItems = toursConfirmation?.slice(startIndex, lastIndex)
 
   const renderData = (toursConfirmation) => {
     return (
@@ -288,31 +288,31 @@ const TourBooking = () => {
           </tbody>
         </table>
       </>
-    );
-  };
+    )
+  }
 
   const handlePrevious = () => {
-    const newPage = currentPage - 1;
-    setCurrentPage(newPage);
-    sessionStorage.setItem("tours_p", newPage.toString());
+    const newPage = currentPage - 1
+    setCurrentPage(newPage)
+    sessionStorage.setItem("tours_p", newPage.toString())
 
     if (newPage % pageNumberLimit === 0) {
-      setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
-      setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+      setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit)
+      setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit)
     }
-  };
+  }
   const handleNext = () => {
-    const newPage = currentPage + 1;
-    setCurrentPage(newPage);
-    sessionStorage.setItem("tours_p", newPage.toString());
+    const newPage = currentPage + 1
+    setCurrentPage(newPage)
+    sessionStorage.setItem("tours_p", newPage.toString())
 
     if (newPage > maxPageNumberLimit) {
-      setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
-      setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+      setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit)
+      setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit)
     }
-  };
+  }
 
-  let pageIncrementBtn = null;
+  let pageIncrementBtn = null
   if (pages?.length > maxPageNumberLimit) {
     pageIncrementBtn = (
       <li
@@ -321,10 +321,10 @@ const TourBooking = () => {
       >
         &hellip;
       </li>
-    );
+    )
   }
 
-  let pageDecrementBtn = null;
+  let pageDecrementBtn = null
   if (currentPage > pageNumberLimit) {
     pageDecrementBtn = (
       <li
@@ -333,7 +333,7 @@ const TourBooking = () => {
       >
         &hellip;
       </li>
-    );
+    )
   }
 
   return (
@@ -346,6 +346,46 @@ const TourBooking = () => {
         <div className={styling.profileTop}>
           <div className={styling.flightHistory}>
             <div className="overflow-x-auto ">
+              <table className="table lg:table-auto columns-xl break-after-column">
+                <thead className={style.tableWrap}>
+                  <tr>
+                    <th>Name </th>
+                    <th>Destination </th>
+                    <th>Mobile Number</th>
+                    <th>Email</th>
+                    <th>Requirement</th>
+                    <th>Passport Number</th>
+                    <th>Passenger Number </th>
+                    <th>Booked Date</th>
+                    <th colSpan={2}>Action </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {bookingData.map((data) => (
+                    <tr key={data.id}>
+                      <td>{data.name}</td>
+                      <td>{data.destination}</td>
+                      <td>{data.phone}</td>
+                      <td>{data.email}</td>
+                      <td>{data.requiruement}</td>
+                      <td>{data.passengerNumber}</td>
+                      <td>{data.passportNumber}</td>
+                      <td>{data.city}</td>
+                      <td>
+                        <span className=" bg-red-900 rounded text-white py-2 text-xs px-2 font-xs">
+                          Cancel
+                        </span>
+                      </td>
+                      <td>
+                        <span className=" bg-gray-300 rounded py-2 text-xs px-2 font-xs">
+                          Pending
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+         
               <section>
                 {renderData(currentItems)}
                 <ul
@@ -391,7 +431,7 @@ const TourBooking = () => {
         </div>
       </div>
     </B2BdashboardLayout>
-  );
-};
+  )
+}
 
-export default dynamic(() => Promise.resolve(TourBooking), { ssr: false });
+export default dynamic(() => Promise.resolve(TourBooking), { ssr: false })
