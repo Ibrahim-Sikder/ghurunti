@@ -54,12 +54,12 @@ const Nav = () => {
   const token = decryptTransform(Cookies.get("token"));
   const em = decryptTransform(Cookies.get("em"));
   useEffect(() => {
-    if (token) {
+    if (token && em === user?.email) {
       setAuthenticated(true);
-    } else if (!token) {
+    } else if (!token && em !== user?.email) {
       setAuthenticated(false);
     }
-  }, [token, pathname]);
+  }, [token, pathname, em, user?.email]);
 
   const logOut = () => {
     setAuthenticated(false);
@@ -74,12 +74,14 @@ const Nav = () => {
   };
 
   useEffect(() => {
-    try {
-      fetch(`http://localhost:5000/api/v1/user/${em}`)
-        .then((res) => res.json())
-        .then((data) => setUser(data.getUser));
-    } catch (error) {
-      toast.error(error.message);
+    if (em) {
+      try {
+        fetch(`http://localhost:5000/api/v1/user/${em}`)
+          .then((res) => res.json())
+          .then((data) => setUser(data.getUser));
+      } catch (error) {
+        toast.error(error.message);
+      }
     }
   }, [em]);
   return (

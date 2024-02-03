@@ -10,6 +10,10 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { FormError } from "../form-error";
+import { FormSuccess } from "../form-success";
+import { useDispatch, useSelector } from "react-redux";
+import { setEmail } from "@/Redux/features/sign-up-slice";
 const SignUp = () => {
   const {
     register,
@@ -21,12 +25,15 @@ const SignUp = () => {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = () => {};
   const router = useRouter();
+  const dispatch = useDispatch();
   const [error, setError] = useState("");
   const [confirmation, setConfirmation] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
 
   const onSubmit = async (data) => {
+    setError("");
+    setConfirmation("");
     try {
       const values = {
         username: data.username,
@@ -41,17 +48,17 @@ const SignUp = () => {
         "http://localhost:5000/api/v1/register",
         values
       );
-      console.log(response.status);
+      console.log(response);
       if (response.status === 201) {
         setConfirmation("Check your email for confirmation.");
-
+        dispatch(setEmail(response.data.email));
         setError(""); // Assuming you want to log the response data
       }
     } catch (error) {
       setLoading(false);
 
       if (error.response && error.response.status === 400) {
-        console.log(error.response.data.message)
+        console.log(error.response.data.message);
         setLoading(false);
         setError(error.response.data.message);
         setConfirmation("");
@@ -69,6 +76,36 @@ const SignUp = () => {
       setLoading(false);
     }
   };
+
+  const { email } = useSelector((state) => state.email);
+  console.log(email);
+
+  const resendVerificationLink = async () => {
+    setError("");
+    setConfirmation("");
+
+    // Disable the button
+    setButtonDisabled(true);
+
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/v1/register/resend`,
+        { email }
+      );
+      if (response.status === 200) {
+        setConfirmation("Check your email for confirmation.");
+        setError("");
+      }
+    } catch (error) {
+      setError(error.response.data.message);
+    } finally {
+      // Enable the button after a 10-second delay
+      setTimeout(() => {
+        setButtonDisabled(false);
+      }, 10000);
+    }
+  };
+
   return (
     <section>
       <div className="grid grid-cols-1 lg:grid-cols-2 place-content-center place-items-center">
@@ -90,14 +127,14 @@ const SignUp = () => {
                 placeholder="User Name"
                 className={style.loginInput}
                 {...register("username", {
-                  required: "Given Name is required",
+                  required: "Username is required",
                   minLength: 8,
                 })}
               />
             </div>
-            {errors.name && (
+            {errors.username && (
               <p className="text-red-500" role="alert">
-                {errors.name?.message}
+                {errors.username?.message}
               </p>
             )}
             <div className="mb-5">
@@ -161,65 +198,82 @@ const SignUp = () => {
                 {errors.password?.message}
               </p>
             )}
-            {confirmation && (
-              <div className="pt-5 text-center text-[#4AB449]">
-                {confirmation}
-              </div>
-            )}
-            {error && (
-              <div className="py-3 text-center text-red-500">{error}</div>
-            )}
-            <div className="mb-5 ml-16 mt-10">
-              <button className={style.loginBtn} type="submit">
+
+            {error && <FormError message={error} />}
+            {confirmation && <FormSuccess message={confirmation} />}
+
+            <div
+              className={confirmation ? "mb-5 ml-16 mt-5" : "mb-5 ml-16 mt-10"}
+            >
+              <button
+                disabled={loading}
+                className={style.loginBtn}
+                type="submit"
+              >
                 Sign Up
               </button>
             </div>
-            <div className="flex items-center ">
-              <p className={style.devided}></p>
-              <span className="mx-5">or</span>
-              <p className={style.devided}></p>
+          </form>
+          {
+            <div className="flex justify-end ">
+              <button
+                onClick={resendVerificationLink}
+                disabled={isButtonDisabled}
+                className={
+                  isButtonDisabled
+                    ? "mb-3 text-gray-400 no-underline"
+                    : "mb-3 underline"
+                }
+              >
+                Resend
+              </button>
             </div>
-            <div className="mb-5 ml-16 sm:ml-8 mt-5">
-              <Link href="/signupAgent">
-                <button className={style.loginBtn2} type="submit">
-                  Apply For Agent
+          }
+          <div className="flex items-center ">
+            <p className={style.devided}></p>
+            <span className="mx-5">or</span>
+            <p className={style.devided}></p>
+          </div>
+          <div className="mb-5 ml-16 sm:ml-8 mt-5">
+            <Link href="/signupAgent">
+              <button className={style.loginBtn2} type="submit">
+                Apply For Agent
+              </button>
+            </Link>
+          </div>
+          <div className="mb-5 ml-16 sm:ml-8 mt-10">
+            <Link href="/login">
+              <button className={style.loginBtn3} type="submit">
+                Login Now{" "}
+              </button>
+            </Link>
+          </div>
+          <div className={style.loginWithProvider}>
+            <div className={style.providerLoginWrap}>
+              <div className={style.circle}>
+                <button type="button">
+                  <Image
+                    loading="lazy"
+                    src={google}
+                    alt="Picture of the author"
+                    width={40}
+                    height={20}
+                  />
                 </button>
-              </Link>
-            </div>
-            <div className="mb-5 ml-16 sm:ml-8 mt-10">
-              <Link href="/login">
-                <button className={style.loginBtn3} type="submit">
-                  Login Now{" "}
+              </div>
+              <div className={style.circle}>
+                <button type="button">
+                  <Image
+                    loading="lazy"
+                    src={facebook}
+                    alt="Picture of the author"
+                    width={40}
+                    height={20}
+                  />
                 </button>
-              </Link>
-            </div>
-            <div className={style.loginWithProvider}>
-              <div className={style.providerLoginWrap}>
-                <div className={style.circle}>
-                  <button type="button">
-                    <Image
-                      loading="lazy"
-                      src={google}
-                      alt="Picture of the author"
-                      width={40}
-                      height={20}
-                    />
-                  </button>
-                </div>
-                <div className={style.circle}>
-                  <button type="button">
-                    <Image
-                      loading="lazy"
-                      src={facebook}
-                      alt="Picture of the author"
-                      width={40}
-                      height={20}
-                    />
-                  </button>
-                </div>
               </div>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </section>
