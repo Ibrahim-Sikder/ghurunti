@@ -1,9 +1,10 @@
-import React from "react";
-import style from "./Customer.module.css";
-import quote2 from "../../public/assets/quote2.png";
-import Image from "next/image";
-import Slider from "react-slick";
-import SectionTitle from "../Shared/SectionTitle/SectionTitle";
+import React from "react"
+import style from "./Customer.module.css"
+import quote2 from "../../public/assets/quote2.png"
+import Image from "next/image"
+import Slider from "react-slick"
+import SectionTitle from "../Shared/SectionTitle/SectionTitle"
+import Container from "@/ui/Container"
 const Customer = () => {
   var settings = {
     infinite: true,
@@ -13,13 +14,13 @@ const Customer = () => {
     autoplay: true,
     speed: 4000,
     autoplaySpeed: 4000,
-  };
+  }
   return (
-    <section>
+    <Container>
       <SectionTitle
-      heading='Customer satisfaction is our top priority'
-      subHeading=' Our clients praise us for our great results, personable service,
-      expert knowledge. Here are what just a few of them had to say'
+        heading="Customer satisfaction is our top priority"
+        subHeading=" Our clients praise us for our great results, personable service,
+      expert knowledge. Here are what just a few of them had to say"
       ></SectionTitle>
 
       <Slider {...settings}>
@@ -31,7 +32,7 @@ const Customer = () => {
               to assure you that your confidence in Ghuronti will be justified.
             </p>
             <Image
-             loading="lazy"
+              loading="lazy"
               src={quote2}
               alt="Picture of the author"
               width={100}
@@ -48,7 +49,7 @@ const Customer = () => {
               to assure you that your confidence in Ghuronti will be justified.
             </p>
             <Image
-             loading="lazy"
+              loading="lazy"
               src={quote2}
               alt="Picture of the author"
               width={100}
@@ -65,7 +66,7 @@ const Customer = () => {
               to assure you that your confidence in Ghuronti will be justified.
             </p>
             <Image
-             loading="lazy"
+              loading="lazy"
               src={quote2}
               alt="Picture of the author"
               width={100}
@@ -75,8 +76,8 @@ const Customer = () => {
           </div>
         </div>
       </Slider>
-    </section>
-  );
-};
+    </Container>
+  )
+}
 
-export default Customer;
+export default Customer

@@ -1,6 +1,6 @@
 .conferenceTimeline {
   position: relative;
-  max-width: 1025px;
+  max-width: 1200px;
   width: 100%;
   margin: 0 auto;
 }
@@ -69,7 +69,7 @@
 .timelineArticle .contentRightContainer {
   float: right;
   position: relative;
-  left: 20px;
+  left: 30px;
 }
 
 
@@ -89,8 +89,8 @@
 }
 
 .timeLineImg {
-  width: 430px;
-  height: 230px;
+  width: 500px;
+  height: 250px;
   border: 1px solid #ddd;
   overflow: hidden;
   border-radius: 10px;
@@ -159,9 +159,9 @@
   .contentLeftContainer:nth-child(3){
     width:100% !important;
   }
-  .timeLineImg{
-    width: 330px;
-}
+  .timeLineImg {
+    width: 100%;
+  }
 .timelineArticle .contentLeftContainer,
 .timelineArticle .contentRightContainer {
   margin-left:45px;
@@ -174,7 +174,7 @@
   height: 35px
 }
 .conferenceTimeline .conferenceCenterLine {
-  left: 39px;
+  left: 30px;
 }
 
 

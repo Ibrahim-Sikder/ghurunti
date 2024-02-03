@@ -27,7 +27,7 @@ const ForgotPassword = () => {
             <br />
             <small>
               Remeber your password?{" "}
-              <Link href="/signin">
+              <Link href="/login">
                 {" "}
                 <b className="text-[#4AB449]">Sign In</b>
               </Link>
