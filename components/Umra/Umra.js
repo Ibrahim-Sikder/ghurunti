@@ -1,32 +1,34 @@
-import React, { useState } from "react";
-import style from "./Umra.module.css";
-import Link from "next/link";
-import UmraPackage from "./UmraPackage";
-import ActiveLink from "../Banner/ActiveLink";
+import React, { useState } from "react"
+import style from "./Umra.module.css"
+import Link from "next/link"
+import UmraPackage from "./UmraPackage"
+import ActiveLink from "../Banner/ActiveLink"
 import {
   Flight,
   Hotel,
   BookOnline,
   TransferWithinAStation,
-  Search
-} from "@mui/icons-material";
+  Search,
+} from "@mui/icons-material"
+import HajjPackage from "./HajjPackage"
 
 const Umra = () => {
   const [packageType, setPackageType] = useState("Hajj Package")
-  const [activeHajjButton, setActiveHajjButton] = useState();
+  const [activeHajjButton, setActiveHajjButton] = useState()
   const handleActiveButton = () => {
-    setActiveHajjButton(!activeHajjButton);
-  };
+    setActiveHajjButton(!activeHajjButton)
+  }
   return (
     <section>
       {/* banner */}
-      
+
       <div className={style.bannerWrap}>
         <h2>Welcome to Ghuronti! Find Tours, Flights & Hotels Packages</h2>
+
         <div className={style.heroBoxMain}>
           {/* menubar */}
           <div className={style.menuWrap}>
-          <ul className={style.menu}>
+            <ul className={style.menu}>
               <div className={style.wrapMenu}>
                 <ActiveLink href="/">
                   <li className={style.firstChild}>
@@ -130,7 +132,7 @@ const Umra = () => {
                 </ActiveLink>
                 <ActiveLink href="/visa">
                   <li>
-                  <svg
+                    <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width={45}
                       height={45}
@@ -296,32 +298,26 @@ const Umra = () => {
             </ul>
           </div>
 
-
           <div className={style.hajjUmrapackageWrap}>
             <div className={style.hajjUmraPackage}>
-                <select onChange={(e)=>setPackageType(e.target.value)}>
-                  <option value="Hajj Package">Hajj Package</option>
-                  <option value="Umrah Package">Umrah Package</option>
-                </select>
-                <Link href={`/hajj?type=${packageType}`}>
+              <select onChange={(e) => setPackageType(e.target.value)}>
+                <option value="Hajj Package">Hajj Package</option>
+                <option value="Umrah Package">Umrah Package</option>
+              </select>
+              <Link href={`/hajj?type=${packageType}`}>
                 <div className={style.searchBtnWrap}>
                   <button> Search</button>
-                  <Search className={style.searchIcon}/> 
-               </div>
-                </Link>
-              
+                  <Search className={style.searchIcon} />
+                </div>
+              </Link>
             </div>
-            {/* <div className={style.rightPlaceForYou}>
-           <h6>If you want to do Hajj & Umrah at the very low cost then this is the right place for you !</h6>
-            </div> */}
           </div>
-
-
         </div>
       </div>
+      <HajjPackage />
       <UmraPackage />
     </section>
-  );
-};
+  )
+}
 
-export default Umra;
+export default Umra

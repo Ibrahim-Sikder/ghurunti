@@ -276,27 +276,30 @@ input::placeholder {
 }
 
 @media only screen and (max-width: 768px) {
-	.css-1x51dt5-MuiInputBase-input-MuiInput-input {
+	/* .css-1x51dt5-MuiInputBase-input-MuiInput-input {
 		margin-right: 58px !important;
-	}
+	} */
 	/* .css-1ujnqem-MuiTabs-root {
 		margin-left: 125px;
 		margin-top: -40px;
 	} */
-	button,
+	/* button,
 	[type="button"],
 	[type="reset"],
 	[type="submit"]:hover {
 		padding: 0px 3px;
 		text-transform: capitalize;
 		font-size: 14px;
-	}
+	} */
 	/* .css-heg063-MuiTabs-flexContainer {
 		margin-left: 49px;
 	} */
 }
 
 @media only screen and (max-width: 500px) {
+	.css-heg063-MuiTabs-flexContainer {
+		display: block !important;
+	}
 	.css-pwngrv-MuiPaper-root-MuiCard-root {
 		width: 191px;
 		margin: 0 auto;
@@ -315,9 +318,9 @@ input::placeholder {
 		margin-top: 16px;
 		width: 50% !important;
 	}
-	.css-1x51dt5-MuiInputBase-input-MuiInput-input {
+	/* .css-1x51dt5-MuiInputBase-input-MuiInput-input {
 		margin-right: 183px !important;
-	}
+	} */
 	/* .css-1ujnqem-MuiTabs-root {
 		margin-left: 10px;
 		margin-top: -40px;
@@ -326,7 +329,7 @@ input::placeholder {
 		margin-top: 9px;
 		margin-left: 20px;
 	} */
-	button,
+	/* button,
 	[type="button"],
 	[type="reset"],
 	[type="submit"]:hover {
@@ -334,7 +337,7 @@ input::placeholder {
 		padding: 0px 3px;
 		text-transform: capitalize;
 		font-size: 14px;
-	}
+	} */
 
 	.react-tabs__tab,
 	.react-tabs__tab--selected {

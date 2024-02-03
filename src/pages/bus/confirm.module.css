@@ -23,3 +23,11 @@
     display: grid;
     place-content: center;
 }
+
+@media only screen and (max-width:500px){
+    .selectWrap select{
+        width:100%;
+    
+    }
+    
+}

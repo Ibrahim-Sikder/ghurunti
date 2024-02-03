@@ -187,7 +187,7 @@ const confirm = () => {
                 <TabPanel value="2">
                   {" "}
                   <div className="flex items-center my-5">
-                    <div className="p-1 text-white w-8 h-8 bg-red-500 flex justify-center items-center rounded-full">
+                    <div className={styling.alertIcon}>
                       <FaExclamationTriangle className="size-5  " />
                     </div>
                     <small className="block ml-3 ">
@@ -238,6 +238,14 @@ const confirm = () => {
                 </TabPanel>
               </TabContext>
             </Box>
+            <div className="my-5  flex border rounded-md px-5 py-3  ">
+              <input type="checkbox" className="w-5 h-5" />
+              <small className="block ml-2">
+                I am confirming that I have read, acknowledged and agree to the
+                Terms of Use, Privacy Policy and Cancellation Policy of
+                Shohoz.com
+              </small>
+            </div>
           </div>
         </div>
       </div>

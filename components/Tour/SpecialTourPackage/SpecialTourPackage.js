@@ -333,10 +333,7 @@ const SpecialTourPackage = () => {
             Related Package{" "}
           </h3>
           <RelatedTourPackage />
-          <div className={style.seeMore}>
-            <button>See More </button>
-            <ArrowForward className={style.seeMorIcon} />
-          </div>
+         
         </div>
       </div>
     </div>
