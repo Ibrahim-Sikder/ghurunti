@@ -125,7 +125,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 input::placeholder {
 	font-size: 12px;
-	color: white;
+	/* color: white; */
 }
 
 /* .css-1ujnqem-MuiTabs-root {
