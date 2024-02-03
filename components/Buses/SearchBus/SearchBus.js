@@ -293,6 +293,7 @@ const SearchBus = () => {
                   <SelectedSeats selectedSeats={selectedSeats} />
                 </div>
               </div>
+              
             </div>
           </div>
         ))}

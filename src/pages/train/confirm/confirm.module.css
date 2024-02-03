@@ -38,6 +38,9 @@
     color: #fff;
 
 }
+.paymentTabsWrap{
+    border:1px solid #4AB449 !important;
+}
 
 @media only screen and (max-width:768px){
     .purchasWrap{

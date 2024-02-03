@@ -1,0 +1,25 @@
+.selectWrap{
+    display: flex;
+    justify-content: center;
+    column-gap: 10px;
+    margin:30px 0;
+}
+.selectWrap label{
+   display: block;
+}
+.selectWrap select{
+    border:1px solid #4AB449;
+    padding:5px 10px;
+    border-radius: 5px;
+    width:250px;
+
+}
+.alertIcon{
+    width:60px;
+    aspect-ratio: 1/1;
+    border-radius:100%;
+    background:red;
+    color:white;
+    display: grid;
+    place-content: center;
+}

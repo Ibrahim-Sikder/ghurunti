@@ -1,59 +1,61 @@
-import { LuArmchair } from "react-icons/lu";
-import PropTypes from "prop-types";
-import { PriorityHigh } from "@mui/icons-material";
-import style from "./Seats.module.css";
-import toast from "react-hot-toast";
-import { useState } from "react";
-import { useEffect } from "react";
-import axios from "axios";
-import { useRouter } from "next/router";
-import { decryptTransform } from "../../EncryptAndDecrypt/EncryptAnsDecrypt";
-import Cookies from "js-cookie";
+import { LuArmchair } from "react-icons/lu"
+import PropTypes from "prop-types"
+import { PriorityHigh } from "@mui/icons-material"
+import style from "./Seats.module.css"
+import toast from "react-hot-toast"
+import { useState } from "react"
+import { useEffect } from "react"
+import axios from "axios"
+import { useRouter } from "next/router"
+import { decryptTransform } from "../../EncryptAndDecrypt/EncryptAnsDecrypt"
+import Cookies from "js-cookie"
+import Link from "next/link"
 const SelectedSeats = ({ selectedSeats }) => {
-  const [selectedSeatNumber, setSelectedSeatNumber] = useState(null);
-  const [fareAmount, setFareAmount] = useState(null);
-  const [className, setClassName] = useState(null);
-  const [getTotalAmount, setGetTotalAmount] = useState(null);
-  const [getName, setGetName] = useState(null);
-  const [getEmail, setGetEmail] = useState(null);
-  const [getPhoneNumber, setGetPhoneNumber] = useState(null);
-  const [getBoardingPoint, setGetBoardingPoint] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [selectedSeatNumber, setSelectedSeatNumber] = useState(null)
+  const [fareAmount, setFareAmount] = useState(null)
+  const [className, setClassName] = useState(null)
+  const [getTotalAmount, setGetTotalAmount] = useState(null)
+  const [getName, setGetName] = useState(null)
+  const [getEmail, setGetEmail] = useState(null)
+  const [getPhoneNumber, setGetPhoneNumber] = useState(null)
+  const [getBoardingPoint, setGetBoardingPoint] = useState(null)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
- const [user, setUser] = useState({})
+  const [user, setUser] = useState({})
 
- const router = useRouter()
+  const router = useRouter()
 
   useEffect(() => {
-    const allSeatNumbers = selectedSeats.map((seat) => seat.number).join(", ");
-    const allSeatFare = selectedSeats.map((seat) => seat.fare).join(", ");
-    const allSeatClass = selectedSeats.map((seat) => seat.class).join(", ");
+    const allSeatNumbers = selectedSeats.map((seat) => seat.number).join(", ")
+    const allSeatFare = selectedSeats.map((seat) => seat.fare).join(", ")
+    const allSeatClass = selectedSeats.map((seat) => seat.class).join(", ")
     const totalAmount = selectedSeats.reduce(
       (price, next) => price + next.fare,
       0
-    );
+    )
 
-    setSelectedSeatNumber(allSeatNumbers);
-    setFareAmount(allSeatFare);
-    setClassName(allSeatClass);
-    setGetTotalAmount(totalAmount);
-  }, [selectedSeats]);
+    setSelectedSeatNumber(allSeatNumbers)
+    setFareAmount(allSeatFare)
+    setClassName(allSeatClass)
+    setGetTotalAmount(totalAmount)
+  }, [selectedSeats])
 
-  
-  const em = decryptTransform(Cookies.get("em"));
+  const em = decryptTransform(Cookies.get("em"))
 
   useEffect(() => {
     try {
       fetch(`http://localhost:5000/api/v1/user/${em}`)
         .then((res) => res.json())
-        .then((data) => setUser(data.getUser));
-    } catch (error) {toast.error(error.message)}
-  }, [em]);
+        .then((data) => setUser(data.getUser))
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }, [em])
 
-  const  handleConfirmBus = (e) => {
-    e.preventDefault();
- 
+  const handleConfirmBus = (e) => {
+    e.preventDefault()
+
     const data = {
       Seats: selectedSeatNumber,
       fare: fareAmount,
@@ -64,9 +66,9 @@ const SelectedSeats = ({ selectedSeats }) => {
       confirmation_email: getEmail,
       mobile_number: getPhoneNumber,
       email: user.email,
-      profile_type: user.profile_type
-    };
-    setLoading(true);
+      profile_type: user.profile_type,
+    }
+    setLoading(true)
     axios
       .post("http://localhost:5000/api/v1/bus", data)
       .then(function (response) {
@@ -74,28 +76,27 @@ const SelectedSeats = ({ selectedSeats }) => {
         if (response.data.message === "Send request for bus confirmation.") {
           toast.success(
             "Confirmation request accepted. Please wait to confirm."
-          );
+          )
           if (user.profile_type === "b2c") {
-            router.push("/profile/booking");
+            router.push("/profile/booking")
           } else if (user.profile_type === "b2b") {
-            router.push("/b2bdashboard/buses/busbooking");
+            router.push("/b2bdashboard/buses/busbooking")
           }
           setError("")
         }
-        if(response.data === "Internal server error"){
+        if (response.data === "Internal server error") {
           setError("All fields must be filled out.")
         }
       })
       .catch((error) => {
-        toast.error(error);
+        toast.error(error)
         setError("")
       })
       .finally(() => {
-        setLoading(false);
-      });
-  };
+        setLoading(false)
+      })
+  }
 
-  
   return (
     <div className="">
       <div className="flex justify-between items-center">
@@ -133,7 +134,7 @@ const SelectedSeats = ({ selectedSeats }) => {
               <td>৳{seat.fare}</td>
               <td>{seat.class}</td>
             </tr>
-          );
+          )
         })}
       </table>
       <div className="text-right">
@@ -142,7 +143,7 @@ const SelectedSeats = ({ selectedSeats }) => {
         </h1>
       </div>
 
-      <form onSubmit={ handleConfirmBus}>
+      <form onSubmit={handleConfirmBus}>
         <select
           onChange={(e) => setGetBoardingPoint(e.target.value)}
           className={style.boardingSelect}
@@ -176,7 +177,7 @@ const SelectedSeats = ({ selectedSeats }) => {
             Sayedabad Bus Point (11:55 PM){" "}
           </option>
         </select>
-        <input
+        {/* <input
           onChange={(e) => setGetName(e.target.value)}
           className={style.phoneNumber}
           type="text"
@@ -193,12 +194,17 @@ const SelectedSeats = ({ selectedSeats }) => {
           className={style.phoneNumber}
           type="text"
           placeholder="Phone Number"
-        />
-        <div className="text-sm text-red-400 mt-3 mb-0">
-          {error}
-        </div>
+        /> */}
+        <div className="text-sm text-red-400 mt-3 mb-0">{error}</div>
         <div className="flex items-center justify-between my-5">
-          <button disabled={loading ? true : false} className={style.continoueBtn}>Continue </button>
+          <Link href="/bus/confirm">
+            <button
+              disabled={loading ? true : false}
+              className={style.continoueBtn}
+            >
+              Continue{" "}
+            </button>
+          </Link>
           <small className="underline cursor-pointer hover:text-[#0BB811]">
             Close
           </small>
@@ -210,11 +216,11 @@ const SelectedSeats = ({ selectedSeats }) => {
         <small>Due to traffic condition, the trip may get canceled.</small>
       </div>
     </div>
-  );
-};
+  )
+}
 
 SelectedSeats.propTypes = {
   selectedSeats: PropTypes.array.isRequired,
-};
+}
 
-export default SelectedSeats;
+export default SelectedSeats
