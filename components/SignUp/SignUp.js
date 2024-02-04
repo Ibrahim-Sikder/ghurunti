@@ -78,7 +78,7 @@ const SignUp = () => {
   };
 
   const { email } = useSelector((state) => state.email);
-  console.log(email);
+  
 
   const resendVerificationLink = async () => {
     setError("");

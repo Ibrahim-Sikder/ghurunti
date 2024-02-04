@@ -46,15 +46,15 @@ const Login = () => {
         "http://localhost:5000/api/v1/login",
         values
       )
-
+ 
       if (response.data.status === "success") {
         setConfirmation(
-          "Successfully logged in. Explore and enjoy your personalized experience!"
+          "Successfully logged in."
         )
         setError("") // Assuming you want to log the response data
         Cookies.set("token", encryptTransform(response.data.token))
         Cookies.set("id", encryptTransform(response.data.user.id))
-        Cookies.set("em", encryptTransform(response.data.user.email))
+        Cookies.set("em_g", encryptTransform(response.data.user.email))
         const { query } = router
         const nextPage = query.next || "/"
         router.push(nextPage)

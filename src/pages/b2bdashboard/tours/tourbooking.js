@@ -87,7 +87,7 @@ const TourBooking = () => {
   const [user, setUser] = useState({})
   const [toursConfirmation, setToursConfirmation] = useState([])
 
-  const em = decryptTransform(Cookies.get("em"))
+  const em = decryptTransform(Cookies.get("em_g"))
 
   useEffect(() => {
     try {

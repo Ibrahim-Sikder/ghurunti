@@ -52,7 +52,7 @@ const Nav = () => {
     sessionStorage.removeItem("b_f");
   };
   const token = decryptTransform(Cookies.get("token"));
-  const em = decryptTransform(Cookies.get("em"));
+  const em = decryptTransform(Cookies.get("em_g"));
   useEffect(() => {
     if (token && em === user?.email) {
       setAuthenticated(true);
@@ -65,7 +65,7 @@ const Nav = () => {
     setAuthenticated(false);
     Cookies.remove("token");
     Cookies.remove("id");
-    Cookies.remove("em");
+    Cookies.remove("em_g");
     return push("/");
   };
 

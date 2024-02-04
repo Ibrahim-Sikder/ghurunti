@@ -26,7 +26,7 @@ const Checkout = () => {
     formState: { errors },
   } = useForm();
 
-  const em = decryptTransform(Cookies.get("em"));
+  const em = decryptTransform(Cookies.get("em_g"));
 
   useEffect(() => {
     try {
