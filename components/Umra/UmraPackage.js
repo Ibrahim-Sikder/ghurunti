@@ -8,6 +8,7 @@ import SectionTitle from "../Shared/SectionTitle/SectionTitle"
 import Link from "next/link"
 import { HiCheck, HiCheckCircle } from "react-icons/hi"
 import Container from "@/ui/Container"
+import { HowToReg } from "@mui/icons-material"
 
 const UmraPackage = () => {
   const hajjData = [
@@ -119,94 +120,26 @@ const UmraPackage = () => {
         for hajj pre-registration through the Hajj agency."
           ></SectionTitle>
         </div>
-        <div className={style.ummrahClock}>
-          <div className={style.clock}>
-            <p className="mr-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={24}
-                height={24}
-                fill="none"
-              >
-                <path
-                  stroke="#4AB449"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M22 11.08V12a10 10 0 1 1-5.93-9.14"
-                />
-                <path
-                  stroke="#4AB449"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M22 4 12 14.01l-3-3"
-                />
-              </svg>
-            </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 place-items-center ">
+          <div className={style.registrationCard}>
+            <HowToReg className={style.registerIcon} />
             <div>
               <p>NID scanned soft</p>
               <p> copy/photocopy</p>
             </div>
           </div>
-          <div className={style.clock2}>
-            <p className="mr-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={24}
-                height={24}
-                fill="none"
-              >
-                <path
-                  stroke="#4AB449"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M22 11.08V12a10 10 0 1 1-5.93-9.14"
-                />
-                <path
-                  stroke="#4AB449"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M22 4 12 14.01l-3-3"
-                />
-              </svg>
-            </p>
+          <div className={`${style.registrationCard} ${style.activeRegister}`}>
+            <HowToReg className={style.registerIcon} />
             <div>
               <p>Birth certificate s color soft copy</p>
             </div>
           </div>
-          <div>
-            <div className={style.clock}>
-              <p className="mr-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width={24}
-                  height={24}
-                  fill="none"
-                >
-                  <path
-                    stroke="#4AB449 "
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M22 11.08V12a10 10 0 1 1-5.93-9.14"
-                  />
-                  <path
-                    stroke="#4AB449 "
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M22 4 12 14.01l-3-3"
-                  />
-                </svg>
-              </p>
+          <div className={style.registrationCard}>
+              <HowToReg className={style.registerIcon} />
               <div>
                 <p>Valid mobile number + email id</p>
               </div>
             </div>
-          </div>
         </div>
         <div className="flex items-center justify-center mt-5">
           <div className={style.registrationBtn}>

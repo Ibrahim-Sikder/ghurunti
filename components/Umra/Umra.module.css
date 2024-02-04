@@ -196,31 +196,41 @@
   border-radius: 5px;
   text-align: center;
 }
-.clock {
-  height:70px;
-  padding-left:5px;
-  width: 350px;
+.registrationCard {
+  height:170px;
+  width: 390px;
   border: 1px solid #e6f8ff;
   box-shadow: #4AB449 0px 14px 28px, #4AB449 0px 10px 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   display: flex;
+  justify-content: center;
   align-items: center;
   background: #fff;
   color: black;
+  transition:all .5s ease;
 }
-.clock2 {
-  width: 350px;
-  height:70px;
-  padding-left:5px;
-  border: 1px solid #e6f8ff;
-  box-shadow: #4AB449 0px 14px 28px, #4AB449 0px 10px 10px;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  background: #fff;
-  color: black;
-  margin: 15px 6px;
+.registrationCard:hover{
+  background:#19ABE3;
+  color:#fff;
 }
+.registerIcon{
+  font-size: 80px !important ;
+  color:#4AB449 !important;
+  margin-right:5px !important;
+}
+.activeRegister{
+  background:#19ABE3;
+  transition:all .5s ease;
+  color:#fff;
+}
+.activeRegister:hover{
+  background:#4AB449;
+
+}
+.activeRegister .registerIcon{
+  color:#fff !important;
+}
+
 .rBtn {
   width: 236px;
   height: 53px;
@@ -251,12 +261,7 @@
   text-align: center;
   margin-top: 15px;
 }
-.ummrahClock {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items:center;
-}
+
 .mobileMenuWraps{
   display: none;
 }
@@ -268,6 +273,9 @@
 }
   .heroBoxMain {
     width: 95%;
+  }
+  .registrationCard {
+    width: 320px;
   }
 
 
@@ -359,22 +367,11 @@
   .bannerWrap h2 {
     margin-bottom: 10px;
   }
-
-  /* .ummraWrap {
-    width: 100%;
-  } */
-
-  .ummrahClock {
-    display: flex;
+  .registrationCard {
+    width: 240px;
   }
-  
-  .imgWrap {
-    width: 312px;
-    height: 247px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+
+
 
 }
 @media only screen and (max-width: 500px) {
@@ -433,6 +430,10 @@
 .imgWrap {
   width: 100%;
 }
+.registrationCard {
+  width: 90%;
+}
+
 
 
 
@@ -457,12 +458,7 @@
     right: 32px;
   }
  
-  .clock {
-    width: 100%;
-}
-.clock2 {
-  width:100%;
-  padding: 12px 20px;
-}
+
+
 
 }
