@@ -196,7 +196,6 @@ const VisaRequest = () => {
               <div className={style.formControl}>
                 <label className={style.inputLabel}>Or Write down </label>
                 <input
-                  // onChange={(e) => setWriteDownCountry(e.target.value)}
                   {...register("write_down")}
                   type="text"
                   className={style.visaInput}

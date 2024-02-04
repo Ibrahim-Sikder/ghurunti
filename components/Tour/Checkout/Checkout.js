@@ -1,76 +1,77 @@
-import React, { useEffect } from "react";
-import style from "../../../components/Vissa/VisaRequest/VisaRequest.module.css";
-import { LocalPhone, CloudUpload } from "@mui/icons-material";
-import toast from "react-hot-toast";
-import axios from "axios";
-import { useState } from "react";
-import { useRef } from "react";
-import { decryptTransform } from "../../EncryptAndDecrypt/EncryptAnsDecrypt";
-import Cookies from "js-cookie";
-import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
+import React, { useEffect } from "react"
+import style from "../../../components/Vissa/VisaRequest/VisaRequest.module.css"
+import { LocalPhone, CloudUpload } from "@mui/icons-material"
+import toast from "react-hot-toast"
+import axios from "axios"
+import { useState } from "react"
+import { useRef } from "react"
+import { decryptTransform } from "../../EncryptAndDecrypt/EncryptAnsDecrypt"
+import Cookies from "js-cookie"
+import { useRouter } from "next/router"
+import { useForm } from "react-hook-form"
+import Container from "@/ui/Container"
 const Checkout = () => {
-  const [getFile, setGetFile] = useState({});
-  const [getPdfLinks, setGetPdfLinks] = useState([]);
-  const [requirements, setRequirements] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [imageLoading, setImageLoading] = useState(false);
-  const [user, setUser] = useState({});
+  const [getFile, setGetFile] = useState({})
+  const [getPdfLinks, setGetPdfLinks] = useState([])
+  const [requirements, setRequirements] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [imageLoading, setImageLoading] = useState(false)
+  const [user, setUser] = useState({})
 
-  const formRef = useRef();
-  const router = useRouter();
+  const formRef = useRef()
+  const router = useRouter()
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm()
 
-  const em = decryptTransform(Cookies.get("em"));
+  const em = decryptTransform(Cookies.get("em"))
 
   useEffect(() => {
     try {
       fetch(`http://localhost:5000/api/v1/user/${em}`)
         .then((res) => res.json())
-        .then((data) => setUser(data.getUser));
+        .then((data) => setUser(data.getUser))
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong")
     }
-  }, [em]);
+  }, [em])
 
-  let files;
+  let files
   const handlePdf = async (e) => {
-    setGetFile(e.target.files);
+    setGetFile(e.target.files)
     try {
-      files = e.target.files;
-      const formData = new FormData();
+      files = e.target.files
+      const formData = new FormData()
       for (let i = 0; i < files.length; i++) {
-        formData.append("pdfFiles", files[i]);
+        formData.append("pdfFiles", files[i])
       }
-      setImageLoading(true);
+      setImageLoading(true)
       const response = await fetch("http://localhost:5000/api/v1/uploads/pdf", {
         method: "POST",
         body: formData,
-      });
+      })
 
-      const data = await response.json();
+      const data = await response.json()
       if (data.message === "success") {
-        setGetPdfLinks(data.imageLinks);
-        setImageLoading(false);
+        setGetPdfLinks(data.imageLinks)
+        setImageLoading(false)
       }
       if (data.error === "Something went wrong") {
-        toast.error("Something went wrong");
-        setImageLoading(false);
-        setGetPdfLinks([]);
-        setGetFile({});
+        toast.error("Something went wrong")
+        setImageLoading(false)
+        setGetPdfLinks([])
+        setGetFile({})
       }
     } catch (error) {
-      toast.error("Something went wrong");
-      setImageLoading(false);
-      setGetPdfLinks([]);
-      setGetFile({});
+      toast.error("Something went wrong")
+      setImageLoading(false)
+      setGetPdfLinks([])
+      setGetFile({})
     }
-  };
+  }
 
   const onSubmit = (data) => {
     const values = {
@@ -87,44 +88,45 @@ const Checkout = () => {
       email: user.email,
       profile_type: user.profile_type,
       user_type: user.user_type,
-    };
-    setLoading(true);
+    }
+    setLoading(true)
     axios
       .post("http://localhost:5000/api/v1/tours", values)
       .then(function (response) {
         if (response.data.message === "Send request for tours confirmation.") {
           toast.success(
             "Confirmation request accepted. Please wait to confirm."
-          );
+          )
 
           if (user.profile_type === "b2c") {
-            router.push("/profile/booking");
+            router.push("/profile/booking")
           }
           if (user.profile_type === "b2b") {
-            router.push("/b2bdashboard/tours/tourbooking");
+            router.push("/b2bdashboard/tours/tourbooking")
           }
-          formRef.current.reset();
+          formRef.current.reset()
 
-          setRequirements("");
-          setGetPdfLinks([]);
+          setRequirements("")
+          setGetPdfLinks([])
         }
         if (
           response.data === "Internal server error" &&
           response.data !== "Send request for tours confirmation."
         ) {
-          toast.error("Something went wrong!");
+          toast.error("Something went wrong!")
         }
       })
       .catch((error) => {
-        toast.error(error.message);
-        setLoading(false);
+        toast.error(error.message)
+        setLoading(false)
       })
       .finally(() => {
-        setLoading(false);
-      });
-  };
+        setLoading(false)
+      })
+  }
+
   return (
-    <section>
+    <Container>
       <div className={style.visaRequestWrap}>
         <div className={style.needHelp}>
           <div className={style.needHelpLeft}>
@@ -152,7 +154,6 @@ const Checkout = () => {
                   <small className="text-red-500 text-xl">*</small>{" "}
                 </label>
                 <select
-                   
                   {...register("country", { required: true })}
                   className={style.visaInput}
                 >
@@ -182,7 +183,6 @@ const Checkout = () => {
               <div className={style.formControl}>
                 <label className={style.inputLabel}>Or Write down </label>
                 <input
-                  
                   {...register("write_down")}
                   type="text"
                   className={style.visaInput}
@@ -196,7 +196,6 @@ const Checkout = () => {
                   <small className="text-red-500 text-xl">*</small>{" "}
                 </label>
                 <input
-                  
                   {...register("date", { required: true })}
                   placeholder="Date "
                   type="date"
@@ -239,7 +238,6 @@ const Checkout = () => {
                   Given Name <small className="text-red-500 text-xl">*</small>
                 </label>
                 <input
- 
                   {...register("name", { required: true })}
                   placeholder="Given Name "
                   type="text"
@@ -252,7 +250,6 @@ const Checkout = () => {
               <div className={style.formControl}>
                 <label className={style.inputLabel}> Surname </label>
                 <input
- 
                   {...register("surName")}
                   placeholder="Surname"
                   type="text"
@@ -267,7 +264,6 @@ const Checkout = () => {
                   <small className="text-red-500 text-xl">*</small>{" "}
                 </label>
                 <input
-  
                   {...register("mobileNumber", {
                     required: "Mobile Number is required",
                     pattern: {
@@ -291,7 +287,6 @@ const Checkout = () => {
                   Email <small className="text-red-500 text-xl">*</small>{" "}
                 </label>
                 <input
- 
                   {...register("email", { required: true })}
                   placeholder="Email"
                   type="email"
@@ -360,8 +355,8 @@ const Checkout = () => {
           </form>
         </div>
       </div>
-    </section>
-  );
-};
+    </Container>
+  )
+}
 
-export default Checkout;
+export default Checkout

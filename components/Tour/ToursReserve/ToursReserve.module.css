@@ -1,13 +1,14 @@
 .TourReserveWrap{
-    padding:20px 50px;
+    padding:20px 0px;
     width:100%;
 }
 .galleryWraps{
     width:100%;
     display: flex;
+    justify-content: space-between;
 }
 .galleryleftSide{
-    width:60%;
+    width:59%;
     margin-right:10px;
 }
 
@@ -34,7 +35,7 @@
     height:500px;
 }
 .galleryRightside{
-    width:40%;
+    width:39%;
 
 }
 .galleryTextRightSide{

@@ -43,7 +43,7 @@ const UmraPackage = () => {
   ]
   return (
     <Container>
-      <div className="mt-20">
+      <div className="mt-20 px-5">
         <SectionTitle
           heading="Best Umrah Packages"
           subHeading="Some of the renowned and best Hajj agencies in Bangladesh are
@@ -120,7 +120,7 @@ const UmraPackage = () => {
         for hajj pre-registration through the Hajj agency."
           ></SectionTitle>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 place-items-center ">
+        <div className="grid  grid-cols-1 md:grid-cols-3 gap-8 place-items-center ">
           <div className={style.registrationCard}>
             <HowToReg className={style.registerIcon} />
             <div>
@@ -135,11 +135,11 @@ const UmraPackage = () => {
             </div>
           </div>
           <div className={style.registrationCard}>
-              <HowToReg className={style.registerIcon} />
-              <div>
-                <p>Valid mobile number + email id</p>
-              </div>
+            <HowToReg className={style.registerIcon} />
+            <div>
+              <p>Valid mobile number + email id</p>
             </div>
+          </div>
         </div>
         <div className="flex items-center justify-center mt-5">
           <div className={style.registrationBtn}>

@@ -1,6 +1,6 @@
 .visaRequestWrap{
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    width: 1200px;
+    width: 1280px;
     margin: 45px auto;
     padding: 20px;
 
@@ -35,6 +35,7 @@
 }
 .inputFieldWrap{
     display: flex;
+    justify-content: space-between;
 }
 .visaRequestForm{
     margin-top: 20px;
@@ -48,7 +49,7 @@
 .visaInput{
     border: 1px solid #0BB811;
     border-radius: 20px;
-    width: 530px;
+    width: 600px;
     height: 58px;
     padding-left: 15px;
 }

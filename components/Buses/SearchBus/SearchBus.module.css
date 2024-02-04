@@ -1,13 +1,10 @@
 .trainSearchWrap{
     background:#ddd;
 }
-.busWrap{
-    width: 100%;
-    padding: 20px 50px;
 
-}
 .busCardWrap{
     display: flex;
+   
 }
 .busTopBar h6{
      font-weight: bold;
@@ -112,8 +109,6 @@ height: 40px !important;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    background: #4AB449;
-    padding: 20px 50px;
     color: white;
 }
 .trainIcon{
@@ -225,10 +220,7 @@ display: none;
 }
 
 @media only screen and (max-width:768px){
-    .busWrap {
-        width: 100%;
-        padding: 20px 20px;
-    }
+
 
     .busCardWrap {
         display: block;

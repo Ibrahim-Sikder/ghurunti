@@ -1,79 +1,76 @@
-import React, { useEffect } from "react";
-import style from "./VisaSearch.module.css";
-import { Beenhere } from "@mui/icons-material";
-import TextField from "@mui/material/TextField";
-import { useState } from "react";
-import { LocalPhone } from "@mui/icons-material";
-import Link from "next/link";
-import SingleVisaSearch from "./SingleVisaSearch";
-import { useDispatch, useSelector } from "react-redux";
-import Cookies from "js-cookie";
-import { fetchVisaRequirementData } from "@/Redux/features/visaRequirementSlice";
-
+import React, { useEffect } from "react"
+import style from "./VisaSearch.module.css"
+import { Beenhere } from "@mui/icons-material"
+import TextField from "@mui/material/TextField"
+import { useState } from "react"
+import { LocalPhone } from "@mui/icons-material"
+import Link from "next/link"
+import SingleVisaSearch from "./SingleVisaSearch"
+import { useDispatch, useSelector } from "react-redux"
+import Cookies from "js-cookie"
+import { fetchVisaRequirementData } from "@/Redux/features/visaRequirementSlice"
 const VisaSearch = () => {
-  const visaType = Cookies.get("v_t");
-  const [profession, setProfession] = useState(visaType || "Govt. Job Holder");
-  const [showDetail, setShowDetail] = useState(true);
-  const visaDetailsData = useSelector((state) => state.visa.visaDetailsData);
-  const arrayVisaDetails = visaDetailsData.getPackage;
+  const visaType = Cookies.get("v_t")
+  const [profession, setProfession] = useState(visaType || "Govt. Job Holder")
+  const [showDetail, setShowDetail] = useState(true)
+  const visaDetailsData = useSelector((state) => state.visa.visaDetailsData)
+  const arrayVisaDetails = visaDetailsData.getPackage
   const handleShowDetail = () => {
-    setShowDetail((showDetail) => !showDetail);
-  };
+    setShowDetail((showDetail) => !showDetail)
+  }
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const handleVisaRequirement = (e) => {
-    Cookies.set("v_t", e);
+    Cookies.set("v_t", e)
 
-    setProfession(e);
+    setProfession(e)
     const data = {
       visa_type: e ? e : profession,
-    };
+    }
 
-    dispatch(fetchVisaRequirementData(data));
-  };
+    dispatch(fetchVisaRequirementData(data))
+  }
   const visaRequirementData = useSelector(
     (state) => state["visa-rq"].visaRequirementData
-  );
+  )
 
-  
   //  pagination
 
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(5)
   const [currentPage, setCurrentPage] = useState(
     Number(sessionStorage.getItem("visa")) || 1
-  );
-  const [pageNumberLimit, setPageNumberLimit] = useState(5);
-  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
-  const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
- 
+  )
+  const [pageNumberLimit, setPageNumberLimit] = useState(5)
+  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5)
+  const [minPageNumberLimit, setMinPageNumberLimit] = useState(0)
 
   useEffect(() => {
-    sessionStorage.setItem("visa", currentPage.toString());
-  }, [currentPage]);
+    sessionStorage.setItem("visa", currentPage.toString())
+  }, [currentPage])
   // ...
 
   useEffect(() => {
-    const storedPage = Number(sessionStorage.getItem("visa")) || 1;
-    setCurrentPage(storedPage);
+    const storedPage = Number(sessionStorage.getItem("visa")) || 1
+    setCurrentPage(storedPage)
     setMaxPageNumberLimit(
       Math.ceil(storedPage / pageNumberLimit) * pageNumberLimit
-    );
+    )
     setMinPageNumberLimit(
       Math.ceil(storedPage / pageNumberLimit - 1) * pageNumberLimit
-    );
-  }, [pageNumberLimit]);
+    )
+  }, [pageNumberLimit])
 
   // ...
 
   const handleClick = (e) => {
-    const pageNumber = Number(e.target.id);
-    setCurrentPage(pageNumber);
-    sessionStorage.setItem("visa", pageNumber.toString());
-  };
-  const pages = [];
+    const pageNumber = Number(e.target.id)
+    setCurrentPage(pageNumber)
+    sessionStorage.setItem("visa", pageNumber.toString())
+  }
+  const pages = []
   for (let i = 1; i <= Math.ceil(arrayVisaDetails?.length / limit); i++) {
-    pages.push(i);
+    pages.push(i)
   }
 
   const renderPagesNumber = pages?.map((number) => {
@@ -91,15 +88,15 @@ const VisaSearch = () => {
         >
           {number}
         </li>
-      );
+      )
     } else {
-      return null;
+      return null
     }
-  });
+  })
 
-  const lastIndex = currentPage * limit;
-  const startIndex = lastIndex - limit;
-  const currentItems = arrayVisaDetails?.slice(startIndex, lastIndex);
+  const lastIndex = currentPage * limit
+  const startIndex = lastIndex - limit
+  const currentItems = arrayVisaDetails?.slice(startIndex, lastIndex)
 
   const renderData = (arrayVisaDetails) => {
     return (
@@ -112,33 +109,31 @@ const VisaSearch = () => {
           ></SingleVisaSearch>
         ))}
       </>
-    );
-  };
-   
-  
+    )
+  }
 
   const handlePrevious = () => {
-    const newPage = currentPage - 1;
-    setCurrentPage(newPage);
-    sessionStorage.setItem("visa", newPage.toString());
+    const newPage = currentPage - 1
+    setCurrentPage(newPage)
+    sessionStorage.setItem("visa", newPage.toString())
 
     if (newPage % pageNumberLimit === 0) {
-      setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
-      setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+      setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit)
+      setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit)
     }
-  };
+  }
   const handleNext = () => {
-    const newPage = currentPage + 1;
-    setCurrentPage(newPage);
-    sessionStorage.setItem("visa", newPage.toString());
+    const newPage = currentPage + 1
+    setCurrentPage(newPage)
+    sessionStorage.setItem("visa", newPage.toString())
 
     if (newPage > maxPageNumberLimit) {
-      setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
-      setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+      setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit)
+      setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit)
     }
-  };
+  }
 
-  let pageIncrementBtn = null;
+  let pageIncrementBtn = null
   if (pages?.length > maxPageNumberLimit) {
     pageIncrementBtn = (
       <li
@@ -147,10 +142,10 @@ const VisaSearch = () => {
       >
         &hellip;
       </li>
-    );
+    )
   }
 
-  let pageDecrementBtn = null;
+  let pageDecrementBtn = null
   if (currentPage > pageNumberLimit) {
     pageDecrementBtn = (
       <li
@@ -159,7 +154,7 @@ const VisaSearch = () => {
       >
         &hellip;
       </li>
-    );
+    )
   }
   return (
     <div>
@@ -192,61 +187,60 @@ const VisaSearch = () => {
           </div>
 
           <div>
-
-          <>
-            {arrayVisaDetails?.length === 0 ? (
-              <div className="text-xl text-center flex justify-center items-center h-full">
-                No matching packages found.
-              </div>
-            ) : (
-              <>
-                <section className="lg:w-10/12 mx-auto rounded  ">
-                  {renderData(currentItems)}
-                  <ul
-                    className={
-                      minPageNumberLimit < 5
-                        ? "flex justify-center gap-2 md:gap-4 pb-5 mt-6"
-                        : "flex justify-center gap-[5px] md:gap-2 pb-5 mt-6"
-                    }
-                  >
-                    <button
-                      onClick={handlePrevious}
-                      disabled={currentPage === pages[0] ? true : false}
+            <>
+              {arrayVisaDetails?.length === 0 ? (
+                <div className="text-xl text-center flex justify-center items-center h-full">
+                  No matching packages found.
+                </div>
+              ) : (
+                <>
+                  <section>
+                    {renderData(currentItems)}
+                    <ul
                       className={
-                        currentPage === pages[0]
-                          ? "text-gray-400"
-                          : "text-black"
+                        minPageNumberLimit < 5
+                          ? "flex justify-center gap-2 md:gap-4 pb-5 mt-6"
+                          : "flex justify-center gap-[5px] md:gap-2 pb-5 mt-6"
                       }
                     >
-                      Previous
-                    </button>
-                    <span
-                      className={minPageNumberLimit < 5 ? "hidden" : "inline"}
-                    >
-                      {pageDecrementBtn}
-                    </span>
-                    {renderPagesNumber}
-                    {pageIncrementBtn}
-                    <button
-                      onClick={handleNext}
-                      disabled={
-                        currentPage === pages[pages?.length - 1] ? true : false
-                      }
-                      className={
-                        currentPage === pages[pages?.length - 1]
-                          ? "text-gray-400"
-                          : "text-black pl-1"
-                      }
-                    >
-                      Next
-                    </button>
-                  </ul>
-                </section>
-              </>
-            )}
-          </>
-
-
+                      <button
+                        onClick={handlePrevious}
+                        disabled={currentPage === pages[0] ? true : false}
+                        className={
+                          currentPage === pages[0]
+                            ? "text-gray-400"
+                            : "text-black"
+                        }
+                      >
+                        Previous
+                      </button>
+                      <span
+                        className={minPageNumberLimit < 5 ? "hidden" : "inline"}
+                      >
+                        {pageDecrementBtn}
+                      </span>
+                      {renderPagesNumber}
+                      {pageIncrementBtn}
+                      <button
+                        onClick={handleNext}
+                        disabled={
+                          currentPage === pages[pages?.length - 1]
+                            ? true
+                            : false
+                        }
+                        className={
+                          currentPage === pages[pages?.length - 1]
+                            ? "text-gray-400"
+                            : "text-black pl-1"
+                        }
+                      >
+                        Next
+                      </button>
+                    </ul>
+                  </section>
+                </>
+              )}
+            </>
           </div>
 
           <div className={style.pricInfo}>
@@ -293,8 +287,8 @@ const VisaSearch = () => {
                 <select
                   className={style.professionSelect}
                   onChange={(e) => {
-                    const classes = e.target.value;
-                    handleVisaRequirement(classes);
+                    const classes = e.target.value
+                    handleVisaRequirement(classes)
                   }}
                 >
                   <option selected value="Select your profession" disabled>
@@ -433,8 +427,8 @@ const VisaSearch = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default VisaSearch;
+export default VisaSearch
 // export default dynamic(() => Promise.resolve(VisaSearch), { ssr: false });

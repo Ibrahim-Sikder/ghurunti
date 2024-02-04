@@ -1,10 +1,4 @@
-.toursDetialsWrap{
-    
-    width: 100%;
-    padding: 30px 50px;
 
-
-}
 .topBarCard{
     width: 200px;
     height: 60px;
@@ -19,6 +13,7 @@
 .toursDetails{
     display: flex;
     justify-content: space-between;
+    margin-top:50px;
 
 }
 .toursDetailLeftSide{
@@ -115,9 +110,7 @@ font-size: 14px;
 }
 
 @media only screen and (max-width:500px){
-    .toursDetialsWrap {
-        padding: 30px 15px;
-    }
+
     .topBarCard {
         width: 160px;
         font-size: 14px;

@@ -22,7 +22,7 @@
 }
 
 .heroBoxMain {
- width:1200px;
+ width:1280px;
   height: 295px;
   background:#19ABE3;
   z-index: 9999 !important;
@@ -139,7 +139,7 @@
 } */
 
 .singleHajj {
-  width: 295px;
+  width: 320px;
   background: #ffffff;
   border-radius: 5px;
   padding: 10px;

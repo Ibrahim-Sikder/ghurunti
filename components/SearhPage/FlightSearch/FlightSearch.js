@@ -1,12 +1,12 @@
-import React from "react";
-import style from "./FlightSearch.module.css";
-import TextField from "@mui/material/TextField";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "next/link";
-import "react-photo-view/dist/react-photo-view.css";
+import React from "react"
+import style from "./FlightSearch.module.css"
+import TextField from "@mui/material/TextField"
+import Card from "@mui/material/Card"
+import CardContent from "@mui/material/CardContent"
+import Typography from "@mui/material/Typography"
+import Checkbox from "@mui/material/Checkbox"
+import Link from "next/link"
+import "react-photo-view/dist/react-photo-view.css"
 import {
   FlightLand,
   AirplanemodeInactive,
@@ -18,13 +18,13 @@ import {
   AccessAlarm,
   ArrowForward,
   ArrowBack,
-} from "@mui/icons-material";
+} from "@mui/icons-material"
 
-import { FaFighterJet } from "react-icons/fa";
-import dynamic from "next/dynamic";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { FaFighterJet } from "react-icons/fa"
+import dynamic from "next/dynamic"
+import Slider from "react-slick"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
 
 const FlightSearch = () => {
   var settings = {
@@ -58,7 +58,7 @@ const FlightSearch = () => {
         },
       },
     ],
-  };
+  }
   const flightData = [
     {
       id: 1,
@@ -90,8 +90,7 @@ const FlightSearch = () => {
       title: "Partially Refundable",
       airportName: "Hazrat Shahjalal Internation Airport",
     },
-  ];
-  
+  ]
 
   return (
     <section className={style.flightSearchWrap}>
@@ -337,7 +336,7 @@ const FlightSearch = () => {
                   <div className="flex justify-between mb-3">
                     <div>
                       <div>Minimum price </div>
-                      <strong>12500</strong>
+                      <strong>12800</strong>
                     </div>
                     <div>
                       <div>Maximum price </div>
@@ -474,7 +473,7 @@ const FlightSearch = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default dynamic(() => Promise.resolve(FlightSearch), { ssr: false });
+export default dynamic(() => Promise.resolve(FlightSearch), { ssr: false })

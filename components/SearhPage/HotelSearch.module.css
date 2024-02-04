@@ -1,22 +1,12 @@
-.hotelSearchBoxWrap {
-  padding: 32px;
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-}
-.hotelSearchLeftSide {
-  grid-column: span 9 / span 9;
-}
-.hotelSearchRightSide {
-  grid-column: span 3 / span 3;
-}
+
+
+
 .searchDetailHead {
   display: flex;
   justify-content: space-between;
-  padding: 32px 80px;
-  background: #e9f6e9;
 }
 .SearchHotel {
-  width: 95%;
+  width: 99%;
   height: auto;
   margin: 15px auto;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -39,11 +29,22 @@
   border-radius: 5px;
   color: #fff;
   font-size: 14px;
+
 }
+
 .searchDetailHead button {
+  background:#19abe3;
   width: 150px;
   height: 40px;
+  border:1px solid #fff;
+  transition:all .5s ease-in-out;
+
 }
+.searchDetailHead button:hover {
+  background:#4ab449;
+  
+}
+
 .bookBtnGroup button {
   width: 120px;
   height: 40px;
@@ -92,16 +93,11 @@
 .availableHotel {
   display: flex;
   justify-content: space-between;
-  padding: 0px 20px;
 }
 
 @media only screen and (max-width: 768px) {
-  .hotelSearchLeftSide {
-    grid-column: span 12 / span 12;
-  }
-  .hotelSearchRightSide {
-    grid-column: span 12 / span 12;
-  }
+
+
   .SearchHotel {
     height: 252px;
     width: 100%;

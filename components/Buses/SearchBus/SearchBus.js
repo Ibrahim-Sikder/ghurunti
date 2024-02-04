@@ -11,6 +11,7 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 import useModifyModal from "../../Common/Hooks/useModifyModal"
 import axios from "axios"
+import Container from "@/ui/Container"
 const SearchBus = () => {
   const busDetailsData = useSelector((state) => state.bus.busDetailsData)
   const busFilterData = useSelector((state) => state.bus.filterData)
@@ -293,7 +294,6 @@ const SearchBus = () => {
                   <SelectedSeats selectedSeats={selectedSeats} />
                 </div>
               </div>
-              
             </div>
           </div>
         ))}
@@ -348,266 +348,279 @@ const SearchBus = () => {
 
   return (
     <main>
-      <div className={style.busTopBar}>
-        <div>
-          <strong className="block">Departure </strong>
-          <div className="flex items-center">
-            <Image loading="lazy" alt="bus" src={bus} width={50} height={50} />
+      <div className="bg-[#19ABE3] py-5">
+        <Container>
+          <div className={style.busTopBar}>
             <div>
-              <h6>Dhaka - Bandarban</h6>
-              <small className="block">19 October, 2023</small>
-            </div>
-          </div>
-        </div>
-        <div className={style.totalOperator}>
-          <h6>Total Operators Found: 30</h6>
-        </div>
-
-        <div>
-          <h6>Total Seats Available: 275</h6>
-        </div>
-
-        <button
-          onClick={() => modifyModal.onOpen("Bus Modify")}
-          className={style.modifyBtn}
-        >
-          Modify Search
-        </button>
-      </div>
-
-      <div className={style.busWrap}>
-        <div className={style.busCardWrap}>
-          <div className={style.searchBusLeftSide}>
-            <div className="mt-3">
-              <strong>Operators </strong>
-              <div className="mt-2">
-                <ul>
-                  <li>
-                    <div className="flex items-center">
-                      <input
-                        onClick={() => handleOperator("Hanif")}
-                        type="checkbox"
-                        checked={busOperators === "Hanif" ? true : false}
-                      />
-                      <span>Hanif Enterprise </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="flex items-center">
-                      <input
-                        onClick={() => handleOperator("Soudia")}
-                        type="checkbox"
-                        checked={busOperators === "Soudia" ? true : false}
-                      />
-                      <span>Soudia Coach Service </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="flex items-center">
-                      <input
-                        onClick={() => handleOperator("Saintmartin")}
-                        type="checkbox"
-                        checked={busOperators === "Saintmartin" ? true : false}
-                      />
-                      <span>Saintmartin Hyundai (Robi Express) </span>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div>
-              <strong>Bus Type </strong>
-              <div className="flex items-center my-2">
-                <input
-                  onClick={() => handleBusType("AC")}
-                  type="checkbox"
-                  checked={busTypes === "AC"}
-                />
-                <span>AC</span>
-              </div>
+              <strong className="block">Departure </strong>
               <div className="flex items-center">
-                <input
-                  onClick={() => handleBusType("Non AC")}
-                  type="checkbox"
-                  checked={busTypes === "Non AC"}
+                <Image
+                  loading="lazy"
+                  alt="bus"
+                  src={bus}
+                  width={50}
+                  height={50}
                 />
-                <span>Non AC</span>
+                <div>
+                  <h6>Dhaka - Bandarban</h6>
+                  <small className="block">19 October, 2023</small>
+                </div>
               </div>
+            </div>
+            <div className={style.totalOperator}>
+              <h6>Total Operators Found: 30</h6>
             </div>
 
-            <div className="my-3">
-              <strong>Boarding point </strong>
-              <div className="mt-2">
-                <ul>
-                  <li>
-                    <div className="flex items-center">
-                      <input
-                        onClick={() => handleBusBoardingPoint("Arambag")}
-                        type="checkbox"
-                        checked={boardingPoint === "Arambag"}
-                      />
-                      <span>Arambag Bus Point </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="flex items-center">
-                      <input
-                        onClick={() => handleBusBoardingPoint("Chittagong")}
-                        type="checkbox"
-                        checked={boardingPoint === "Chittagong"}
-                      />
-                      <span>Chittagong Road B 20 Counter </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="flex items-center">
-                      <input
-                        onClick={() => handleBusBoardingPoint("College Gate")}
-                        type="checkbox"
-                        checked={boardingPoint === "College Gate"}
-                      />
-                      <span>College Gate B 7 Counter </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="flex items-center">
-                      <input
-                        onClick={() => handleBusBoardingPoint("Fokirapoor")}
-                        type="checkbox"
-                        checked={boardingPoint === "Fokirapoor"}
-                      />
-                      <span>Fokirapoor B 4 Counter </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="flex items-center">
-                      <input
-                        onClick={() => handleBusBoardingPoint("Gabtoli")}
-                        type="checkbox"
-                        checked={boardingPoint === "Gabtoli"}
-                      />
-                      <span>Gabtoli AC Counter </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="flex items-center">
-                      <input
-                        onClick={() => handleBusBoardingPoint("Janapath")}
-                        type="checkbox"
-                        checked={boardingPoint === "Janapath"}
-                      />
-                      <span>Janapath 1 Counter </span>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="mt-3">
-              <strong>Facilities </strong>
-              <div className="mt-2">
-                <ul>
-                  <li>
-                    <div className="flex items-center">
-                      <input
-                        onClick={() => handleBusFacilities("Water")}
-                        checked={busFacilities === "Water"}
-                        type="checkbox"
-                      />
-                      <span>Water </span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="flex items-center">
-                      <input
-                        onClick={() => handleBusFacilities("Blanket")}
-                        checked={busFacilities === "Blanket"}
-                        type="checkbox"
-                      />
-                      <span>Blanket</span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="flex items-center">
-                      <input
-                        onClick={() => handleBusFacilities("Dual AC")}
-                        checked={busFacilities === "Dual AC"}
-                        type="checkbox"
-                      />
-                      <span>Dual AC </span>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div className={style.searchBusRightSide}>
             <div>
-              {loading ? (
-                <div>Loading ...</div>
-              ) : (
-                <>
-                  {errorMessage ? (
-                    <div className="text-xl text-center flex justify-center items-center h-full">
-                      {errorMessage}
-                    </div>
-                  ) : (
-                    <>
-                      {/* lg:w-10/12 mx-auto rounded  */}
-                      <section className=" ">
-                        {renderData(currentItems)}
-                        <ul
-                          className={
-                            minPageNumberLimit < 5
-                              ? "flex justify-center gap-2 md:gap-4 pb-5 mt-6"
-                              : "flex justify-center gap-[5px] md:gap-2 pb-5 mt-6"
+              <h6>Total Seats Available: 275</h6>
+            </div>
+
+            <button
+              onClick={() => modifyModal.onOpen("Bus Modify")}
+              className={style.modifyBtn}
+            >
+              Modify Search
+            </button>
+          </div>
+        </Container>
+      </div>
+      <Container>
+        <div className="py-5">
+          <div className={style.busCardWrap}>
+            <div className={style.searchBusLeftSide}>
+              <div className="mt-3">
+                <strong>Operators </strong>
+                <div className="mt-2">
+                  <ul>
+                    <li>
+                      <div className="flex items-center">
+                        <input
+                          onClick={() => handleOperator("Hanif")}
+                          type="checkbox"
+                          checked={busOperators === "Hanif" ? true : false}
+                        />
+                        <span>Hanif Enterprise </span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="flex items-center">
+                        <input
+                          onClick={() => handleOperator("Soudia")}
+                          type="checkbox"
+                          checked={busOperators === "Soudia" ? true : false}
+                        />
+                        <span>Soudia Coach Service </span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="flex items-center">
+                        <input
+                          onClick={() => handleOperator("Saintmartin")}
+                          type="checkbox"
+                          checked={
+                            busOperators === "Saintmartin" ? true : false
                           }
-                        >
-                          <button
-                            onClick={handlePrevious}
-                            disabled={currentPage === pages[0] ? true : false}
+                        />
+                        <span>Saintmartin Hyundai (Robi Express) </span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <strong>Bus Type </strong>
+                <div className="flex items-center my-2">
+                  <input
+                    onClick={() => handleBusType("AC")}
+                    type="checkbox"
+                    checked={busTypes === "AC"}
+                  />
+                  <span>AC</span>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    onClick={() => handleBusType("Non AC")}
+                    type="checkbox"
+                    checked={busTypes === "Non AC"}
+                  />
+                  <span>Non AC</span>
+                </div>
+              </div>
+
+              <div className="my-3">
+                <strong>Boarding point </strong>
+                <div className="mt-2">
+                  <ul>
+                    <li>
+                      <div className="flex items-center">
+                        <input
+                          onClick={() => handleBusBoardingPoint("Arambag")}
+                          type="checkbox"
+                          checked={boardingPoint === "Arambag"}
+                        />
+                        <span>Arambag Bus Point </span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="flex items-center">
+                        <input
+                          onClick={() => handleBusBoardingPoint("Chittagong")}
+                          type="checkbox"
+                          checked={boardingPoint === "Chittagong"}
+                        />
+                        <span>Chittagong Road B 20 Counter </span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="flex items-center">
+                        <input
+                          onClick={() => handleBusBoardingPoint("College Gate")}
+                          type="checkbox"
+                          checked={boardingPoint === "College Gate"}
+                        />
+                        <span>College Gate B 7 Counter </span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="flex items-center">
+                        <input
+                          onClick={() => handleBusBoardingPoint("Fokirapoor")}
+                          type="checkbox"
+                          checked={boardingPoint === "Fokirapoor"}
+                        />
+                        <span>Fokirapoor B 4 Counter </span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="flex items-center">
+                        <input
+                          onClick={() => handleBusBoardingPoint("Gabtoli")}
+                          type="checkbox"
+                          checked={boardingPoint === "Gabtoli"}
+                        />
+                        <span>Gabtoli AC Counter </span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="flex items-center">
+                        <input
+                          onClick={() => handleBusBoardingPoint("Janapath")}
+                          type="checkbox"
+                          checked={boardingPoint === "Janapath"}
+                        />
+                        <span>Janapath 1 Counter </span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className="mt-3">
+                <strong>Facilities </strong>
+                <div className="mt-2">
+                  <ul>
+                    <li>
+                      <div className="flex items-center">
+                        <input
+                          onClick={() => handleBusFacilities("Water")}
+                          checked={busFacilities === "Water"}
+                          type="checkbox"
+                        />
+                        <span>Water </span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="flex items-center">
+                        <input
+                          onClick={() => handleBusFacilities("Blanket")}
+                          checked={busFacilities === "Blanket"}
+                          type="checkbox"
+                        />
+                        <span>Blanket</span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="flex items-center">
+                        <input
+                          onClick={() => handleBusFacilities("Dual AC")}
+                          checked={busFacilities === "Dual AC"}
+                          type="checkbox"
+                        />
+                        <span>Dual AC </span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className={style.searchBusRightSide}>
+              <div>
+                {loading ? (
+                  <div>Loading ...</div>
+                ) : (
+                  <>
+                    {errorMessage ? (
+                      <div className="text-xl text-center flex justify-center items-center h-full">
+                        {errorMessage}
+                      </div>
+                    ) : (
+                      <>
+                        {/* lg:w-10/12 mx-auto rounded  */}
+                        <section className=" ">
+                          {renderData(currentItems)}
+                          <ul
                             className={
-                              currentPage === pages[0]
-                                ? "text-gray-400"
-                                : "text-black"
+                              minPageNumberLimit < 5
+                                ? "flex justify-center gap-2 md:gap-4 pb-5 mt-6"
+                                : "flex justify-center gap-[5px] md:gap-2 pb-5 mt-6"
                             }
                           >
-                            Previous
-                          </button>
-                          <span
-                            className={
-                              minPageNumberLimit < 5 ? "hidden" : "inline"
-                            }
-                          >
-                            {pageDecrementBtn}
-                          </span>
-                          {renderPagesNumber}
-                          {pageIncrementBtn}
-                          <button
-                            onClick={handleNext}
-                            disabled={
-                              currentPage === pages[pages?.length - 1]
-                                ? true
-                                : false
-                            }
-                            className={
-                              currentPage === pages[pages?.length - 1]
-                                ? "text-gray-400"
-                                : "text-black pl-1"
-                            }
-                          >
-                            Next
-                          </button>
-                        </ul>
-                      </section>
-                    </>
-                  )}
-                </>
-              )}
+                            <button
+                              onClick={handlePrevious}
+                              disabled={currentPage === pages[0] ? true : false}
+                              className={
+                                currentPage === pages[0]
+                                  ? "text-gray-400"
+                                  : "text-black"
+                              }
+                            >
+                              Previous
+                            </button>
+                            <span
+                              className={
+                                minPageNumberLimit < 5 ? "hidden" : "inline"
+                              }
+                            >
+                              {pageDecrementBtn}
+                            </span>
+                            {renderPagesNumber}
+                            {pageIncrementBtn}
+                            <button
+                              onClick={handleNext}
+                              disabled={
+                                currentPage === pages[pages?.length - 1]
+                                  ? true
+                                  : false
+                              }
+                              className={
+                                currentPage === pages[pages?.length - 1]
+                                  ? "text-gray-400"
+                                  : "text-black pl-1"
+                              }
+                            >
+                              Next
+                            </button>
+                          </ul>
+                        </section>
+                      </>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </main>
   )
 }
