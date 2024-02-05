@@ -210,7 +210,12 @@
   }
   .navigationContent {
     width: 100%;
+    padding:0 10px;
   }
+  .signUpBtn{
+    margin-right:5px;
+  }
+  
 
   .navigationLeft {
     display: flex;

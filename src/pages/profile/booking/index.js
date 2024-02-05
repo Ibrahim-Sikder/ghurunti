@@ -49,7 +49,7 @@ const Booking = () => {
 
   // for train
 
-  const em = decryptTransform(Cookies.get("em"));
+  const em = decryptTransform(Cookies.get("em_g"));
 
   useEffect(() => {
     try {

@@ -12,7 +12,7 @@ const HotelBooking = () => {
   const [user, setUser] = useState({});
   const [hotelConfirmation, setHotelConfirmation] = useState([]);
 
-  const em = decryptTransform(Cookies.get("em"));
+  const em = decryptTransform(Cookies.get("em_g"));
 
   useEffect(() => {
     try {

@@ -41,7 +41,7 @@ const SelectedSeats = ({ selectedSeats }) => {
     setGetTotalAmount(totalAmount)
   }, [selectedSeats])
 
-  const em = decryptTransform(Cookies.get("em"))
+  const em = decryptTransform(Cookies.get("em_g"))
 
   useEffect(() => {
     try {

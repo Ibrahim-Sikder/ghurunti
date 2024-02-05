@@ -6,7 +6,11 @@ import hajj2 from "../../public/assets/hajj2.png"
 import hajj3 from "../../public/assets/hajj3.png"
 import SectionTitle from "../Shared/SectionTitle/SectionTitle"
 import Link from "next/link"
-import { HiCheck, HiCheckCircle } from "react-icons/hi"
+import {
+  HiCheck,
+  HiCheckCircle,
+  HiOutlineArrowNarrowRight,
+} from "react-icons/hi"
 import Container from "@/ui/Container"
 import { HowToReg } from "@mui/icons-material"
 
@@ -49,7 +53,7 @@ const UmraPackage = () => {
           subHeading="Some of the renowned and best Hajj agencies in Bangladesh are
         Universal Travel & Tours, Holy Hajj & Umrah"
         ></SectionTitle>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:grid-cols-4 place-items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:grid-cols-4 place-items-center  xl:px-0">
           {hajjData.map((hajj) => (
             <div key={hajj.id} className={style.singleHajj}>
               <div className={style.imgWrap}>
@@ -102,13 +106,13 @@ const UmraPackage = () => {
                 <span className="text-[#4AB449]">Starts From</span>
                 <b>{hajj.price}</b>
               </div>
-              <div className={style.viewDetailBtn}>
-                <button className={style.hajjBtn}>
-                  <Link href="/hajj/economy">
-                    {" "}
-                    <h4>View Details</h4>
-                  </Link>
-                </button>
+              <div>
+                <Link href="/hajj/economy">
+                  <button className={style.hajjBtn}>
+                    <span>View Details </span>
+                    <HiOutlineArrowNarrowRight size={22} className="ml-1" />
+                  </button>
+                </Link>
               </div>
             </div>
           ))}

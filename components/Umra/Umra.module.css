@@ -180,11 +180,18 @@
 .hajjBtn {
   width: 150px;
   height: 40px;
-  background: #4ab449;
+display: flex;
   border-radius: 3px;
-  color: white;
   margin-top: 15px;
   font-size: 14px;
+  transition:all .5s ease-in-out;
+  justify-content: center;
+  align-items: center;
+  font-weight: 800;
+}
+.hajjBtn:hover {
+  background: #19abe3;
+  color: #fff;
 }
 .day {
   width: 54px;
@@ -277,7 +284,9 @@
   .registrationCard {
     width: 320px;
   }
-
+  .singleHajj {
+    max-width: 240px;
+  }
 
   .imgWrap {
     width: 312px;
@@ -300,9 +309,7 @@
     height: 432px;
 
 }
-.singleHajj {
-  max-width: 250px;
-}
+
   .heroBoxMain {
     width: 93%;
     height: 355px;

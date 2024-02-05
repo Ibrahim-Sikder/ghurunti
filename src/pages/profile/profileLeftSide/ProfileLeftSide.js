@@ -18,7 +18,7 @@ const ProfileLeftSide = () => {
     setAuthenticated(false);
     Cookies.remove("token");
     Cookies.remove("id");
-    Cookies.remove("em");
+    Cookies.remove("em_g");
     return push("/");
   };
 

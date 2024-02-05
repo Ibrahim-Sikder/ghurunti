@@ -12,7 +12,7 @@ const TrainBooking = () => {
   const [user, setUser] = useState({})
   const [trainConfirmation, setTrainConfirmation] = useState([])
 
-  const em = decryptTransform(Cookies.get("em"))
+  const em = decryptTransform(Cookies.get("em_g"))
 
   useEffect(() => {
     try {

@@ -9,9 +9,11 @@ import { EffectCoverflow, Pagination } from "swiper/modules"
 import { FaQuoteLeft } from "react-icons/fa"
 import Image from "next/image"
 import SectionTitle from "../../Shared/SectionTitle/SectionTitle"
+import Container from "@/ui/Container"
 const Reveiw = () => {
   return (
-    <section className="mb-[100px]">
+   <Container>
+     <section className="mb-[100px]">
       <div className={style.swiperSliderWrap}>
         <SectionTitle heading="What Our Client Say "></SectionTitle>
         <Swiper
@@ -257,6 +259,7 @@ const Reveiw = () => {
         </Swiper>
       </div>
     </section>
+   </Container>
   )
 }
 
