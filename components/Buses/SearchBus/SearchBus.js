@@ -34,7 +34,6 @@ const SearchBus = () => {
   const { id } = router.query
 
   useEffect(() => {
-    // Make sure id is defined before making the fetch request
     if (id) {
       fetch(`http://localhost:5000/api/v1/bus/${id}`)
         .then((res) => res.json())
@@ -236,7 +235,7 @@ const SearchBus = () => {
   const startIndex = lastIndex - limit
   const currentItems = busDetailsDataWithFilter?.slice(startIndex, lastIndex)
 
-  console.log(busDetailsDataWithFilter)
+ 
 
   const renderData = (busDetailsDataWithFilter) => {
     return (

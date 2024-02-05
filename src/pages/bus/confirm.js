@@ -1,26 +1,124 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState } from "react"
-import style from "../../pages/train/confirm/confirm.module.css"
-import styling from "./confirm.module.css"
-import { FaExclamationTriangle, FaInfo } from "react-icons/fa"
-import Nav from "../../../components/NavBarr/Nav"
-import Footer from "../../../components/Footer/Footer"
-import Box from "@mui/material/Box"
-import Tab from "@mui/material/Tab"
-import TabContext from "@mui/lab/TabContext"
-import TabList from "@mui/lab/TabList"
-import TabPanel from "@mui/lab/TabPanel"
-import bkash from "../../../public/assets/bkash.png"
-import nagad from "../../../public/assets/nagad.png"
-import rocket from "../../../public/assets/rocket.png"
-import Image from "next/image"
+import React, { useEffect, useState } from "react";
+import style from "../../pages/train/confirm/confirm.module.css";
+import styling from "./confirm.module.css";
+import { FaExclamationTriangle, FaInfo } from "react-icons/fa";
+import Nav from "../../../components/NavBarr/Nav";
+import Footer from "../../../components/Footer/Footer";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import bkash from "../../../public/assets/bkash.png";
+import nagad from "../../../public/assets/nagad.png";
+import rocket from "../../../public/assets/rocket.png";
+import Image from "next/image";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { decryptTransform } from "../../../components/EncryptAndDecrypt/EncryptAnsDecrypt";
+import Cookies from "js-cookie";
+import { FormError } from "../../../components/form-error";
+import { FormSuccess } from "../../../components/form-success";
+import { useRouter } from "next/router";
 
 const confirm = () => {
-  const [value, setValue] = useState("1")
+  const busData = useSelector((state) => state.busConfirmation);
+  const [value, setValue] = useState("1");
+  const [getName, setGetName] = useState(null);
+  const [gender, setGender] = useState(null);
+  const [passengerType, setPassengerType] = useState(null);
+  const [getEmail, setGetEmail] = useState(null);
+
+  const [number, setNumber] = useState(null);
+  const [isValid, setIsValid] = useState(true);
+  const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const em = decryptTransform(Cookies.get("em_g"));
+  const router = useRouter();
 
   const handleChange = (event, newValue) => {
-    setValue(newValue)
-  }
+    setValue(newValue);
+  };
+
+  const handleInputChange = (e) => {
+    const inputValue = e.target.value;
+    setNumber(inputValue);
+    const mobileNumberRegex = /^[0-9]{11}$/;
+    setIsValid(mobileNumberRegex.test(inputValue));
+  };
+
+  useEffect(() => {
+    try {
+      fetch(`http://localhost:5000/api/v1/user/${em}`)
+        .then((res) => res.json())
+        .then((data) => setUser(data.getUser));
+    } catch (error) {}
+  }, [em]);
+
+ 
+
+  const handleConfirmBus = async (e) => {
+    e.preventDefault();
+
+    const data = {
+      Seats: busData.Seats,
+      fare: busData.fare,
+      class: busData.class,
+      total: busData.total,
+      boarding_point: busData.boarding_point,
+      name: getName,
+      gender: gender,
+      confirmation_email: getEmail,
+      passenger_type: passengerType,
+      mobile_number: number,
+      email: user.email,
+      profile_type: user.profile_type,
+      user_type: user.user_type,
+    };
+    const values = {
+      name: getName,
+      gender: gender,
+      passenger_type: passengerType,
+      mobile_number: number,
+      confirmation_email: getEmail,
+    };
+    const hasQuotationNullValues = Object.values(values).some(
+      (val) => val === null
+    );
+
+    if (hasQuotationNullValues) {
+      setError("Please fill in all the fields.");
+      return;
+    }
+    setLoading(true);
+    axios
+      .post("http://localhost:5000/api/v1/bus", data)
+      .then(function (response) {
+        console.log(response);
+        if (response.data.message === "Send request for bus confirmation.") {
+          setSuccess("Confirmation request accepted. Please wait to confirm.");
+          if (user.profile_type === "b2c") {
+            router.push("/profile/booking");
+          } else if (user.profile_type === "b2b") {
+            router.push("/b2bdashboard/buses/busbooking");
+          }
+          setError("");
+        }
+        if (response.data === "Internal server error") {
+          setError("All fields must be filled out.");
+        }
+      })
+      .catch((error) => {
+        setError("Something went wrong");
+        setLoading(false);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   return (
     <div>
@@ -85,18 +183,26 @@ const confirm = () => {
               <h3 className="text-xl font-bold">Passenger 1</h3>
               <div>
                 <label>Name </label>
-                <input type="Passenger Name " />
+                <input
+                  onChange={(e) => setGetName(e.target.value)}
+                  type="Passenger Name "
+                />
               </div>
               <div>
                 <label>Gender</label>
-                <select>
+                <select onChange={(e) => setGender(e.target.value)}>
+                  <option value=" ">Select your gender</option>
                   <option value="Adult">Male</option>
                   <option value="Adult">Female</option>
                 </select>
               </div>
               <div>
                 <label>Passenger Type </label>
-                <select>
+                <select onChange={(e) => setPassengerType(e.target.value)}>
+                  <option value="" selected>
+                    {" "}
+                    Select passenger type
+                  </option>
                   <option value="Adult">Adult</option>
                   <option value="Adult">Child</option>
                 </select>
@@ -105,11 +211,24 @@ const confirm = () => {
                 <h3 className="text-xl">Contact Information </h3>
                 <div>
                   <label>Mobile Number </label>
-                  <input type="Mobile Number" />
+                  <input
+                    onChange={handleInputChange}
+                    placeholder="Phone number"
+                    type="text"
+                    value={number}
+                  />
+                  {!isValid && (
+                    <p style={{ color: "red", margin: "5px" }}>
+                      Please enter a valid mobile number
+                    </p>
+                  )}
                 </div>
                 <div>
                   <label>Email </label>
-                  <input type="Email" />
+                  <input
+                    onChange={(e) => setGetEmail(e.target.value)}
+                    type="Email"
+                  />
                 </div>
               </div>
             </div>
@@ -178,8 +297,18 @@ const confirm = () => {
                       payment, that will vary depending on MFS
                     </small>
                   </div>
+                  {error && <FormError message={error} />}
+                  {success && <FormSuccess message={success} />}
                   <div className="grid place-content-center ">
-                    <button className="bg-[#4AB449] border rounded-md text-white w-[170px] h-[40px]">
+                    <button
+                      onClick={handleConfirmBus}
+                      className={
+                        loading
+                          ? "bg-gray-400 border rounded-md text-white w-[170px] h-[40px]"
+                          : `bg-[#4AB449] border rounded-md text-white w-[170px] h-[40px]`
+                      }
+                      disabled={loading}
+                    >
                       Confirm Ticket
                     </button>
                   </div>
@@ -251,7 +380,7 @@ const confirm = () => {
       </div>
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default confirm
+export default confirm;

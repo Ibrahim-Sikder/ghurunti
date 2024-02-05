@@ -26,6 +26,7 @@ import migrations from "./migrates";
 import visaRequirementSlice from "../features/visaRequirementSlice";
 import trainConfirmationSlice from "../features/trainConfirmationSlice";
 import signUpSlice from "../features/sign-up-slice";
+import busConfirmationSlice from "../features/busConfirmationSlice";
 
 const middlewares = [];
 
@@ -46,6 +47,7 @@ const rootReducer = combineReducers({
   bus: busSlice,
   train: trainSlice,
   trainConfirmation: trainConfirmationSlice,
+  busConfirmation:  busConfirmationSlice,
   ["visa-rq"]: visaRequirementSlice,
   email: signUpSlice,
 });
@@ -64,6 +66,7 @@ const persistConfig = {
     "train",
     "visa-rq",
     "trainConfirmation",
+    "busConfirmation",
     "email",
   ],
   version: 2, // Update this to the latest version
