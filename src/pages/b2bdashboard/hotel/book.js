@@ -32,7 +32,7 @@ const Hotel = () => {
   const [user, setUser] = useState({});
   const router = useRouter();
 
-  const em = decryptTransform(Cookies.get("em"));
+  const em = decryptTransform(Cookies.get("em_g"));
 
   useEffect(() => {
     try {

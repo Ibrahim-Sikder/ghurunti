@@ -14,7 +14,7 @@ const VisaBooking = () => {
   const [user, setUser] = useState({});
   const [visaConfirmation, setVisaConfirmation] = useState([]);
 
-  const em = decryptTransform(Cookies.get("em"));
+  const em = decryptTransform(Cookies.get("em_g"));
 
   useEffect(() => {
     try {
