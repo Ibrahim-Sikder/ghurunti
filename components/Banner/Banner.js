@@ -1120,7 +1120,7 @@ const Banner = ({ setResults }) => {
                         </div>
                       </div>
                       <div className={style.multipleCityBtnGroup}>
-                        {inputList.length !== 1 && (
+                        {inputList?.length !== 1 && (
                           <div onClick={() => handleremove(i)}>
                             <div className={style.removeCity}>
                               <HorizontalRule />
@@ -1129,7 +1129,7 @@ const Banner = ({ setResults }) => {
                           </div>
                         )}
 
-                        {inputList.length - 1 === i && (
+                        {inputList?.length - 1 === i && (
                           <div onClick={handleaddclick}>
                             <div className={style.addCity}>
                               <Add />

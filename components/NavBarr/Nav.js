@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import Logo from "../../public/assets/logo.png";
-import Link from "next/link";
-import style from "./Nav.module.css";
-import Image from "next/image";
-import { useEffect } from "react";
+import React, { useState } from "react"
+import Logo from "../../public/assets/logo.png"
+import Link from "next/link"
+import style from "./Nav.module.css"
+import Image from "next/image"
+import { useEffect } from "react"
 import {
   Flight,
   Hotel,
@@ -13,77 +13,77 @@ import {
   DirectionsRailway,
   LocalPhone,
   AccountCircle,
-} from "@mui/icons-material";
-import Typewriter from "typewriter-effect";
-import { useRef } from "react";
-import { useRouter } from "next/router";
-import Cookies from "js-cookie";
-import { decryptTransform } from "../EncryptAndDecrypt/EncryptAnsDecrypt";
-import toast from "react-hot-toast";
-import { FaUserCircle } from "react-icons/fa";
+} from "@mui/icons-material"
+import Typewriter from "typewriter-effect"
+import { useRef } from "react"
+import { useRouter } from "next/router"
+import Cookies from "js-cookie"
+import { decryptTransform } from "../EncryptAndDecrypt/EncryptAnsDecrypt"
+import toast from "react-hot-toast"
+import { FaUserCircle } from "react-icons/fa"
 
 const Nav = () => {
-  const [user, setUser] = useState({});
-  const [stickyMenu, setStickyMenu] = useState(false);
-  const [mobileMenu, setMobileMenu] = useState(true);
-  const [authenticated, setAuthenticated] = useState(false);
+  const [user, setUser] = useState({})
+  const [stickyMenu, setStickyMenu] = useState(false)
+  const [mobileMenu, setMobileMenu] = useState(true)
+  const [authenticated, setAuthenticated] = useState(false)
   const toggleMobileMenu = () => {
-    setMobileMenu((mobileMenu) => !mobileMenu);
-    navRef.current.classList.toggle("active");
-  };
-  const navRef = useRef();
+    setMobileMenu((mobileMenu) => !mobileMenu)
+    navRef.current.classList.toggle("active")
+  }
+  const navRef = useRef()
   useEffect(() => {
     const handleScroll = () => {
-      setStickyMenu(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-  const { push, pathname, router } = useRouter();
+      setStickyMenu(window.scrollY > 5000000000000000000)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+  const { push, pathname, router } = useRouter()
 
   const handleHome = () => {
-    push("/");
-    localStorage.removeItem("l_p");
-    localStorage.removeItem("h_p");
-    sessionStorage.removeItem("t_c");
-    sessionStorage.removeItem("b_o");
-    sessionStorage.removeItem("b_t");
-    sessionStorage.removeItem("b_p");
-    sessionStorage.removeItem("b_f");
-  };
-  const token = decryptTransform(Cookies.get("token"));
-  const em = decryptTransform(Cookies.get("em_g"));
+    push("/")
+    localStorage.removeItem("l_p")
+    localStorage.removeItem("h_p")
+    sessionStorage.removeItem("t_c")
+    sessionStorage.removeItem("b_o")
+    sessionStorage.removeItem("b_t")
+    sessionStorage.removeItem("b_p")
+    sessionStorage.removeItem("b_f")
+  }
+  const token = decryptTransform(Cookies.get("token"))
+  const em = decryptTransform(Cookies.get("em_g"))
   useEffect(() => {
     if (token && em === user?.email) {
-      setAuthenticated(true);
+      setAuthenticated(true)
     } else if (!token && em !== user?.email) {
-      setAuthenticated(false);
+      setAuthenticated(false)
     }
-  }, [token, pathname, em, user?.email]);
+  }, [token, pathname, em, user?.email])
 
   const logOut = () => {
-    setAuthenticated(false);
-    Cookies.remove("token");
-    Cookies.remove("id");
-    Cookies.remove("em_g");
-    return push("/");
-  };
+    setAuthenticated(false)
+    Cookies.remove("token")
+    Cookies.remove("id")
+    Cookies.remove("em_g")
+    return push("/")
+  }
 
   const handleLogOut = () => {
-    logOut();
-  };
+    logOut()
+  }
 
   useEffect(() => {
     if (em) {
       try {
         fetch(`http://localhost:5000/api/v1/user/${em}`)
           .then((res) => res.json())
-          .then((data) => setUser(data.getUser));
+          .then((data) => setUser(data.getUser))
       } catch (error) {
-        toast.error(error.message);
+        toast.error(error.message)
       }
     }
-  }, [em]);
+  }, [em])
   return (
     <section className={style.navBarMainWrap}>
       <div className={style.navbarMain}>
@@ -267,7 +267,7 @@ const Nav = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Nav;
+export default Nav

@@ -153,6 +153,7 @@ const UmrahCard = ({ title, img }) => {
       </>
     );
   };
+  
 
   const handlePrevious = () => {
     const newPage = currentPage - 1;
@@ -360,7 +361,7 @@ const UmrahCard = ({ title, img }) => {
     <section>
       <div>
         <h3 className="text-3xl font-bold my-8">{title}</h3>
-        {umrahDetailsData.length === 0 ? (
+        {umrahDetailsData?.length === 0 ? (
           <div>
             <div className="text-xl text-center flex justify-center items-center h-full">
               No matching packages found.
@@ -372,7 +373,7 @@ const UmrahCard = ({ title, img }) => {
                 <div className="my-10">Another umrah packages.</div>
                 {refreshParams.includes("umrah-in-ramadan") && (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                    {umrahPremium.length > 0 && (
+                    {umrahPremium?.length > 0 && (
                       <div>
                         <h2>{umrahPremium[0]?.latest_umrah_package}</h2>
                         <Image
@@ -384,7 +385,7 @@ const UmrahCard = ({ title, img }) => {
                         ></Image>
                       </div>
                     )}
-                    {umrahPlatinum.length > 0 && (
+                    {umrahPlatinum?.length > 0 && (
                       <div>
                         <h2>{umrahPlatinum[0]?.latest_umrah_package}</h2>
                         <Image
@@ -396,7 +397,7 @@ const UmrahCard = ({ title, img }) => {
                         ></Image>
                       </div>
                     )}
-                    {umrahFamily.length > 0 && (
+                    {umrahFamily?.length > 0 && (
                       <div>
                         <h2>{umrahFamily[0]?.latest_umrah_package}</h2>
                         <Image
@@ -412,7 +413,7 @@ const UmrahCard = ({ title, img }) => {
                 )}
                 {refreshParams.includes("premium") && (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                    {umrahRamadan.length > 0 && (
+                    {umrahRamadan?.length > 0 && (
                       <div>
                         <h2>{umrahRamadan[0]?.latest_umrah_package}</h2>
                         <Image
@@ -424,7 +425,7 @@ const UmrahCard = ({ title, img }) => {
                         ></Image>
                       </div>
                     )}
-                    {umrahPlatinum.length > 0 && (
+                    {umrahPlatinum?.length > 0 && (
                       <div>
                         <h2>{umrahPlatinum[0]?.latest_umrah_package}</h2>
                         <Image
@@ -436,7 +437,7 @@ const UmrahCard = ({ title, img }) => {
                         ></Image>
                       </div>
                     )}
-                    {umrahFamily.length > 0 && (
+                    {umrahFamily?.length > 0 && (
                       <div>
                         <h2>{umrahFamily[0]?.latest_umrah_package}</h2>
                         <Image
@@ -452,7 +453,7 @@ const UmrahCard = ({ title, img }) => {
                 )}
                 {refreshParams.includes("platinum") && (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                    {umrahRamadan.length > 0 && (
+                    {umrahRamadan?.length > 0 && (
                       <div>
                         <h2>{umrahRamadan[0]?.latest_umrah_package}</h2>
                         <Image
@@ -464,7 +465,7 @@ const UmrahCard = ({ title, img }) => {
                         ></Image>
                       </div>
                     )}
-                    {umrahPremium.length > 0 && (
+                    {umrahPremium?.length > 0 && (
                       <div>
                         <h2>{umrahPremium[0]?.latest_umrah_package}</h2>
                         <Image
@@ -476,7 +477,7 @@ const UmrahCard = ({ title, img }) => {
                         ></Image>
                       </div>
                     )}
-                    {umrahFamily.length > 0 && (
+                    {umrahFamily?.length > 0 && (
                       <div>
                         <h2>{umrahFamily[0]?.latest_umrah_package}</h2>
                         <Image
@@ -492,7 +493,7 @@ const UmrahCard = ({ title, img }) => {
                 )}
                 {refreshParams.includes("family") && (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                    {umrahRamadan.length > 0 && (
+                    {umrahRamadan?.length > 0 && (
                       <div>
                         <h2>{umrahRamadan[0]?.latest_umrah_package}</h2>
                         <Image
@@ -504,7 +505,7 @@ const UmrahCard = ({ title, img }) => {
                         ></Image>
                       </div>
                     )}
-                    {umrahPremium.length > 0 && (
+                    {umrahPremium?.length > 0 && (
                       <div>
                         <h2>{umrahPremium[0]?.latest_umrah_package}</h2>
                         <Image
@@ -516,7 +517,7 @@ const UmrahCard = ({ title, img }) => {
                         ></Image>
                       </div>
                     )}
-                    {umrahPlatinum.length > 0 && (
+                    {umrahPlatinum?.length > 0 && (
                       <div>
                         <h2>{umrahPlatinum[0]?.latest_umrah_package}</h2>
                         <Image

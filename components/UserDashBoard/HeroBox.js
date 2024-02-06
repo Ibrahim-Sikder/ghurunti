@@ -1,283 +1,287 @@
-import React, { useEffect, useRef, useState } from "react";
-import styles from "./UserDashBoard.module.css";
-import style from "../../components/Banner/Banner.module.css";
-import Link from "next/link";
-import { Add, Groups2, HorizontalRule, CalendarMonth,} from
-"@mui/icons-material";
-import TextField from "@mui/material/TextField";
-import ActiveLink from "../Banner/ActiveLink";
-import { TabList, TabPanel, Tabs, Tab } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
+import React, { useEffect, useRef, useState } from "react"
+import styles from "./UserDashBoard.module.css"
+import style from "../../components/Banner/Banner.module.css"
+import Link from "next/link"
+import {
+  Add,
+  Groups2,
+  HorizontalRule,
+  CalendarMonth,
+} from "@mui/icons-material"
+import TextField from "@mui/material/TextField"
+import ActiveLink from "../Banner/ActiveLink"
+import { TabList, TabPanel, Tabs, Tab } from "react-tabs"
+import "react-tabs/style/react-tabs.css"
 // import { DateRange } from "react-date-range";
 // import format from "date-fns/format";
 // import { addDays } from "date-fns";
 // import "react-date-range/dist/styles.css";
 // import "react-date-range/dist/theme/default.css";
 const HeroBox = () => {
- const [child, setChild] = useState(0);
- const [adult, setAdult] = useState(0);
- const [infant, setInfant] = useState(0);
- const [value, setValue] = React.useState("1");
- const [checked, setChecked] = React.useState([1]);
- const [classes, setClasses] = useState("");
- const [data, setData] = useState([]);
- const [filterData, setFilterData] = useState([]);
- const [selected, setSelected] = useState([]);
- const [data2, setData2] = useState([]);
- const [filterData2, setFilterData2] = useState([]);
- const [selected2, setSelected2] = useState([]);
- const [mobActive, setMobActive] = useState(0);
- const [data3, setData3] = useState([]);
- const [filterData3, setFilterData3] = useState([]);
- const [selected3, setSelected3] = useState([]);
- const [data4, setData4] = useState([]);
- const [filterData4, setFilterData4] = useState([]);
- const [selected4, setSelected4] = useState([]);
- const [data5, setData5] = useState([]);
- const [filterData5, setFilterData5] = useState([]);
- const [selected5, setSelected5] = useState([]);
- const [data6, setData6] = useState([]);
- const [filterData6, setFilterData6] = useState([]);
- const [selected6, setSelected6] = useState([]);
- const [tabIndex, setTabIndex] = useState(0);
- const [activePackage, setActivePackage] = useState(true);
- const handleActivePackage = () => {
- setActivePackage((activePackage) => !activePackage);
- };
- const handleToggle = (value) => () => {
- const currentIndex = checked.indexOf(value);
- const newChecked = [...checked];
- if (currentIndex === -1) {
- newChecked.push(value);
- } else {
- newChecked.splice(currentIndex, 1);
- }
- setChecked(newChecked);
- };
- const handleChange = (event, newValue) => {
- setValue(newValue);
- };
- const childIncrement = () => {
- setChild(child + 1);
- };
- const childDecrement = () => {
- if (child < 1) {
- setChild(0);
- } else {
- setChild(child - 1);
- }
- };
- const incrementAdult = () => {
- setAdult(adult + 1);
- };
- const decrementAdult = () => {
- if (child < 1) {
- setAdult(0);
- } else {
- setAdult(child - 1);
- }
- };
- const incrementInfant = () => {
- setInfant(infant + 1);
- };
- const decrementInfant = () => {
- if (child < 1) {
- setInfant(0);
- } else {
- setInfant(child - 1);
- }
- };
- const handleFilter = (value) => {
- const res = filterData.filter((airport) =>
- airport.iata.toLowerCase().includes(value)
- );
- setData(res);
- };
- const handleFilter2 = (value) => {
- const res = filterData2.filter((airport) =>
- airport.iata.toLowerCase().includes(value)
- );
- setData2(res);
- };
- const handleFilter3 = (value) => {
- const res = filterData3.filter((airport) =>
- airport.iata.toLowerCase().includes(value)
- );
- setData3(res);
- };
- const handleFilter4 = (value) => {
- const res = filterData4.filter((airport) =>
- airport.iata.toLowerCase().includes(value)
- );
- setData4(res);
- };
- const handleFilter5 = (value) => {
- const res = filterData5.filter((airport) =>
- airport.iata.toLowerCase().includes(value)
- );
- setData5(res);
- };
- const handleFilter6 = (value) => {
- const res = filterData6.filter((airport) =>
- airport.iata.toLowerCase().includes(value)
- );
- setData6(res);
- };
- const handleSelect = (iata, name, country) => {
- const text = iata + " , " + country + ", " + name;
- console.log(text);
- setSelected(text);
- setData([]);
- };
- const handleSelect2 = (iata, name, country) => {
- const text = iata + " , " + country + ", " + name;
- console.log(text);
- setSelected2(text);
- setData2([]);
- };
- const handleSelect3 = (iata, name, country) => {
- const text = iata + " , " + country + ", " + name;
- console.log(text);
- setSelected3(text);
- setData3([]);
- };
- const handleSelect4 = (iata, name, country) => {
- const text = iata + " , " + country + ", " + name;
- console.log(text);
- setSelected4(text);
- setData4([]);
- };
- const handleSelect5 = (iata, name, country) => {
- const text = iata + " , " + country + ", " + name;
- console.log(text);
- setSelected5(text);
- setData5([]);
- };
- const handleSelect6 = (iata, name, country) => {
- const text = iata + " , " + country + ", " + name;
- console.log(text);
- setSelected6(text);
- setData6([]);
- };
- const [inputList, setinputList] = useState([
- { flyingFrom: "", flyingTo: "", date: "" },
- ]);
- const handleinputchange = (e, index) => {
- const { name, value } = e.target;
- const list = [...inputList];
- list[index][name] = value;
- setinputList(list);
- };
- const handleremove = (index) => {
- const list = [...inputList];
- list.splice(index, 1);
- setinputList(list);
- };
- const handleaddclick = () => {
- setinputList([...inputList, { flyingFrom: "", flyingTo: "", date: "" }]);
- };
- // date state
- // const [range, setRange] = useState([
- // {
- // startDate: new Date(),
- // endDate: addDays(new Date(), 7),
- // key: "selection",
- // },
- // ]);
- // const [range2, setRange2] = useState([
- // {
- // startDate: new Date(),
- // endDate: addDays(new Date(), 7),
- // key: "selection",
- // },
- // ]);
- // open close
- const [open, setOpen] = useState(false);
- const [open2, setOpen2] = useState(false);
- // get the target element to toggle
- const refOne = useRef(null);
- const refTow = useRef(null);
- useEffect(() => {
- document.addEventListener("keydown", hideOnEscape, true);
- document.addEventListener("click", hideOnClickOutside, true);
- }, []);
- useEffect(() => {
- document.addEventListener("keydown", hideOnEscape2, true);
- document.addEventListener("click", hideOnClickOutside2, true);
- }, []);
- // hide dropdown on ESC press
- const hideOnEscape = (e) => {
- if (e.key === "Escape") {
- setOpen(false);
- }
- };
- const hideOnEscape2 = (e) => {
- if (e.key === "Escape") {
- setOpen2(false);
- }
- };
- // Hide on outside click
- const hideOnClickOutside = (e) => {
- if (refOne.current && !refOne.current.contains(e.target)) {
- setOpen(false);
- }
- };
- const hideOnClickOutside2 = (e) => {
- if (refTow.current && !refTow.current.contains(e.target)) {
- setOpen2(false);
- }
- };
- return (
- <section className={style.bannerWrap}>
- <h2>Welcome to Ghuronti! Find Tours, Flights & Hotels Packages</h2>
- <div className={`${style.heroBoxMain} ${styles.heroBoxWrap}`}>
- <div>
- <ul className={style.menu}>
- <div className={style.wrapMenu}>
- <ActiveLink href="/b2bdashboard/hajj">
- <li className={style.firstChild}>
- <svg
- xmlns="http://www.w3.org/2000/svg"
- width={35}
- height={35}
- fill="none"
- >
- <path
- fill="#092E3D"
- fillRule="evenodd"
- d="m39.358 5.872-19.386 4.492L.642 5.872l19.251-4.493
+  const [child, setChild] = useState(0)
+  const [adult, setAdult] = useState(0)
+  const [infant, setInfant] = useState(0)
+  const [value, setValue] = React.useState("1")
+  const [checked, setChecked] = React.useState([1])
+  const [classes, setClasses] = useState("")
+  const [data, setData] = useState([])
+  const [filterData, setFilterData] = useState([])
+  const [selected, setSelected] = useState([])
+  const [data2, setData2] = useState([])
+  const [filterData2, setFilterData2] = useState([])
+  const [selected2, setSelected2] = useState([])
+  const [mobActive, setMobActive] = useState(0)
+  const [data3, setData3] = useState([])
+  const [filterData3, setFilterData3] = useState([])
+  const [selected3, setSelected3] = useState([])
+  const [data4, setData4] = useState([])
+  const [filterData4, setFilterData4] = useState([])
+  const [selected4, setSelected4] = useState([])
+  const [data5, setData5] = useState([])
+  const [filterData5, setFilterData5] = useState([])
+  const [selected5, setSelected5] = useState([])
+  const [data6, setData6] = useState([])
+  const [filterData6, setFilterData6] = useState([])
+  const [selected6, setSelected6] = useState([])
+  const [tabIndex, setTabIndex] = useState(0)
+  const [activePackage, setActivePackage] = useState(true)
+  const handleActivePackage = () => {
+    setActivePackage((activePackage) => !activePackage)
+  }
+  const handleToggle = (value) => () => {
+    const currentIndex = checked.indexOf(value)
+    const newChecked = [...checked]
+    if (currentIndex === -1) {
+      newChecked.push(value)
+    } else {
+      newChecked.splice(currentIndex, 1)
+    }
+    setChecked(newChecked)
+  }
+  const handleChange = (event, newValue) => {
+    setValue(newValue)
+  }
+  const childIncrement = () => {
+    setChild(child + 1)
+  }
+  const childDecrement = () => {
+    if (child < 1) {
+      setChild(0)
+    } else {
+      setChild(child - 1)
+    }
+  }
+  const incrementAdult = () => {
+    setAdult(adult + 1)
+  }
+  const decrementAdult = () => {
+    if (child < 1) {
+      setAdult(0)
+    } else {
+      setAdult(child - 1)
+    }
+  }
+  const incrementInfant = () => {
+    setInfant(infant + 1)
+  }
+  const decrementInfant = () => {
+    if (child < 1) {
+      setInfant(0)
+    } else {
+      setInfant(child - 1)
+    }
+  }
+  const handleFilter = (value) => {
+    const res = filterData.filter((airport) =>
+      airport.iata.toLowerCase().includes(value)
+    )
+    setData(res)
+  }
+  const handleFilter2 = (value) => {
+    const res = filterData2.filter((airport) =>
+      airport.iata.toLowerCase().includes(value)
+    )
+    setData2(res)
+  }
+  const handleFilter3 = (value) => {
+    const res = filterData3.filter((airport) =>
+      airport.iata.toLowerCase().includes(value)
+    )
+    setData3(res)
+  }
+  const handleFilter4 = (value) => {
+    const res = filterData4.filter((airport) =>
+      airport.iata.toLowerCase().includes(value)
+    )
+    setData4(res)
+  }
+  const handleFilter5 = (value) => {
+    const res = filterData5.filter((airport) =>
+      airport.iata.toLowerCase().includes(value)
+    )
+    setData5(res)
+  }
+  const handleFilter6 = (value) => {
+    const res = filterData6.filter((airport) =>
+      airport.iata.toLowerCase().includes(value)
+    )
+    setData6(res)
+  }
+  const handleSelect = (iata, name, country) => {
+    const text = iata + " , " + country + ", " + name
+    console.log(text)
+    setSelected(text)
+    setData([])
+  }
+  const handleSelect2 = (iata, name, country) => {
+    const text = iata + " , " + country + ", " + name
+    console.log(text)
+    setSelected2(text)
+    setData2([])
+  }
+  const handleSelect3 = (iata, name, country) => {
+    const text = iata + " , " + country + ", " + name
+    console.log(text)
+    setSelected3(text)
+    setData3([])
+  }
+  const handleSelect4 = (iata, name, country) => {
+    const text = iata + " , " + country + ", " + name
+    console.log(text)
+    setSelected4(text)
+    setData4([])
+  }
+  const handleSelect5 = (iata, name, country) => {
+    const text = iata + " , " + country + ", " + name
+    console.log(text)
+    setSelected5(text)
+    setData5([])
+  }
+  const handleSelect6 = (iata, name, country) => {
+    const text = iata + " , " + country + ", " + name
+    console.log(text)
+    setSelected6(text)
+    setData6([])
+  }
+  const [inputList, setinputList] = useState([
+    { flyingFrom: "", flyingTo: "", date: "" },
+  ])
+  const handleinputchange = (e, index) => {
+    const { name, value } = e.target
+    const list = [...inputList]
+    list[index][name] = value
+    setinputList(list)
+  }
+  const handleremove = (index) => {
+    const list = [...inputList]
+    list.splice(index, 1)
+    setinputList(list)
+  }
+  const handleaddclick = () => {
+    setinputList([...inputList, { flyingFrom: "", flyingTo: "", date: "" }])
+  }
+  // date state
+  // const [range, setRange] = useState([
+  // {
+  // startDate: new Date(),
+  // endDate: addDays(new Date(), 7),
+  // key: "selection",
+  // },
+  // ]);
+  // const [range2, setRange2] = useState([
+  // {
+  // startDate: new Date(),
+  // endDate: addDays(new Date(), 7),
+  // key: "selection",
+  // },
+  // ]);
+  // open close
+  const [open, setOpen] = useState(false)
+  const [open2, setOpen2] = useState(false)
+  // get the target element to toggle
+  const refOne = useRef(null)
+  const refTow = useRef(null)
+  useEffect(() => {
+    document.addEventListener("keydown", hideOnEscape, true)
+    document.addEventListener("click", hideOnClickOutside, true)
+  }, [])
+  useEffect(() => {
+    document.addEventListener("keydown", hideOnEscape2, true)
+    document.addEventListener("click", hideOnClickOutside2, true)
+  }, [])
+  // hide dropdown on ESC press
+  const hideOnEscape = (e) => {
+    if (e.key === "Escape") {
+      setOpen(false)
+    }
+  }
+  const hideOnEscape2 = (e) => {
+    if (e.key === "Escape") {
+      setOpen2(false)
+    }
+  }
+  // Hide on outside click
+  const hideOnClickOutside = (e) => {
+    if (refOne.current && !refOne.current.contains(e.target)) {
+      setOpen(false)
+    }
+  }
+  const hideOnClickOutside2 = (e) => {
+    if (refTow.current && !refTow.current.contains(e.target)) {
+      setOpen2(false)
+    }
+  }
+  return (
+    <section className={style.bannerWrap}>
+      <h2>Welcome to Ghuronti! Find Tours, Flights & Hotels Packages</h2>
+      <div className={`${style.heroBoxMain} ${styles.heroBoxWrap}`}>
+        <div>
+          <ul className={style.menu}>
+            <div className={style.wrapMenu}>
+              <ActiveLink href="/b2bdashboard/hajj">
+                <li className={style.firstChild}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={35}
+                    height={35}
+                    fill="none"
+                  >
+                    <path
+                      fill="#092E3D"
+                      fillRule="evenodd"
+                      d="m39.358 5.872-19.386 4.492L.642 5.872l19.251-4.493
 19.465 4.493Z"
- clipRule="evenodd"
- />
- <path
- fill="#4AB449"
- fillRule="evenodd"
- d="m31.97 7.577-12.077 2.787-11.917-2.78
+                      clipRule="evenodd"
+                    />
+                    <path
+                      fill="#4AB449"
+                      fillRule="evenodd"
+                      d="m31.97 7.577-12.077 2.787-11.917-2.78
 11.917-2.782L31.97 7.577Z"
- clipRule="evenodd"
- />
- <path
- fill="#092E3D"
- fillRule="evenodd"
- d="m19.893 10.365 19.465-4.493v29.952l-19.465 4.492L.642
+                      clipRule="evenodd"
+                    />
+                    <path
+                      fill="#092E3D"
+                      fillRule="evenodd"
+                      d="m19.893 10.365 19.465-4.493v29.952l-19.465 4.492L.642
 35.824V5.872l19.251 4.493Z"
- clipRule="evenodd"
- />
- <path
- fill="#F2AF0D"
- fillRule="evenodd"
- d="m19.893 16.777 19.465-4.493v3.423L19.893 20.2.642
+                      clipRule="evenodd"
+                    />
+                    <path
+                      fill="#F2AF0D"
+                      fillRule="evenodd"
+                      d="m19.893 16.777 19.465-4.493v3.423L19.893 20.2.642
 15.707v-3.423l19.251 4.493ZM4.92 18.423l-4.278-.998v2.139l4.278.998v-2.14ZM35.08
 18.423l4.279-.998v2.139l-4.279.998v-2.14ZM12.406
 20.17l-4.278-.998v2.139l4.278.999v-2.14ZM27.593
 20.17l4.279-.998v2.139l-4.279.999v-2.14ZM19.893
 21.917l4.492-.998v2.14l-4.492.998-4.278-.999v-2.14l4.278 1Z"
- clipRule="evenodd"
- />
- <path
- fill="#092E3D"
- fillRule="evenodd"
- d="M.496 5.247C.27 5.33 0 5.61 0 5.872v29.952c0
+                      clipRule="evenodd"
+                    />
+                    <path
+                      fill="#092E3D"
+                      fillRule="evenodd"
+                      d="M.496 5.247C.27 5.33 0 5.61 0 5.872v29.952c0
 .298.205.557.496.625l19.251 4.492a.64.64 0 0 0 .297 0l19.458-4.492a.642.642 0 0
 0 .498-.625V5.872c0-.196-.116-.569-.496-.625L20.037.753a.644.644 0 0 0-.29
 0L.496 5.248Zm38.22 11.668v-.4l-18.67 4.358a.637.637 0 0 1-.3.001L1.283
@@ -299,23 +303,23 @@ const HeroBox = () => {
 6.683v5.093l18.61 4.391 18.824-4.393ZM10.745 7.596l9.15 2.16
 9.251-2.16-9.251-2.135-9.15 2.135Zm-7.293-1.72 4.485 1.057 11.811-2.756a.644.644
 0 0 1 .29 0l11.946 2.757 4.536-1.059-16.625-3.837L3.45 5.875Z"
- clipRule="evenodd"
- />
- </svg>
- <p className="ml-3">Hajj & Umrah</p>
- </li>
- </ActiveLink>
- <ActiveLink href="/b2bdashboard">
- <li>
- <svg
- xmlns="http://www.w3.org/2000/svg"
- width={40}
- height={35}
- fill="none"
- >
- <path
- fill="#E0F1F8"
- d="M37.872 2.752c-1.473-1.443-4.058-1.105-5.539.344l-7.53
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <p className="ml-3">Hajj & Umrah</p>
+                </li>
+              </ActiveLink>
+              <ActiveLink href="/b2bdashboard">
+                <li>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={40}
+                    height={35}
+                    fill="none"
+                  >
+                    <path
+                      fill="#E0F1F8"
+                      d="M37.872 2.752c-1.473-1.443-4.058-1.105-5.539.344l-7.53
 7.345-13.97-5.103c-1.336-.34-2.683-.777-4.342.852-.846.827-2.606 2.552 0
 5.104l9.577 7.668-6.232
 6.08-5.813-1.422c-.866-.217-1.445-.048-1.887.43-.223.273-1.842 1.446-.715
@@ -323,17 +327,17 @@ const HeroBox = () => {
 2.615-.663.657-.645.514-.976.317-1.916L15.06 30.13l6.19-6.07 7.828 9.364c2.608
 2.551 4.368.828 5.216 0 1.658-1.627 1.212-2.947.867-4.255l-5.178-13.68
 7.502-7.357c1.48-1.45 1.859-3.938.386-5.38Z"
- />
- <path
- fill="#4AB449"
- fillOpacity={0.5}
- d="M24.669 10.44 21 9.422l-7.825 7.282 2.758 2.257
+                    />
+                    <path
+                      fill="#4AB449"
+                      fillOpacity={0.5}
+                      d="M24.669 10.44 21 9.422l-7.825 7.282 2.758 2.257
 8.736-8.52ZM29.85 15.49l1.379 3.42-7.768 7.23-2.346-2.08 8.735-8.57Z"
- />
- <path
- fill="#4AB449"
- fillOpacity={0.5}
- d="M14.372 39.84c-.595 0-1.143-.243-1.629-.718a1.117 1.117
+                    />
+                    <path
+                      fill="#4AB449"
+                      fillOpacity={0.5}
+                      d="M14.372 39.84c-.595 0-1.143-.243-1.629-.718a1.117 1.117
 0 0 1-.172-.217l-4.308-7.156-7.32-4.21a1.103 1.103 0 0
 1-.223-.17c-.6-.588-.723-1.207-.72-1.623.009-1.1.864-1.913
 1.276-2.305.04-.039.075-.07.1-.096.776-.84 1.762-1.092 3.01-.779l5.196 1.27
@@ -357,32 +361,32 @@ const HeroBox = () => {
 1.898-.039 3.53l9.533 7.632a1.073 1.073 0 0 1 .081 1.611l-6.232 6.08a1.13 1.13 0
 0 1-1.056.285l-5.813-1.42c-.164-.042-.3-.061-.414-.061a.435.435 0 0
 0-.375.161c-.053.06-.13.136-.223.225-.468.445-.588.654-.601.752Z"
- />
- <path
- fill="#4AB449"
- fillOpacity={0.5}
- d="M21.236 25.215c-.285 0-.57-.106-.787-.32a1.072 1.072 0
+                    />
+                    <path
+                      fill="#4AB449"
+                      fillOpacity={0.5}
+                      d="M21.236 25.215c-.285 0-.57-.106-.787-.32a1.072 1.072 0
 0 1 0-1.537l8.836-8.639a1.13 1.13 0 0 1 1.574 0 1.069 1.069 0 0 1 0 1.539l-8.837
 8.638c-.216.213-.501.32-.786.32ZM15.94 20.28c-.285 0-.57-.106-.787-.318a1.07
 1.07 0 0 1 0-1.539l8.95-8.751a1.13 1.13 0 0 1 1.573 0 1.07 1.07 0 0 1 0
 1.538l-8.95 8.751a1.124 1.124 0 0 1-.786.319Z"
- />
- </svg>
- <p className="ml-3">Flight</p>
- </li>
- </ActiveLink>
- <ActiveLink href="/b2bdashboard/hotel">
- <li>
- <svg
- xmlns="http://www.w3.org/2000/svg"
- width={35}
- height={40}
- fill="#fff"
- >
- <path
- fill="#fff"
- fillOpacity={0.5}
- d="M6.25 15h2.5v-2.5h-2.5V15Zm10-2.5h2.5V10h-2.5v2.5Zm5
+                    />
+                  </svg>
+                  <p className="ml-3">Flight</p>
+                </li>
+              </ActiveLink>
+              <ActiveLink href="/b2bdashboard/hotel">
+                <li>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={35}
+                    height={40}
+                    fill="#fff"
+                  >
+                    <path
+                      fill="#fff"
+                      fillOpacity={0.5}
+                      d="M6.25 15h2.5v-2.5h-2.5V15Zm10-2.5h2.5V10h-2.5v2.5Zm5
 0h2.5V10h-2.5v2.5Zm5 0h2.5V10h-2.5v2.5Zm-10-5h2.5V5h-2.5v2.5Zm5
 0h2.5V5h-2.5v2.5Zm5 0h2.5V5h-2.5v2.5Zm-10 15h2.5V20h-2.5v2.5Zm5
 0h2.5V20h-2.5v2.5Zm5 0h2.5V20h-2.5v2.5Zm-10 5h2.5V25h-2.5v2.5Zm10
@@ -391,36 +395,36 @@ const HeroBox = () => {
 12.5h2.5v-2.5h-2.5V35Zm-17.5-17.5h2.5V15h-2.5v2.5Zm5 0h2.5V15h-2.5v2.5Zm5
 0h2.5V15h-2.5v2.5Zm-20 2.5h2.5v-2.5h-2.5V20Zm0 5h2.5v-2.5h-2.5V25Zm0
 5h2.5v-2.5h-2.5V30Zm0 5h2.5v-2.5h-2.5V35Zm15-7.5h2.5V25h-2.5v2.5Z"
- />
- <path
- fill="#fff"
- fillOpacity={0.5}
- fillRule="evenodd"
- d="M38.75 37.5c0 1.382-1.118 2.5-2.5 2.5H3.75a2.498 2.498
+                    />
+                    <path
+                      fill="#fff"
+                      fillOpacity={0.5}
+                      fillRule="evenodd"
+                      d="M38.75 37.5c0 1.382-1.118 2.5-2.5 2.5H3.75a2.498 2.498
 0 0 1-2.5-2.5V10c0-1.382 1.118-2.5 2.5-2.5h7.5v-5c0-1.382 1.118-2.5
 2.5-2.5h17.5c1.382 0 2.5 1.118 2.5 2.5v15h2.5c1.382 0 2.5 1.118 2.5
 2.5v17.5ZM11.25 10h-7.5v27.5h7.5V10Zm20-7.5h-17.5v35h7.5V30h2.5v7.5h7.5v-35Zm5
 17.5h-2.5v17.5h2.5V20Z"
- clipRule="evenodd"
- />
- </svg>
- <p className="ml-3">Hotel</p>
- </li>
- </ActiveLink>
- <ActiveLink href="/b2bdashboard/visa">
- <li>
- <svg
- xmlns="http://www.w3.org/2000/svg"
- width={45}
- height={45}
- fill="#fff"
- >
- <g>
- <path fill="#fff" />
- <path
- fillOpacity={0.5}
- fill="#fff"
- d="M38.405 12.51 27.858 9.322a2.618 2.618 0 0
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <p className="ml-3">Hotel</p>
+                </li>
+              </ActiveLink>
+              <ActiveLink href="/b2bdashboard/visa">
+                <li>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={45}
+                    height={45}
+                    fill="#fff"
+                  >
+                    <g>
+                      <path fill="#fff" />
+                      <path
+                        fillOpacity={0.5}
+                        fill="#fff"
+                        d="M38.405 12.51 27.858 9.322a2.618 2.618 0 0
 0-1.944.183 2.522 2.522 0 0 0-1.248 1.467l-.394 1.237h-12.84c-.334
 0-.665.065-.973.19a2.55 2.55 0 0 0-.826.539 2.484 2.484 0 0 0-.552.807 2.439
 2.439 0 0 0-.194.953V35.95c0 .662.267 1.296.744 1.765a2.586 2.586 0 0 0
@@ -452,11 +456,11 @@ const HeroBox = () => {
 0-1.788-.716H25.27l.31-.962c.062-.197.164-.38.299-.538.135-.158.3-.288.488-.383a
 1.7 1.7 0 0 1 .745-.179c.158.003.314.026.465.069l10.546
 3.19c.4.12.736.389.933.75.198.36.242.782.122 1.174Z"
- />
- <path
- fillOpacity={0.5}
- fill="#fff"
- d="M26.93 33.984a.484.484 0 0 0 .339-.135.463.463 0 0
+                      />
+                      <path
+                        fillOpacity={0.5}
+                        fill="#fff"
+                        d="M26.93 33.984a.484.484 0 0 0 .339-.135.463.463 0 0
 0 .139-.332.468.468 0 0 0-.142-.33.489.489 0 0 0-.336-.137H11.433a.488.488 0 0
 0-.337.138.467.467 0 0 0-.106.508.463.463 0 0 0
 .26.254c.057.023.12.035.183.034H26.93ZM13.134 26.575c.588.947 1.401 1.74 2.371
@@ -497,35 +501,35 @@ const HeroBox = () => {
 0 0-.436-1.25 6.94 6.94 0 0
 0-.69-1.197c.32.125.627.282.915.468Zm-5.667-.48a7.179 7.179 0 0 0-1.125 2.46
 8.812 8.812 0 0 1-1.49-.412 5.955 5.955 0 0 1 2.615-2.049Z"
- />
- </g>
- </svg>
- <p className="ml-3">Visa</p>
- </li>
- </ActiveLink>
- <ActiveLink href="/b2bdashboard/tours">
- <li>
- <svg
- xmlns="http://www.w3.org/2000/svg"
- width={35}
- height={43}
- fill="#fff"
- >
- <path
- fill="#fff"
- fillOpacity={0.5}
- d="M23.02 8.672c2.202 0 3.987-1.775 3.987-3.965S25.222.743
+                      />
+                    </g>
+                  </svg>
+                  <p className="ml-3">Visa</p>
+                </li>
+              </ActiveLink>
+              <ActiveLink href="/b2bdashboard/tours">
+                <li>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={35}
+                    height={43}
+                    fill="#fff"
+                  >
+                    <path
+                      fill="#fff"
+                      fillOpacity={0.5}
+                      d="M23.02 8.672c2.202 0 3.987-1.775 3.987-3.965S25.222.743
 23.019.743c-2.202 0-3.987 1.775-3.987 3.964 0 2.19 1.785 3.965 3.987
 3.965ZM32.236 15.979l-5.933-4.927h-6.04l-4.902
 6.301-4.974.525-.616.07-.607.061-.467.053.335 1.916.132.027.607.113.616.114 6.47
 1.208 3.697-4.017-.563 7.351-3.31 17.424h2.527l4.63-14.57 4.577
 14.57h2.35l-2.64-17.258-.74-7.613 3.469 2.039.22 5.557 2.306.017
 1.32-5.434.3-1.234-2.764-2.293ZM9.006 28.423H3.592v9.846h5.414v-9.846Z"
- />
- <path
- fill="#fff"
- fillOpacity={0.5}
- d="M10.607
+                    />
+                    <path
+                      fill="#fff"
+                      fillOpacity={0.5}
+                      d="M10.607
 22.385h-.22v-.91l-1.232-.228v1.138H3.433v-8.401h1.1v.236c0
 .35.29.639.643.639h2.227a.644.644 0 0 0
 .643-.64v-.235h1.1v2.791l.484-.052.748-.079v-3.273a.61.61 0 0
@@ -537,61 +541,67 @@ const HeroBox = () => {
 1.154-1.146 1.15 1.15 0 0 0-1.154-1.147 1.15 1.15 0 0 0-1.153 1.147 1.15 1.15 0
 0 0 1.153 1.146ZM9.622 42.198a1.15 1.15 0 0 0 1.153-1.146 1.15 1.15 0 0
 0-1.153-1.147 1.15 1.15 0 0 0-1.154 1.147 1.15 1.15 0 0 0 1.154 1.146Z"
- />
- </svg>
- <p className="ml-3">Tours</p>
- </li>
- </ActiveLink>
- <ActiveLink href="/b2bdashboard/buses">
- <li>
- <svg
- xmlns="http://www.w3.org/2000/svg"
- width={40}
- height={39}
- fill="#fff"
- >
- <g
- fill="#fff"
- fillRule="evenodd"
- clipRule="evenodd"
- opacity={0.4}
- >
- <path d="M6.5 31.296a1 1 0 0 1 1-1H15a1 1 0 0 1 1
+                    />
+                  </svg>
+                  <p className="ml-3">Tours</p>
+                </li>
+              </ActiveLink>
+              <ActiveLink href="/b2bdashboard/buses">
+                <li>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={40}
+                    height={39}
+                    fill="#fff"
+                  >
+                    <g
+                      fill="#fff"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      opacity={0.4}
+                    >
+                      <path
+                        d="M6.5 31.296a1 1 0 0 1 1-1H15a1 1 0 0 1 1
 1v2.408c0 1.911-1.609 3.407-3.5 3.407H10c-1.891 0-3.5-1.496-3.5-3.407v-2.408Zm2
 1v1.408c0 .736.641 1.407 1.5 1.407h2.5c.859 0 1.5-.67 1.5-1.407v-1.408H8.5ZM24
 31.296a1 1 0 0 1 1-1h7.5a1 1 0 0 1 1 1v2.408c0 1.911-1.609 3.407-3.5
 3.407h-2.5c-1.891 0-3.5-1.496-3.5-3.407v-2.408Zm2 1v1.408c0 .736.641 1.407 1.5
-1.407H30c.859 0 1.5-.67 1.5-1.407v-1.408H26Z" />
- <path d="M11.25 4.611c-2.234 0-4 1.754-4 3.815v20.463c0
+1.407H30c.859 0 1.5-.67 1.5-1.407v-1.408H26Z"
+                      />
+                      <path
+                        d="M11.25 4.611c-2.234 0-4 1.754-4 3.815v20.463c0
 .736.641 1.407 1.5 1.407h22.5c.859 0 1.5-.67
 1.5-1.407V8.426c0-2.06-1.766-3.815-4-3.815h-17.5Zm-6 3.815c0-3.236 2.734-5.815
 6-5.815h17.5c3.266 0 6 2.58 6 5.815v20.463c0 1.912-1.609 3.407-3.5
-3.407H8.75c-1.891 0-3.5-1.495-3.5-3.407V8.426Z" />
- <path d="M5.307 18.927a1 1 0 0 1 1.276-.61 40.446 40.446 0
+3.407H8.75c-1.891 0-3.5-1.495-3.5-3.407V8.426Z"
+                      />
+                      <path
+                        d="M5.307 18.927a1 1 0 0 1 1.276-.61 40.446 40.446 0
 0 0 26.834 0 1 1 0 0 1 .666 1.885 42.448 42.448 0 0 1-28.166 0 1 1 0 0
 1-.61-1.275ZM9.028 25.044a1 1 0 0 1 1.206-.738l5 1.203a1 1 0 1 1-.468
 1.945l-5-1.204a1 1 0 0 1-.738-1.206ZM30.972 25.044a1 1 0 0 1-.738 1.206l-5
 1.204a1 1 0 1 1-.468-1.945l5-1.203a1 1 0 0 1 1.206.738ZM32.849 10.4a1 1 0 0 1
 1.335-.468l5 2.408a1 1 0 0 1 .566.9v6.02a1 1 0 0 1-2 0v-5.391l-4.434-2.135a1 1 0
 0 1-.467-1.335ZM7.151 10.4a1 1 0 0 1-.467 1.334L2.25 13.87v5.39a1 1 0 0 1-2
-0v-6.018a1 1 0 0 1 .566-.901l5-2.408a1 1 0 0 1 1.335.467Z" />
- </g>
- </svg>
- <p className="ml-3">Buses</p>
- </li>
- </ActiveLink>
- <ActiveLink href="/b2bdashboard/train">
- <li className={style.lastChild}>
- <svg
- xmlns="http://www.w3.org/2000/svg"
- width={40}
- height={20}
- fill="none"
- >
- <path
- fill="#fff"
- fillOpacity={0.8}
- d="M.974 16.029c-.178-.065-1.65-.631-.6-2.535.61-1.104
+0v-6.018a1 1 0 0 1 .566-.901l5-2.408a1 1 0 0 1 1.335.467Z"
+                      />
+                    </g>
+                  </svg>
+                  <p className="ml-3">Buses</p>
+                </li>
+              </ActiveLink>
+              <ActiveLink href="/b2bdashboard/train">
+                <li className={style.lastChild}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={40}
+                    height={20}
+                    fill="none"
+                  >
+                    <path
+                      fill="#fff"
+                      fillOpacity={0.8}
+                      d="M.974 16.029c-.178-.065-1.65-.631-.6-2.535.61-1.104
 4.002-5.291 7.778-8.56C10.467 2.94 12.941 1.278 15.04.86c5.454-1.086 23.784
 2.934 23.84 2.943.037.01.065.019.093.037.104.065.431.288.844.845.525.696-.244
 5.914-.253 5.923a.232.232 0 0 1-.16.195l-1.246.455a.25.25 0 0 1-.319-.14.212.212
@@ -611,11 +621,11 @@ const HeroBox = () => {
 1.058l.712-.26c.122-.827.684-4.94.328-5.422-.356-.474-.609-.65-.684-.696-.815-.1
 86-18.367-3.983-23.605-2.934-1.996.399-4.395 2.014-6.654 3.964-3.739 3.23-7.075
 7.344-7.674 8.42Z"
- />
- <path
- fill="#fff"
- fillOpacity={0.8}
- d="M.543
+                    />
+                    <path
+                      fill="#fff"
+                      fillOpacity={0.8}
+                      d="M.543
 15.796c-.122-.055-.187-.194-.14-.315.056-.13.196-.195.327-.14.01 0 2.877 1.18
 6.495.437 1.386-.279 4.45-2.135 7.721-4.364 5.22-3.555 10.927-8.03
 11.245-8.55a.65.65 0 0 0 .103-.27.346.346 0 0 0-.056-.24.71.71 0 0
@@ -623,22 +633,22 @@ const HeroBox = () => {
 .281-.214c.356.047.778.158 1.096.344.17.102.31.223.413.371a.85.85 0 0 1
 .122.576c-.019.14-.066.288-.169.455-.328.557-6.12 5.115-11.386 8.699-3.317
 2.265-6.438 4.15-7.9 4.447-3.767.77-6.775-.464-6.784-.464Z"
- />
- <path
- fill="#fff"
- fillOpacity={0.8}
- d="M5.687 17.245c-.009.018-.018.028-.028.046a.243.243 0 0
+                    />
+                    <path
+                      fill="#fff"
+                      fillOpacity={0.8}
+                      d="M5.687 17.245c-.009.018-.018.028-.028.046a.243.243 0 0
 1-.337.065c-.16-.111-.187-.232-.084-.38a.311.311 0 0 1
 .13-.093c.179-.075.488-.12.9-.177.76-.102 1.893-.26 2.84-.584.487-.168
 1.537-.585 2.877-1.115 3.326-1.318 8.424-3.342 11.095-3.992 3.739-.919
 16.455-2.86 16.493-2.868a.25.25 0 0 1 .075.492c-.038 0-12.735 1.94-16.446
 2.85-2.643.65-7.722 2.655-11.04 3.973-1.34.53-2.389.947-2.895
 1.114-.993.344-2.155.511-2.933.613-.337.047-.553.037-.647.056Z"
- />
- <path
- fill="#fff"
- fillOpacity={0.8}
- d="M7.58 17.004c-.13-.038-.215-.168-.178-.298a.247.247 0 0
+                    />
+                    <path
+                      fill="#fff"
+                      fillOpacity={0.8}
+                      d="M7.58 17.004c-.13-.038-.215-.168-.178-.298a.247.247 0 0
 1 .3-.176s.553.14.965.604c.085.092.141.176.197.25.131.167.188.242.74.288.835.065
 8.687-.9 8.706-.9a.252.252 0 0 1 .281.213.263.263 0 0 1-.178.27l-3.11
 1.058c-.123.046-.263-.028-.31-.158a.237.237 0 0 1
@@ -651,21 +661,21 @@ const HeroBox = () => {
 .019.344c-.019.018-5.754 6.248-6.457
 6.851-.384.325-.815.66-1.227.938-.366.232-.722.436-1.022.548-.328.12-1.274.111-2
 .23.046-1.059-.083-2.155-.232-2.474-.39-.946-.436-.375-.845-.375-.845Z"
- />
- <path
- fill="#fff"
- fillOpacity={0.8}
- d="M9.023 4.944a.242.242 0 1 1
+                    />
+                    <path
+                      fill="#fff"
+                      fillOpacity={0.8}
+                      d="M9.023 4.944a.242.242 0 1 1
 .038-.483l6.906.455h.01c.28.01 4.666.14
 5.67-1.179l-.825-1.328c-.947-.046-6.794-.343-7.975-.222-.14.009-.263-.084-.272-.
 223-.019-.13.084-.25.225-.27 1.284-.13 7.797.214 8.162.233.084 0
 .169.037.216.111l.974 1.57h-.01a.24.24 0 0 1 .01.25c-.965 1.699-5.904 1.56-6.194
 1.55h-.019l-6.916-.464Z"
- />
- <path
- fill="#fff"
- fillOpacity={0.8}
- d="M17.898 2.028a.242.242 0 0 1
+                    />
+                    <path
+                      fill="#fff"
+                      fillOpacity={0.8}
+                      d="M17.898 2.028a.242.242 0 0 1
 .347.01c.094.093.084.25-.01.343L15.2
 5.222c-.103.093-.253.093-.346-.01-.094-.101-.094-.25.009-.343l3.036-2.84ZM7.75
 8.537l.909-.966a.25.25 0 0 1 .206-.074l2.708.074c.131.01.244.12.244.25a.313.313
@@ -680,11 +690,11 @@ const HeroBox = () => {
 0 1 .234-.27c.01 0 3.777-.278
 5.876.548.131.046.187.186.14.316-.056.12-.196.185-.318.139-1.996-.78-5.66-.51-5.
 67-.51Z"
- />
- <path
- fill="#fff"
- fillOpacity={0.8}
- d="M8.443 12.362a.25.25 0 0 1 .065-.344.243.243 0 0 1
+                    />
+                    <path
+                      fill="#fff"
+                      fillOpacity={0.8}
+                      d="M8.443 12.362a.25.25 0 0 1 .065-.344.243.243 0 0 1
 .337.065c.01.01 1.106 1.588 1.05 2.795 0 .139-.122.241-.253.232a.235.235 0 0
 1-.234-.25c.047-1.05-.965-2.498-.965-2.498ZM26.472 3.235a.24.24 0 0
 1-.215-.269.246.246 0 0 1 .281-.213l12.97 1.699a.24.24 0 0 1 .215.269.246.246 0
@@ -692,22 +702,22 @@ const HeroBox = () => {
 .17-.306l6.85-1.978a.245.245 0 0 1 .3.167.248.248 0 0 1-.17.307l-6.84
 1.977ZM36.602 11.192a.25.25 0 0 1-.309-.167.253.253 0 0 1
 .178-.307l1.584-.445a.251.251 0 0 1 .309.167.248.248 0 0 1-.169.306l-1.593.446Z"
- />
- <path
- fill="#fff"
- fillOpacity={0.8}
- d="m23.08
+                    />
+                    <path
+                      fill="#fff"
+                      fillOpacity={0.8}
+                      d="m23.08
 15.119-.01.028-.009.009-.009.037-.01.019c-.159.436-.487.826-.88
 1.105-.403.287-.89.464-1.36.464-.29 0-.543-.065-.749-.195a1.093 1.093 0 0
 1-.487-.557c-.047-.121.019-.26.14-.316h.02v-.01l3.045-.9a.25.25 0 0 1
 .31.167c.018.047.009.102 0
 .149Zm-1.209.798c.197-.13.366-.297.497-.482l-2.183.65c.037.027.074.055.121.083.1
 31.074.3.12.497.12.365 0 .75-.139 1.068-.37Z"
- />
- <path
- fill="#fff"
- fillOpacity={0.8}
- d="m26.088
+                    />
+                    <path
+                      fill="#fff"
+                      fillOpacity={0.8}
+                      d="m26.088
 14.19-.01.038h-.009l-.009.037v.01c-.16.445-.487.835-.89
 1.123-.403.287-.89.464-1.359.464-.29 0-.544-.075-.75-.195a1.112 1.112 0 0
 1-.478-.557.238.238 0 0 1 .132-.316c.009 0 .018-.01.028-.01l3.036-.909a.251.251
@@ -771,108 +781,108 @@ const HeroBox = () => {
 1-.122.288.466.466 0 0 1-.29.13l-.488.018h-.019a.383.383 0 0 1-.281-.111.435.435
 0 0 1-.131-.279V6.308c0-.111.047-.213.122-.287a.383.383 0 0 1
 .28-.13h.01Zm.375.511-.253.01v1.615l.253-.01V6.402Z"
- />
- </svg>
- <p className="ml-3">Trains</p>
- </li>
- </ActiveLink>
- </div>
- </ul>
- </div>
- <div className="flightTab">
- <Tabs
- defaultTabIndex={tabIndex}
- onSelect={(index) => setTabIndex(index)}
- >
- <TabList className={style.tabWrap}>
- <Tab>One Way</Tab>
- <Tab>Round Trip</Tab>
- <Tab>Multiple City</Tab>
- <Tab>Group Flight</Tab>
- </TabList>
- <TabPanel>
- <div>
- <div className={style.oneWayPackage}>
- <div className={style.package}>
- <div className={style.searchTop}>
- <h4>Flying From</h4>
- <input
- autoComplete="off"
- value={selected}
- onChange={(e) => handleFilter(e.target.value)}
- id="searchAirport"
- type="text"
- placeholder="City or Airport "
- />
- <div className={style.searchResult}>
- {data?.map((d, i) => (
- <div key={i}>
- <div
- onClick={() =>
- handleSelect(d.iata, d.name, d.country)
- }
- className={style.airport}
- >
- <h6 className="mr-3">{d.iata}</h6>
- <p>,{d.country}</p>
- <p>,{d.name}</p>
- </div>
- </div>
- ))}
- </div>
- </div>
- </div>
- <div className={style.package2}>
- <div className={style.searchTop}>
- <h4>Flying To</h4>
- <input
- autoComplete="off"
- value={selected2}
- id="searchAirport"
- onChange={(e) => handleFilter2(e.target.value)}
- type="text "
- placeholder="City or Airport "
- />
- <div className={style.searchResult}>
- {data2?.map((d, i) => (
- <div key={i}>
- <div
- onClick={() =>
- handleSelect2(d.iata, d.name, d.country)
- }
- className={style.airport}
- >
- <h6 className="mr-3">{d.iata}</h6>
- <p>,{d.country}</p>
- <p>,{d.name}</p>
- </div>
- </div>
- ))}
- </div>
- </div>
- </div>
- </div>
- <div className={style.packageWrap}>
- <div className={style.oneWayPackage}>
- <div
- onClick={() => setOpen((open) => !open)}
- className={style.packageDate}
- >
- <div className={style.departDate}>
- <h4>Depart To</h4>
- <div className={style.calendarInput}>
- <input
- // value={`${format(
- // range[0].startDate,
- // "MM/dd/yyyy"
- // )}`}
- readOnly
- />
- <CalendarMonth className={style.calendarIcon} />
- </div>
- </div>
- <div className={style.calendar} ref={refOne}>
- {/* {open && (
+                    />
+                  </svg>
+                  <p className="ml-3">Trains</p>
+                </li>
+              </ActiveLink>
+            </div>
+          </ul>
+        </div>
+        <div className="flightTab">
+          <Tabs
+            defaultTabIndex={tabIndex}
+            onSelect={(index) => setTabIndex(index)}
+          >
+            <TabList className={style.tabWrap}>
+              <Tab>One Way</Tab>
+              <Tab>Round Trip</Tab>
+              <Tab>Multiple City</Tab>
+              <Tab>Group Flight</Tab>
+            </TabList>
+            <TabPanel>
+              <div>
+                <div className={style.oneWayPackage}>
+                  <div className={style.package}>
+                    <div className={style.searchTop}>
+                      <h4>Flying From</h4>
+                      <input
+                        autoComplete="off"
+                        value={selected}
+                        onChange={(e) => handleFilter(e.target.value)}
+                        id="searchAirport"
+                        type="text"
+                        placeholder="City or Airport "
+                      />
+                      <div className={style.searchResult}>
+                        {data?.map((d, i) => (
+                          <div key={i}>
+                            <div
+                              onClick={() =>
+                                handleSelect(d.iata, d.name, d.country)
+                              }
+                              className={style.airport}
+                            >
+                              <h6 className="mr-3">{d.iata}</h6>
+                              <p>,{d.country}</p>
+                              <p>,{d.name}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className={style.package2}>
+                    <div className={style.searchTop}>
+                      <h4>Flying To</h4>
+                      <input
+                        autoComplete="off"
+                        value={selected2}
+                        id="searchAirport"
+                        onChange={(e) => handleFilter2(e.target.value)}
+                        type="text "
+                        placeholder="City or Airport "
+                      />
+                      <div className={style.searchResult}>
+                        {data2?.map((d, i) => (
+                          <div key={i}>
+                            <div
+                              onClick={() =>
+                                handleSelect2(d.iata, d.name, d.country)
+                              }
+                              className={style.airport}
+                            >
+                              <h6 className="mr-3">{d.iata}</h6>
+                              <p>,{d.country}</p>
+                              <p>,{d.name}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={style.packageWrap}>
+                  <div className={style.oneWayPackage}>
+                    <div
+                      onClick={() => setOpen((open) => !open)}
+                      className={style.packageDate}
+                    >
+                      <div className={style.departDate}>
+                        <h4>Depart To</h4>
+                        <div className={style.calendarInput}>
+                          <input
+                            // value={`${format(
+                            // range[0].startDate,
+                            // "MM/dd/yyyy"
+                            // )}`}
+                            readOnly
+                          />
+                          <CalendarMonth className={style.calendarIcon} />
+                        </div>
+                      </div>
+                      <div className={style.calendar} ref={refOne}>
+                        {/* {open && (
  <DateRange
  onChange={(item) => setRange([item.selection])}
  editableDateInputs={true}
@@ -883,164 +893,164 @@ const HeroBox = () => {
  className="calendarElement"
  />
  )} */}
- </div>
- </div>
- <div>
- <div className={style.package4}>
- <div className="flex justify-between">
- <div>
- <h4>
- Passengers & {child + infant + adult} Person
- </h4>
- <span>{classes}</span>
- </div>
- <Groups2
- onClick={() => window.my_modal_3.showModal()}
- className={style.showModalIcon}
- />
- </div>
- </div>
- </div>
- </div>
- {/* Open modala */}
- <div className={style.modal}>
- {/* You can open the modal using ID.showModal() method */}
- <dialog id="my_modal_3" className="modal">
- <form method="dialog" className="modal-box">
- <button className={style.modalCloseBtn}> </button> ✕
- <div>
- <h3 className="font-bold text-lg">Passenger</h3>
- <div className={style.passengerWrap}>
- <div className={style.pLeftSide}>
- <strong>{child}</strong>
- <div className="ml-5">
- <span className="text-xs">Adults</span> <br />
- <small>12 Years and above </small>
- </div>
- </div>
- <div className={style.adultsBtn}>
- <span onClick={childDecrement}>-</span>
- <span onClick={childIncrement}>+</span>
- </div>
- </div>
- <div className={style.passengerWrap}>
- <div className={style.pLeftSide}>
- <strong>{adult}</strong>
- <div className="ml-5">
- <span className="text-xs">Children</span> <br />
- <small>2- 11 year at the time of travel </small>
- </div>
- </div>
- <div className={style.adultsBtn}>
- <span onClick={decrementAdult}>-</span>
- <span onClick={incrementAdult}>+</span>
- </div>
- </div>
- <div>
- <TextField
- className={style.dateOfChild}
- id="outlined-required"
- type="date"
- />
- </div>
- <div className={style.passengerWrap}>
- <div className={style.pLeftSide}>
- <strong>{infant}</strong>
- <div className="ml-5">
- <span className="text-xs">Children</span> <br />
- <small>
- 0 - 23 month at the time of travel{" "}
- </small>
- </div>
- </div>
- <div className={style.adultsBtn}>
- <span onClick={decrementInfant}>-</span>
- <span onClick={incrementInfant}>+</span>
- </div>
- </div>
- <div>
- <hr className="w-full my-5" />
- </div>
- <div className={style.classType}>
- <select
- onChange={(e) => {
- const classes = e.target.value;
- setClasses(classes);
- }}
- >
- <option value="Premium" selected>
- Cabin Class
- </option>
- <option value="Premium Econom">
- Premium Economy
- </option>
- <option value="Economy class">
- Economy class
- </option>
- <option value="Business class">
- Business class
- </option>
- <option value="First class">First class</option>
- </select>
- </div>
- </div>
- </form>
- </dialog>
- </div>
- </div>
- </div>
- </TabPanel>
- <TabPanel>
- <div>
- <div className={style.roundTripWrap}>
- <div className={style.package}>
- <div className={style.searchTop}>
- <h4>Flying From</h4>
- <input
- autoComplete="off"
- value={selected}
- id="searchAirport"
- onChange={(e) => handleFilter(e.target.value)}
- type="text"
- placeholder="City or Airport "
- />
- </div>
- </div>
- <div className={style.package2}>
- <div className={style.searchTop}>
- <h4>Flying From</h4>
- <input
- autoComplete="off"
- value={selected2}
- id="searchAirport"
- onChange={(e) => handleFilter2(e.target.value)}
- type="text "
- placeholder="City or Airport "
- />
- </div>
- </div>
- </div>
- <div className={style.packageWrap}>
- <div className={style.packageDate}>
- <div className={style.roundTripWrap}>
- <div
- onClick={() => setOpen((open) => !open)}
- className={style.date}
- >
- <h4>Depart To</h4>
- <div className={style.calendarInput}>
- <input
- // value={`${format(
- // range[0].startDate,
- // "MM/dd/yyyy"
- // )}`}
- readOnly
- />
- <CalendarMonth className={style.calendarIcon} />
- </div>
- </div>
- <div className={style.calendar} ref={refOne}>
- {/* {open && (
+                      </div>
+                    </div>
+                    <div>
+                      <div className={style.package4}>
+                        <div className="flex justify-between">
+                          <div>
+                            <h4>
+                              Passengers & {child + infant + adult} Person
+                            </h4>
+                            <span>{classes}</span>
+                          </div>
+                          <Groups2
+                            onClick={() => window.my_modal_3.showModal()}
+                            className={style.showModalIcon}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Open modala */}
+                  <div className={style.modal}>
+                    {/* You can open the modal using ID.showModal() method */}
+                    <dialog id="my_modal_3" className="modal">
+                      <form method="dialog" className="modal-box">
+                        <button className={style.modalCloseBtn}> </button> ✕
+                        <div>
+                          <h3 className="font-bold text-lg">Passenger</h3>
+                          <div className={style.passengerWrap}>
+                            <div className={style.pLeftSide}>
+                              <strong>{child}</strong>
+                              <div className="ml-5">
+                                <span className="text-xs">Adults</span> <br />
+                                <small>12 Years and above </small>
+                              </div>
+                            </div>
+                            <div className={style.adultsBtn}>
+                              <span onClick={childDecrement}>-</span>
+                              <span onClick={childIncrement}>+</span>
+                            </div>
+                          </div>
+                          <div className={style.passengerWrap}>
+                            <div className={style.pLeftSide}>
+                              <strong>{adult}</strong>
+                              <div className="ml-5">
+                                <span className="text-xs">Children</span> <br />
+                                <small>2- 11 year at the time of travel </small>
+                              </div>
+                            </div>
+                            <div className={style.adultsBtn}>
+                              <span onClick={decrementAdult}>-</span>
+                              <span onClick={incrementAdult}>+</span>
+                            </div>
+                          </div>
+                          <div>
+                            <TextField
+                              className={style.dateOfChild}
+                              id="outlined-required"
+                              type="date"
+                            />
+                          </div>
+                          <div className={style.passengerWrap}>
+                            <div className={style.pLeftSide}>
+                              <strong>{infant}</strong>
+                              <div className="ml-5">
+                                <span className="text-xs">Children</span> <br />
+                                <small>
+                                  0 - 23 month at the time of travel{" "}
+                                </small>
+                              </div>
+                            </div>
+                            <div className={style.adultsBtn}>
+                              <span onClick={decrementInfant}>-</span>
+                              <span onClick={incrementInfant}>+</span>
+                            </div>
+                          </div>
+                          <div>
+                            <hr className="w-full my-5" />
+                          </div>
+                          <div className={style.classType}>
+                            <select
+                              onChange={(e) => {
+                                const classes = e.target.value
+                                setClasses(classes)
+                              }}
+                            >
+                              <option value="Premium" selected>
+                                Cabin Class
+                              </option>
+                              <option value="Premium Econom">
+                                Premium Economy
+                              </option>
+                              <option value="Economy class">
+                                Economy class
+                              </option>
+                              <option value="Business class">
+                                Business class
+                              </option>
+                              <option value="First class">First class</option>
+                            </select>
+                          </div>
+                        </div>
+                      </form>
+                    </dialog>
+                  </div>
+                </div>
+              </div>
+            </TabPanel>
+            <TabPanel>
+              <div>
+                <div className={style.roundTripWrap}>
+                  <div className={style.package}>
+                    <div className={style.searchTop}>
+                      <h4>Flying From</h4>
+                      <input
+                        autoComplete="off"
+                        value={selected}
+                        id="searchAirport"
+                        onChange={(e) => handleFilter(e.target.value)}
+                        type="text"
+                        placeholder="City or Airport "
+                      />
+                    </div>
+                  </div>
+                  <div className={style.package2}>
+                    <div className={style.searchTop}>
+                      <h4>Flying From</h4>
+                      <input
+                        autoComplete="off"
+                        value={selected2}
+                        id="searchAirport"
+                        onChange={(e) => handleFilter2(e.target.value)}
+                        type="text "
+                        placeholder="City or Airport "
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className={style.packageWrap}>
+                  <div className={style.packageDate}>
+                    <div className={style.roundTripWrap}>
+                      <div
+                        onClick={() => setOpen((open) => !open)}
+                        className={style.date}
+                      >
+                        <h4>Depart To</h4>
+                        <div className={style.calendarInput}>
+                          <input
+                            // value={`${format(
+                            // range[0].startDate,
+                            // "MM/dd/yyyy"
+                            // )}`}
+                            readOnly
+                          />
+                          <CalendarMonth className={style.calendarIcon} />
+                        </div>
+                      </div>
+                      <div className={style.calendar} ref={refOne}>
+                        {/* {open && (
  <DateRange
  onChange={(item) => setRange([item.selection])}
  editableDateInputs={true}
@@ -1051,25 +1061,25 @@ const HeroBox = () => {
  className="calendarElement"
  />
  )} */}
- </div>
- <div
- onClick={() => setOpen2((open2) => !open2)}
- className={style.date2}
- >
- <h4>Return To </h4>
- <div className={style.calendarInput}>
- <input
- // value={`${format(
- // range2[0].startDate,
- // "MM/dd/yyyy"
- // )}`}
- readOnly
- />
- <CalendarMonth className={style.calendarIcon} />
- </div>
- </div>
- <div className={style.calendar} ref={refTow}>
- {/* {open2 && (
+                      </div>
+                      <div
+                        onClick={() => setOpen2((open2) => !open2)}
+                        className={style.date2}
+                      >
+                        <h4>Return To </h4>
+                        <div className={style.calendarInput}>
+                          <input
+                            // value={`${format(
+                            // range2[0].startDate,
+                            // "MM/dd/yyyy"
+                            // )}`}
+                            readOnly
+                          />
+                          <CalendarMonth className={style.calendarIcon} />
+                        </div>
+                      </div>
+                      <div className={style.calendar} ref={refTow}>
+                        {/* {open2 && (
  <DateRange
  onChange={(item) => setRange2([item.selection])}
  editableDateInputs={true}
@@ -1080,158 +1090,157 @@ const HeroBox = () => {
  className="calendarElement"
  />
  )} */}
- </div>
- <div
- onClick={() => window.my_modal_3.showModal()}
- className={style.package4}
- >
- <div className="flex justify-between">
- <div>
- <span>
- Passenger & {child + infant + adult} Person
- </span>{" "}
- <br />
- <span>{classes}</span>
- </div>
- <Groups2
- onClick={() => window.my_modal_3.showModal()}
- className={style.showModalIcon}
- />
- </div>
- </div>
- </div>
- </div>
- {/* open modal */}
- <div className={style.modal}>
- {/* You can open the modal using ID.showModal() method */}
- <dialog id="my_modal_3" className="modal">
- <form method="dialog" className="modal-box">
- <button className={style.modalCloseBtn}> </button> ✕
- <div>
- <h3 className="font-bold text-lg">Passenger</h3>
- <div className={style.passengerWrap}>
- <div className={style.pLeftSide}>
- <strong>{child}</strong>
- <div className="ml-5">
- <span className="text-xs">Adults</span> <br />
- <small>12 Years and above </small>
- </div>
- </div>
- <div className={style.adultsBtn}>
- <span onClick={childDecrement}>-</span>
- <span onClick={childIncrement}>+</span>
- </div>
- </div>
- <div className={style.passengerWrap}>
- <div className={style.pLeftSide}>
- <strong>{adult}</strong>
- <div className="ml-5">
- <span className="text-xs">Children</span> <br />
- <small>2- 11 year at the time of travel </small>
- </div>
- </div>
- <div className={style.adultsBtn}>
- <span onClick={decrementAdult}>-</span>
- <span onClick={incrementAdult}>+</span>
- </div>
- </div>
- <div>
- <TextField
- className={style.dateOfChild}
- id="outlined-required"
- type="date"
- />
- </div>
- <div className={style.passengerWrap}>
- <div className={style.pLeftSide}>
- <strong>{infant}</strong>
- <div className="ml-5">
- <span className="text-xs">Children</span> <br />
- <small>
- 0 - 23 month at the time of travel{" "}
- </small>
- </div>
- </div>
- <div className={style.adultsBtn}>
- <span onClick={decrementInfant}>-</span>
- <span onClick={incrementInfant}>+</span>
- </div>
- </div>
- <div>
- <hr className="w-full my-5" />
- </div>
- <div className={style.classType}>
- <select
- onChange={(e) => {
- const classes = e.target.value;
- setClasses(classes);
- }}
- >
- <option value="Premium" selected>
- Cabin Class
- </option>
- <option value="Premium Econom">
- Premium Economy
- </option>
- <option value="Economy class">
- Economy class
- </option>
- <option value="Business class">
- Business class
- </option>
- <option value="First class">First class</option>
- </select>
- </div>
- </div>
- </form>
- </dialog>
- </div>
- </div>
- </div>
- </TabPanel>
- <TabPanel>
- <div className={style.multiplePackageWrap}>
- <div className={style.multiplePackage}>
- <div className={style.searchTop}>
- <h4>Flying From</h4>
- <input
- autoComplete="off"
- value={selected}
- id="searchAirport"
- onChange={(e) => handleFilter(e.target.value)}
- type="text "
- placeholder="City or Airport "
- />
-
- </div>
- </div>
- <div className={style.multiplePackage}>
- <div className={style.searchTop}>
- <h4>Flying To</h4>
- <input
- autoComplete="off"
- value={selected2}
- id="searchAirport"
- onChange={(e) => handleFilter2(e.target.value)}
- type="text "
- placeholder="City or Airport "
- />
- </div>
- </div>
- <div className={style.multiplePackage}>
- <div onClick={() => setOpen2((open2) => !open2)}>
- <h4>Select Date </h4>
- <div className={style.calendarInput}>
- <input
- // value={`${format(range2[0].startDate,
-// "MM/dd/yyyy")}`}
-//  readOnly
- />
- <CalendarMonth className={style.calendarIcon} />
- </div>
- </div>
- <div className={style.calendar} ref={refTow}>
- {/* {open2 && (
+                      </div>
+                      <div
+                        onClick={() => window.my_modal_3.showModal()}
+                        className={style.package4}
+                      >
+                        <div className="flex justify-between">
+                          <div>
+                            <span>
+                              Passenger & {child + infant + adult} Person
+                            </span>{" "}
+                            <br />
+                            <span>{classes}</span>
+                          </div>
+                          <Groups2
+                            onClick={() => window.my_modal_3.showModal()}
+                            className={style.showModalIcon}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* open modal */}
+                  <div className={style.modal}>
+                    {/* You can open the modal using ID.showModal() method */}
+                    <dialog id="my_modal_3" className="modal">
+                      <form method="dialog" className="modal-box">
+                        <button className={style.modalCloseBtn}> </button> ✕
+                        <div>
+                          <h3 className="font-bold text-lg">Passenger</h3>
+                          <div className={style.passengerWrap}>
+                            <div className={style.pLeftSide}>
+                              <strong>{child}</strong>
+                              <div className="ml-5">
+                                <span className="text-xs">Adults</span> <br />
+                                <small>12 Years and above </small>
+                              </div>
+                            </div>
+                            <div className={style.adultsBtn}>
+                              <span onClick={childDecrement}>-</span>
+                              <span onClick={childIncrement}>+</span>
+                            </div>
+                          </div>
+                          <div className={style.passengerWrap}>
+                            <div className={style.pLeftSide}>
+                              <strong>{adult}</strong>
+                              <div className="ml-5">
+                                <span className="text-xs">Children</span> <br />
+                                <small>2- 11 year at the time of travel </small>
+                              </div>
+                            </div>
+                            <div className={style.adultsBtn}>
+                              <span onClick={decrementAdult}>-</span>
+                              <span onClick={incrementAdult}>+</span>
+                            </div>
+                          </div>
+                          <div>
+                            <TextField
+                              className={style.dateOfChild}
+                              id="outlined-required"
+                              type="date"
+                            />
+                          </div>
+                          <div className={style.passengerWrap}>
+                            <div className={style.pLeftSide}>
+                              <strong>{infant}</strong>
+                              <div className="ml-5">
+                                <span className="text-xs">Children</span> <br />
+                                <small>
+                                  0 - 23 month at the time of travel{" "}
+                                </small>
+                              </div>
+                            </div>
+                            <div className={style.adultsBtn}>
+                              <span onClick={decrementInfant}>-</span>
+                              <span onClick={incrementInfant}>+</span>
+                            </div>
+                          </div>
+                          <div>
+                            <hr className="w-full my-5" />
+                          </div>
+                          <div className={style.classType}>
+                            <select
+                              onChange={(e) => {
+                                const classes = e.target.value
+                                setClasses(classes)
+                              }}
+                            >
+                              <option value="Premium" selected>
+                                Cabin Class
+                              </option>
+                              <option value="Premium Econom">
+                                Premium Economy
+                              </option>
+                              <option value="Economy class">
+                                Economy class
+                              </option>
+                              <option value="Business class">
+                                Business class
+                              </option>
+                              <option value="First class">First class</option>
+                            </select>
+                          </div>
+                        </div>
+                      </form>
+                    </dialog>
+                  </div>
+                </div>
+              </div>
+            </TabPanel>
+            <TabPanel>
+              <div className={style.multiplePackageWrap}>
+                <div className={style.multiplePackage}>
+                  <div className={style.searchTop}>
+                    <h4>Flying From</h4>
+                    <input
+                      autoComplete="off"
+                      value={selected}
+                      id="searchAirport"
+                      onChange={(e) => handleFilter(e.target.value)}
+                      type="text "
+                      placeholder="City or Airport "
+                    />
+                  </div>
+                </div>
+                <div className={style.multiplePackage}>
+                  <div className={style.searchTop}>
+                    <h4>Flying To</h4>
+                    <input
+                      autoComplete="off"
+                      value={selected2}
+                      id="searchAirport"
+                      onChange={(e) => handleFilter2(e.target.value)}
+                      type="text "
+                      placeholder="City or Airport "
+                    />
+                  </div>
+                </div>
+                <div className={style.multiplePackage}>
+                  <div onClick={() => setOpen2((open2) => !open2)}>
+                    <h4>Select Date </h4>
+                    <div className={style.calendarInput}>
+                      <input
+                      // value={`${format(range2[0].startDate,
+                      // "MM/dd/yyyy")}`}
+                      //  readOnly
+                      />
+                      <CalendarMonth className={style.calendarIcon} />
+                    </div>
+                  </div>
+                  <div className={style.calendar} ref={refTow}>
+                    {/* {open2 && (
  <DateRange
  onChange={(item) => setRange2([item.selection])}
  editableDateInputs={true}
@@ -1242,137 +1251,142 @@ const HeroBox = () => {
  className="calendarElement"
  />
  )} */}
- </div>
- </div>
- <div
- onClick={() => window.my_modal_3.showModal()}
- className={style.multiplePackage}
- >
- <div>
- <h4>
- Passenger & <small>{child + infant + adult}
-Person</small>{" "}
- </h4>
- <small>Economy class</small>
- </div>
- <div className="modal">
- {/* You can open the modal using ID.showModal() method */}
- <button
- className="btn"
- onClick={() => window.my_modal_3.showModal()}
- ></button>
- <dialog id="my_modal_3" className="modal">
- <form method="dialog" className="modal-box">
- <button className="btn btn-sm btn-circle btn-ghost
-absolute right-2 top-2">
- ✕
- </button>
- <div>
- <h3 className="font-bold text-lg">Passenger</h3>
- <div className={style.passengerWrap}>
- <div className={style.pLeftSide}>
- <strong>{child}</strong>
- <div className="ml-5">
- <span className="text-xs">Adults</span> <br />
- <small>12 Years and above </small>
- </div>
- </div>
- <div className={style.adultsBtn}>
- <span onClick={childDecrement}>-</span>
- <span onClick={childIncrement}>+</span>
- </div>
- </div>
- <div className={style.passengerWrap}>
- <div className={style.pLeftSide}>
- <strong>{adult}</strong>
- <div className="ml-5">
- <span className="text-xs">Children</span> <br />
- <small>2- 11 year at the time of travel </small>
- </div>
- </div>
- <div className={style.adultsBtn}>
- <span onClick={decrementAdult}>-</span>
- <span onClick={incrementAdult}>+</span>
- </div>
- </div>
- <div>
- <TextField
- className={style.dateOfChild}
- id="outlined-required"
- type="date"
- />
- </div>
- <div className={style.passengerWrap}>
- <div className={style.pLeftSide}>
- <strong>{infant}</strong>
- <div className="ml-5">
- <span className="text-xs">Children</span> <br />
- <small>
- 0 - 23 month at the time of travel{" "}
- </small>
- </div>
- </div>
- <div className={style.adultsBtn}>
- <span onClick={decrementInfant}>-</span>
- <span onClick={incrementInfant}>+</span>
- </div>
- </div>
- <div>
- <hr className="w-full my-5" />
- </div>
- <div className={style.classType}>
- <p>Cabin class</p>
- <p>Premium Economy</p>
- <p>Business class</p>
- <p>First class</p>
- </div>
- </div>
- </form>
- </dialog>
- </div>
- </div>
- </div>
- {inputList.map((x, i) => {
- return (
- <div key={i} className={style.multiplePackageWrap}>
- <div className={style.multiplePackage}>
- <div className={style.searchTop}>
- <h4>Flying From</h4>
- <input
- autoComplete="off"
- id="searchAirport"
- type="text "
- placeholder="City or Airport "
- />
- </div>
- </div>
- <div className={style.multiplePackage}>
- <div className={style.searchTop}>
- <h4>Flying To</h4>
- <input
- autoComplete="off"
- id="searchAirport"
- type="text "
- placeholder="City or Airport "
- />
- </div>
- </div>
- <div className={style.multiplePackage}>
- <div onClick={() => setOpen((open) => !open)}>
- <h4>Select Date </h4>
- <div className={style.calendarInput}>
- <input
- // value={`${format(
- // range[0].startDate,
- // "MM/dd/yyyy"
- // )}`}
- readOnly
- />
- <CalendarMonth className={style.calendarIcon} />
- </div>
- </div>
- <div className={style.calendar} ref={refOne}>
- {/* {open && (
+                  </div>
+                </div>
+                <div
+                  onClick={() => window.my_modal_3.showModal()}
+                  className={style.multiplePackage}
+                >
+                  <div>
+                    <h4>
+                      Passenger &{" "}
+                      <small>
+                        {child + infant + adult}
+                        Person
+                      </small>{" "}
+                    </h4>
+                    <small>Economy class</small>
+                  </div>
+                  <div className="modal">
+                    {/* You can open the modal using ID.showModal() method */}
+                    <button
+                      className="btn"
+                      onClick={() => window.my_modal_3.showModal()}
+                    ></button>
+                    <dialog id="my_modal_3" className="modal">
+                      <form method="dialog" className="modal-box">
+                        <button
+                          className="btn btn-sm btn-circle btn-ghost
+absolute right-2 top-2"
+                        >
+                          ✕
+                        </button>
+                        <div>
+                          <h3 className="font-bold text-lg">Passenger</h3>
+                          <div className={style.passengerWrap}>
+                            <div className={style.pLeftSide}>
+                              <strong>{child}</strong>
+                              <div className="ml-5">
+                                <span className="text-xs">Adults</span> <br />
+                                <small>12 Years and above </small>
+                              </div>
+                            </div>
+                            <div className={style.adultsBtn}>
+                              <span onClick={childDecrement}>-</span>
+                              <span onClick={childIncrement}>+</span>
+                            </div>
+                          </div>
+                          <div className={style.passengerWrap}>
+                            <div className={style.pLeftSide}>
+                              <strong>{adult}</strong>
+                              <div className="ml-5">
+                                <span className="text-xs">Children</span> <br />
+                                <small>2- 11 year at the time of travel </small>
+                              </div>
+                            </div>
+                            <div className={style.adultsBtn}>
+                              <span onClick={decrementAdult}>-</span>
+                              <span onClick={incrementAdult}>+</span>
+                            </div>
+                          </div>
+                          <div>
+                            <TextField
+                              className={style.dateOfChild}
+                              id="outlined-required"
+                              type="date"
+                            />
+                          </div>
+                          <div className={style.passengerWrap}>
+                            <div className={style.pLeftSide}>
+                              <strong>{infant}</strong>
+                              <div className="ml-5">
+                                <span className="text-xs">Children</span> <br />
+                                <small>
+                                  0 - 23 month at the time of travel{" "}
+                                </small>
+                              </div>
+                            </div>
+                            <div className={style.adultsBtn}>
+                              <span onClick={decrementInfant}>-</span>
+                              <span onClick={incrementInfant}>+</span>
+                            </div>
+                          </div>
+                          <div>
+                            <hr className="w-full my-5" />
+                          </div>
+                          <div className={style.classType}>
+                            <p>Cabin class</p>
+                            <p>Premium Economy</p>
+                            <p>Business class</p>
+                            <p>First class</p>
+                          </div>
+                        </div>
+                      </form>
+                    </dialog>
+                  </div>
+                </div>
+              </div>
+              {inputList.map((x, i) => {
+                return (
+                  <div key={i} className={style.multiplePackageWrap}>
+                    <div className={style.multiplePackage}>
+                      <div className={style.searchTop}>
+                        <h4>Flying From</h4>
+                        <input
+                          autoComplete="off"
+                          id="searchAirport"
+                          type="text "
+                          placeholder="City or Airport "
+                        />
+                      </div>
+                    </div>
+                    <div className={style.multiplePackage}>
+                      <div className={style.searchTop}>
+                        <h4>Flying To</h4>
+                        <input
+                          autoComplete="off"
+                          id="searchAirport"
+                          type="text "
+                          placeholder="City or Airport "
+                        />
+                      </div>
+                    </div>
+                    <div className={style.multiplePackage}>
+                      <div onClick={() => setOpen((open) => !open)}>
+                        <h4>Select Date </h4>
+                        <div className={style.calendarInput}>
+                          <input
+                            // value={`${format(
+                            // range[0].startDate,
+                            // "MM/dd/yyyy"
+                            // )}`}
+                            readOnly
+                          />
+                          <CalendarMonth className={style.calendarIcon} />
+                        </div>
+                      </div>
+                      <div className={style.calendar} ref={refOne}>
+                        {/* {open && (
  <DateRange
  onChange={(item) => setRange([item.selection])}
  editableDateInputs={true}
@@ -1383,88 +1397,91 @@ absolute right-2 top-2">
  className="calendarElement"
  />
  )} */}
- </div>
- </div>
- {inputList.length !== 1 && (
- <div onClick={() => handleremove(i)}>
- <div className={style.removeCity}>
- <HorizontalRule />
- <span>Remove City </span>
- </div>
- </div>
- )}
- {inputList.length - 1 === i && (
- <div onClick={handleaddclick}>
- <div className={style.addCity}>
- <Add />
- <span>Add City</span>
- </div>
- </div>
- )}
- </div>
- );
- })}
- </TabPanel>
- <TabPanel>
- <div>
- <div className={style.groupFlight}>
- <div className={style.package}>
- <div className={style.searchTop}>
- <h4>Flying From</h4>
- <input
- autoComplete="off"
- id="searchAirport"
- type="text "
- placeholder="City or Airport "
- />
- </div>
- </div>
- <div className={style.package2}>
- <div className={style.searchTop}>
- <h4>Flying To</h4>
- <input
- autoComplete="off"
- id="searchAirport"
- type="text "
- placeholder="City or Airport "
- />
- </div>
- </div>
- </div>
- <div className={style.packageWrap}>
- <div className={style.packageDate}>
- <div className={style.groupFlight}>
- <div className={style.date}>
- <h4>Depart To</h4>
- <input type="date" />
- </div>
- <div className={style.date2}>
- <h4>Return To </h4>
- <input type="date" />
- </div>
- <div className={style.package4}>
- <div>
- <h4>Passengers & Cabin Class</h4>
- <input autoComplete="off" type="text "
-placeholder="1 person" />
- </div>
- </div>
- </div>
- </div>
- </div>
- </div>
- </TabPanel>
- </Tabs>
- </div>
- <div className={style.btnWrap}>
- <Link href="/b2bdashboard/flight/search">
- <button className={`${style.heroBoxBtn} ${styles.searchBtn}`}>
- Get Your Flight
- </button>
- </Link>
- </div>
- </div>
- </section>
- );
-};
-export default HeroBox;
+                      </div>
+                    </div>
+                    {inputList.length !== 1 && (
+                      <div onClick={() => handleremove(i)}>
+                        <div className={style.removeCity}>
+                          <HorizontalRule />
+                          <span>Remove City </span>
+                        </div>
+                      </div>
+                    )}
+                    {inputList.length - 1 === i && (
+                      <div onClick={handleaddclick}>
+                        <div className={style.addCity}>
+                          <Add />
+                          <span>Add City</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </TabPanel>
+            <TabPanel>
+              <div>
+                <div className={style.groupFlight}>
+                  <div className={style.package}>
+                    <div className={style.searchTop}>
+                      <h4>Flying From</h4>
+                      <input
+                        autoComplete="off"
+                        id="searchAirport"
+                        type="text "
+                        placeholder="City or Airport "
+                      />
+                    </div>
+                  </div>
+                  <div className={style.package2}>
+                    <div className={style.searchTop}>
+                      <h4>Flying To</h4>
+                      <input
+                        autoComplete="off"
+                        id="searchAirport"
+                        type="text "
+                        placeholder="City or Airport "
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className={style.packageWrap}>
+                  <div className={style.packageDate}>
+                    <div className={style.groupFlight}>
+                      <div className={style.date}>
+                        <h4>Depart To</h4>
+                        <input type="date" />
+                      </div>
+                      <div className={style.date2}>
+                        <h4>Return To </h4>
+                        <input type="date" />
+                      </div>
+                      <div className={style.package4}>
+                        <div>
+                          <h4>Passengers & Cabin Class</h4>
+                          <input
+                            autoComplete="off"
+                            type="text "
+                            placeholder="1 person"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </TabPanel>
+          </Tabs>
+        </div>
+        <div className={style.btnWrap}>
+          <Link href="/b2bdashboard/flight/search">
+            <button className={`${style.heroBoxBtn} ${styles.searchBtn}`}>
+              Get Your Flight
+            </button>
+          </Link>
+        </div>
+      </div>
+    </section>
+  )
+}
+export default HeroBox

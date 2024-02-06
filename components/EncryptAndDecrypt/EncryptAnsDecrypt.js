@@ -12,7 +12,7 @@ function encryptTransform(data) {
 function decryptTransform(encryptedData) {
   let decryptedData = "";
   for (let i = 0; i < encryptedData?.length; i++) {
-    const charCode = encryptedData?.charCodeAt(i) ^ encryptionKey.charCodeAt(i % encryptionKey.length);
+    const charCode = encryptedData?.charCodeAt(i) ^ encryptionKey.charCodeAt(i % encryptionKey?.length);
     decryptedData += String.fromCharCode(charCode);
   }
   return decryptedData;

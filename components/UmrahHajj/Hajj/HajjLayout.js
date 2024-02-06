@@ -346,4 +346,5 @@ const HajjLayout = ({ children }) => {
   );
 };
 
+
 export default dynamic(() => Promise.resolve(HajjLayout), { ssr: false });

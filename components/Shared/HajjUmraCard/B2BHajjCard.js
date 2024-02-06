@@ -12,79 +12,7 @@ import { useRouter } from 'next/router';
 import UmrahCard from './UmrahCard';
 import axios from 'axios';
 const B2BHajjCard = ({heading, subheading, title, img, }) => {
-  const datas = [
-    {
-      id: 1,
-      title: 'Platinum Umrah Package 2023 - 2024 from Bangladesh',
-      image: img2,
-      heading: 'Platinum Umrah Package 2023',
-      subheading: '',
-      price: '150,000',
-      desc: 'Hotel in Makkah: Distance 400 meters from Haram Sharif & Madinah 300 meters',
-      desc2: 'Sharing Room (4 Persons)',
-      desc3: 'Meals (3 Times)',
-      desc4: 'Excluding Kurbani',
-      day: '20 days',
 
-    },
-    {
-      id: 1,
-      title: 'Platinum Umrah Package 2023 - 2024 from Bangladesh',
-      image: img,
-      heading: 'Platinum Umrah Package 2023',
-      subheading: '',
-      price: '150,000',
-      desc: 'Hotel in Makkah: Distance 400 meters from Haram Sharif & Madinah 300 meters',
-      desc2: 'Sharing Room (4 Persons)',
-      desc3: 'Meals (3 Times)',
-      desc4: 'Excluding Kurbani',
-      day: '20 days',
-
-    },
-    {
-      id: 2,
-      title: 'Platinum Umrah Package 2023 - 2024 from Bangladesh',
-      image: img2,
-      heading: 'Platinum Umrah Package 2023',
-      subheading: '',
-      price: '150,000',
-      desc: 'Hotel in Makkah: Distance 400 meters from Haram Sharif & Madinah 300 meters',
-      desc2: 'Sharing Room (4 Persons)',
-      desc3: 'Meals (3 Times)',
-      desc4: 'Excluding Kurbani',
-      day: '20 days',
-
-    },
-    {
-      id: 3,
-      title: 'Platinum Umrah Package 2023 - 2024 from Bangladesh',
-      image: img3,
-      heading: 'Platinum Umrah Package 2023',
-      subheading: '',
-      price: '150,000',
-      desc: 'Hotel in Makkah: Distance 400 meters from Haram Sharif & Madinah 300 meters',
-      desc2: 'Sharing Room (4 Persons)',
-      desc3: 'Meals (3 Times)',
-      desc4: 'Excluding Kurbani',
-      day: '20 days',
-
-    },
-    {
-
-      id: 4,
-      title: 'Platinum Umrah Package 2023 - 2024 from Bangladesh',
-      image: img4,
-      heading: 'Platinum Umrah Package 2023',
-      subheading: '',
-      price: '150,000',
-      desc: 'Hotel in Makkah: Distance 400 meters from Haram Sharif & Madinah 300 meters',
-      desc2: 'Sharing Room (4 Persons)',
-      desc3: 'Meals (3 Times)',
-      desc4: 'Excluding Kurbani',
-      day: '20 days',
-
-    },
-  ]
   const router = useRouter();
   const params = router.asPath;
   const refreshParams = params.split("/");
@@ -388,7 +316,7 @@ const B2BHajjCard = ({heading, subheading, title, img, }) => {
               refreshParams.includes("nonshifting") ||
               refreshParams.includes("shifting")) && (
               <>
-                {hajjDetailsData.length === 0 ? (
+                {hajjDetailsData?.length === 0 ? (
                   <div>
                     <div className="text-xl text-center flex justify-center items-center h-full">
                       No matching packages found.
@@ -399,7 +327,7 @@ const B2BHajjCard = ({heading, subheading, title, img, }) => {
                     <div className="my-10">Another hajj packages.</div>
                     {refreshParams.includes("economy") && (
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                        {nonShiftingHajj.length > 0 && (
+                        {nonShiftingHajj?.length > 0 && (
                           <div>
                             <h2>{nonShiftingHajj[0]?.hajj_package}</h2>
                             <Image
@@ -411,7 +339,7 @@ const B2BHajjCard = ({heading, subheading, title, img, }) => {
                             ></Image>
                           </div>
                         )}
-                        {shiftingHajj.length > 0 && (
+                        {shiftingHajj?.length > 0 && (
                           <div>
                             <h2>{shiftingHajj[0]?.hajj_package}</h2>
                             <Image
@@ -427,7 +355,7 @@ const B2BHajjCard = ({heading, subheading, title, img, }) => {
                     )}
                     {refreshParams.includes("nonshifting") && (
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                        {economyHajj.length > 0 && (
+                        {economyHajj?.length > 0 && (
                           <div>
                             <h2>{economyHajj[0]?.hajj_package}</h2>
                             <Image
@@ -439,7 +367,7 @@ const B2BHajjCard = ({heading, subheading, title, img, }) => {
                             ></Image>
                           </div>
                         )}
-                        {shiftingHajj.length > 0 && (
+                        {shiftingHajj?.length > 0 && (
                           <div>
                             <h2>{shiftingHajj[0]?.hajj_package}</h2>
                             <Image
@@ -455,7 +383,7 @@ const B2BHajjCard = ({heading, subheading, title, img, }) => {
                     )}
                     {refreshParams.includes("shifting") && (
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                        {economyHajj.length > 0 && (
+                        {economyHajj?.length > 0 && (
                           <div>
                             <h2>{economyHajj[0]?.hajj_package}</h2>
                             <Image
@@ -467,7 +395,7 @@ const B2BHajjCard = ({heading, subheading, title, img, }) => {
                             ></Image>
                           </div>
                         )}
-                        {nonShiftingHajj.length > 0 && (
+                        {nonShiftingHajj?.length > 0 && (
                           <div>
                             <h2>{nonShiftingHajj[0]?.hajj_package}</h2>
                             <Image
