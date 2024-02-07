@@ -184,73 +184,6 @@ const Busses = () => {
                 </div>
                 <div className={styles.formControl}>
                   <div>
-                    <label>Bus Name </label>
-                    <input
-                      onChange={(e) => setBusName(e.target.value)}
-                      name="category"
-                      placeholder="Bus Name"
-                      type="text"
-                      className={styles.inputField}
-                    />
-                  </div>
-
-                  <div>
-                    <label> Starting Time</label>
-                    <input
-                      onChange={(e) => setStartingTime(e.target.value)}
-                      name="productCategory"
-                      placeholder="Starting Time"
-                      type="text"
-                      className={styles.inputField}
-                    />
-                  </div>
-                </div>
-                {/* <div className={styles.formControl}>
-                  <div>
-                    <label>End Point </label>
-                    <input
-                      onChange={(e) => setTravelTo(e.target.value)}
-                      name="category"
-                      placeholder="End Point"
-                      type="text"
-                      className={styles.inputField}
-                    />
-                  </div>
-                  <div>
-                    <label> Starting Point</label>
-                    <input
-                      onChange={(e) => setTravelFrom(e.target.value)}
-                      name="productCategory"
-                      placeholder="Starting Point"
-                      type="text"
-                      className={styles.inputField}
-                    />
-                  </div>
-                </div> */}
-                <div className={styles.formControl}>
-                  <div>
-                    <label> End Time</label>
-                    <input
-                      onChange={(e) => setEndTime(e.target.value)}
-                      name="productCategory"
-                      placeholder="End Time"
-                      type="text"
-                      className={styles.inputField}
-                    />
-                  </div>
-                  <div>
-                    <label>Price</label>
-                    <input
-                      onChange={(e) => setPrice(e.target.value)}
-                      name="category"
-                      placeholder="Price"
-                      type="text"
-                      className={styles.inputField}
-                    />
-                  </div>
-                </div>
-                <div className={styles.formControl}>
-                  <div>
                     <label>Journey Date </label>
                     <input
                       onChange={(e) => setJourneyDate(e.target.value)}
@@ -325,6 +258,53 @@ const Busses = () => {
                 </div>
                 <div className={styles.formControl}>
                   <div>
+                    <label>Bus Name </label>
+                    <input
+                      onChange={(e) => setBusName(e.target.value)}
+                      name="category"
+                      placeholder="Bus Name"
+                      type="text"
+                      className={styles.inputField}
+                    />
+                  </div>
+
+                  <div>
+                    <label> Starting Time</label>
+                    <input
+                      onChange={(e) => setStartingTime(e.target.value)}
+                      name="productCategory"
+                      placeholder="Starting Time"
+                      type="text"
+                      className={styles.inputField}
+                    />
+                  </div>
+                </div>
+                
+                <div className={styles.formControl}>
+                  <div>
+                    <label> End Time</label>
+                    <input
+                      onChange={(e) => setEndTime(e.target.value)}
+                      name="productCategory"
+                      placeholder="End Time"
+                      type="text"
+                      className={styles.inputField}
+                    />
+                  </div>
+                  <div>
+                    <label>Price</label>
+                    <input
+                      onChange={(e) => setPrice(e.target.value)}
+                      name="category"
+                      placeholder="Price"
+                      type="text"
+                      className={styles.inputField}
+                    />
+                  </div>
+                </div>
+                
+                <div className={styles.formControl}>
+                  <div>
                     <label>Operators </label>
                     <input
                       onChange={(e) => setOperators(e.target.value)}
@@ -367,37 +347,28 @@ const Busses = () => {
                     />
                   </div>
                 </div>
-
-                {/* <div className={styles.formControl}>
-                  <div className={styles.uploadFile}>
-                    {imageLoading ? (
-                      <div>Uploading...</div>
-                    ) : (
-                      <>
-                        {getFile[0]?.name ? (
-                          <label for="files">{getFile[0]?.name}</label>
-                        ) : (
-                          <label for="files">
-                            {" "}
-                            <CloudUpload className={styles.uploadIcon} /> Image
-                            Upload{" "}
-                          </label>
-                        )}
-                      </>
-                    )}
-
-                    <input
-                      onChange={handlePdf}
-                      name="image"
-                      // accept=".jpg/.jpeg/.png"
-                      className={styles.inputField}
-                      type="file"
-                      id="files"
-                      class="hidden"
-                      multiple
-                    />
-                  </div>
-                </div> */}
+                <div className={styles.formControl}>
+                <div>
+                  <label>Boardings Points </label>
+                  <input
+                    onChange={(e) => setBoardingPoint(e.target.value)}
+                    name="category"
+                    placeholder="Boarding Point "
+                    type="text"
+                    className={styles.inputField}
+                  />
+                </div>
+                <div>
+                  <label> Seat Available </label>
+                  <input
+                    onChange={(e) => setFacilities(e.target.value)}
+                    name="productCategory"
+                    placeholder="Facilities "
+                    type="text"
+                    className={styles.inputField}
+                  />
+                </div>
+              </div>
                 <div className={styles.formControl}>
                   <div>
                     <ReactQuill

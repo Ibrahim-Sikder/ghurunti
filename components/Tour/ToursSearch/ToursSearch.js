@@ -27,6 +27,8 @@ const ToursSearch = () => {
       setReload(!reload)
     }
   }
+  
+
   console.log(toursDataWithFilter)
   const { category_type } = toursDataWithFilter
 
@@ -80,7 +82,7 @@ const ToursSearch = () => {
             </strong>
             <div className={style.category}>
               <strong>Categorys Type </strong>
-              <p>Attractions </p>
+              <p>{toursDetailsData?.getPackage?.category_type} </p>
               <p>Tours </p>
               <p>Day Trips </p>
               <p>OUtdoor Activities</p>
@@ -139,7 +141,8 @@ const ToursSearch = () => {
                         </div>
                         <p>Private and Luxury</p>
                         <p>6–8 hours</p>
-                        <p>{data.sub_title}</p>
+                    
+                        <p>Stimulate your senses and challenge your photographic eye by taking part in the awakening of one of the world’s largest.</p>
                         <p>
                           Free cancellation{" "}
                           <span>

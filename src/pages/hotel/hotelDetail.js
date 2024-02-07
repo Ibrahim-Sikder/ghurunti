@@ -8,7 +8,7 @@ const hotelDetail = () => {
     return (
         <div>
             <Nav/>
-            <HotelDetails></HotelDetails>
+            <HotelDetails/>
             <div className="px-[50px] mb-20">
             <TourPackage/>
             </div>

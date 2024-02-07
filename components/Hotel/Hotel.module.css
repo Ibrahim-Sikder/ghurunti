@@ -22,7 +22,7 @@
   padding-top: 22px;
 }
 .heroBoxMain {
-  width: 1280px;
+  width: 1200px;
   height: 385px;
   background: #c6e8f1 0.6;
   z-index: 9999 !important;
@@ -67,7 +67,7 @@
 .date {
   position: absolute;
   top: 187px;
-  left: 134px;
+  left: 100px;
   height: 60px;
   width: 250px;
   background: transparent;
@@ -81,7 +81,7 @@
 .date2 {
   position: absolute;
   top: 187px;
-  left: 385px;
+  left: 350px;
   height: 60px;
   width: 250px;
   background: transparent;
@@ -117,21 +117,21 @@
 }
 .package {
   top: 100px;
-  left: 134px;
+  left: 100px;
 }
 
 .package2 {
-  right: 134px;
+  right:100px;
   top: 100px;
 }
 
 .package3 {
   top: 187px;
-  left: 125px;
+  left: 100px;
 }
 .package4 {
   top: 187px;
-  right: 134px;
+  right: 100px;
 }
 .package,
 .package2 h4 {

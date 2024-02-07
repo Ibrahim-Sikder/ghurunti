@@ -1,6 +1,6 @@
 .activeLink {
   background: #19ABE3 !important;
-  width: 182.5px !important;
+  width: 172px !important;
   height: 68px !important;
   z-index: 99 !important;
   position: relative;
@@ -12,7 +12,7 @@
 
 .active {
   background: #4ab449 !important;
-  width: 183px !important;
+  width: 172px !important;
   height: 68px !important;
   z-index: 99 !important;
   display: flex;

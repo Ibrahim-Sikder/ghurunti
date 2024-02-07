@@ -168,6 +168,112 @@ const Update = () => {
             <h2 className="text-3xl font-bold text-center">Bus Data Update</h2>
             <div className="w-full mx-auto">
               <form ref={formRef} onSubmit={handleBusData}>
+              <div className={styles.formControl}>
+              <div>
+                <label>Travel From City</label>
+                <input
+                  onChange={(e) => setTravelFrom(e.target.value)}
+                  name="travelFromCity"
+                  placeholder="Travel From City"
+                  type="text"
+                  className={styles.inputField}
+                />
+              </div>
+              <div>
+                <label> Travel To City</label>
+                <input
+                  onChange={(e) => setTypeOfBus(e.target.value)}
+                  name="travelToCity"
+                  placeholder="Travel To City"
+                  type="text"
+                  className={styles.inputField}
+                />
+              </div>
+            </div>
+            <div className={styles.formControl}>
+            <div>
+              <label>Journey Date </label>
+              <input
+                onChange={(e) => setJourneyDate(e.target.value)}
+                name="category"
+                placeholder="Journey Date"
+                type="date"
+                className={styles.inputField}
+                defaultValue={specificPackage.journey_date}
+              />
+            </div>
+            <div>
+              <h4>Passenger Number</h4>
+              <div className={styles.mondalInputFiled}>
+                <div>
+                  {child || adult || seat ? (
+                    <small>
+                      {child + adult} Passenger & {seat}
+                    </small>
+                  ) : (
+                    <small>
+                      {specificPackage.child} child,{" "}
+                      {specificPackage.adult} adult, &{" "}
+                      {specificPackage.seat_type}
+                    </small>
+                  )}
+                  <input autoComplete="off" type="text" />
+                </div>
+                <div>
+                  <Groups2
+                    onClick={() => window.my_modal_3.showModal()}
+                    className={styles.showModalIcon}
+                  />
+                </div>
+              </div>
+              {/* Open modala  */}
+              <div className={styles.modalWrap}>
+                <dialog id="my_modal_3" className={styles.modalWrap2}>
+                  <form method="dialog" className="modal-box">
+                    <button className={styles.hotelModalCloseBtn2}>
+                      ✕
+                    </button>
+                    <div className={style.guestRoomWrap}>
+                      <Groups2 className={style.groupIcon} />
+                      <div>
+                        <small>0 Passenger & 1 Class </small> <br />
+                        <p className="text-xl font-bold">
+                          {" "}
+                          {child + adult} Passenger & {seat}
+                        </p>
+                      </div>
+                    </div>
+                    <div className={style.adultChildWrap}>
+                      <div className={style.adultIncrementDecrement}>
+                        <small onClick={decrementAdult}> - </small>
+                        <span>{adult} Adult </span>
+                        <small onClick={incrementAdult}> + </small>
+                      </div>
+                      <div className={style.childIncrementDecrement}>
+                        <small onClick={childDecrement}> - </small>
+                        <span> {child} Child </span>
+                        <small onClick={childIncrement}> + </small>
+                      </div>
+                    </div>
+                    <select
+                      className={style.roomSelect}
+                      onChange={(e) => {
+                        const classes = e.target.value;
+                        setSeat(classes);
+                      }}
+                      value={specificPackage.seat_type}
+                    >
+                      <option value="" selected>
+                        Select your class
+                      </option>
+                      <option value="Economy">Economy</option>
+                      <option value="Premium">Premium</option>
+                    </select>
+                  </form>
+                </dialog>
+              </div>
+            </div>
+          </div>
                 <div className={styles.formControl}>
                   <div>
                     <label>Bus Name </label>
@@ -240,90 +346,7 @@ const Update = () => {
                     />
                   </div>
                 </div>
-                <div className={styles.formControl}>
-                  <div>
-                    <label>Journey Date </label>
-                    <input
-                      onChange={(e) => setJourneyDate(e.target.value)}
-                      name="category"
-                      placeholder="Journey Date"
-                      type="date"
-                      className={styles.inputField}
-                      defaultValue={specificPackage.journey_date}
-                    />
-                  </div>
-                  <div>
-                    <h4>Passenger Number</h4>
-                    <div className={styles.mondalInputFiled}>
-                      <div>
-                        {child || adult || seat ? (
-                          <small>
-                            {child + adult} Passenger & {seat}
-                          </small>
-                        ) : (
-                          <small>
-                            {specificPackage.child} child,{" "}
-                            {specificPackage.adult} adult, &{" "}
-                            {specificPackage.seat_type}
-                          </small>
-                        )}
-                        <input autoComplete="off" type="text" />
-                      </div>
-                      <div>
-                        <Groups2
-                          onClick={() => window.my_modal_3.showModal()}
-                          className={styles.showModalIcon}
-                        />
-                      </div>
-                    </div>
-                    {/* Open modala  */}
-                    <div className={styles.modalWrap}>
-                      <dialog id="my_modal_3" className={styles.modalWrap2}>
-                        <form method="dialog" className="modal-box">
-                          <button className={styles.hotelModalCloseBtn2}>
-                            ✕
-                          </button>
-                          <div className={style.guestRoomWrap}>
-                            <Groups2 className={style.groupIcon} />
-                            <div>
-                              <small>0 Passenger & 1 Class </small> <br />
-                              <p className="text-xl font-bold">
-                                {" "}
-                                {child + adult} Passenger & {seat}
-                              </p>
-                            </div>
-                          </div>
-                          <div className={style.adultChildWrap}>
-                            <div className={style.adultIncrementDecrement}>
-                              <small onClick={decrementAdult}> - </small>
-                              <span>{adult} Adult </span>
-                              <small onClick={incrementAdult}> + </small>
-                            </div>
-                            <div className={style.childIncrementDecrement}>
-                              <small onClick={childDecrement}> - </small>
-                              <span> {child} Child </span>
-                              <small onClick={childIncrement}> + </small>
-                            </div>
-                          </div>
-                          <select
-                            className={style.roomSelect}
-                            onChange={(e) => {
-                              const classes = e.target.value;
-                              setSeat(classes);
-                            }}
-                            value={specificPackage.seat_type}
-                          >
-                            <option value="" selected>
-                              Select your class
-                            </option>
-                            <option value="Economy">Economy</option>
-                            <option value="Premium">Premium</option>
-                          </select>
-                        </form>
-                      </dialog>
-                    </div>
-                  </div>
-                </div>
+               
                 <div className={styles.formControl}>
                   <div>
                     <label>Operators </label>
@@ -372,7 +395,28 @@ const Update = () => {
                     />
                   </div>
                 </div>
-
+                <div className={styles.formControl}>
+                <div>
+                  <label>Boardings Points </label>
+                  <input
+                    onChange={(e) => setBoardingPoint(e.target.value)}
+                    name="category"
+                    placeholder="Boarding Point "
+                    type="text"
+                    className={styles.inputField}
+                  />
+                </div>
+                <div>
+                  <label> Seat Available </label>
+                  <input
+                    onChange={(e) => setFacilities(e.target.value)}
+                    name="productCategory"
+                    placeholder="Facilities "
+                    type="text"
+                    className={styles.inputField}
+                  />
+                </div>
+              </div>
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
                     {imageLoading ? (
@@ -410,6 +454,7 @@ const Update = () => {
                       }
                     />
                   </div>
+                  
                 </div>
                 <div className={styles.formControl}>
                   <div>

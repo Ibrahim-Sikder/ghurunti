@@ -26,6 +26,7 @@ const HotelSearch = () => {
     hotelDetailsData?.getPackage
   )
 
+  console.log(hotelDataWithFilter)
   const [reload, setReload] = useState(false)
 
   if (isLoading) {
@@ -206,7 +207,7 @@ const HotelSearch = () => {
                       <div className={style.searchBoxWrap}>
                         <div>
                           <h2 className="text-2xl font-bold ">
-                            {hotel.title}{" "}
+                            {hotel.hotel_name}{" "}
                           </h2>
                           <div className="flex my-3">
                             <FaStar className="text-[#4AB449]" />
@@ -224,7 +225,7 @@ const HotelSearch = () => {
                           <div>
                             <span className={style.starFrom}>Starts from</span>
                             <span>
-                              <del>BDT {hotel.price}</del>
+                              <del className="mx-2">BDT {hotel?.start_price}</del>
                               <span className={style.starFrom}>/Night</span>
                             </span>
                             <div>
@@ -232,10 +233,10 @@ const HotelSearch = () => {
                                 <small className="text-[#4AB449] ">
                                   44% OFF
                                 </small>
-                                <strong>
-                                  BDT {hotel.lastPrice}
+                                <strong className="mx-2">
+                                  BDT {hotel.highest_price}
+                                  </strong>
                                   <span className={style.starFrom}>Night</span>
-                                </strong>
                               </span>
                             </div>
                             <div>

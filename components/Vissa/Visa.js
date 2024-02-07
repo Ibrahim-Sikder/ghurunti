@@ -383,8 +383,8 @@ const Visa = () => {
                   onClick={handleGetVisaData}
                   className={style.visaBtn}
                 >
+                <span>Search</span>
                   <FaSistrix className={style.searchIcon} />
-                  <span>Search</span>
                 </button>
               </div>
             </div>
@@ -392,6 +392,7 @@ const Visa = () => {
         </div>
       </div>
     </section>
+
   );
 };
 

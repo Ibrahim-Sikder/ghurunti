@@ -34,6 +34,7 @@ const VisaSearch = () => {
   const visaRequirementData = useSelector(
     (state) => state["visa-rq"].visaRequirementData
   )
+  console.log(visaRequirementData)
 
   //  pagination
 
@@ -165,7 +166,7 @@ const VisaSearch = () => {
               <h4 className=" text-2xl ">
                 Required Documents for Malaysia Tourist Visa
               </h4>
-              <p className=" mb-5 mt-3">Visa Type : Studnet Visa</p>
+              <p className=" mb-5 mt-3">Visa Type : Student Visa</p>
               <p className=" font-bold text-xl "> </p>
             </div>
 

@@ -136,7 +136,7 @@ const Tours = () => {
         console.log(response.data);
         if (response.data.message === "Successfully tours details posted.") {
           toast.success("Post successful.");
-          setError("")
+          setError("");
           formRef.current.reset();
           router.push("/b2bdashboard/manage/tours");
         }
@@ -153,7 +153,7 @@ const Tours = () => {
         setLoading(false);
       })
       .finally(() => {
-        setError("")
+        setError("");
         setLoading(false);
       });
   };
@@ -179,40 +179,6 @@ const Tours = () => {
                     />
                   </div>
                   <div>
-                    <label>Title </label>
-                    <input
-                      onChange={(e) => setTitle(e.target.value)}
-                      name="category"
-                      placeholder="Title "
-                      type="text"
-                      className={styles.inputField}
-                    />
-                  </div>
-                </div>
-                <div className={styles.formControl}>
-                  <div>
-                    <label>Date</label>
-                    <input
-                      onChange={(e) => setGetDate(e.target.value)}
-                      name="date"
-                      placeholder="Date "
-                      type="date"
-                      className={styles.inputField}
-                    />
-                  </div>
-                  <div>
-                    <label>Sub Title</label>
-                    <input
-                      onChange={(e) => setSubTitle(e.target.value)}
-                      name="productCategory"
-                      placeholder="Sub Title "
-                      type="text"
-                      className={styles.inputField}
-                    />
-                  </div>
-                </div>
-                <div className={styles.formControl}>
-                  <div>
                     <label> Your Destination Country</label>
                     <select
                       onChange={(e) => setCountryName(e.target.value)}
@@ -234,18 +200,19 @@ const Tours = () => {
                       <option value="Japan">Japan</option>
                     </select>
                   </div>
+                </div>
+                <div className={styles.formControl}>
                   <div>
-                    <label>Enter city </label>
+                    <label>Journey Date</label>
                     <input
-                      onChange={(e) => setCityName(e.target.value)}
-                      name="price"
-                      placeholder="Enter city"
-                      type="text"
+                      onChange={(e) => setGetDate(e.target.value)}
+                      name="date"
+                      placeholder="Date "
+                      type="date"
                       className={styles.inputField}
                     />
                   </div>
-                </div>
-                <div className={styles.formControl}>
+
                   <div>
                     <h4>Guests & Room</h4>
                     <div className={styles.mondalInputFiled}>
@@ -293,6 +260,42 @@ const Tours = () => {
                       </dialog>
                     </div>
                   </div>
+                </div>
+
+                <div className={styles.formControl}>
+                  <div>
+                    <label>Title </label>
+                    <input
+                      onChange={(e) => setTitle(e.target.value)}
+                      name="category"
+                      placeholder="Title "
+                      type="text"
+                      className={styles.inputField}
+                    />
+                  </div>
+                  <div>
+                    <label>Sub Title</label>
+                    <input
+                      onChange={(e) => setSubTitle(e.target.value)}
+                      name="productCategory"
+                      placeholder="Sub Title "
+                      type="text"
+                      className={styles.inputField}
+                    />
+                  </div>
+                </div>
+                <div className={styles.formControl}>
+                  <div>
+                    <label>Short Description </label>
+                    <input
+                      onChange={(e) => setCityName(e.target.value)}
+                      name="price"
+                      placeholder="Short Description"
+                      type="text"
+                      className={styles.inputField}
+                    />
+                  </div>
+
                   <div>
                     <label>Time</label>
                     <input
@@ -304,7 +307,29 @@ const Tours = () => {
                     />
                   </div>
                 </div>
+                <div className={styles.formControl}>
+                  <div>
+                    <label> Product Category </label>
+                    <input
+                      onChange={(e) => setProductCategory(e.target.value)}
+                      name="title"
+                      placeholder="Product Category "
+                      type="text"
+                      className={styles.inputField}
+                    />
+                  </div>
 
+                  <div>
+                    <label>Category Type </label>
+                    <input
+                      onChange={(e) => setCategoryType(e.target.value)}
+                      name="subTitle"
+                      placeholder="Category Type  "
+                      type="text"
+                      className={styles.inputField}
+                    />
+                  </div>
+                </div>
                 <div className={styles.formControl}>
                   <div>
                     <label> What is included </label>
@@ -338,24 +363,28 @@ const Tours = () => {
                       className={styles.inputField}
                     />
                   </div>
+
+
                   <div>
-                    <label>Category Type </label>
+                    <label>Price </label>
                     <input
-                      onChange={(e) => setCategoryType(e.target.value)}
-                      name="subTitle"
-                      placeholder="Category Type  "
+                      onChange={(e) => setPrice(e.target.value)}
+                      name="price"
+                      placeholder="Price"
                       type="text"
                       className={styles.inputField}
                     />
                   </div>
+
                 </div>
+
                 <div className={styles.formControl}>
                   <div>
-                    <label> Product Category </label>
+                    <label> Price Hight To Low </label>
                     <input
-                      onChange={(e) => setProductCategory(e.target.value)}
+                      onChange={(e) => setPriceHighToLow(e.target.value)}
                       name="title"
-                      placeholder="Product Category "
+                      placeholder=" Price Hight To Low  "
                       type="text"
                       className={styles.inputField}
                     />
@@ -370,29 +399,39 @@ const Tours = () => {
                       className={styles.inputField}
                     />
                   </div>
+
+
                 </div>
                 <div className={styles.formControl}>
                   <div>
-                    <label> Price Hight To Low </label>
+                    <label>Tour Package Name </label>
                     <input
-                      onChange={(e) => setPriceHighToLow(e.target.value)}
-                      name="title"
-                      placeholder=" Price Hight To Low  "
-                      type="text"
-                      className={styles.inputField}
-                    />
-                  </div>
-                  <div>
-                    <label>Price </label>
-                    <input
-                      onChange={(e) => setPrice(e.target.value)}
+                      onChange={(e) => setCityName(e.target.value)}
                       name="price"
-                      placeholder="Price"
+                      placeholder="Tour Package Name "
                       type="text"
                       className={styles.inputField}
                     />
                   </div>
                 </div>
+       
+                { /*<div className={styles.formControl}>
+                <div>
+                  <label>Enter city </label>
+                  <input
+                    onChange={(e) => setCityName(e.target.value)}
+                    name="price"
+                    placeholder="Enter city"
+                    type="text"
+                    className={styles.inputField}
+                  />
+                </div>
+              </div>
+  */}
+              
+
+
+
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
                     {imageLoading ? (

@@ -210,6 +210,7 @@ const Banner = ({ setResults }) => {
           <ul className={style.menu}>
               <div className={style.wrapMenu}>
                 <ActiveLink href="/">
+                  
                   <li className={style.firstChild}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

@@ -169,6 +169,150 @@ const Hotel = () => {
             </h2>
             <div className="w-full mx-auto">
               <form ref={formRef} onSubmit={handleHotelData}>
+              <div className={styles.formControl}>
+              <div>
+                <h4>Enter Your Destination Country</h4>
+                <select
+                  onChange={(e) => setCountry(e.target.value)}
+                  className={styles.inputField}
+                >
+                  <option selected value="">
+                    Choose your country
+                  </option>
+                  <option value="Bangladesh">Bangladesh</option>
+                  <option value="Thailand">Thailand</option>
+                  <option value="Malaysia">Malaysia</option>
+                  <option value="Indonesia">Indonesia</option>
+                  <option value="India">India</option>
+                  <option value="China">China</option>
+                  <option value="Singapore">Singapore</option>
+                  <option value="Iran">Iran</option>
+                  <option value="Vietnam">Vietnam</option>
+                  <option value="Pakistan">Pakistan</option>
+                  <option value="Japan">Japan</option>
+                </select>
+              </div>
+              <div>
+                <h4>City/Hotel/Street Name</h4>
+                <select
+                  onChange={(e) => setCity(e.target.value)}
+                  className={styles.inputField}
+                >
+                  <option value="">Choose your city</option>
+                  <option value="Dhaka">Dhaka</option>
+                  <option value="Bangkok">Bangkok</option>
+                  <option value="Tokyo">Tokyo</option>
+                  <option value="Kuala Lumpur">Kuala Lumpur</option>
+                  <option value="Jakarta">Jakarta</option>
+                  <option value="Beijing">Beijing</option>
+                  <option value="Singapore Island">Singapore Island</option>
+                  <option value="Iran">Iran</option>
+                  <option value="Hanoi">Hanoi</option>
+                  <option value="Tehran">Tehran</option>
+                  <option value="Islamabad">Islamabad</option>
+                </select>
+              </div>
+            </div>
+            <div className={styles.formControl}>
+            <div>
+              <label>Check In </label>
+              <input
+                onChange={(e) => setCheckInDate(e.target.value)}
+                name="checkIn"
+                placeholder="Check In  "
+                type="date"
+                className={styles.inputField}
+              />
+            </div>
+            <div>
+              <label> Check Out </label>
+              <input
+                onChange={(e) => setCheckOutDate(e.target.value)}
+                name="checkout"
+                placeholder="Check Out "
+                type="date"
+                className={styles.inputField}
+              />
+            </div>
+          </div>
+          <div className={styles.formControl}>
+          <div>
+            <h4>Guests & Room</h4>
+            <div className={styles.mondalInputFiled}>
+              <div>
+                <small>
+                  {child + adult} Guest & {room}
+                </small>
+                <input autoComplete="off" type="text" />
+              </div>
+              <div>
+                <Groups2
+                  onClick={() => window.my_modal_3.showModal()}
+                  className={styles.showModalIcon}
+                />
+              </div>
+            </div>
+            {/* Open modala  */}
+            <div className={styles.modalWrap}>
+              <dialog id="my_modal_3" className={styles.modalWrap2}>
+                <form method="dialog" className="modal-box">
+                  <button className={styles.hotelModalCloseBtn2}>
+                    ✕
+                  </button>
+                  <div className={style.guestRoomWrap}>
+                    <Groups2 className={style.groupIcon} />
+                    <div>
+                      <small>Guest & Room </small> <br />
+                      <p className="text-xl font-bold">
+                        {" "}
+                        {child + adult} Guest & {room}{" "}
+                      </p>
+                    </div>
+                  </div>
+                  <div className={style.adultChildWrap}>
+                    <div className={style.adultIncrementDecrement}>
+                      <small onClick={decrementAdult}> - </small>
+                      <span>{adult} Adult </span>
+                      <small onClick={incrementAdult}> + </small>
+                    </div>
+                    <div className={style.childIncrementDecrement}>
+                      <small onClick={childDecrement}> - </small>
+                      <span> {child} Child </span>
+                      <small onClick={childIncrement}> + </small>
+                    </div>
+                  </div>
+                  <select
+                    className={styles.roomSelect2}
+                    onChange={(e) => {
+                      const classes = e.target.value;
+                      setRoom(classes);
+                    }}
+                  >
+                    <option value="1 Room" selected>
+                      1 Room
+                    </option>
+                    <option value="2 Room">2 Room</option>
+                    <option value="3 Room">3 Room</option>
+                    <option value="4 Room">4 Room</option>
+                    <option value="5 Room">5 Room</option>
+                  </select>
+                </form>
+              </dialog>
+            </div>
+          </div>
+          <div>
+            <label>Hotel Type </label>
+            <input
+              onChange={(e) => setHotelType(e.target.value)}
+              name="type"
+              placeholder="Hotel Type "
+              type="text"
+              className={styles.inputField}
+            />
+          </div>
+        </div>
+
+
                 <div className={styles.formControl}>
                   <div>
                     <label>Hotel Name </label>
@@ -214,50 +358,7 @@ const Hotel = () => {
                   </div>
                 </div>
 
-                <div className={styles.formControl}>
-                  <div>
-                    <h4>Enter Your Destination Country</h4>
-                    <select
-                      onChange={(e) => setCountry(e.target.value)}
-                      className={styles.inputField}
-                    >
-                      <option selected value="">
-                        Choose your country
-                      </option>
-                      <option value="Bangladesh">Bangladesh</option>
-                      <option value="Thailand">Thailand</option>
-                      <option value="Malaysia">Malaysia</option>
-                      <option value="Indonesia">Indonesia</option>
-                      <option value="India">India</option>
-                      <option value="China">China</option>
-                      <option value="Singapore">Singapore</option>
-                      <option value="Iran">Iran</option>
-                      <option value="Vietnam">Vietnam</option>
-                      <option value="Pakistan">Pakistan</option>
-                      <option value="Japan">Japan</option>
-                    </select>
-                  </div>
-                  <div>
-                    <h4>City/Hotel/Street Name</h4>
-                    <select
-                      onChange={(e) => setCity(e.target.value)}
-                      className={styles.inputField}
-                    >
-                      <option value="">Choose your city</option>
-                      <option value="Dhaka">Dhaka</option>
-                      <option value="Bangkok">Bangkok</option>
-                      <option value="Tokyo">Tokyo</option>
-                      <option value="Kuala Lumpur">Kuala Lumpur</option>
-                      <option value="Jakarta">Jakarta</option>
-                      <option value="Beijing">Beijing</option>
-                      <option value="Singapore Island">Singapore Island</option>
-                      <option value="Iran">Iran</option>
-                      <option value="Hanoi">Hanoi</option>
-                      <option value="Tehran">Tehran</option>
-                      <option value="Islamabad">Islamabad</option>
-                    </select>
-                  </div>
-                </div>
+              
                 <div className={styles.formControl}>
                   <div>
                     <label>Day/Night </label>
@@ -302,105 +403,8 @@ const Hotel = () => {
                     />
                   </div>
                 </div>
-                <div className={styles.formControl}>
-                  <div>
-                    <label>Check In </label>
-                    <input
-                      onChange={(e) => setCheckInDate(e.target.value)}
-                      name="checkIn"
-                      placeholder="Check In  "
-                      type="date"
-                      className={styles.inputField}
-                    />
-                  </div>
-                  <div>
-                    <label> Check Out </label>
-                    <input
-                      onChange={(e) => setCheckOutDate(e.target.value)}
-                      name="checkout"
-                      placeholder="Check Out "
-                      type="date"
-                      className={styles.inputField}
-                    />
-                  </div>
-                </div>
-                <div className={styles.formControl}>
-                  <div>
-                    <h4>Guests & Room</h4>
-                    <div className={styles.mondalInputFiled}>
-                      <div>
-                        <small>
-                          {child + adult} Guest & {room}
-                        </small>
-                        <input autoComplete="off" type="text" />
-                      </div>
-                      <div>
-                        <Groups2
-                          onClick={() => window.my_modal_3.showModal()}
-                          className={styles.showModalIcon}
-                        />
-                      </div>
-                    </div>
-                    {/* Open modala  */}
-                    <div className={styles.modalWrap}>
-                      <dialog id="my_modal_3" className={styles.modalWrap2}>
-                        <form method="dialog" className="modal-box">
-                          <button className={styles.hotelModalCloseBtn2}>
-                            ✕
-                          </button>
-                          <div className={style.guestRoomWrap}>
-                            <Groups2 className={style.groupIcon} />
-                            <div>
-                              <small>Guest & Room </small> <br />
-                              <p className="text-xl font-bold">
-                                {" "}
-                                {child + adult} Guest & {room}{" "}
-                              </p>
-                            </div>
-                          </div>
-                          <div className={style.adultChildWrap}>
-                            <div className={style.adultIncrementDecrement}>
-                              <small onClick={decrementAdult}> - </small>
-                              <span>{adult} Adult </span>
-                              <small onClick={incrementAdult}> + </small>
-                            </div>
-                            <div className={style.childIncrementDecrement}>
-                              <small onClick={childDecrement}> - </small>
-                              <span> {child} Child </span>
-                              <small onClick={childIncrement}> + </small>
-                            </div>
-                          </div>
-                          <select
-                            className={styles.roomSelect2}
-                            onChange={(e) => {
-                              const classes = e.target.value;
-                              setRoom(classes);
-                            }}
-                          >
-                            <option value="1 Room" selected>
-                              1 Room
-                            </option>
-                            <option value="2 Room">2 Room</option>
-                            <option value="3 Room">3 Room</option>
-                            <option value="4 Room">4 Room</option>
-                            <option value="5 Room">5 Room</option>
-                          </select>
-                        </form>
-                      </dialog>
-                    </div>
-                  </div>
-                  <div>
-                    <label>Hotel Type </label>
-                    <input
-                      onChange={(e) => setHotelType(e.target.value)}
-                      name="type"
-                      placeholder="Hotel Type "
-                      type="text"
-                      className={styles.inputField}
-                    />
-                  </div>
-                </div>
-
+               
+           
                 <div className={styles.formControl}>
                   <div>
                     <label>Highest Price </label>

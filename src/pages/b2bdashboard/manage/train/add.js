@@ -156,6 +156,37 @@ const Train = () => {
                   </div>
                 </div>
                 <div className={styles.formControl}>
+                <div>
+                <label> Journey Date </label>
+                <input
+                  onChange={(e) => setJourneyDate(e.target.value)}
+                  name="jouryDate"
+                  placeholder="Journey Date"
+                  type="date"
+                  className={styles.inputField}
+                />
+              </div>
+                  <div>
+                    <label htmlFor="">Choose a class</label>
+                    <select
+                      onChange={(e) => setClassType(e.target.value)}
+                      className={styles.inputField}
+                    >
+                      <option value="" selected>
+                        Select type
+                      </option>
+                      <option value="AC_B">AC_B</option>
+                      <option value="AC">S_CHAIR</option>
+                      <option value="NON_AC">S_CHAIR</option>
+                      <option value="F_BERTH">F_BERTH</option>
+                      <option value="SHULOV">SHULOV</option>
+                      <option value="SNIGDHA">SNIGDHA</option>
+                      <option value="AC_CHAIR">AC_CHAIR</option>
+                    </select>
+                  </div>
+                 
+                </div>
+                <div className={styles.formControl}>
                   <div>
                     <label> Train Name </label>
                     <input
@@ -177,6 +208,7 @@ const Train = () => {
                     />
                   </div>
                 </div>
+                {/*
                 <div className={styles.formControl}>
                   <div>
                     <label> Enter Country </label>
@@ -223,47 +255,10 @@ const Train = () => {
                     </select>
                   </div>
                 </div>
+                */}
+                
                 <div className={styles.formControl}>
-                  <div>
-                    <label htmlFor="">Choose a class</label>
-                    <select
-                      onChange={(e) => setClassType(e.target.value)}
-                      className={styles.inputField}
-                    >
-                      <option value="" selected>
-                        Select type
-                      </option>
-                      <option value="AC_B">AC_B</option>
-                      <option value="AC">S_CHAIR</option>
-                      <option value="NON_AC">S_CHAIR</option>
-                      <option value="F_BERTH">F_BERTH</option>
-                      <option value="SHULOV">SHULOV</option>
-                      <option value="SNIGDHA">SNIGDHA</option>
-                      <option value="AC_CHAIR">AC_CHAIR</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label> Journey Date </label>
-                    <input
-                      onChange={(e) => setJourneyDate(e.target.value)}
-                      name="jouryDate"
-                      placeholder="Journey Date"
-                      type="date"
-                      className={styles.inputField}
-                    />
-                  </div>
-                </div>
-                <div className={styles.formControl}>
-                  {/* <div>
-                    <label> Seat Type </label>
-                    <input
-                      onChange={(e) => setSeatType(e.target.value)}
-                      name="address"
-                      placeholder=" Seat Type "
-                      type="text"
-                      className={styles.inputField}
-                    />
-                  </div> */}
+                 
                   <div>
                   <label> Seat Type </label>
                     <select
@@ -351,7 +346,7 @@ const Train = () => {
                   </div>
 
                   <div>
-                    <label> Seat </label>
+                    <label> Available Seat </label>
                     <input
                       name="productCategory"
                       placeholder="Seat"

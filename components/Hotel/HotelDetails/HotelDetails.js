@@ -22,7 +22,7 @@ import useModifyModal from "../../Common/Hooks/useModifyModal"
 const HotelDetails = () => {
   const modifyModal = useModifyModal()
   const [specificPackage, setSpecificPackage] = useState({});
-
+console.log(specificPackage)
   const router = useRouter();
   const { id } = router.query;
 
@@ -375,15 +375,7 @@ const HotelDetails = () => {
                   (Dubai)
                 </h2>
                 <p>
-                  Welcome to Dubai . Among the seven emirates Dubai is the most
-                  popular destination. It is situated on the southern shore of
-                  the Persian Gulf on the Arabian Peninsula. It is also called
-                  Dubai state to distinguish it from the emirate. Dubai is the
-                  second largest Emirate after Abu Dhabi and is usually
-                  recognized as the Pearl of the Persian Gulf.Our representative
-                  will Transfer you to the hotel . Check in into hotel and enjoy
-                  your day. There is no service included, you may spend time, as
-                  per your interests.
+                {specificPackage?.description}
                 </p>
               </div>
               <div className="mb-5">
@@ -432,15 +424,15 @@ const HotelDetails = () => {
               <div>
                 <div className="flex  mb-3">
                   <CheckCircleOutline className={style.checkIcon} />
-                  <p>4 Days-3 Nights</p>
+                  <p> {specificPackage?.day_night} Days-3 Nights</p>
                 </div>
                 <div className="flex  mb-3">
                   <CheckCircleOutline className={style.checkIcon} />
-                  <p>Hotel Type: DELUXE </p>
+                  <p>Hotel Type:  {specificPackage?.hotel_type} </p>
                 </div>
                 <div className="flex  mb-3">
                   <CheckCircleOutline className={style.checkIcon} />
-                  <p>Toyal Tulip Hotel(Vietntiane) </p>
+                  <p> {specificPackage?.hotel_name}</p>
                 </div>
                 <div className="flex  mb-3">
                   <CheckCircleOutline className={style.checkIcon} />
@@ -448,18 +440,18 @@ const HotelDetails = () => {
                 </div>
                 <div className="flex  mb-3">
                   <CheckCircleOutline className={style.checkIcon} />
-                  <p>Price Per Person Doubl: 26,400TK </p>
+                  <p>Price Per Person Doubl: {specificPackage?.price_per_person}TK </p>
                 </div>
                 <div className="flex  mb-3">
                   <CheckCircleOutline className={style.checkIcon} />
-                  <p>Price Per Person Twin 25,500Tk</p>
+                  <p>Price Per Person Twin  {specificPackage?.price_twin_person}</p>
                 </div>
                 <div className="flex  mb-3">
                   <CheckCircleOutline className={style.checkIcon} />
-                  <p>Price Per Person Triple: 25,500Tk</p>
+                  <p>Price Per Person Triple:  {specificPackage?.price_triple_person}</p>
                 </div>
                 <p>
-                  <strong className="text-[#4AB449]">Start from</strong> 20000Tk
+                  <strong className="text-[#4AB449]">Start from</strong> {specificPackage?.start_price}Tk
                 </p>
                 <Link href="/hotel/book">
                   <button className={style.rightSideBtn}> Book Now </button>

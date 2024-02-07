@@ -345,7 +345,7 @@ const FlightSearch = () => {
                   <div className="flex justify-between mb-3">
                     <div>
                       <div>Minimum price </div>
-                      <strong>12800</strong>
+                      <strong>12000</strong>
                     </div>
                     <div>
                       <div>Maximum price </div>

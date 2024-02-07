@@ -3872,7 +3872,7 @@
     "icao": "DRRM",
     "latitude": "13.502531",
     "longitude": "7.126753",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "N",
     "tz": "Africa/Niamey"
@@ -13111,7 +13111,7 @@
     "iata": "MEG",
     "icao": "FNMA",
     "latitude": "-9.525086",
-    "longitude": "16.312806",
+    "longitude": "16.312006",
     "altitude": "3868",
     "timezone": "1",
     "dst": "N",
@@ -14412,7 +14412,7 @@
     "country": "Mali",
     "iata": "MZI",
     "icao": "GAMB",
-    "latitude": "14.512803",
+    "latitude": "14.512003",
     "longitude": "-4.079561",
     "altitude": "906",
     "timezone": "0",
@@ -15463,7 +15463,7 @@
     "iata": "C91",
     "icao": "\\N",
     "latitude": "41.9929342",
-    "longitude": "-86.1280125",
+    "longitude": "-86.1200125",
     "altitude": "748",
     "timezone": "-5",
     "dst": "U",
@@ -16492,7 +16492,7 @@
     "tz": "Europe/London"
   },
   {
-    "id": "1280",
+    "id": "1200",
     "name": "Dubrovnik",
     "city": "Dubrovnik",
     "country": "Croatia",
@@ -17038,7 +17038,7 @@
     "tz": "Europe/Madrid"
   },
   {
-    "id": "1280",
+    "id": "1200",
     "name": "Palma De Mallorca",
     "city": "Palma De Mallorca",
     "country": "Spain",
@@ -17178,7 +17178,7 @@
     "tz": "Europe/Madrid"
   },
   {
-    "id": "1280",
+    "id": "1200",
     "name": "Vigo",
     "city": "Vigo",
     "country": "Spain",
@@ -17598,7 +17598,7 @@
     "tz": "Europe/Paris"
   },
   {
-    "id": "1280",
+    "id": "1200",
     "name": "Anglet",
     "city": "Biarritz-bayonne",
     "country": "France",
@@ -19874,7 +19874,7 @@
     "icao": "LFYD",
     "latitude": "48.086325",
     "longitude": "5.664058",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "E",
     "tz": "Europe/Paris"
@@ -20040,7 +20040,7 @@
     "country": "Greece",
     "iata": "EFL",
     "icao": "LGKF",
-    "latitude": "38.128069",
+    "latitude": "38.120069",
     "longitude": "20.500481",
     "altitude": "59",
     "timezone": "2",
@@ -23176,7 +23176,7 @@
     "country": "Turkey",
     "iata": "ESB",
     "icao": "LTAC",
-    "latitude": "40.128082",
+    "latitude": "40.120082",
     "longitude": "32.995083",
     "altitude": "3125",
     "timezone": "2",
@@ -27782,7 +27782,7 @@
     "country": "New Zealand",
     "iata": "IVC",
     "icao": "NZNV",
-    "latitude": "-46.412808",
+    "latitude": "-46.412008",
     "longitude": "168.312992",
     "altitude": "5",
     "timezone": "12",
@@ -28497,7 +28497,7 @@
     "iata": "AQI",
     "icao": "OEPA",
     "latitude": "28.335192",
-    "longitude": "46.128069",
+    "longitude": "46.120069",
     "altitude": "1174",
     "timezone": "3",
     "dst": "U",
@@ -37612,7 +37612,7 @@
     "icao": "SLBJ",
     "latitude": "-22.773336",
     "longitude": "-64.312881",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "-4",
     "dst": "U",
     "tz": "America/La_Paz"
@@ -44024,7 +44024,7 @@
     "icao": "VYTL",
     "latitude": "20.483831",
     "longitude": "99.935353",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "6.5",
     "dst": "U",
     "tz": "Asia/Rangoon"
@@ -45059,7 +45059,7 @@
     "iata": "",
     "icao": "WSAG",
     "latitude": "1.425264",
-    "longitude": "103.812806",
+    "longitude": "103.812006",
     "altitude": "86",
     "timezone": "8",
     "dst": "N",
@@ -53318,7 +53318,7 @@
     "country": "Indonesia",
     "iata": "",
     "icao": "WAOC",
-    "latitude": "-3.412808",
+    "latitude": "-3.412008",
     "longitude": "115.995136",
     "altitude": "3",
     "timezone": "8",
@@ -53600,7 +53600,7 @@
     "icao": "VTCT",
     "latitude": "19.952342",
     "longitude": "99.882928",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "7",
     "dst": "U",
     "tz": "Asia/Bangkok"
@@ -60852,7 +60852,7 @@
     "icao": "",
     "latitude": "-8.88468",
     "longitude": "147.731",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "10",
     "dst": "U",
     "tz": "Pacific/Port_Moresby"
@@ -68958,7 +68958,7 @@
     "icao": "UAKD",
     "latitude": "47.708333",
     "longitude": "67.733333",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "6",
     "dst": "U",
     "tz": "Asia/Qyzylorda"
@@ -75174,7 +75174,7 @@
     "icao": "\\N",
     "latitude": "-20.330706",
     "longitude": "-67.046881",
-    "altitude": "12800",
+    "altitude": "12000",
     "timezone": "-4",
     "dst": "S",
     "tz": "America/La_Paz"
@@ -76602,7 +76602,7 @@
     "icao": "VAND",
     "latitude": "19.1833",
     "longitude": "77.3167",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "5.5",
     "dst": "N",
     "tz": "Asia/Calcutta"
@@ -76896,7 +76896,7 @@
     "icao": "SKAC",
     "latitude": "-0.58",
     "longitude": "-72.41",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "-5",
     "dst": "U",
     "tz": "America/Bogota"
@@ -79484,7 +79484,7 @@
     "country": "United States",
     "iata": "KLL",
     "icao": "\\N",
-    "latitude": "59.128056",
+    "latitude": "59.120056",
     "longitude": "-156.858611",
     "altitude": "39",
     "timezone": "-9",
@@ -89034,7 +89034,7 @@
     "icao": "KAUF",
     "latitude": "47.885",
     "longitude": "10.6294",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "E",
     "tz": "Europe/Berlin"
@@ -89048,7 +89048,7 @@
     "icao": "MUNI",
     "latitude": "48.1408",
     "longitude": "11.555",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "E",
     "tz": "Europe/Berlin"
@@ -89062,7 +89062,7 @@
     "icao": "NURN",
     "latitude": "49.446",
     "longitude": "11.081944",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "E",
     "tz": "Europe/Berlin"
@@ -89076,7 +89076,7 @@
     "icao": "EBEN",
     "latitude": "47.824",
     "longitude": "10.623",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "E",
     "tz": "Europe/Berlin"
@@ -89090,7 +89090,7 @@
     "icao": "AUGS",
     "latitude": "48.3655",
     "longitude": "10.886",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "E",
     "tz": "Europe/Berlin"
@@ -89104,7 +89104,7 @@
     "icao": "BIES",
     "latitude": "47.851",
     "longitude": "10.634",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "E",
     "tz": "Europe/Berlin"
@@ -89118,7 +89118,7 @@
     "icao": "BUCH",
     "latitude": "48.0411",
     "longitude": "10.715",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "E",
     "tz": "Europe/Berlin"
@@ -89132,7 +89132,7 @@
     "icao": "FUSN",
     "latitude": "47.585",
     "longitude": "10.6866",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "E",
     "tz": "Europe/Berlin"
@@ -89146,7 +89146,7 @@
     "icao": "KEMP",
     "latitude": "47.724",
     "longitude": "10.311",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "E",
     "tz": "Europe/Berlin"
@@ -89230,7 +89230,7 @@
     "icao": "MARK",
     "latitude": "47.78",
     "longitude": "10.627",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "E",
     "tz": "Europe/Berlin"
@@ -89244,7 +89244,7 @@
     "icao": "MARO",
     "latitude": "47.777",
     "longitude": "10.623",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "E",
     "tz": "Europe/Berlin"
@@ -89370,7 +89370,7 @@
     "icao": "LEUT",
     "latitude": "47.75",
     "longitude": "10.601",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "E",
     "tz": "Europe/Berlin"
@@ -90910,7 +90910,7 @@
     "icao": "REGE",
     "latitude": "49.022",
     "longitude": "12.1111",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "E",
     "tz": "Europe/Berlin"
@@ -90924,7 +90924,7 @@
     "icao": "TREU",
     "latitude": "49.04",
     "longitude": "11.081944",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "E",
     "tz": "Europe/Berlin"
@@ -91526,7 +91526,7 @@
     "icao": "\\N",
     "latitude": "8.936667",
     "longitude": "98.530278",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "7",
     "dst": "U",
     "tz": "Asia/Bangkok"
@@ -91540,7 +91540,7 @@
     "icao": "\\N",
     "latitude": "8.936667",
     "longitude": "98.530278",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "7",
     "dst": "U",
     "tz": "Asia/Bangkok"
@@ -92114,7 +92114,7 @@
     "icao": "EDML",
     "latitude": "48.5133333333333",
     "longitude": "12.035",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "E",
     "tz": "Europe/Berlin"
@@ -95810,7 +95810,7 @@
     "icao": "\\N",
     "latitude": "-24.815",
     "longitude": "31.42",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "2",
     "dst": "N",
     "tz": "Africa/Johannesburg"
@@ -98148,7 +98148,7 @@
     "icao": "ZURK",
     "latitude": "29.351667",
     "longitude": "89.306944",
-    "altitude": "12808",
+    "altitude": "12008",
     "timezone": "8",
     "dst": "N",
     "tz": "Asia/Chongqing"
@@ -102194,7 +102194,7 @@
     "icao": "\\N",
     "latitude": "46.435833",
     "longitude": "6.910278",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "E",
     "tz": "Europe/Zurich"
@@ -104000,7 +104000,7 @@
     "icao": "EDRB",
     "latitude": "49.945278",
     "longitude": "6.565",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "U",
     "tz": "Europe/Berlin"
@@ -104616,7 +104616,7 @@
     "icao": "\\N",
     "latitude": "63.398779",
     "longitude": "13.075956",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "1",
     "dst": "E",
     "tz": "Europe/Stockholm"
@@ -104952,7 +104952,7 @@
     "icao": "\\N",
     "latitude": "44.4653",
     "longitude": "128.27",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "8",
     "dst": "N",
     "tz": "Asia/Chongqing"
@@ -105344,7 +105344,7 @@
     "icao": "KYKN",
     "latitude": "42.8711",
     "longitude": "-97.3969",
-    "altitude": "1280",
+    "altitude": "1200",
     "timezone": "-6",
     "dst": "A",
     "tz": "America/Chicago"
@@ -108772,7 +108772,7 @@
     "country": "Sri Lanka",
     "iata": "KDZ",
     "icao": "\\N",
-    "latitude": "7.325128009685146",
+    "latitude": "7.325120009685146",
     "longitude": "80.64211571225314",
     "altitude": "1472",
     "timezone": "5.5",

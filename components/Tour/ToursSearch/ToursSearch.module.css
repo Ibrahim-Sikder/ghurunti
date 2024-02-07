@@ -34,7 +34,7 @@
 }
 .toursCardLeft{
     height: 100%;
-    width: 40%;
+    width: 330px;
     overflow: hidden;
  
 
@@ -55,7 +55,7 @@
     margin-top: 10px;
 }
 .toursCardRight{
-    margin-left: 10px;
+    margin-left: 20px;
 }
 .cardTextWrap{
     display: flex;

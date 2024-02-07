@@ -135,15 +135,10 @@ const ToursReserve = () => {
               <div className="mt-5">
                 <strong className="mb-3">About</strong>
                 <p>
-                  Combine visits to Old Dhaka and the ship breaking yard on a
-                  single day tour. Immerse yourself in the life of the old city,
-                  traveling down the narrow winding streets in the company of a
-                  guide who knows all the hidden gems in the nooks and crannies.
-                  Visit the ship breaking yard to learn about the process and
-                  the history of the practice through guided commentary.
+                {specificPackage.description}
                 </p>
                 <p className="mt-5">
-                  from <strong>$108.77</strong> per adult (price varies by group
+                  from <strong> ${specificPackage.price}</strong> per adult (price varies by group
                   size)
                 </p>
                 <div className="mt-5">
@@ -200,54 +195,7 @@ const ToursReserve = () => {
                                   className={style.checkIcon}
                                 />
                               </span>
-                              Local taxes
-                            </li>
-                            <li>
-                              <span>
-                                {" "}
-                                <CheckCircleOutline
-                                  className={style.checkIcon}
-                                />{" "}
-                              </span>{" "}
-                              Buffet Lunch{" "}
-                            </li>
-                            <li>
-                              {" "}
-                              <span>
-                                {" "}
-                                <CheckCircleOutline
-                                  className={style.checkIcon}
-                                />{" "}
-                              </span>{" "}
-                              All activites{" "}
-                            </li>
-                            <li>
-                              {" "}
-                              <span>
-                                {" "}
-                                <CheckCircleOutline
-                                  className={style.checkIcon}
-                                />{" "}
-                              </span>{" "}
-                              Hotel/part pickup and drop-off{" "}
-                            </li>
-                            <li>
-                              {" "}
-                              <span>
-                                {" "}
-                                <CheckCircleOutline
-                                  className={style.checkIcon}
-                                />{" "}
-                              </span>{" "}
-                              Private Tour{" "}
-                            </li>
-                            <li>
-                              <span>
-                                <CheckCircleOutline
-                                  className={style.checkIcon}
-                                />
-                              </span>
-                              transport by private vehicle{" "}
+                             {specificPackage.included}
                             </li>
                           </ul>
                         </div>
@@ -273,14 +221,14 @@ const ToursReserve = () => {
                     <AccordionDetails className={style.accordionDetails}>
                       <Typography className={style.accordionTypos}>
                         <ul>
-                          <li>
-                            Anything that is not mentioned in the inclusion
-                          </li>
-                          <li>Photo and video shooting tickets </li>
-                          <li>Train and flight tickets (incl. domestic)</li>
-                          <li>Tips </li>
-                          <li>Meals and beverages except mentioned </li>
-                          <li>Meals and beverages except mentioned </li>
+                        <li>
+                        <span>
+                          <CheckCircleOutline
+                            className={style.checkIcon}
+                          />
+                        </span>
+                       {specificPackage.excluded}
+                      </li>
                         </ul>
                         <div className="mt-3">
                           <p>
@@ -311,6 +259,16 @@ const ToursReserve = () => {
                     <AccordionDetails className={style.accordionDetails}>
                       <Typography className={style.accordionTypos}>
                         <div>
+                        <ul className="mb-3">
+                        <li>
+                        <span>
+                          <CheckCircleOutline
+                            className={style.checkIcon}
+                          />
+                        </span>
+                       {specificPackage.itinary}
+                      </li>
+                        </ul>
                           <p>This is a typical itinerary for this product</p>
                           <p>
                             <strong>Stop At:</strong> Shipyard Road, Shipyard

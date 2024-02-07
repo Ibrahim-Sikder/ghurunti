@@ -170,78 +170,6 @@ const Update = () => {
                 </div>
                 <div className={styles.formControl}>
                   <div>
-                    <label> Train Name </label>
-                    <input
-                      onChange={(e) => setTrainName(e.target.value)}
-                      name="name"
-                      placeholder="Train Name"
-                      type="text"
-                      className={styles.inputField}
-                      defaultValue={specificPackage.train_name}
-                    />
-                  </div>
-                  <div>
-                    <label> Title </label>
-                    <input
-                      onChange={(e) => setTitle(e.target.value)}
-                      name="title"
-                      placeholder="Title"
-                      type="text"
-                      className={styles.inputField}
-                      defaultValue={specificPackage.title}
-                    />
-                  </div>
-                </div>
-                <div className={styles.formControl}>
-                  <div>
-                    <label> Enter Country </label>
-                    <select
-                      onChange={(e) => setCountryName(e.target.value)}
-                      className={styles.inputField}
-                      value={countryName || specificPackage?.country_name}
-                    >
-                      <option   value="">
-                        Select your country
-                      </option>
-                      <option value="Bangladesh">Bangladesh</option>
-                      <option value="Thailand">Thailand</option>
-                      <option value="Malaysia">Malaysia</option>
-                      <option value="Indonesia">Indonesia</option>
-                      <option value="India">India</option>
-                      <option value="China">China</option>
-                      <option value="Singapore">Singapore</option>
-                      <option value="Iran">Iran</option>
-                      <option value="Vietnam">Vietnam</option>
-                      <option value="Pakistan">Pakistan</option>
-                      <option value="Japan">Japan</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label> Enter City </label>
-                    <select
-                      onChange={(e) => setCityName(e.target.value)}
-                      className={styles.inputField}
-                      value={cityName || specificPackage?.city_name}
-                    >
-                      <option   value="">
-                        Select your city
-                      </option>
-                      <option value="Dhaka">Dhaka</option>
-                      <option value="Bangkok">Bangkok</option>
-                      <option value="Tokyo">Tokyo</option>
-                      <option value="Kuala Lumpur">Kuala Lumpur</option>
-                      <option value="Jakarta">Jakarta</option>
-                      <option value="Beijing">Beijing</option>
-                      <option value="Singapore Island">Singapore Island</option>
-                      <option value="Iran">Iran</option>
-                      <option value="Hanoi">Hanoi</option>
-                      <option value="Tehran">Tehran</option>
-                      <option value="Islamabad">Islamabad</option>
-                    </select>
-                  </div>
-                </div>
-                <div className={styles.formControl}>
-                  <div>
                     <label htmlFor="">Choose a class</label>
                     <select
                       onChange={(e) => setClassType(e.target.value)}
@@ -271,6 +199,32 @@ const Update = () => {
                     />
                   </div>
                 </div>
+                <div className={styles.formControl}>
+                  <div>
+                    <label> Train Name </label>
+                    <input
+                      onChange={(e) => setTrainName(e.target.value)}
+                      name="name"
+                      placeholder="Train Name"
+                      type="text"
+                      className={styles.inputField}
+                      defaultValue={specificPackage.train_name}
+                    />
+                  </div>
+                  <div>
+                    <label> Title </label>
+                    <input
+                      onChange={(e) => setTitle(e.target.value)}
+                      name="title"
+                      placeholder="Title"
+                      type="text"
+                      className={styles.inputField}
+                      defaultValue={specificPackage.title}
+                    />
+                  </div>
+                </div>
+             
+                
                 <div className={styles.formControl}>
                   <div>
                     <label> Seat Type </label>
@@ -345,6 +299,38 @@ const Update = () => {
                     />
                   </div>
                 </div>
+                <div className={styles.formControl}>
+                <div>
+                  <label>Boarding Point </label>
+                  <input
+                    name="boardingPointing"
+                    placeholder="Boarding Point "
+                    type="text"
+                    className={styles.inputField}
+                  />
+                </div>
+
+                <div>
+                  <label> Available Seat </label>
+                  <input
+                    name="productCategory"
+                    placeholder="Seat"
+                    type="text"
+                    className={styles.inputField}
+                  />
+                </div>
+              </div>
+              <div className={styles.formControl}>
+                <div>
+                  <label>Coach  </label>
+                  <input
+                    name="Coach "
+                    placeholder="Coach  "
+                    type="text"
+                    className={styles.inputField}
+                  />
+                </div>
+              </div>
                 {/* <div className={styles.formControl}>
                   <div>
                     <label>Date</label>
