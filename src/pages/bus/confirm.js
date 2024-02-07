@@ -1,67 +1,66 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect, useState } from "react";
-import style from "../../pages/train/confirm/confirm.module.css";
-import styling from "./confirm.module.css";
-import { FaExclamationTriangle, FaInfo } from "react-icons/fa";
-import Nav from "../../../components/NavBarr/Nav";
-import Footer from "../../../components/Footer/Footer";
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-import bkash from "../../../public/assets/bkash.png";
-import nagad from "../../../public/assets/nagad.png";
-import rocket from "../../../public/assets/rocket.png";
-import Image from "next/image";
-import { useSelector } from "react-redux";
-import axios from "axios";
-import { decryptTransform } from "../../../components/EncryptAndDecrypt/EncryptAnsDecrypt";
-import Cookies from "js-cookie";
-import { FormError } from "../../../components/form-error";
-import { FormSuccess } from "../../../components/form-success";
-import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react"
+import style from "../../pages/train/confirm/confirm.module.css"
+import styling from "./confirm.module.css"
+import { FaExclamationTriangle, FaInfo } from "react-icons/fa"
+import Nav from "../../../components/NavBarr/Nav"
+import Footer from "../../../components/Footer/Footer"
+import Box from "@mui/material/Box"
+import Tab from "@mui/material/Tab"
+import TabContext from "@mui/lab/TabContext"
+import TabList from "@mui/lab/TabList"
+import TabPanel from "@mui/lab/TabPanel"
+import bkash from "../../../public/assets/bkash.png"
+import nagad from "../../../public/assets/nagad.png"
+import rocket from "../../../public/assets/rocket.png"
+import Image from "next/image"
+import { useSelector } from "react-redux"
+import axios from "axios"
+import { decryptTransform } from "../../../components/EncryptAndDecrypt/EncryptAnsDecrypt"
+import Cookies from "js-cookie"
+import { FormError } from "../../../components/form-error"
+import { FormSuccess } from "../../../components/form-success"
+import { useRouter } from "next/router"
 
 const confirm = () => {
-  const busData = useSelector((state) => state.busConfirmation);
-  const [value, setValue] = useState("1");
-  const [getName, setGetName] = useState(null);
-  const [gender, setGender] = useState(null);
-  const [passengerType, setPassengerType] = useState(null);
-  const [getEmail, setGetEmail] = useState(null);
+  const busData = useSelector((state) => state.busConfirmation)
+  console.log(busData)
+  const [value, setValue] = useState("1")
+  const [getName, setGetName] = useState(null)
+  const [gender, setGender] = useState(null)
+  const [passengerType, setPassengerType] = useState(null)
+  const [getEmail, setGetEmail] = useState(null)
 
-  const [number, setNumber] = useState(null);
-  const [isValid, setIsValid] = useState(true);
-  const [user, setUser] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const em = decryptTransform(Cookies.get("em_g"));
-  const router = useRouter();
+  const [number, setNumber] = useState(null)
+  const [isValid, setIsValid] = useState(true)
+  const [user, setUser] = useState({})
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
+  const em = decryptTransform(Cookies.get("em_g"))
+  const router = useRouter()
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+    setValue(newValue)
+  }
 
   const handleInputChange = (e) => {
-    const inputValue = e.target.value;
-    setNumber(inputValue);
-    const mobileNumberRegex = /^[0-9]{11}$/;
-    setIsValid(mobileNumberRegex.test(inputValue));
-  };
+    const inputValue = e.target.value
+    setNumber(inputValue)
+    const mobileNumberRegex = /^[0-9]{11}$/
+    setIsValid(mobileNumberRegex.test(inputValue))
+  }
 
   useEffect(() => {
     try {
       fetch(`http://localhost:5000/api/v1/user/${em}`)
         .then((res) => res.json())
-        .then((data) => setUser(data.getUser));
+        .then((data) => setUser(data.getUser))
     } catch (error) {}
-  }, [em]);
-
- 
+  }, [em])
 
   const handleConfirmBus = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     const data = {
       Seats: busData.Seats,
@@ -77,48 +76,48 @@ const confirm = () => {
       email: user.email,
       profile_type: user.profile_type,
       user_type: user.user_type,
-    };
+    }
     const values = {
       name: getName,
       gender: gender,
       passenger_type: passengerType,
       mobile_number: number,
       confirmation_email: getEmail,
-    };
+    }
     const hasQuotationNullValues = Object.values(values).some(
       (val) => val === null
-    );
+    )
 
     if (hasQuotationNullValues) {
-      setError("Please fill in all the fields.");
-      return;
+      setError("Please fill in all the fields.")
+      return
     }
-    setLoading(true);
+    setLoading(true)
     axios
       .post("http://localhost:5000/api/v1/bus", data)
       .then(function (response) {
-        console.log(response);
+        console.log(response)
         if (response.data.message === "Send request for bus confirmation.") {
-          setSuccess("Confirmation request accepted. Please wait to confirm.");
+          setSuccess("Confirmation request accepted. Please wait to confirm.")
           if (user.profile_type === "b2c") {
-            router.push("/profile/booking");
+            router.push("/profile/booking")
           } else if (user.profile_type === "b2b") {
-            router.push("/b2bdashboard/buses/busbooking");
+            router.push("/b2bdashboard/buses/busbooking")
           }
-          setError("");
+          setError("")
         }
         if (response.data === "Internal server error") {
-          setError("All fields must be filled out.");
+          setError("All fields must be filled out.")
         }
       })
       .catch((error) => {
-        setError("Something went wrong");
-        setLoading(false);
+        setError("Something went wrong")
+        setLoading(false)
       })
       .finally(() => {
-        setLoading(false);
-      });
-  };
+        setLoading(false)
+      })
+  }
 
   return (
     <div>
@@ -380,7 +379,7 @@ const confirm = () => {
       </div>
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default confirm;
+export default confirm

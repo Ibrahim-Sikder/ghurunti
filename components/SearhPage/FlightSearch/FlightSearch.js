@@ -25,6 +25,7 @@ import dynamic from "next/dynamic"
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
+import Container from "@/ui/Container"
 
 const FlightSearch = () => {
   var settings = {
@@ -94,21 +95,29 @@ const FlightSearch = () => {
 
   return (
     <section className={style.flightSearchWrap}>
-      <div className={style.searchDetailHead}>
-        <div>
-          <div className="flex items-center justify-center">
-            <h2 className="text-xl font-bold ">
-              COX S BAZAR - BANGKOK(BANGKOK-ALL)
-            </h2>
-            <small className="ml-2">(PREMIUM ECONOMY)</small>
+      <div className="bg-[#19ABE3] text-white py-8">
+        <Container>
+          <div className="flex justify-between ">
+            <div>
+              <div className="flex items-center justify-center">
+                <h2 className="text-xl font-bold ">
+                  COX S BAZAR - BANGKOK(BANGKOK-ALL)
+                </h2>
+                <small className="ml-2">(PREMIUM ECONOMY)</small>
+              </div>
+              <span className="sm:my-3">
+                27th August 2023 - 28th August 2023
+              </span>
+              <span> | Adult: 2, | Child: 2, | Infant: 2</span>
+            </div>
+            <button className="editBtn">EDIT SEARCH </button>
           </div>
-          <span className="sm:my-3">27th August 2023 - 28th August 2023</span>
-          <span> | Adult: 2, | Child: 2, | Infant: 2</span>
-        </div>
-        <button className={style.editSearchBtn}>EDIT SEARCH </button>
+        </Container>
       </div>
-      <div className={style.hotelSearchBoxWrap}>
-        <div className={style.hotelSearchLeftSide}>
+
+     <Container>
+     <div className="grid grid-cols-1 md:grid-cols-12 py-8 gap-5">
+        <div className='col-span-1 md:col-span-9'>
           <div className={style.availableHotel}>
             <div>
               <h5 className="">34 Available Flight </h5>
@@ -276,7 +285,7 @@ const FlightSearch = () => {
             </span>
           </div>
         </div>
-        <div className={style.flightRightSide}>
+        <div className='col-span-1 md:col-span-3 '>
           <div className={style.flightDesc}>
             <div className={style.textFieldWrap}>
               <TextField
@@ -472,6 +481,7 @@ const FlightSearch = () => {
           </div>
         </div>
       </div>
+     </Container>
     </section>
   )
 }

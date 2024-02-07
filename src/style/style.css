@@ -5,6 +5,18 @@
     color: #fff;
     border-radius: 5px;
 }
+.editBtn {
+    background:#19abe3;
+    width: 150px;
+    height: 40px;
+    border:1px solid #fff;
+    transition:all .5s ease-in-out;
+  
+  }
+  .editBtn:hover {
+    background:#4ab449;
+    
+  }
 
 
 @media only screen and (max-width:500px){

@@ -1,15 +1,6 @@
-.flightBookWrap {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  place-content: center;
-  padding: 0 20px;
-}
-.flightBookLeftSide {
-  grid-column: span 8 / span 8;
-}
-.flightBookRightSide {
-  grid-column: span 4 / span 4;
-}
+
+
+
 /* flightbook leftside styling */
 .flightBookDetail {
   margin-bottom: 30px !important;
@@ -307,7 +298,6 @@
   width: 100%;
   border: 1px solid #ddd;
   padding: 20px;
-  margin-left: 20px;
 }
 .priceSummery div,
 .priceSummery strong {
@@ -340,19 +330,7 @@
 }
 
 @media only screen and (max-width: 768px) {
-  .flightBookLeftSide {
-    grid-column: span 12 / span 12;
-  }
-  .flightBookRightSide {
-    grid-column: span 12 / span 12;
-  }
-  .rightSideWrap {
-    width: 100%;
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin-bottom: 50px;
-    margin-left: 0px;
-  }
+
   .passengerInfo {
     display: block;
   }
@@ -365,12 +343,8 @@
   }
 }
 @media only screen and (max-width: 600px) {
-  .rightSideWrap {
-    width: 368px;
-  }
-  .flightBookWrap {
-    padding: 0 15px;
-  }
+
+
   .dealWrap {
     width: 100%;
   }
@@ -462,13 +436,9 @@
   .flightBookDetail {
     width: 100% !important;
   }
-  .rightSideWrap {
-    width: 100%;
-  }
 
-  .rightSideWrap {
-    width: 100%;
-  }
+
+
 }
 
 

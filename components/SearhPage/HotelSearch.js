@@ -136,7 +136,7 @@ const HotelSearch = () => {
                 27th August 2023 - 28th August 2023 4 Persons - 1 Rooms
               </span>
             </div>
-            <button>EDIT SEARCH</button>
+            <button className="editBtn">EDIT SEARCH</button>
           </div>
         </Container>
       </div>

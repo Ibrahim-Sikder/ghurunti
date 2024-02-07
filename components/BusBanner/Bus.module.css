@@ -70,6 +70,10 @@
 .formControl input{
   background:transparent;
 }
+.formControl input::placeholder{
+  color:#fff;
+}
+
 
 .calendarIcon{
   font-size: 22px !important;

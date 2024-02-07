@@ -1,28 +1,11 @@
-.hotelSearchBoxWrap {
-  padding: 32px;
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-}
-.hotelSearchLeftSide {
-  grid-column: span 9 / span 9;
-}
-.flightRightSide {
-  grid-column: span 3 / span 3;
-}
-.searchDetailHead {
-  display: flex;
-  justify-content: space-between;
-  padding: 32px 80px;
-  background: #e9f6e9;
-}
 
 
 .flightSearch {
-  width: 95%;
   height: 251px;
   margin: 15px auto;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   transition: all 0.3s ease-in-out;
+  padding:10px;
 }
 .flightSearch:hover {
   box-shadow: #4ab449 0px 10px 20px, #4ab449 0px 6px 6px;
@@ -37,14 +20,7 @@
   width: 930px;
   margin: 15px auto;
 }
-.flightSearchLeftSide {
-  position: relative;
-  width: 389px;
-  overflow: hidden;
-  background: #e9f6e9;
-  padding: 5px;
-  height: 251px;
-}
+
 .leftArrow {
   color: black !important;
   width: 30px !important;
@@ -138,7 +114,6 @@
 .availableHotel {
   display: flex;
   justify-content: space-between;
-  padding: 0px 20px;
   margin-bottom:5px;
 }
 .flightButton {
@@ -156,11 +131,6 @@
   height: 50px;
   text-align: center;
   border: 1px solid #4AB449;
-}
-.flightSlider{
-  width: 860px;
-  margin: 0 auto;
-
 }
 .perFlightPerson:hover {
   border: 1px solid #4ab449;
@@ -269,10 +239,7 @@
     align-items: center;
     text-align: center;
 }
-.flightSlider{
-  width: 610px;
 
-}
 .flightPrice{
   width: 677px;
 }
@@ -283,14 +250,7 @@
 }
 
 @media only screen and (max-width: 768px) {
-  .hotelSearchLeftSide {
-    grid-column: span 12 / span 12;
-  }
-  .flightRightSide {
-    grid-column: span 12 / span 12;
-    place-content: center;
-    text-align: center;
-  }
+
   .flightSearch {
     height: 252px;
     width: 100%;
@@ -393,10 +353,6 @@
     height: 561px;
     width: 100%;
   }
-  .flightSlider {
-    width: 350px;
-    margin-left: 2px;
-}
   .searchLeftImg {
     width: 100%;
     height: 230px !important;
@@ -412,11 +368,7 @@
     display: block;
     padding: 0px 0px;
   }
-  .flightSearchLeftSide {
-    width: 100%;
-    margin: 0 auto;
-    text-align: center;
-  }
+
   .deal {
     color: #fff;
     width: 120px;
@@ -453,10 +405,6 @@
   .flightDesc {
     margin-left: -28px !important;
   }
-  .flightSlider {
-    width: 252px;
-    margin-left: 27px;
-}
   .paginationBtn button {
     width: 20px;
     height: 20px;

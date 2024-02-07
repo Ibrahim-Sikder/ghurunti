@@ -32,7 +32,7 @@
 
 }
 
-.searchDetailHead button {
+/* .searchDetailHead button {
   background:#19abe3;
   width: 150px;
   height: 40px;
@@ -43,7 +43,8 @@
 .searchDetailHead button:hover {
   background:#4ab449;
   
-}
+} */
+
 
 .bookBtnGroup button {
   width: 120px;
