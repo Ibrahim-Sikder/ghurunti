@@ -17,21 +17,22 @@ const Reveiw = () => {
       <div className={style.swiperSliderWrap}>
         <SectionTitle heading="What Our Client Say "></SectionTitle>
         <Swiper
-          effect={"coverflow"}
-          grabCursor={true}
-          centeredSlides={true}
-          slidesPerView={"auto"}
-          coverflowEffect={{
-            rotate: 0,
-            stretch: 0,
-            depth: 100,
-            modifier: 1,
-            initialSlide: 3,
-            slideShadows: true,
-          }}
-          modules={[EffectCoverflow, Pagination]}
-          className="mySwiper"
-        >
+        effect={"coverflow"}
+        grabCursor={true}
+        centeredSlides={true}
+        slidesPerView={"auto"}
+        coverflowEffect={{
+          rotate: 0,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          initialSlide: 3,
+          slideShadows: true,
+        }}
+        modules={[EffectCoverflow, Pagination]}
+        className="mySwiper"
+        autoplay={{ delay: 1000, pauseOnMouseEnter: true }}
+      >
           <SwiperSlide className={style.swiperSlide}>
             <div className={style.testimonialBox}>
               <FaQuoteLeft className={style.quoteIcon} />

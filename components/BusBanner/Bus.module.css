@@ -69,6 +69,7 @@
 }
 .formControl input{
   background:transparent;
+  width:100%;
 }
 .formControl input::placeholder{
   color:#fff;
@@ -295,6 +296,9 @@ color: white !important;
 
 
 @media only screen and (max-width: 768px) {
+  .bannerWrap {
+    height: 420px;
+  }
   .bannerWrap h2 {
     font-size: 25px;
   }
@@ -401,7 +405,7 @@ color: white !important;
 }
   .heroBoxBtn {
     top: 405px;
-    width: 209px;
+    width: 300px;
     font-size: 14px;
     padding: 17px 0px;
   }
