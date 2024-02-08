@@ -12,6 +12,7 @@ import see from "../../../public/assets/shylet.jpg"
 import see3 from "../../../public/assets/see3.png"
 import { ArrowForward, ArrowBack } from "@mui/icons-material"
 import RelatedTourPackage from "../../../components/Tour/TourPackage/RelatedTourPackage"
+import Container from "@/ui/Container"
 const SpecialTourPackage = () => {
   return (
     <div>
@@ -25,6 +26,7 @@ const SpecialTourPackage = () => {
           height={500}
         />
       </div>
+      <Container>
       <h3 className="md:text-5xl font-bold text-3xl text-center mt-8 mb-5">
         International Destination{" "}
       </h3>
@@ -336,6 +338,7 @@ const SpecialTourPackage = () => {
          
         </div>
       </div>
+      </Container>
     </div>
   )
 }

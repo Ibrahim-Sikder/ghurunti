@@ -1,7 +1,7 @@
 .flightBookWrap {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  padding: 20px 40px;
+  padding: 20px 0px;
 }
 .flightBookLeftSide {
   grid-column: span 8 / span 8;

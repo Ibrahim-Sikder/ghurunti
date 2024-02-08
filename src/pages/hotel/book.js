@@ -10,6 +10,7 @@ import { useState } from "react";
 import { decryptTransform } from "../../../components/EncryptAndDecrypt/EncryptAnsDecrypt";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import Container from "@/ui/Container";
 const Book = () => {
   const [givenName, setGivenName] = useState(null);
   const [email, setEmail] = useState(null);
@@ -107,6 +108,7 @@ const Book = () => {
   return (
     <div>
       <Nav />
+      <Container>
       <div className={style.flightBookWrap}>
         <div className={style.flightBookLeftSide}>
           <HotelBookLeft
@@ -137,6 +139,7 @@ const Book = () => {
           />
         </div>
       </div>
+      </Container>
       <Footer />
     </div>
   );

@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import MoveText from "../../../../../components/UserDashBoard/MoveText/MoveText";
-import B2BdashboardLayout from "../../../../../components/Layout/B2BdashboardLayout/B2BdashboardLayout";
-import style from "../hotel/hotel.module.css";
+import MoveText from "../../../../../../components/UserDashBoard/MoveText/MoveText";
+import B2BdashboardLayout from "../../../../../../components/Layout/B2BdashboardLayout/B2BdashboardLayout";
+import style from "../../hotel/hotel.module.css";
 import { FaTrashAlt, FaEdit } from "react-icons/fa";
-import img from "../../../../../public/assets/hotel.jpg";
+import img from "../../../../../../public/assets/hotel.jpg";
 import Image from "next/image";
 import TextField from "@mui/material/TextField";
 import Link from "next/link";
 import { ArrowForward, ArrowBack } from "@mui/icons-material";
 import axios from "axios";
 import swal from "sweetalert";
-import { DEFAULT_SANS_SERIF_FONT } from "next/dist/shared/lib/constants";
-const ToursPackages = ({ data }) => {
+const Hotel = ({ data }) => {
   const [packages, setPackages] = useState(data);
+  console.log(packages)
   const [limit, setLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(
-    Number(sessionStorage.getItem("tours")) || 1
+    Number(sessionStorage.getItem("hotel")) || 1
   );
   const [pageNumberLimit, setPageNumberLimit] = useState(5);
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
@@ -32,7 +32,7 @@ const ToursPackages = ({ data }) => {
 
     if (willDelete) {
       try {
-        const res = await fetch(`http://localhost:5000/api/v1/tours/${id}`, {
+        const res = await fetch(`http://localhost:5000/api/v1/hotel/${id}`, {
           method: "DELETE",
         });
         const data = await res.json();
@@ -48,12 +48,12 @@ const ToursPackages = ({ data }) => {
   };
 
   useEffect(() => {
-    sessionStorage.setItem("tours", currentPage.toString());
+    sessionStorage.setItem("hotel", currentPage.toString());
   }, [currentPage]);
   // ...
 
   useEffect(() => {
-    const storedPage = Number(sessionStorage.getItem("tours")) || 1;
+    const storedPage = Number(sessionStorage.getItem("hotel")) || 1;
     setCurrentPage(storedPage);
     setMaxPageNumberLimit(
       Math.ceil(storedPage / pageNumberLimit) * pageNumberLimit
@@ -68,7 +68,7 @@ const ToursPackages = ({ data }) => {
   const handleClick = (e) => {
     const pageNumber = Number(e.target.id);
     setCurrentPage(pageNumber);
-    sessionStorage.setItem("tours", pageNumber.toString());
+    sessionStorage.setItem("hotel", pageNumber.toString());
   };
   const pages = [];
   for (let i = 1; i <= Math.ceil(packages?.length / limit); i++) {
@@ -103,9 +103,9 @@ const ToursPackages = ({ data }) => {
   const renderData = (packages) => {
     return (
       <>
-
+       
           <div className="overflow-x-auto ">
-            <table className="table ">
+            <table className="table">
               <thead className={style.tableWrap}>
                 <tr>
                   <th>Image</th>
@@ -117,8 +117,8 @@ const ToursPackages = ({ data }) => {
                 </tr>
               </thead>
               <tbody>
-              {
-                packages.map(data=>  <tr key={data._id}>
+               {
+                packages.map(data=> <tr key={data._id}>
                   <td>
                     <div className="mask   h-[100px] w-[100px] mx-auto ">
                       <Image
@@ -131,12 +131,12 @@ const ToursPackages = ({ data }) => {
                       />
                     </div>
                   </td>
-                  <td>রমজানে ওমরা করলে হজ করার সওয়াব </td>
+                  <td>{data.title} </td>
                   <td>Top package </td>
-                  <td>পবিত্র কোরআনুল কারিমে আল্লাহ তায়ালা বলেন</td>
-                  <td>20-05-23</td>
+                  <td>{data.sub_title} </td>
+                  <td>{data.updatedAt}</td>
                   <td>
-                    <Link href="/b2bdashboard/manage/tours/update">
+                    <Link href={`/b2bdashboard/manage/hotel/update?id=${data._id}`}>
                       <FaEdit className={style.editIcon} />
                     </Link>
                   </td>
@@ -144,11 +144,11 @@ const ToursPackages = ({ data }) => {
                     <FaTrashAlt className={style.deleteIcon} />
                   </td>
                 </tr>)
-              }
+               }
               </tbody>
             </table>
           </div>
-
+       
       </>
     );
   };
@@ -156,7 +156,7 @@ const ToursPackages = ({ data }) => {
   const handlePrevious = () => {
     const newPage = currentPage - 1;
     setCurrentPage(newPage);
-    sessionStorage.setItem("tours", newPage.toString());
+    sessionStorage.setItem("hotel", newPage.toString());
 
     if (newPage % pageNumberLimit === 0) {
       setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
@@ -166,7 +166,7 @@ const ToursPackages = ({ data }) => {
   const handleNext = () => {
     const newPage = currentPage + 1;
     setCurrentPage(newPage);
-    sessionStorage.setItem("tours", newPage.toString());
+    sessionStorage.setItem("hotel", newPage.toString());
 
     if (newPage > maxPageNumberLimit) {
       setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
@@ -205,9 +205,9 @@ const ToursPackages = ({ data }) => {
         <div className="flex items-center justify-between px-8 mb-5">
           <TextField id="outlined-basic" label="Search " variant="outlined" />
           <div className={style.addHotel}>
-            <Link href="/b2bdashboard/manage/tour-package/add">
+            <Link href="/b2bdashboard/manage/hotel/international/add">
               <button>
-                <span className="text-xl font-bold">+</span> Add Tours Packages{" "}
+                <span className="text-xl font-bold">+</span>International Hotel 
               </button>
             </Link>
           </div>
@@ -289,7 +289,7 @@ const ToursPackages = ({ data }) => {
 
 export async function getStaticProps() {
   try {
-    const response = await axios.get("http://localhost:5000/api/v1/tours");
+    const response = await axios.get("http://localhost:5000/api/v1/hotel");
     const data = response.data.getPackage;
 
     return {
@@ -308,4 +308,4 @@ export async function getStaticProps() {
 }
 
 // export default dynamic(() => Promise.resolve(Benefit), { ssr: false });
-export default ToursPackages;
+export default Hotel;

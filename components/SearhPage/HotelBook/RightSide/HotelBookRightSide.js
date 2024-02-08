@@ -1,6 +1,7 @@
 import React from "react";
 import style from "./HotelBookRight.module.css";
-const HotelBookRightSide = ({handleHotelConfirm,loading, error}) => {
+import { HiCalendar, HiOutlineUsers } from "react-icons/hi";
+const HotelBookRightSide = ({ handleHotelConfirm, loading, error }) => {
   return (
     <section className={style.rightSide}>
       <div className={style.rightSideWrap}>
@@ -10,66 +11,64 @@ const HotelBookRightSide = ({handleHotelConfirm,loading, error}) => {
           <span>Amount</span>
         </div>
         <div className={style.priceSummery}>
-          <h6>ADULT x 2</h6>
           <div className="flex justify-between">
             <div>
-              <div>Base Fare X 2</div>
-              <div>Tax X 2</div>
-            </div>
-            <div>
-              <strong>BDT5,590</strong> <br />
-              <strong>BDT3,590</strong>
-            </div>
-          </div>
-        </div>
-        <hr className={style.horizontalLine} />
-        <div className={style.priceSummery}>
-          <h6>Child x 2</h6>
-          <div className="flex justify-between">
-            <div>
-              <div>Base Fare X 2</div>
-              <div>Tax X 2</div>
-            </div>
-            <div>
-              <strong>BDT3,590</strong>
-              <strong>BDT2,590</strong>
-            </div>
-          </div>
-        </div>
-        <hr className={style.horizontalLine} />
-        <div className={style.priceSummery}>
-          <div className="flex justify-between">
-            <div>
-              <div>Total Airfare:</div>
+              <div>1 Cox Deluxe (Four Bed) X 2 nights</div>
               <div>Discount</div>
-              <div>Coupon Discount </div>
-              <div>Coupon </div>
-              <div>Covid-19 Test </div>
-              <div>Travel Insurance Charge </div>
-              <div>Baggage Protection Charge </div>
-              <div>Ancillary </div>
-              <div>GT Convenience Fee</div>
             </div>
-
             <div>
-              <strong>BDT9,590</strong>
-              <strong>-BDT1,590</strong>
-              <strong>-BDT1,590</strong>
-              <strong>FLYNOW0723</strong>
-              <strong>BDT 0</strong>
-              <strong>BDt 80</strong>
-              <strong>BDt 380</strong>
-              <strong>BDt 0</strong>
-              <strong>BDt 426</strong>
+              <b>BDT5,590</b> <br />
+              <b>BDT3,590</b>
             </div>
           </div>
         </div>
-        <div className="text-sm text-red-400 my-1">
-          {error}
+        <hr className={style.horizontalLine} />
+        <div className={style.priceSummery}>
+          <div className="flex justify-between">
+            <div>
+              <div>Total Amount </div>
+            </div>
+            <div>
+              <b>BDT3,590</b>
+            </div>
+          </div>
         </div>
-       <div className="w-full text-center mt-5">
-       <button disabled={loading ? true : false} onClick={handleHotelConfirm} className={style.reservationBtn}>Confirm Reservation</button>
-       </div>
+        <div className={style.priceSummery}>
+          <div className="flex items-center">
+            <HiCalendar size={25} />
+            <div className="ml-2">
+              <b>10 Feb, 2024 - 12 Feb, 2024</b> <br />
+              <small>2 nights</small>
+            </div>
+          </div>
+          <div className="flex items-center">
+            <HiOutlineUsers size={25} />
+            <div className="ml-2">
+              <span>2 Adults 1 Room </span>
+            </div>
+          </div>
+
+        </div>
+        <div className="flex items-center mb-3 ">
+      <input type="checkbox" className="w-5 h-5"/>
+        <div className="ml-2">
+          <small>Agree to the Terms & Condition and Privacy Policy </small>
+        </div>
+      </div>
+
+
+        <hr className={style.horizontalLine} />
+
+        <div className="text-sm text-red-400 my-1">{error}</div>
+        <div className="w-full text-center mt-5">
+          <button
+            disabled={loading ? true : false}
+            onClick={handleHotelConfirm}
+            className={style.reservationBtn}
+          >
+           Pay Now
+          </button>
+        </div>
       </div>
     </section>
   );

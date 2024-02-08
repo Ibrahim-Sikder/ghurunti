@@ -50,6 +50,7 @@
   display: flex;
   justify-content: center;
   margin-top: 80px;
+  margin-left:20px;
 }
 .leftSideIconWrap p {
   margin-bottom: 20px;
@@ -67,7 +68,6 @@
   background: #4AB449 !important;
   color: white !important;
   text-align: left;
-  margin-left: -14px !important;
 }
 .ticketProcessing{
   display: flex;
@@ -216,7 +216,7 @@
   justify-content: space-between;
   transition: all 0.5s ease-in-out;
   position: fixed;
-  left: -190px;
+  left: -225px;
   z-index: 999 !important;
 }
 .iconsBarHide {
@@ -398,7 +398,7 @@ z-index: 9999999999 !important;
   margin: 0 auto;
   text-align: center;
   position: relative;
-  padding-left: 20px;
+  padding-left: 32px;
 }
 
 .profileInfo {

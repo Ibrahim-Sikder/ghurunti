@@ -80,8 +80,8 @@ const UserDashBoardLeft = () => {
               >
                 <Typography>
                   <div className={style.bookHistory}>
-                    <h6>
-                      <Replay5 className={style.historyIcon} /> Booking History
+                    <h6> 
+                      <Replay5 className={style.historyIcon} /> B2B Booking History
                     </h6>
                   </div>
                 </Typography>
@@ -161,7 +161,101 @@ const UserDashBoardLeft = () => {
                 </Typography>
               </AccordionDetails>
             </Accordion>
-
+           <div className="mt-2">
+           <Accordion className={style.bookingHistory}>
+           <AccordionSummary
+             expandIcon={<ExpandMoreIcon />}
+             aria-controls="panel1a-content"
+             id="panel1a-header"
+           >
+             <Typography>
+               <div className={style.bookHistory}>
+                 <h6> 
+                   <Replay5 className={style.historyIcon} /> B2C Booking History
+                 </h6>
+               </div>
+             </Typography>
+           </AccordionSummary>
+           <AccordionDetails>
+             <Typography>
+               <div className={style.bookingList}>
+                 <ul>
+                   <li>
+                     <Accordion className={style.subAccordion}>
+                       <AccordionSummary
+                         expandIcon={<ExpandMoreIcon />}
+                         aria-controls="panel1a-content"
+                         id="panel1a-header"
+                       >
+                         <Typography>
+                           <div className={style.ticketProcessing}>
+                             <Flight className={style.flightIcon} />
+                             <span>Flight</span>
+                           </div>
+                         </Typography>
+                       </AccordionSummary>
+                       <AccordionDetails className={style.ticketSubMenu}>
+                         <Typography>
+                           <ul>
+                             <li className="flex">
+                               <Link href="/b2bdashboard//b2c-booking-history/flight/confirm">
+                                 <AirplaneTicket
+                                   className={style.flightIcons}
+                                 />
+                                 Confirm Ticket
+                               </Link>
+                             </li>
+                             <li className="flex">
+                               <Link href="/b2bdashboard/b2c-booking-history/flight/processing">
+                                 <Spellcheck className={style.flightIcons} />
+                                 On Hold Process
+                               </Link>
+                             </li>
+                             <li className="flex">
+                               <Link href="/b2bdashboard/b2c-booking-history/flight/cancel">
+                                 <CancelScheduleSend
+                                   className={style.flightIcons}
+                                 />
+                                 Cancel Ticket
+                               </Link>
+                             </li>
+                           </ul>
+                         </Typography>
+                       </AccordionDetails>
+                     </Accordion>
+                   </li>
+                   <li>
+                     <Link href='/b2bdashboard/b2c-booking-history/hotel'> <Hotel className={style.flightIcons} /> Hotel </Link>
+                   </li>
+                   <li>
+                     <Link href='/b2bdashboard/b2c-booking-history/visa'>  <Beenhere className={style.flightIcons} /> Visa</Link>
+                   </li>
+                   <li>
+                     <Link href='/b2bdashboard/b2c-booking-history/tour'> <Diversity2 className={style.flightIcons} /> Tours </Link>
+                   </li>
+                   <li>
+                     
+                     <Link href='/b2bdashboard/b2c-booking-history/bus'>  <DirectionsBusFilled className={style.flightIcons} />
+                     Bus </Link>
+                   </li>
+                   <li>
+                    
+                     <Link href='/b2bdashboard/b2c-booking-history/train'>  <Train className={style.flightIcons} /> Trains </Link>
+                   </li>
+                 
+                   <li>
+                   <Link href='/b2bdashboard/b2c-booking-history/hajj'><Mosque className={style.flightIcons} /> Hajj  </Link>
+                   </li>
+                   
+                   <li>
+                   <Link href='/b2bdashboard/b2c-booking-history/umrah'><Mosque className={style.flightIcons} />  Umrah </Link>
+                   </li>
+                 </ul>
+               </div>
+             </Typography>
+           </AccordionDetails>
+         </Accordion>
+           </div>
             <div>
               <ul className={style.profileInfo}>
                 <li>
@@ -254,11 +348,48 @@ const UserDashBoardLeft = () => {
                                 <Flight className={style.flightIcons} /> Flight
                               </li>
                             </Active>
-                            <Active href="/b2bdashboard/manage/hotel">
+                         
                               <li>
-                                <Hotel className={style.flightIcons} /> Hotel
+                             
+                                <Accordion className={style.subAccordion}>
+                                <AccordionSummary
+                                  expandIcon={<ExpandMoreIcon />}
+                                  aria-controls="panel1a-content"
+                                  id="panel1a-header"
+                                >
+                                  <Typography>
+                                    <div className="flex items-center">
+                                    <Hotel className={style.flightIcons} /> Hotel
+                                    </div>
+                                  </Typography>
+                                </AccordionSummary>
+                                <AccordionDetails
+                                  className={style.ticketSubMenu}
+                                >
+                                  <Typography>
+                                    <ul>
+                                      <li className="flex">
+                                        <Link href="/b2bdashboard/manage/hotel">
+                                         Hotel
+                                        </Link>
+                                      </li>
+                                      <li className="flex">
+                                        <Link href="/b2bdashboard/manage/hotel/domestic">
+                                         Domestic
+                                        </Link>
+                                      </li>
+                                      <li className="flex">
+                                        <Link href="/b2bdashboard/manage/hotel/international">
+                                     International
+                                        </Link>
+                                      </li>
+                                     
+                                    </ul>
+                                  </Typography>
+                                </AccordionDetails>
+                              </Accordion>
                               </li>
-                            </Active>
+                            
                             <Active href="/b2bdashboard/manage/visa">
                               <li>
                                 <Beenhere className={style.flightIcons} /> Visa

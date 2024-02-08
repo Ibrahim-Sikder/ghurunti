@@ -47,7 +47,7 @@ const UmraPackage = () => {
   ]
   return (
     <Container>
-      <div className="mt-20 px-5">
+      <div className="mt-20">
         <SectionTitle
           heading="Best Umrah Packages"
           subHeading="Some of the renowned and best Hajj agencies in Bangladesh are

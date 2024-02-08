@@ -19,6 +19,7 @@ const HajjUmrahCard = ({ title, img }) => {
   const params = router.asPath;
   const refreshParams = params.split("/");
   const hajjDetailsData = useSelector((state) => state.hajj.hajjDetailsData);
+  console.log(hajjDetailsData)
   const umrahDetailsData = useSelector((state) => state.umrah.umrahDetailsData);
   const hotelDetailsData = useSelector((state) => state.hotel.hotelDetailsData);
   const [economyHajj, setEconomyHajj] = useState([]);
@@ -113,24 +114,13 @@ const HajjUmrahCard = ({ title, img }) => {
                       </h5>
                       <div className={style.cardIconText}>
                         <Beenhere className={style.checkIcon} />
-                        <p className="ml-2">Hotel in Makkah: Distance 400 meters from Haram Sharif & Madinah 300 meters</p>
+                        <p className="ml-2">{data.description}</p>
                       </div>
-                      <div className={style.cardIconText}>
-                        <Beenhere className={style.checkIcon} />
-                        <p className="ml-2">Sharing Room (4 Persons)</p>
-                      </div>
-                      <div className={style.cardIconText}>
-                        <Beenhere className={style.checkIcon} />
-                        <p className="ml-2">Meals (3 Times)</p>
-                      </div>
-                      <div className={style.cardIconText}>
-                        <Beenhere className={style.checkIcon} />
-                        <p className="ml-2">{data.day_night} Day/Night</p>
-                      </div>
+                    
                     </div>
                   </div>
                   <div className={style.cardPrice}>
-                    <b>{data.price} BDT</b>
+                    <b>{data.price} BDT</b> <br />
                     <Link href={`/hajj/hajjbook?id=${data._id}&type=hajj`}>
                       <button>Details</button>
                     </Link>

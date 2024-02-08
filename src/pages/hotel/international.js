@@ -3,7 +3,7 @@ const { default: Nav } = require("../../../components/NavBarr/Nav")
 const {
   default: InternationalHotelPackage,
 } = require("../../../components/Tour/SpecialTourPackage/InternationalHotelPackage")
- const Internation = () => {
+ const International = () => {
   return (
     <div>
       <Nav />
@@ -12,4 +12,4 @@ const {
     </div>
   )
 }
-export default Internation
+export default International

@@ -481,28 +481,23 @@ const HotelUpdate = () => {
                     />
                   </div>
                 </div>
-                {/* <div className={styles.formControl}>
-                  <div>
-                    <label>Date</label>
-                    <input
-                      onChange={(e) => setGetDate(e.target.value)}
-                      name="date"
-                      placeholder="Date "
-                      type="date"
-                      className={styles.inputField}
-                    />
-                  </div>
-                  <div>
-                    <label>Address</label>
-                    <input
-                      name="address"
-                      placeholder="Address"
-                      type="text"
-                      className={styles.inputField}
-                    />
-                  </div>
-                </div> */}
-
+                <div className={styles.formControl}>
+                <div>
+                
+                
+                </div>
+                <div>
+                  <label> Night </label>
+                  <input
+                    onChange={(e) => setDiscountPrice(e.target.value)}
+                    name="discountPrice"
+                    placeholder="Night "
+                    type="text"
+                    className={styles.inputField}
+                  />
+                </div>
+              </div>
+             
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>
                     {imageLoading ? (
