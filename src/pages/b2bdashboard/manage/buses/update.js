@@ -177,6 +177,7 @@ const Update = () => {
                   placeholder="Travel From City"
                   type="text"
                   className={styles.inputField}
+                  defaultValue={specificPackage.starting_point}
                 />
               </div>
               <div>
@@ -187,6 +188,7 @@ const Update = () => {
                   placeholder="Travel To City"
                   type="text"
                   className={styles.inputField}
+                  defaultValue={specificPackage.end_point}
                 />
               </div>
             </div>

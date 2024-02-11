@@ -19,6 +19,7 @@ const ToursUpdate = () => {
   const [travelFrom, setTravelFrom] = useState(null);
   const [title, setTitle] = useState(null);
   const [subTitle, setSubTitle] = useState(null);
+  const [shortDescription, setShortDescription] = useState(null);
   const [getDate, setGetDate] = useState(null);
   const [price, setPrice] = useState(null);
   const [countryName, setCountryName] = useState(null);
@@ -30,6 +31,7 @@ const ToursUpdate = () => {
   const [productCategory, setProductCategory] = useState(null);
   const [priceLowToHigh, setPriceLowToHight] = useState(null);
   const [priceHighToLow, setPriceHighToLow] = useState(null);
+  const [tourPackageName, setTourPackageName] = useState(null);
   const [time, setTime] = useState(null);
   const [loading, setLoading] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
@@ -114,6 +116,8 @@ const ToursUpdate = () => {
     const data = {
       title: title || specificPackage.title,
       sub_title: subTitle || specificPackage.sub_title,
+      short_description: shortDescription || specificPackage.short_description,
+      tour_package_name: tourPackageName || specificPackage.tour_package_name,
       journey_date: getDate || specificPackage.journey_date,
       price: price || specificPackage.price,
       country_name: countryName || specificPackage.country_name,
@@ -121,7 +125,6 @@ const ToursUpdate = () => {
       child: child || specificPackage.child,
       adult: adult || specificPackage.adult,
       time: time || specificPackage.time,
-      city_name: cityName || specificPackage.city_name,
       included: included || specificPackage.included,
       excluded: excluded || specificPackage.excluded,
       itinary: itinary || specificPackage.itinary,
@@ -145,6 +148,7 @@ const ToursUpdate = () => {
       })
       .catch((error) => {
         toast.error(error.message);
+        setLoading(false);
       })
       .finally(() => {
         setLoading(false);
@@ -218,12 +222,8 @@ const ToursUpdate = () => {
                       className={styles.inputField}
                       value={specificPackage.country_name}
                     >
-                      <option value="">
-                        Choose your country
-                      </option>
-                      <option value="Bangladesh">
-                        Bangladesh
-                      </option>
+                      <option value="">Choose your country</option>
+                      <option value="Bangladesh">Bangladesh</option>
                       <option value="Thailand">Thailand</option>
                       <option value="Malaysia">Malaysia</option>
                       <option value="Indonesia">Indonesia</option>
@@ -237,14 +237,25 @@ const ToursUpdate = () => {
                     </select>
                   </div>
                   <div>
-                    <label>Enter city </label>
+                    <label>Short description</label>
                     <input
-                      onChange={(e) => setCityName(e.target.value)}
+                      onChange={(e) => setShortDescription(e.target.value)}
                       name="price"
                       placeholder="Enter city"
                       type="text"
                       className={styles.inputField}
-                      defaultValue={specificPackage.city_name}
+                      defaultValue={specificPackage.short_description}
+                    />
+                  </div>
+                  <div>
+                    <label> Tour package name</label>
+                    <input
+                      onChange={(e) => setTourPackageName(e.target.value)}
+                      name="price"
+                      placeholder="Enter city"
+                      type="text"
+                      className={styles.inputField}
+                      defaultValue={specificPackage.short_description}
                     />
                   </div>
                 </div>
@@ -412,7 +423,7 @@ const ToursUpdate = () => {
                       <>
                         {getFile[0]?.name ||
                         specificPackage?.image?.length > 0 ? (
-                          <label for="files">
+                          <label for="files" className=" overflow-hidden">
                             {getFile[0]?.name || specificPackage?.image[0]}
                           </label>
                         ) : (

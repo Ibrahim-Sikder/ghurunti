@@ -1,50 +1,51 @@
-import React, { useEffect, useState } from "react"
-import Nav from "../../../../components/NavBarr/Nav"
-import Footer from "../../../../components/Footer/Footer"
-import style from "./confirm.module.css"
-import { FaInfo } from "react-icons/fa"
-import { useSelector } from "react-redux"
-import axios from "axios"
-import toast from "react-hot-toast"
-import { useRouter } from "next/router"
-import Cookies from "js-cookie"
-import { decryptTransform } from "../../../../components/EncryptAndDecrypt/EncryptAnsDecrypt"
-import { FormError } from "../../../../components/form-error"
+import React, { useEffect, useState } from "react";
+import Nav from "../../../../components/NavBarr/Nav";
+import Footer from "../../../../components/Footer/Footer";
+import style from "./confirm.module.css";
+import { FaInfo } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+import { decryptTransform } from "../../../../components/EncryptAndDecrypt/EncryptAnsDecrypt";
+import { FormError } from "../../../../components/form-error";
 
 const Confirm = () => {
-  const trainData = useSelector((state) => state.trainConfirmation)
-  console.log(trainData)
-  const [name, setName] = useState("")
-  const [type, setType] = useState("")
-  const [number, setNumber] = useState(null)
-  const [email, setEmail] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
-  const [user, setUser] = useState({})
+  const trainData = useSelector((state) => state.trainConfirmation);
 
-  const [isValid, setIsValid] = useState(true)
+  const [grandTotal, setGrandTotal] = useState(null);
 
-  const router = useRouter()
+  const [name, setName] = useState("");
+  const [type, setType] = useState("");
+  const [number, setNumber] = useState(null);
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [user, setUser] = useState({});
+  const [isValid, setIsValid] = useState(true);
+
+  const router = useRouter();
 
   const handleInputChange = (e) => {
-    const inputValue = e.target.value
-    setNumber(inputValue)
-    const mobileNumberRegex = /^[0-9]{11}$/
-    setIsValid(mobileNumberRegex.test(inputValue))
-  }
+    const inputValue = e.target.value;
+    setNumber(inputValue);
+    const mobileNumberRegex = /^[0-9]{11}$/;
+    setIsValid(mobileNumberRegex.test(inputValue));
+  };
 
-  const em = decryptTransform(Cookies.get("em_g"))
+  const em = decryptTransform(Cookies.get("em_g"));
 
   useEffect(() => {
     try {
       fetch(`http://localhost:5000/api/v1/user/${em}`)
         .then((res) => res.json())
-        .then((data) => setUser(data.getUser))
+        .then((data) => setUser(data.getUser));
     } catch (error) {}
-  }, [em])
+  }, [em]);
 
   const handleConfirmTrain = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const data = {
       Seats: trainData.Seats,
@@ -59,47 +60,56 @@ const Confirm = () => {
       email: user.email,
       profile_type: user.profile_type,
       user_type: user.user_type,
-    }
+    };
     const values = {
       name: name,
       passenger_type: type,
       mobile_number: number,
       confirmation_email: email,
-    }
+    };
     const hasQuotationNullValues = Object.values(values).some(
       (val) => val === null
-    )
+    );
 
     if (hasQuotationNullValues) {
-      setError("Please fill in all the fields.")
-      return
+      setError("Please fill in all the fields.");
+      return;
     }
-    setLoading(true)
+    setLoading(true);
     axios
       .post("http://localhost:5000/api/v1/train", data)
       .then(function (response) {
         if (response.data.message === "Send request for train confirmation.") {
           toast.success(
             "Confirmation request accepted. Please wait to confirm."
-          )
+          );
+
           if (user.profile_type === "b2c") {
-            router.push("/profile/booking")
+            router.push("/profile/booking");
+            setLoading(false);
           } else if (user.profile_type === "b2b") {
-            router.push("/b2bdashboard/train/trainbooking")
+            router.push("/b2bdashboard/train/trainbooking");
+            setLoading(false);
           }
         }
       })
       .catch((error) => {
-        toast.error(error.message)
-        console.log(error)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
-  }
+        toast.error(error.message);
+        console.log(error);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    const total = trainData.total;
+    const totalWithVat = total + 30;
+
+    const totalWithCharge = totalWithVat + 30;
+
+    setGrandTotal(totalWithCharge);
+  }, [trainData.total]);
 
   return (
-    // <PrivateRoute>
     <div>
       <Nav />
       <div className={style.purchasWrap}>
@@ -124,7 +134,7 @@ const Confirm = () => {
                     Seat Type: <strong>SHOVAN</strong>
                   </small>
                   <small>
-                    Seats: <strong>TA-27</strong>
+                    Seats: <strong> {trainData.Seats}</strong>
                   </small>
                 </div>
               </div>
@@ -132,7 +142,7 @@ const Confirm = () => {
                 <h3 className="text-xl font-bold">Fare Details </h3>
                 <div className="flex items-center justify-between">
                   <small>Total Price</small>
-                  <small>300৳</small>
+                  <small>{trainData.total} ৳</small>
                 </div>
                 <div className="flex items-center justify-between">
                   <small>VAT</small>
@@ -145,7 +155,7 @@ const Confirm = () => {
                 <hr className="my-3" />
                 <div className="flex items-center justify-between">
                   <small>Total</small>
-                  <small>3300৳</small>
+                  <small>{grandTotal}৳</small>
                 </div>
                 <div className="flex items-center">
                   <FaInfo />
@@ -201,15 +211,20 @@ const Confirm = () => {
                     placeholder="Email"
                   />
                 </div>
+               <div className="mt-3">
+               {!user.email && (
+                  <FormError message={"Need to login before confirmation"} />
+                )}
                 {error && <FormError message={error} />}
+               </div>
                 <button
                   onClick={handleConfirmTrain}
                   className={
                     loading
-                      ? "mt-1 bg-gray-400 py-2 rounded-full w-full"
+                      ? "mt-2 bg-gray-400 py-2 text-white rounded-full w-full"
                       : `${style.confirmBtn}`
                   }
-                  disabled={loading}
+                  disabled={loading || !user.email}
                 >
                   Confirm Purchase
                 </button>
@@ -220,8 +235,7 @@ const Confirm = () => {
       </div>
       <Footer />
     </div>
-    // </PrivateRoute>
-  )
-}
+  );
+};
 
-export default Confirm
+export default Confirm;

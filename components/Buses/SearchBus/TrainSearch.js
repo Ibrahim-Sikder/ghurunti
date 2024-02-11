@@ -17,7 +17,7 @@ const TrainSearch = () => {
   const [trainDataWithFilter, setTrainDataWithFilter] = useState(
     trainDetailsData?.getPackage
   )
-  console.log(trainDataWithFilter)
+  // console.log(trainDataWithFilter)
 
   const [reload, setReload] = useState(false)
   // const [chooseSeat, setChooseSeat] = useState("A1", "৳1500", "Economy");

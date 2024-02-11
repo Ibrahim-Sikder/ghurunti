@@ -12,19 +12,17 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/router";
 const Tours = () => {
-  const [editorValue, setEditorValue] = useState("");
-  const [quill, setQuill] = useState(null);
-
   const [getFile, setGetFile] = useState({});
   const [getImage, setGetImage] = useState([]);
   const [value, setValue] = useState("");
   const [travelFrom, setTravelFrom] = useState(null);
   const [title, setTitle] = useState(null);
   const [subTitle, setSubTitle] = useState(null);
+  const [shortDescription, setShortDescription] = useState(null);
   const [getDate, setGetDate] = useState(null);
   const [price, setPrice] = useState(null);
   const [countryName, setCountryName] = useState(null);
-  const [cityName, setCityName] = useState(null);
+ 
   const [included, setIncluded] = useState(null);
   const [excluded, setExcluded] = useState(null);
   const [itinary, setItinary] = useState(null);
@@ -32,6 +30,7 @@ const Tours = () => {
   const [productCategory, setProductCategory] = useState(null);
   const [priceLowToHigh, setPriceLowToHight] = useState(null);
   const [priceHighToLow, setPriceHighToLow] = useState(null);
+  const [tourPackageName, setTourPackageName] = useState(null);
   const [time, setTime] = useState(null);
 
   const [loading, setLoading] = useState(false);
@@ -101,6 +100,7 @@ const Tours = () => {
     const data = {
       title: title,
       sub_title: subTitle,
+      short_description: shortDescription,
       journey_date: getDate,
       price: price,
       country_name: countryName,
@@ -108,7 +108,6 @@ const Tours = () => {
       child: child,
       adult: adult,
       time: time,
-      city_name: cityName,
       included: included,
       excluded: excluded,
       itinary: itinary,
@@ -116,6 +115,7 @@ const Tours = () => {
       product_category: productCategory,
       price_low_to_hight: priceLowToHigh,
       price_hight_to_low: priceHighToLow,
+      tour_package_name: tourPackageName,
       image: getImage,
       description: value,
     };
@@ -288,7 +288,7 @@ const Tours = () => {
                   <div>
                     <label>Short Description </label>
                     <input
-                      onChange={(e) => setCityName(e.target.value)}
+                      onChange={(e) => setShortDescription(e.target.value)}
                       name="price"
                       placeholder="Short Description"
                       type="text"
@@ -364,7 +364,6 @@ const Tours = () => {
                     />
                   </div>
 
-
                   <div>
                     <label>Price </label>
                     <input
@@ -375,7 +374,6 @@ const Tours = () => {
                       className={styles.inputField}
                     />
                   </div>
-
                 </div>
 
                 <div className={styles.formControl}>
@@ -399,14 +397,12 @@ const Tours = () => {
                       className={styles.inputField}
                     />
                   </div>
-
-
                 </div>
                 <div className={styles.formControl}>
                   <div>
                     <label>Tour Package Name </label>
                     <input
-                      onChange={(e) => setCityName(e.target.value)}
+                      onChange={(e) => setTourPackageName(e.target.value)}
                       name="price"
                       placeholder="Tour Package Name "
                       type="text"
@@ -414,8 +410,8 @@ const Tours = () => {
                     />
                   </div>
                 </div>
-       
-                { /*<div className={styles.formControl}>
+
+                {/*<div className={styles.formControl}>
                 <div>
                   <label>Enter city </label>
                   <input
@@ -428,9 +424,6 @@ const Tours = () => {
                 </div>
               </div>
   */}
-              
-
-
 
                 <div className={styles.formControl}>
                   <div className={styles.uploadFile}>

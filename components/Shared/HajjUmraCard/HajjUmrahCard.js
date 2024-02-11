@@ -19,7 +19,7 @@ const HajjUmrahCard = ({ title, img }) => {
   const params = router.asPath;
   const refreshParams = params.split("/");
   const hajjDetailsData = useSelector((state) => state.hajj.hajjDetailsData);
-  console.log(hajjDetailsData)
+  console.log(hajjDetailsData);
   const umrahDetailsData = useSelector((state) => state.umrah.umrahDetailsData);
   const hotelDetailsData = useSelector((state) => state.hotel.hotelDetailsData);
   const [economyHajj, setEconomyHajj] = useState([]);
@@ -109,14 +109,16 @@ const HajjUmrahCard = ({ title, img }) => {
                 <div className={style.cardRight}>
                   <div className={style.rightText}>
                     <div className={style.cardText}>
-                      <h5 className="text-xl font-bold mb-2">
-                        {data.title}
-                      </h5>
+                      <h5 className="text-xl font-bold mb-2">{data.title}</h5>
                       <div className={style.cardIconText}>
                         <Beenhere className={style.checkIcon} />
-                        <p className="ml-2">{data.description}</p>
+                        <p
+                          dangerouslySetInnerHTML={{
+                            __html: data.description,
+                          }}
+                          className="ml-2"
+                        />
                       </div>
-                    
                     </div>
                   </div>
                   <div className={style.cardPrice}>
@@ -186,23 +188,23 @@ const HajjUmrahCard = ({ title, img }) => {
           const nonShiftingData = {
             hajj_package: "Non Shifting Hajj Package",
           };
-          setLoading(true)
+          setLoading(true);
           const nonShiftingResponse = await axios.post(
             `http://localhost:5000/api/v1/hajj/filter/getOne`,
             nonShiftingData
           );
           setNonShiftingHajj(nonShiftingResponse.data.nonShifting);
-          setLoading(false)
+          setLoading(false);
           const shiftingData = {
             hajj_package: "Shifting Hajj Package",
           };
-          setLoading(true)
+          setLoading(true);
           const shiftingResponse = await axios.post(
             `http://localhost:5000/api/v1/hajj/filter/getOne`,
             shiftingData
           );
           setShiftingHajj(shiftingResponse.data.shifting);
-          setLoading(false)
+          setLoading(false);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -212,23 +214,23 @@ const HajjUmrahCard = ({ title, img }) => {
           const economyHajj = {
             hajj_package: "Economy Hajj Package",
           };
-          setLoading(true)
+          setLoading(true);
           const economyResponse = await axios.post(
             `http://localhost:5000/api/v1/hajj/filter/getOne`,
             economyHajj
           );
           setEconomyHajj(economyResponse.data.economy);
-          setLoading(false)
+          setLoading(false);
           const nonShiftingData = {
             hajj_package: "Non Shifting Hajj Package",
           };
-          setLoading(true)
+          setLoading(true);
           const nonShiftingResponse = await axios.post(
             `http://localhost:5000/api/v1/hajj/filter/getOne`,
             nonShiftingData
           );
           setNonShiftingHajj(nonShiftingResponse.data.nonShifting);
-          setLoading(false)
+          setLoading(false);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -238,23 +240,23 @@ const HajjUmrahCard = ({ title, img }) => {
           const economyHajj = {
             hajj_package: "Economy Hajj Package",
           };
-          setLoading(true)
+          setLoading(true);
           const economyResponse = await axios.post(
             `http://localhost:5000/api/v1/hajj/filter/getOne`,
             economyHajj
           );
           setEconomyHajj(economyResponse.data.economy);
-          setLoading(false)
+          setLoading(false);
           const shiftingData = {
             hajj_package: "Shifting Hajj Package",
           };
-          setLoading(true)
+          setLoading(true);
           const shiftingResponse = await axios.post(
             `http://localhost:5000/api/v1/hajj/filter/getOne`,
             shiftingData
           );
           setShiftingHajj(shiftingResponse.data.shifting);
-          setLoading(false)
+          setLoading(false);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -292,95 +294,97 @@ const HajjUmrahCard = ({ title, img }) => {
                       No matching packages found.
                     </div>
 
-                   {
-                    loading ? <div>Loading</div> :  <div>
-                    <div className="my-10">Another hajj packages.</div>
-                    {refreshParams.includes("economy") && (
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                        {nonShiftingHajj.length > 0 && (
-                          <div>
-                            <h2>{nonShiftingHajj[0]?.hajj_package}</h2>
-                            <Image
-                              src={nonShiftingHajj[0]?.image[0]}
-                              alt=""
-                              width={100}
-                              height={100}
-                              className="w-40 h-40"
-                            ></Image>
+                    {loading ? (
+                      <div>Loading</div>
+                    ) : (
+                      <div>
+                        <div className="my-10">Another hajj packages.</div>
+                        {refreshParams.includes("economy") && (
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                            {nonShiftingHajj.length > 0 && (
+                              <div>
+                                <h2>{nonShiftingHajj[0]?.hajj_package}</h2>
+                                <Image
+                                  src={nonShiftingHajj[0]?.image[0]}
+                                  alt=""
+                                  width={100}
+                                  height={100}
+                                  className="w-40 h-40"
+                                ></Image>
+                              </div>
+                            )}
+                            {shiftingHajj.length > 0 && (
+                              <div>
+                                <h2>{shiftingHajj[0]?.hajj_package}</h2>
+                                <Image
+                                  src={shiftingHajj[0]?.image[0]}
+                                  alt=""
+                                  width={100}
+                                  height={100}
+                                  className="w-40 h-40"
+                                ></Image>
+                              </div>
+                            )}
                           </div>
                         )}
-                        {shiftingHajj.length > 0 && (
-                          <div>
-                            <h2>{shiftingHajj[0]?.hajj_package}</h2>
-                            <Image
-                              src={shiftingHajj[0]?.image[0]}
-                              alt=""
-                              width={100}
-                              height={100}
-                              className="w-40 h-40"
-                            ></Image>
+                        {refreshParams.includes("nonshifting") && (
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                            {economyHajj.length > 0 && (
+                              <div>
+                                <h2>{economyHajj[0]?.hajj_package}</h2>
+                                <Image
+                                  src={economyHajj[0]?.image[0]}
+                                  alt=""
+                                  width={100}
+                                  height={100}
+                                  className="w-40 h-40"
+                                ></Image>
+                              </div>
+                            )}
+                            {shiftingHajj.length > 0 && (
+                              <div>
+                                <h2>{shiftingHajj[0]?.hajj_package}</h2>
+                                <Image
+                                  src={shiftingHajj[0]?.image[0]}
+                                  alt=""
+                                  width={100}
+                                  height={100}
+                                  className="w-40 h-40"
+                                ></Image>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                        {refreshParams.includes("shifting") && (
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                            {economyHajj.length > 0 && (
+                              <div>
+                                <h2>{economyHajj[0]?.hajj_package}</h2>
+                                <Image
+                                  src={economyHajj[0]?.image[0]}
+                                  alt=""
+                                  width={100}
+                                  height={100}
+                                  className="w-40 h-40"
+                                ></Image>
+                              </div>
+                            )}
+                            {nonShiftingHajj.length > 0 && (
+                              <div>
+                                <h2>{nonShiftingHajj[0]?.hajj_package}</h2>
+                                <Image
+                                  src={nonShiftingHajj[0]?.image[0]}
+                                  alt=""
+                                  width={100}
+                                  height={100}
+                                  className="w-40 h-40"
+                                ></Image>
+                              </div>
+                            )}
                           </div>
                         )}
                       </div>
                     )}
-                    {refreshParams.includes("nonshifting") && (
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                        {economyHajj.length > 0 && (
-                          <div>
-                            <h2>{economyHajj[0]?.hajj_package}</h2>
-                            <Image
-                              src={economyHajj[0]?.image[0]}
-                              alt=""
-                              width={100}
-                              height={100}
-                              className="w-40 h-40"
-                            ></Image>
-                          </div>
-                        )}
-                        {shiftingHajj.length > 0 && (
-                          <div>
-                            <h2>{shiftingHajj[0]?.hajj_package}</h2>
-                            <Image
-                              src={shiftingHajj[0]?.image[0]}
-                              alt=""
-                              width={100}
-                              height={100}
-                              className="w-40 h-40"
-                            ></Image>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                    {refreshParams.includes("shifting") && (
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                        {economyHajj.length > 0 && (
-                          <div>
-                            <h2>{economyHajj[0]?.hajj_package}</h2>
-                            <Image
-                              src={economyHajj[0]?.image[0]}
-                              alt=""
-                              width={100}
-                              height={100}
-                              className="w-40 h-40"
-                            ></Image>
-                          </div>
-                        )}
-                        {nonShiftingHajj.length > 0 && (
-                          <div>
-                            <h2>{nonShiftingHajj[0]?.hajj_package}</h2>
-                            <Image
-                              src={nonShiftingHajj[0]?.image[0]}
-                              alt=""
-                              width={100}
-                              height={100}
-                              className="w-40 h-40"
-                            ></Image>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                   }
                   </div>
                 ) : (
                   <>

@@ -1,66 +1,68 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect, useState } from "react"
-import style from "../../pages/train/confirm/confirm.module.css"
-import styling from "./confirm.module.css"
-import { FaExclamationTriangle, FaInfo } from "react-icons/fa"
-import Nav from "../../../components/NavBarr/Nav"
-import Footer from "../../../components/Footer/Footer"
-import Box from "@mui/material/Box"
-import Tab from "@mui/material/Tab"
-import TabContext from "@mui/lab/TabContext"
-import TabList from "@mui/lab/TabList"
-import TabPanel from "@mui/lab/TabPanel"
-import bkash from "../../../public/assets/bkash.png"
-import nagad from "../../../public/assets/nagad.png"
-import rocket from "../../../public/assets/rocket.png"
-import Image from "next/image"
-import { useSelector } from "react-redux"
-import axios from "axios"
-import { decryptTransform } from "../../../components/EncryptAndDecrypt/EncryptAnsDecrypt"
-import Cookies from "js-cookie"
-import { FormError } from "../../../components/form-error"
-import { FormSuccess } from "../../../components/form-success"
-import { useRouter } from "next/router"
+import React, { useEffect, useState } from "react";
+import style from "../../pages/train/confirm/confirm.module.css";
+import styling from "./confirm.module.css";
+import { FaExclamationTriangle, FaInfo } from "react-icons/fa";
+import Nav from "../../../components/NavBarr/Nav";
+import Footer from "../../../components/Footer/Footer";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import bkash from "../../../public/assets/bkash.png";
+import nagad from "../../../public/assets/nagad.png";
+import rocket from "../../../public/assets/rocket.png";
+import Image from "next/image";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { decryptTransform } from "../../../components/EncryptAndDecrypt/EncryptAnsDecrypt";
+import Cookies from "js-cookie";
+import { FormError } from "../../../components/form-error";
+import { FormSuccess } from "../../../components/form-success";
+import { useRouter } from "next/router";
 
 const confirm = () => {
-  const busData = useSelector((state) => state.busConfirmation)
-  console.log(busData)
-  const [value, setValue] = useState("1")
-  const [getName, setGetName] = useState(null)
-  const [gender, setGender] = useState(null)
-  const [passengerType, setPassengerType] = useState(null)
-  const [getEmail, setGetEmail] = useState(null)
+  const busData = useSelector((state) => state.busConfirmation);
+  console.log(busData);
+  const [grandTotal, setGrandTotal] = useState(null);
 
-  const [number, setNumber] = useState(null)
-  const [isValid, setIsValid] = useState(true)
-  const [user, setUser] = useState({})
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
-  const [success, setSuccess] = useState("")
-  const em = decryptTransform(Cookies.get("em_g"))
-  const router = useRouter()
+  const [value, setValue] = useState("1");
+  const [getName, setGetName] = useState(null);
+  const [gender, setGender] = useState(null);
+  const [passengerType, setPassengerType] = useState(null);
+  const [getEmail, setGetEmail] = useState(null);
+
+  const [number, setNumber] = useState(null);
+  const [isValid, setIsValid] = useState(true);
+  const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const em = decryptTransform(Cookies.get("em_g"));
+  const router = useRouter();
 
   const handleChange = (event, newValue) => {
-    setValue(newValue)
-  }
+    setValue(newValue);
+  };
 
   const handleInputChange = (e) => {
-    const inputValue = e.target.value
-    setNumber(inputValue)
-    const mobileNumberRegex = /^[0-9]{11}$/
-    setIsValid(mobileNumberRegex.test(inputValue))
-  }
+    const inputValue = e.target.value;
+    setNumber(inputValue);
+    const mobileNumberRegex = /^[0-9]{11}$/;
+    setIsValid(mobileNumberRegex.test(inputValue));
+  };
 
   useEffect(() => {
     try {
       fetch(`http://localhost:5000/api/v1/user/${em}`)
         .then((res) => res.json())
-        .then((data) => setUser(data.getUser))
+        .then((data) => setUser(data.getUser));
     } catch (error) {}
-  }, [em])
+  }, [em]);
 
   const handleConfirmBus = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const data = {
       Seats: busData.Seats,
@@ -76,48 +78,58 @@ const confirm = () => {
       email: user.email,
       profile_type: user.profile_type,
       user_type: user.user_type,
-    }
+    };
     const values = {
       name: getName,
       gender: gender,
       passenger_type: passengerType,
       mobile_number: number,
       confirmation_email: getEmail,
-    }
+    };
     const hasQuotationNullValues = Object.values(values).some(
       (val) => val === null
-    )
+    );
 
     if (hasQuotationNullValues) {
-      setError("Please fill in all the fields.")
-      return
+      setError("Please fill in all the fields.");
+      return;
     }
-    setLoading(true)
+    setLoading(true);
     axios
       .post("http://localhost:5000/api/v1/bus", data)
       .then(function (response) {
-        console.log(response)
+        console.log(response);
         if (response.data.message === "Send request for bus confirmation.") {
-          setSuccess("Confirmation request accepted. Please wait to confirm.")
+          setSuccess("Confirmation request accepted. Please wait to confirm.");
           if (user.profile_type === "b2c") {
-            router.push("/profile/booking")
+            router.push("/profile/booking");
+            setLoading(false);
           } else if (user.profile_type === "b2b") {
-            router.push("/b2bdashboard/buses/busbooking")
+            router.push("/b2bdashboard/buses/busbooking");
+            setLoading(false);
           }
-          setError("")
+          setError("");
         }
         if (response.data === "Internal server error") {
-          setError("All fields must be filled out.")
+          setError("All fields must be filled out.");
         }
       })
       .catch((error) => {
-        setError("Something went wrong")
-        setLoading(false)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
-  }
+        setError("Something went wrong");
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    const total = busData.total;
+    const totalWithVat = total + 30;
+
+    const totalWithCharge = totalWithVat + 30;
+
+    const totalWithProcessing = totalWithCharge + 100;
+
+    setGrandTotal(totalWithProcessing);
+  }, [busData.total]);
 
   return (
     <div>
@@ -137,13 +149,13 @@ const confirm = () => {
                 <hr />
                 <div className="mt-2">
                   <small>
-                    <strong>Seat No(s): C3, C4, E3, E4</strong>
+                    <strong>Seat No(s): {busData.Seats}</strong>
                   </small>
                   <small>
                     Seat Type: <strong>SHOVAN</strong>
                   </small>
                   <small>
-                    <strong>Boarding at Gabtoli B 6 Counter , 05:00 AM</strong>
+                    <strong> {busData.boarding_point}</strong>
                   </small>
                 </div>
               </div>
@@ -151,7 +163,7 @@ const confirm = () => {
                 <h3 className="text-xl font-bold">Fare Details </h3>
                 <div className="flex items-center justify-between">
                   <small>Ticket Price</small>
-                  <small>300৳</small>
+                  <small>{busData.total}৳</small>
                 </div>
                 <div className="flex items-center justify-between">
                   <small>Processing Fee</small>
@@ -168,7 +180,7 @@ const confirm = () => {
                 <hr className="my-3 border-[#4AB449]" />
                 <div className="flex items-center justify-between">
                   <small>Total</small>
-                  <small>3300৳</small>
+                  <small>{grandTotal}৳</small>
                 </div>
                 <div className="flex items-center">
                   <FaInfo />
@@ -296,9 +308,12 @@ const confirm = () => {
                       payment, that will vary depending on MFS
                     </small>
                   </div>
+                  {
+                    !user.email && <FormError message={"Need to login before confirmation"}/>
+                  }
                   {error && <FormError message={error} />}
                   {success && <FormSuccess message={success} />}
-                  <div className="grid place-content-center ">
+                  <div className="grid place-content-center mt-3">
                     <button
                       onClick={handleConfirmBus}
                       className={
@@ -306,7 +321,7 @@ const confirm = () => {
                           ? "bg-gray-400 border rounded-md text-white w-[170px] h-[40px]"
                           : `bg-[#4AB449] border rounded-md text-white w-[170px] h-[40px]`
                       }
-                      disabled={loading}
+                      disabled={loading || !user.email}
                     >
                       Confirm Ticket
                     </button>
@@ -379,7 +394,7 @@ const confirm = () => {
       </div>
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default confirm
+export default confirm;
