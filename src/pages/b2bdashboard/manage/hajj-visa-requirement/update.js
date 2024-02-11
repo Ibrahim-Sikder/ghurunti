@@ -90,9 +90,7 @@ const HajjVisaRequirement = () => {
       });
   };
 
-  // const handleVisaTypeChange = (e) => {
-  //   setVisaType(e.target.value);
-  // };
+  
 
   return (
     <B2BdashboardLayout>
