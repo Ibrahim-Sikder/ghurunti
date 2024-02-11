@@ -4,14 +4,14 @@ import MoveText from "../../../../../../components/UserDashBoard/MoveText/MoveTe
 import styles from "../../manage.module.css";
 import { CloudUpload, Groups2 } from "@mui/icons-material";
 import B2BdashboardLayout from "../../../../../../components/Layout/B2BdashboardLayout/B2BdashboardLayout";
-import React, { useState, useEffect } from "react";
+import React, { useState  } from "react";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 import { useRef } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
-const Hotel = () => {
+const InternationalHotel = () => {
   const [getFile, setGetFile] = useState({});
   const [getImage, setGetImage] = useState([]);
   const [value, setValue] = useState("");
@@ -290,4 +290,4 @@ const Hotel = () => {
   );
 };
 
-export default dynamic(() => Promise.resolve(Hotel), { ssr: false });
+export default dynamic(() => Promise.resolve(InternationalHotel), { ssr: false });
