@@ -1,10 +1,10 @@
-import React from "react"
-import style from "./ToursReserve.module.css"
-import tours from "../../../public/assets/tourImage11.jpg"
-import tours2 from "../../../public/assets/tourImage5.jpg"
-import tours3 from "../../../public/assets/tourImage9.jpg"
-import Link from "next/link"
-import Image from "next/image"
+import React from "react";
+import style from "./ToursReserve.module.css";
+import tours from "../../../public/assets/tourImage11.jpg";
+import tours2 from "../../../public/assets/tourImage5.jpg";
+import tours3 from "../../../public/assets/tourImage9.jpg";
+import Link from "next/link";
+import Image from "next/image";
 import {
   PeopleOutline,
   StarOutline,
@@ -13,44 +13,53 @@ import {
   Language,
   CheckCircleOutline,
   LocalPhone,
-} from "@mui/icons-material"
-import Accordion from "@mui/material/Accordion"
-import AccordionSummary from "@mui/material/AccordionSummary"
-import AccordionDetails from "@mui/material/AccordionDetails"
-import Typography from "@mui/material/Typography"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import TourPackage from "../TourPackage/TourPackage"
-import LightGallery from "lightgallery/react"
-import "lightgallery/css/lightgallery.css"
-import "lightgallery/css/lg-zoom.css"
-import "lightgallery/css/lg-thumbnail.css"
-import lgThumbnail from "lightgallery/plugins/thumbnail"
-import lgZoom from "lightgallery/plugins/zoom"
-import { useRouter } from "next/router"
-import { useState } from "react"
-import { useEffect } from "react"
-import toast from "react-hot-toast"
-import Container from "@/ui/Container"
+} from "@mui/icons-material";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import TourPackage from "../TourPackage/TourPackage";
+import LightGallery from "lightgallery/react";
+import "lightgallery/css/lightgallery.css";
+import "lightgallery/css/lg-zoom.css";
+import "lightgallery/css/lg-thumbnail.css";
+import lgThumbnail from "lightgallery/plugins/thumbnail";
+import lgZoom from "lightgallery/plugins/zoom";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+import Container from "@/ui/Container";
 
 const ToursReserve = () => {
-  const router = useRouter()
-  const { id } = router.query
+  const [total, setTotal] = useState(null);
+  const router = useRouter();
+  const { id } = router.query;
 
-  const [specificPackage, setSpecificPackage] = useState({})
-  console.log(specificPackage)
+  const [specificPackage, setSpecificPackage] = useState({});
+  console.log(specificPackage);
   useEffect(() => {
     if (id) {
       fetch(`http://localhost:5000/api/v1/tours/${id}`)
         .then((res) => res.json())
         .then((data) => {
-          setSpecificPackage(data.getPackage)
+          setSpecificPackage(data.getPackage);
         })
         .catch((error) => {
-          toast.error("Something went wrong.")
-          console.error("Error fetching data:", error)
-        })
+          toast.error("Something went wrong.");
+          console.error("Error fetching data:", error);
+        });
     }
-  }, [id])
+  }, [id]);
+  console.log(specificPackage);
+
+  useEffect(() => {
+    const passenger = specificPackage.adult + specificPackage.child;
+    const totalPrice = passenger * specificPackage.price;
+    setTotal(totalPrice);
+  }, [specificPackage.adult, specificPackage.child, specificPackage.price]);
+
   return (
     <Container>
       <div className={style.TourReserveWrap}>
@@ -134,12 +143,14 @@ const ToursReserve = () => {
               </div>
               <div className="mt-5">
                 <strong className="mb-3">About</strong>
-                <p>
-                {specificPackage.description}
-                </p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: specificPackage.description,
+                  }}
+                ></p>
                 <p className="mt-5">
-                  from <strong> ${specificPackage.price}</strong> per adult (price varies by group
-                  size)
+                  from <strong> ${specificPackage.price}</strong> per adult
+                  (price varies by group size)
                 </p>
                 <div className="mt-5">
                   <strong>
@@ -195,7 +206,7 @@ const ToursReserve = () => {
                                   className={style.checkIcon}
                                 />
                               </span>
-                             {specificPackage.included}
+                              {specificPackage.included}
                             </li>
                           </ul>
                         </div>
@@ -221,14 +232,12 @@ const ToursReserve = () => {
                     <AccordionDetails className={style.accordionDetails}>
                       <Typography className={style.accordionTypos}>
                         <ul>
-                        <li>
-                        <span>
-                          <CheckCircleOutline
-                            className={style.checkIcon}
-                          />
-                        </span>
-                       {specificPackage.excluded}
-                      </li>
+                          <li>
+                            <span>
+                              <CheckCircleOutline className={style.checkIcon} />
+                            </span>
+                            {specificPackage.excluded}
+                          </li>
                         </ul>
                         <div className="mt-3">
                           <p>
@@ -259,16 +268,16 @@ const ToursReserve = () => {
                     <AccordionDetails className={style.accordionDetails}>
                       <Typography className={style.accordionTypos}>
                         <div>
-                        <ul className="mb-3">
-                        <li>
-                        <span>
-                          <CheckCircleOutline
-                            className={style.checkIcon}
-                          />
-                        </span>
-                       {specificPackage.itinary}
-                      </li>
-                        </ul>
+                          <ul className="mb-3">
+                            <li>
+                              <span>
+                                <CheckCircleOutline
+                                  className={style.checkIcon}
+                                />
+                              </span>
+                              {specificPackage.itinary}
+                            </li>
+                          </ul>
                           <p>This is a typical itinerary for this product</p>
                           <p>
                             <strong>Stop At:</strong> Shipyard Road, Shipyard
@@ -443,16 +452,21 @@ const ToursReserve = () => {
                     Saint Petersburg Package
                   </h2>
                   <div className={style.allTraveller}>
-                    <strong>Traveller </strong>
+                    <strong>Traveler </strong>
                     <div className={style.reserveRight}>
                       <PeopleOutline className={style.passengerIcon} />
-                      <span>3</span>
+                      <span>
+                        {specificPackage.adult + specificPackage.child}
+                      </span>
                     </div>
                   </div>
                   <div className={style.priceCard}>
                     <div className="flex mt-3 justify-between w-full ">
-                      <span>3 Adults x $108.77</span>
-                      <strong>Total $217.54</strong>
+                      <span>
+                        {specificPackage.adult} adult, {specificPackage.child}{" "}
+                        child x {specificPackage.price}
+                      </span>
+                      <strong>Total ${total}</strong>
                     </div>
                     <small>(No additional taxes or booking fees)</small>
                     <div className={style.checkout}>
@@ -470,7 +484,7 @@ const ToursReserve = () => {
         <TourPackage />
       </div>
     </Container>
-  )
-}
+  );
+};
 
-export default ToursReserve
+export default ToursReserve;

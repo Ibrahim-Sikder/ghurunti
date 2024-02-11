@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const busConfirmationSlice = createSlice({
   name: 'busConfirmation',
   initialState: {
-    seats: null,
+    Seats: null,
     fare: null,
     class: null,
     total: null,

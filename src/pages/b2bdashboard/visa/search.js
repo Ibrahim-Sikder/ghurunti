@@ -41,6 +41,8 @@ const Visa = () => {
     setShowDetail((showDetail) => !showDetail);
   };
 
+ console.log(arrayVisaDetails)
+
   const dispatch = useDispatch();
 
   const handleVisaRequirement = (e) => {

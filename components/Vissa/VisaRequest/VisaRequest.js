@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { decryptTransform } from "../../EncryptAndDecrypt/EncryptAnsDecrypt";
 import Cookies from "js-cookie";
+import { FormError } from "../../form-error";
 
 const VisaRequest = () => {
   const [error, setError] = useState("")
@@ -370,8 +371,11 @@ const VisaRequest = () => {
             <div className="text-sm text-red-400 text-start my-1">
               {error}
             </div>
+            {
+              !user.email && <FormError message={"Need to login before confirmation"}/>
+            }
             <button
-              disabled={loading || imageLoading ? true : false}
+              disabled={loading || imageLoading || !user.email ? true : false}
               className={style.visaSubmitBtn}
             >
               Confirm Request

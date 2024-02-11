@@ -32,7 +32,7 @@ const Hotel = ({ data }) => {
 
     if (willDelete) {
       try {
-        const res = await fetch(`http://localhost:5000/api/v1/hotel/${id}`, {
+        const res = await fetch(`http://localhost:5000/api/v1/domestic/${id}`, {
           method: "DELETE",
         });
         const data = await res.json();
@@ -136,7 +136,7 @@ const Hotel = ({ data }) => {
                   <td>{data.sub_title} </td>
                   <td>{data.updatedAt}</td>
                   <td>
-                    <Link href={`/b2bdashboard/manage/hotel/update?id=${data._id}`}>
+                    <Link href={`/b2bdashboard/manage/hotel/domestic/update?id=${data._id}`}>
                       <FaEdit className={style.editIcon} />
                     </Link>
                   </td>
@@ -269,17 +269,7 @@ const Hotel = ({ data }) => {
 
         <div className={style.pagination}>
           <div className={style.paginationBtn}>
-            {/* <button>
-              <ArrowBack className={style.arrowLeft} />
-            </button> */}
-            {/* <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>4</button>
-            <button>5</button>
-            <button>
-              <ArrowForward className={style.arrowRight} />
-            </button> */}
+             
           </div>
         </div>
       </div>
@@ -289,7 +279,7 @@ const Hotel = ({ data }) => {
 
 export async function getStaticProps() {
   try {
-    const response = await axios.get("http://localhost:5000/api/v1/hotel");
+    const response = await axios.get("http://localhost:5000/api/v1/domestic");
     const data = response.data.getPackage;
 
     return {
