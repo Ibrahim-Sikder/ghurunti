@@ -41,11 +41,7 @@ const Benefit = ({ data }) => {
         }
         swal("Deleted!", "Package delete successful.", "success");
       } catch (error) {
-        swal(
-          "Error",
-          "An error occurred while deleting the package.",
-          "error"
-        );
+        swal("Error", "An error occurred while deleting the package.", "error");
       }
     }
   };
@@ -106,20 +102,19 @@ const Benefit = ({ data }) => {
   const renderData = (packages) => {
     return (
       <>
-       
-          <div  className=" ">
-            <table className="table ">
-              <thead className={style.tableWrap}>
-                <tr>
-                  <th>Image</th>
-                  <th>Title</th>
-                  <th>Sub title </th>
-                  <th>Description</th>
-                  <th>Date</th>
-                  <th colSpan={2}>Action</th>
-                </tr>
-              </thead>
-              <tbody>
+        <div className=" ">
+          <table className="table ">
+            <thead className={style.tableWrap}>
+              <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Sub title </th>
+                <th>Description</th>
+                <th>Date</th>
+                <th colSpan={2}>Action</th>
+              </tr>
+            </thead>
+            <tbody>
               {packages?.map((data) => (
                 <tr key={data._id}>
                   <td>
@@ -136,10 +131,16 @@ const Benefit = ({ data }) => {
                   </td>
                   <td>{data.title} </td>
                   <td>{data.subTitle} </td>
-                  <td>{data.description}</td>
+                  <td
+                    dangerouslySetInnerHTML={{
+                      __html: data.description,
+                    }}
+                  ></td>
                   <td>20-05-23</td>
                   <td>
-                    <Link href={`/b2bdashboard/manage/hajj/update?id=${data._id}`}>
+                    <Link
+                      href={`/b2bdashboard/manage/hajj/update?id=${data._id}`}
+                    >
                       <FaEdit className={style.editIcon} />
                     </Link>
                   </td>
@@ -147,11 +148,10 @@ const Benefit = ({ data }) => {
                     <FaTrashAlt className={style.deleteIcon} />
                   </td>
                 </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-       
+              ))}
+            </tbody>
+          </table>
+        </div>
       </>
     );
   };

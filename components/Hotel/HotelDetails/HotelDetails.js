@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import hotel from "../../../public/assets/hotel9.jpg"
-import hotel2 from "../../../public/assets/hotell3.jpeg"
-import hotel3 from "../../../public/assets/hotel14.jpg"
-import hotel4 from "../../../public/assets/hotel12.jpg"
-import hotel5 from "../../../public/assets/hotell6.jpeg"
-import hotel6 from "../../../public/assets/hotel16.jpg"
-import style from "./HotelDetails.module.css"
-import { CheckCircleOutline } from "@mui/icons-material"
-import travel from "../../../public/assets/travel2.png"
-import LightGallery from "lightgallery/react"
-import "lightgallery/css/lightgallery.css"
-import "lightgallery/css/lg-zoom.css"
-import "lightgallery/css/lg-thumbnail.css"
-import lgThumbnail from "lightgallery/plugins/thumbnail"
-import lgZoom from "lightgallery/plugins/zoom"
-import { useRouter } from "next/router"
-import useModifyModal from "../../Common/Hooks/useModifyModal"
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import hotel from "../../../public/assets/hotel9.jpg";
+import hotel2 from "../../../public/assets/hotell3.jpeg";
+import hotel3 from "../../../public/assets/hotel14.jpg";
+import hotel4 from "../../../public/assets/hotel12.jpg";
+import hotel5 from "../../../public/assets/hotell6.jpeg";
+import hotel6 from "../../../public/assets/hotel16.jpg";
+import style from "./HotelDetails.module.css";
+import { CheckCircleOutline } from "@mui/icons-material";
+import travel from "../../../public/assets/travel2.png";
+import LightGallery from "lightgallery/react";
+import "lightgallery/css/lightgallery.css";
+import "lightgallery/css/lg-zoom.css";
+import "lightgallery/css/lg-thumbnail.css";
+import lgThumbnail from "lightgallery/plugins/thumbnail";
+import lgZoom from "lightgallery/plugins/zoom";
+import { useRouter } from "next/router";
+import useModifyModal from "../../Common/Hooks/useModifyModal";
 
 const HotelDetails = () => {
-  const modifyModal = useModifyModal()
+  const modifyModal = useModifyModal();
   const [specificPackage, setSpecificPackage] = useState({});
-console.log(specificPackage)
+  console.log(specificPackage);
   const router = useRouter();
   const { id } = router.query;
 
@@ -41,8 +41,6 @@ console.log(specificPackage)
     }
   }, [id]);
 
-
-
   return (
     <section>
       <div className={style.hotelDetailWraps}>
@@ -57,8 +55,9 @@ console.log(specificPackage)
               </p>
             </div>
           </div>
-          <button onClick={() => modifyModal.onOpen("Hotel Search Modify")}>Modify Search</button>
-
+          <button onClick={() => modifyModal.onOpen("Hotel Search Modify")}>
+            Modify Search
+          </button>
         </div>
         <div className={style.hotelDetailWrap}>
           <div className={style.leftSideDetail}>
@@ -374,9 +373,11 @@ console.log(specificPackage)
                   DAY 1: Dubai International Airport - Hotel in Deira / Mirdif
                   (Dubai)
                 </h2>
-                <p>
-                {specificPackage?.description}
-                </p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: specificPackage?.description,
+                  }}
+                ></p>
               </div>
               <div className="mb-5">
                 <h2 className="text-2xl">
@@ -428,7 +429,7 @@ console.log(specificPackage)
                 </div>
                 <div className="flex  mb-3">
                   <CheckCircleOutline className={style.checkIcon} />
-                  <p>Hotel Type:  {specificPackage?.hotel_type} </p>
+                  <p>Hotel Type: {specificPackage?.hotel_type} </p>
                 </div>
                 <div className="flex  mb-3">
                   <CheckCircleOutline className={style.checkIcon} />
@@ -440,18 +441,27 @@ console.log(specificPackage)
                 </div>
                 <div className="flex  mb-3">
                   <CheckCircleOutline className={style.checkIcon} />
-                  <p>Price Per Person Doubl: {specificPackage?.price_per_person}TK </p>
+                  <p>
+                    Price Per Person Doubl: {specificPackage?.price_per_person}
+                    TK{" "}
+                  </p>
                 </div>
                 <div className="flex  mb-3">
                   <CheckCircleOutline className={style.checkIcon} />
-                  <p>Price Per Person Twin  {specificPackage?.price_twin_person}</p>
+                  <p>
+                    Price Per Person Twin {specificPackage?.price_twin_person}
+                  </p>
                 </div>
                 <div className="flex  mb-3">
                   <CheckCircleOutline className={style.checkIcon} />
-                  <p>Price Per Person Triple:  {specificPackage?.price_triple_person}</p>
+                  <p>
+                    Price Per Person Triple:{" "}
+                    {specificPackage?.price_triple_person}
+                  </p>
                 </div>
                 <p>
-                  <strong className="text-[#4AB449]">Start from</strong> {specificPackage?.start_price}Tk
+                  <strong className="text-[#4AB449]">Start from</strong>{" "}
+                  {specificPackage?.start_price}Tk
                 </p>
                 <Link href="/hotel/book">
                   <button className={style.rightSideBtn}> Book Now </button>
@@ -472,7 +482,7 @@ console.log(specificPackage)
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default HotelDetails
+export default HotelDetails;
